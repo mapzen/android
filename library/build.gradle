@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'checkstyle'
 
 android {
   compileSdkVersion 23
@@ -20,6 +21,10 @@ android {
   testOptions {
     unitTests.returnDefaultValues = true
   }
+
+  lintOptions {
+    abortOnError false
+  }
 }
 
 tasks.withType(Test) {
@@ -29,6 +34,21 @@ tasks.withType(Test) {
     showStandardStreams true
   }
 }
+
+task checkstyle(type: Checkstyle) {
+  configFile file("${project.rootDir}/config/checkstyle/checkstyle.xml")
+  source 'src'
+  include '**/*.java'
+  exclude '**/gen/**'
+
+  classpath = files()
+}
+
+task verify(dependsOn: [
+    'test',
+    'checkstyle',
+    'lint'
+])
 
 dependencies {
   compile 'com.android.support:appcompat-v7:23.2.1'
