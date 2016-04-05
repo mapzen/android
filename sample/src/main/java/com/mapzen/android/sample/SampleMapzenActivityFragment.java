@@ -10,10 +10,6 @@ import android.view.ViewGroup;
  * A placeholder fragment containing a simple view.
  */
 public class SampleMapzenActivityFragment extends Fragment {
-
-    public SampleMapzenActivityFragment() {
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
