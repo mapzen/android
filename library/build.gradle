@@ -16,6 +16,18 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }
+
+  testOptions {
+    unitTests.returnDefaultValues = true
+  }
+}
+
+tasks.withType(Test) {
+  testLogging {
+    exceptionFormat "full"
+    events "started", "skipped", "passed", "failed"
+    showStandardStreams true
+  }
 }
 
 dependencies {
