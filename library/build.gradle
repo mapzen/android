@@ -19,8 +19,12 @@ android {
 }
 
 dependencies {
-  compile fileTree(dir: 'libs', include: ['*.jar'])
-  testCompile 'junit:junit:4.12'
   compile 'com.android.support:appcompat-v7:23.2.1'
   compile 'com.mapzen.tangram:tangram:0.1'
+
+  testCompile 'junit:junit:4.12'
+  testCompile 'org.assertj:assertj-core:1.7.1'
+  testCompile 'org.powermock:powermock:1.6.4'
+  testCompile 'org.powermock:powermock-module-junit4:1.6.4'
+  testCompile 'org.powermock:powermock-api-mockito:1.6.4'
 }
