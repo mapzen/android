@@ -21,7 +21,8 @@ public class MapManager {
 
     private static final int LOCATION_REQUEST_INTERVAL_MILLIS = 5000;
     private static final int LOCATION_REQUEST_DISPLACEMENT_MILLIS = 5000;
-    private static final String NAME_CURRENT_LOCATION = "com.mapzen.android.current_location";
+    private static final String NAME_CURRENT_LOCATION = "find_me";
+    private static final float ANIMATION_DURATION_SEC = .3f;
 
     /**
      * For interaction with the map
@@ -93,9 +94,11 @@ public class MapManager {
         updateCurrentLocationMapData(location);
     }
 
-    private void updateCurrentLocationMapData(Location location) {
+    private void updateCurrentLocationMapData(final Location location) {
         currentLocationMapData.clear();
         currentLocationMapData.addPoint(new Properties(), convertLocation(location));
+        mapController.setMapPosition(location.getLongitude(), location.getLatitude(),
+                ANIMATION_DURATION_SEC);
         mapController.requestRender();
     }
 

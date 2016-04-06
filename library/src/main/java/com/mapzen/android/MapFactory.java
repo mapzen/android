@@ -16,6 +16,6 @@ class MapFactory {
      * @return a new {@link MapController} tied to the given view.
      */
     MapController getMap(Activity activity, MapView mapView) {
-        return new MapController(activity, mapView);
+        return new MapController(activity, mapView, "style/bubble-wrap.yaml");
     }
 }
