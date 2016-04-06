@@ -53,6 +53,7 @@ task verify(dependsOn: [
 dependencies {
   compile 'com.android.support:appcompat-v7:23.2.1'
   compile 'com.mapzen.tangram:tangram:0.1'
+  compile 'com.mapzen.android:lost:1.1.0'
 
   testCompile 'junit:junit:4.12'
   testCompile 'org.assertj:assertj-core:1.7.1'

@@ -1,6 +1,7 @@
 package com.mapzen.android.sample;
 
-import com.mapzen.android.app.MapFragment;
+import com.mapzen.android.MapFragment;
+import com.mapzen.android.MapManager;
 import com.mapzen.tangram.MapController;
 
 import android.os.Bundle;
@@ -35,6 +36,8 @@ public class SampleMapzenActivity extends AppCompatActivity {
         final MapFragment mapFragment =
                 (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
         final MapController mapController = mapFragment.getMap();
+        final MapManager mapManager = new MapManager(this, mapController);
+        mapManager.setMyLocationEnabled(true);
     }
 
     @Override

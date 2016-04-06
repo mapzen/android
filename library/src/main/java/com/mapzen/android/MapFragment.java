@@ -1,4 +1,4 @@
-package com.mapzen.android.app;
+package com.mapzen.android;
 
 import com.mapzen.android.R;
 import com.mapzen.tangram.MapController;
