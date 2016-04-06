@@ -1,5 +1,8 @@
 package com.mapzen.android.sample;
 
+import com.mapzen.android.app.MapFragment;
+import com.mapzen.tangram.MapController;
+
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,8 +12,10 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+/**
+ * Sample application main activity.
+ */
 public class SampleMapzenActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +31,10 @@ public class SampleMapzenActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        final MapFragment mapFragment =
+                (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
+        final MapController mapController = mapFragment.getMap();
     }
 
     @Override

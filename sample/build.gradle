@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'checkstyle'
 
 android {
   compileSdkVersion 23
@@ -17,12 +18,30 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }
+
+  lintOptions {
+    abortOnError false
+  }
 }
 
+task checkstyle(type: Checkstyle) {
+  configFile file("${project.rootDir}/config/checkstyle/checkstyle.xml")
+  source 'src'
+  include '**/*.java'
+  exclude '**/gen/**'
+
+  classpath = files()
+}
+
+task verify(dependsOn: [
+    'test',
+    'checkstyle',
+    'lint'
+])
+
 dependencies {
-  compile fileTree(dir: 'libs', include: ['*.jar'])
-  testCompile 'junit:junit:4.12'
+  compile project(':library')
   compile 'com.android.support:appcompat-v7:23.2.1'
   compile 'com.android.support:design:23.2.1'
-  compile project(':library')
+  compile 'com.mapzen.tangram:tangram:0.1'
 }
