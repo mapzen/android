@@ -52,15 +52,24 @@ public class MapManager {
 
     /**
      * Create a new {@link MapController} object for handling functionality between map and location
-     * services
+     * services using the {@link LocationManager}'s shared {@link LostApiClient}
      * @param context
      * @param mapController
      */
     public MapManager(Context context, MapController mapController) {
-        this.lostApiClient = new LostApiClient.Builder(context).build();
         this.mapController = mapController;
-        this.currentLocationMapData = new MapData(NAME_CURRENT_LOCATION);
-        Tangram.addDataSource(this.currentLocationMapData);
+        this.lostApiClient = LocationManager.sharedClient(context);
+    }
+
+    /**
+     * Create a new {@link MapController} object for handling functionality between map and location
+     * services
+     * @param mapController
+     * @param lostApiClient
+     */
+    public MapManager(MapController mapController, LostApiClient lostApiClient) {
+        this.mapController = mapController;
+        this.lostApiClient = lostApiClient;
     }
 
     /**
@@ -69,7 +78,15 @@ public class MapManager {
      */
     public void setMyLocationEnabled(boolean enabled) {
         myLocationEnabled = enabled;
+        if (currentLocationMapData == null) {
+            addCurrentLocationMapDataToMap();
+        }
         handleMyLocationEnabledChanged();
+    }
+
+    private void addCurrentLocationMapDataToMap() {
+        this.currentLocationMapData = new MapData(NAME_CURRENT_LOCATION);
+        Tangram.addDataSource(this.currentLocationMapData);
     }
 
     private void handleMyLocationEnabledChanged() {
@@ -92,11 +109,15 @@ public class MapManager {
             return;
         }
         updateCurrentLocationMapData(location);
+        updateMapPosition(location);
     }
 
     private void updateCurrentLocationMapData(final Location location) {
         currentLocationMapData.clear();
         currentLocationMapData.addPoint(new Properties(), convertLocation(location));
+    }
+
+    private void updateMapPosition(Location location) {
         mapController.setMapPosition(location.getLongitude(), location.getLatitude(),
                 ANIMATION_DURATION_SEC);
         mapController.requestRender();

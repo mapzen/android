@@ -36,6 +36,7 @@ public class SampleMapzenActivity extends AppCompatActivity {
         final MapFragment mapFragment =
                 (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
         final MapController mapController = mapFragment.getMap();
+        mapController.setMapZoom(17);
         final MapManager mapManager = new MapManager(this, mapController);
         mapManager.setMyLocationEnabled(true);
     }

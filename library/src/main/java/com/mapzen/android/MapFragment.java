@@ -12,10 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * A map component in an app. This fragment is the simplest way to place a map in an application.
- * It's a wrapper around a view of a map to automatically handle the necessary life cycle needs.
- */
 public class MapFragment extends Fragment {
     private static final String RES_NAME = "vector_tiles_key";
     private static final String RES_TYPE = "string";
@@ -24,16 +20,10 @@ public class MapFragment extends Fragment {
     private MapFactory mapFactory;
     private Activity activity;
 
-    /**
-     * Creates a map fragment using the default {@link MapFactory}.
-     */
     public MapFragment() {
         this(new MapFactory());
     }
 
-    /**
-     * Creates a map fragment using the specified {@link MapFactory}.
-     */
     MapFragment(MapFactory mapFactory) {
         this.mapFactory = mapFactory;
     }
@@ -52,6 +42,7 @@ public class MapFragment extends Fragment {
     /**
      * Synchronously creates the map and configures the vector tiles API key using the string
      * resource declared in the client application.
+     *
      * @return a newly created {@link MapController} instance.
      */
     public MapController getMap() {
