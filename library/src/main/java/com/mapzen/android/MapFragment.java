@@ -1,6 +1,5 @@
 package com.mapzen.android;
 
-import com.mapzen.android.R;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.MapView;
 
@@ -30,7 +29,7 @@ public class MapFragment extends Fragment {
     public MapFragment() {
         this(new MapFactory());
     }
-    
+
     /**
      * Creates a map fragment using the specified {@link MapFactory}.
      */

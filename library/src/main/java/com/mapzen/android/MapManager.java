@@ -15,7 +15,7 @@ import android.location.Location;
 
 
 /**
- * Adds functionality to {@link MapController} map by way of {@link LostApiClient}
+ * Adds functionality to {@link MapController} map by way of {@link LostApiClient}.
  */
 public class MapManager {
 
@@ -25,24 +25,24 @@ public class MapManager {
     private static final float ANIMATION_DURATION_SEC = .3f;
 
     /**
-     * For interaction with the map
+     * For interaction with the map.
      */
     private MapController mapController;
     /**
-     * For interaction with location services
+     * For interaction with location services.
      */
     private LostApiClient lostApiClient;
     /**
-     * Object to hold current location information to be displayed on map
+     * Object to hold current location information to be displayed on map.
      */
     private MapData currentLocationMapData;
     /**
-     * Should we track the user's current location on the map
+     * Should we track the user's current location on the map.
      */
     private boolean myLocationEnabled;
 
     /**
-     * Receives location updates for {@link LostApiClient}
+     * Receives location updates for {@link LostApiClient}.
      */
     LocationListener locationListener = new LocationListener() {
         @Override public void onLocationChanged(Location location) {
@@ -52,7 +52,7 @@ public class MapManager {
 
     /**
      * Create a new {@link MapController} object for handling functionality between map and location
-     * services using the {@link LocationManager}'s shared {@link LostApiClient}
+     * services using the {@link LocationManager}'s shared {@link LostApiClient}.
      * @param context
      * @param mapController
      */
@@ -63,7 +63,7 @@ public class MapManager {
 
     /**
      * Create a new {@link MapController} object for handling functionality between map and location
-     * services
+     * services.
      * @param mapController
      * @param lostApiClient
      */
@@ -73,7 +73,7 @@ public class MapManager {
     }
 
     /**
-     * Track the user's current location by displaying an icon on the map and centering the map
+     * Track the user's current location by displaying an icon on the map and centering the map.
      * @param enabled
      */
     public void setMyLocationEnabled(boolean enabled) {

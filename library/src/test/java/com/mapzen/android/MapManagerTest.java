@@ -47,8 +47,8 @@ public class MapManagerTest {
         location.setLongitude(-40.0);
         location.setLatitude(-70.0);
         Whitebox.invokeMethod(mapManager.locationListener, "onLocationChanged", location);
-        assert(mapController.getMapPosition().latitude == location.getLatitude());
-        assert(mapController.getMapPosition().longitude == location.getLongitude());
+        assert (mapController.getMapPosition().latitude == location.getLatitude());
+        assert (mapController.getMapPosition().longitude == location.getLongitude());
     }
 
     @Test
@@ -62,7 +62,7 @@ public class MapManagerTest {
         mapManager.setMyLocationEnabled(true);
         Location location = new Location("test");
         Whitebox.invokeMethod(mapManager.locationListener, "onLocationChanged", location);
-        assert(mapController.getMapZoom() == 17);
+        assert (mapController.getMapZoom() == 17);
     }
 
     @Test
@@ -76,7 +76,7 @@ public class MapManagerTest {
         mapManager.setMyLocationEnabled(true);
         Location location = new Location("test");
         Whitebox.invokeMethod(mapManager.locationListener, "onLocationChanged", location);
-        assert(mapController.getMapTilt() == 8);
+        assert (mapController.getMapTilt() == 8);
     }
 
     @Test
@@ -91,7 +91,7 @@ public class MapManagerTest {
         mapManager.setMyLocationEnabled(true);
         Location location = new Location("test");
         Whitebox.invokeMethod(mapManager.locationListener, "onLocationChanged", location);
-        assert(mapController.getMapCameraType() == MapController.CameraType.ISOMETRIC);
+        assert (mapController.getMapCameraType() == MapController.CameraType.ISOMETRIC);
     }
 
     @Test
@@ -105,6 +105,6 @@ public class MapManagerTest {
         mapManager.setMyLocationEnabled(true);
         Location location = new Location("test");
         Whitebox.invokeMethod(mapManager.locationListener, "onLocationChanged", location);
-        assert(mapController.getMapRotation() == 8);
+        assert (mapController.getMapRotation() == 8);
     }
 }
