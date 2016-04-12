@@ -102,9 +102,9 @@ public class SampleMapzenActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-            String permissions[], int[] grantResults) {
+            String[] permissions, int[] grantResults) {
         switch (requestCode) {
-            case PERMISSIONS_REQUEST_CODE: {
+            case PERMISSIONS_REQUEST_CODE:
                 if (grantResults.length == NUMBER_OF_PERMISSIONS
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     configureMap();
@@ -112,7 +112,11 @@ public class SampleMapzenActivity extends AppCompatActivity {
                     Toast.makeText(SampleMapzenActivity.this, getString(R.string.need_permissions),
                             Toast.LENGTH_SHORT).show();
                 }
-            }
+            break;
+            default:
+                Toast.makeText(SampleMapzenActivity.this, getString(R.string.need_permissions),
+                        Toast.LENGTH_SHORT).show();
+            break;
         }
     }
 
