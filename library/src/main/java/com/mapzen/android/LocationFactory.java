@@ -7,7 +7,7 @@ import android.content.Context;
 /**
  * Manages {@link LostApiClient} instances.
  */
-public class LocationManager {
+public class LocationFactory {
 
     private static LostApiClient shared;
 
@@ -32,3 +32,4 @@ public class LocationManager {
         return new LostApiClient.Builder(context).build();
     }
 }
+

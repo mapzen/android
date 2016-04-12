@@ -52,13 +52,13 @@ public class MapManager {
 
     /**
      * Create a new {@link MapController} object for handling functionality between map and location
-     * services using the {@link LocationManager}'s shared {@link LostApiClient}.
+     * services using the {@link LocationFactory}'s shared {@link LostApiClient}.
      * @param context
      * @param mapController
      */
     public MapManager(Context context, MapController mapController) {
         this.mapController = mapController;
-        this.lostApiClient = LocationManager.sharedClient(context);
+        this.lostApiClient = LocationFactory.sharedClient(context);
     }
 
     /**
