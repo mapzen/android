@@ -118,6 +118,9 @@ public class MapManager {
     }
 
     private void updateMapPosition(Location location) {
+        if (mapController == null) {
+            return;
+        }
         mapController.setMapPosition(location.getLongitude(), location.getLatitude(),
                 ANIMATION_DURATION_SEC);
         mapController.requestRender();
