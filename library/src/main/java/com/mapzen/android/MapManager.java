@@ -129,4 +129,11 @@ public class MapManager {
     private LngLat convertLocation(Location location) {
         return new LngLat(location.getLongitude(), location.getLatitude());
     }
+
+    /**
+     * You must call this method from your activity or fragment.
+     */
+    public void onDestroy() {
+        currentLocationMapData.clear();
+    }
 }

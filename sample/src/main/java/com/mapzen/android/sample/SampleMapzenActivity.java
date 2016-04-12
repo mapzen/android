@@ -29,6 +29,7 @@ public class SampleMapzenActivity extends AppCompatActivity {
     private static final int NUMBER_OF_PERMISSIONS = 2;
 
     MapController mapController;
+    MapManager mapManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +74,7 @@ public class SampleMapzenActivity extends AppCompatActivity {
 
     private void configureMap() {
         mapController.setMapZoom(17);
-        final MapManager mapManager = new MapManager(this, mapController);
+        mapManager = new MapManager(this, mapController);
         mapManager.setMyLocationEnabled(true);
     }
 
@@ -113,5 +114,10 @@ public class SampleMapzenActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    @Override protected void onDestroy() {
+        super.onDestroy();
+        mapManager.onDestroy();
     }
 }
