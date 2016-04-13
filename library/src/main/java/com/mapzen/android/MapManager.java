@@ -11,9 +11,6 @@ import com.mapzen.tangram.MapData;
 import android.content.Context;
 import android.location.Location;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Adds functionality to {@link MapController} map by way of {@link LostApiClient}.
  */
