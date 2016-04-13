@@ -3,11 +3,13 @@ package com.mapzen.android.sample;
 import com.mapzen.android.MapFragment;
 import com.mapzen.android.MapManager;
 import com.mapzen.tangram.MapController;
+import com.mapzen.tangram.MapView;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -28,35 +30,39 @@ public class SampleMapzenActivity extends AppCompatActivity {
     private static final int PERMISSIONS_REQUEST_CODE = 1;
     private static final int NUMBER_OF_PERMISSIONS = 2;
 
-    MapFragment mapFragment;
-    MapController mapController;
-    MapManager mapManager;
+    private MapFragment mapFragment;
+    private MapController mapController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sample_mapzen);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        if (fab != null) {
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+            });
+        }
 
         mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
-        mapController = mapFragment.getMap();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            checkRuntimePermissions();
-        } else {
-            configureMap();
-        }
+        mapFragment.getMapAsync(new MapView.OnMapReadyCallback() {
+            @Override public void onMapReady(MapController mapController) {
+                SampleMapzenActivity.this.mapController = mapController;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    checkRuntimePermissions();
+                } else {
+                    configureMap();
+                }
+            }
+        });
     }
 
     private void checkRuntimePermissions() {
@@ -73,8 +79,7 @@ public class SampleMapzenActivity extends AppCompatActivity {
     }
 
     private void configureMap() {
-        mapController.setMapZoom(17);
-        mapManager = mapFragment.getMapManager();
+        final MapManager mapManager = mapFragment.getMapManager();
         mapManager.setMyLocationEnabled(true);
     }
 
@@ -102,7 +107,7 @@ public class SampleMapzenActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-            String[] permissions, int[] grantResults) {
+            @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case PERMISSIONS_REQUEST_CODE:
                 if (grantResults.length == NUMBER_OF_PERMISSIONS

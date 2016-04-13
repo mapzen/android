@@ -2,6 +2,7 @@ package com.mapzen.android;
 
 import com.mapzen.android.lost.api.LostApiClient;
 import com.mapzen.tangram.MapController;
+import com.mapzen.tangram.TestMapController;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,8 +26,8 @@ import static org.mockito.Matchers.anyFloat;
 @PrepareForTest(MapManager.class)
 public class MapManagerTest {
 
-    MapController mapController;
-    MapManager mapManager;
+    private MapController mapController;
+    private MapManager mapManager;
 
     @Before
     public void setup() throws Exception {

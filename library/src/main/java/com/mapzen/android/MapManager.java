@@ -7,12 +7,12 @@ import com.mapzen.android.lost.api.LostApiClient;
 import com.mapzen.tangram.LngLat;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.MapData;
-import com.mapzen.tangram.Properties;
-import com.mapzen.tangram.Tangram;
 
 import android.content.Context;
 import android.location.Location;
 
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Adds functionality to {@link MapController} map by way of {@link LostApiClient}.
@@ -85,23 +85,40 @@ public class MapManager {
     }
 
     private void addCurrentLocationMapDataToMap() {
-        this.currentLocationMapData = new MapData(NAME_CURRENT_LOCATION);
-        Tangram.addDataSource(this.currentLocationMapData);
+        currentLocationMapData = new MapData(NAME_CURRENT_LOCATION);
+        currentLocationMapData.addToMap(mapController);
     }
 
     private void handleMyLocationEnabledChanged() {
         if (myLocationEnabled) {
             lostApiClient.connect();
-            LocationRequest locationRequest = LocationRequest.create()
-                    .setInterval(LOCATION_REQUEST_INTERVAL_MILLIS)
-                    .setFastestInterval(LOCATION_REQUEST_DISPLACEMENT_MILLIS)
-                    .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-            LocationServices.FusedLocationApi.requestLocationUpdates(locationRequest,
-                    locationListener);
+            showLastKnownLocation();
+            requestLocationUpdates();
         } else {
-            LocationServices.FusedLocationApi.removeLocationUpdates(locationListener);
-            lostApiClient.disconnect();
+            removeLocationUpdates();
         }
+    }
+
+    private void showLastKnownLocation() {
+        final Location current = LocationServices.FusedLocationApi.getLastLocation();
+        if (current != null) {
+            updateCurrentLocationMapData(current);
+            updateMapPosition(current);
+        }
+    }
+
+    private void requestLocationUpdates() {
+        LocationRequest locationRequest = LocationRequest.create()
+                .setInterval(LOCATION_REQUEST_INTERVAL_MILLIS)
+                .setFastestInterval(LOCATION_REQUEST_DISPLACEMENT_MILLIS)
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        LocationServices.FusedLocationApi.requestLocationUpdates(locationRequest,
+                locationListener);
+    }
+
+    private void removeLocationUpdates() {
+        LocationServices.FusedLocationApi.removeLocationUpdates(locationListener);
+        lostApiClient.disconnect();
     }
 
     private void handleLocationChange(Location location) {
@@ -113,8 +130,11 @@ public class MapManager {
     }
 
     private void updateCurrentLocationMapData(final Location location) {
+        final Map<String, String> properties = new HashMap<>();
+        properties.put("type", "point");
         currentLocationMapData.clear();
-        currentLocationMapData.addPoint(new Properties(), convertLocation(location));
+        currentLocationMapData.addPoint(convertLocation(location), properties);
+        currentLocationMapData.syncWithMap();
     }
 
     private void updateMapPosition(Location location) {
