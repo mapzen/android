@@ -2,4 +2,12 @@
     <string name="app_name">Mapzen Sample</string>
     <string name="action_settings">Settings</string>
     <string name="need_permissions">Can\'t show all demo features, don\'t have necessary permissions</string>
+    <string name="sample_map_demo_label">Basic Map</string>
+    <string name="sample_map_demo_description">Creates a map, tracks current location</string>
+    <string name="circle_map_demo_label">Circle</string>
+    <string name="circle_map_demo_description">Adds a circle to map</string>
+    <string name="polyline_map_demo_label">Polyline</string>
+    <string name="polyline_map_demo_description">Adds a polyline to map</string>
+    <string name="polygon_map_demo_label">Polygon</string>
+    <string name="polygon_map_demo_description">Adds a polygon to map</string>
 </resources>
