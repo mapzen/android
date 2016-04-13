@@ -3,6 +3,7 @@ package com.mapzen.android.sample;
 import com.mapzen.android.MapFragment;
 import com.mapzen.android.MapManager;
 import com.mapzen.tangram.MapController;
+import com.mapzen.tangram.MapView;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -23,13 +24,16 @@ public class BasicMapzenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sample_mapzen);
 
         mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
-        mapController = mapFragment.getMap();
-        mapManager = mapFragment.getMapManager();
-        configureMap();
+        mapFragment.getMapAsync(new MapView.OnMapReadyCallback() {
+            @Override public void onMapReady(MapController mapController) {
+                BasicMapzenActivity.this.mapController = mapController;
+                configureMap();
+            }
+        });
     }
 
     private void configureMap() {
-        mapController.setMapZoom(17);
+        mapManager = mapFragment.getMapManager();
         mapManager.setMyLocationEnabled(true);
     }
 }
