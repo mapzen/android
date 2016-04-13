@@ -1,12 +1,13 @@
 package com.mapzen.android;
 
 import com.mapzen.tangram.MapController;
+import com.mapzen.tangram.MapView;
+import com.mapzen.tangram.TestMapController;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.SuppressStaticInitializationFor;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -15,6 +16,7 @@ import android.content.res.Resources;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.powermock.api.mockito.PowerMockito.when;
 
@@ -26,14 +28,15 @@ public class MapFragmentTest {
 
     @Before
     public void setUp() throws Exception {
-        final Resources resources = PowerMockito.mock(Resources.class);
+        final Resources resources = mock(Resources.class);
         when(resources.getIdentifier((String) any(), (String) any(), (String) any())).thenReturn(0);
 
-        final Activity activity = PowerMockito.mock(Activity.class);
+        final Activity activity = mock(Activity.class);
         when(activity.getResources()).thenReturn(resources);
         when(activity.getPackageName()).thenReturn("");
 
-        mapFragment = new MapFragment(new TestMapFactory());
+        mapFragment = new MapFragment();
+        mapFragment.mapView = new TestMapView();
         mapFragment.onAttach(activity);
     }
 
@@ -44,12 +47,33 @@ public class MapFragmentTest {
 
     @Test
     public void getMap_shouldReturnMapController() throws Exception {
-        assertThat(mapFragment.getMap()).isInstanceOf(MapController.class);
+        TestCallback callback = new TestCallback();
+        mapFragment.getMapAsync(callback);
+        assertThat(callback.map).isInstanceOf(MapController.class);
     }
 
     @Test
     public void getMap_shouldSetHttpHandler() throws Exception {
-        MapController mapController = mapFragment.getMap();
-        Mockito.verify(mapController, times(1)).setHttpHandler((TileHttpHandler) Mockito.any());
+        TestCallback callback = new TestCallback();
+        mapFragment.getMapAsync(callback);
+        Mockito.verify(callback.map, times(1)).setHttpHandler((TileHttpHandler) Mockito.any());
+    }
+
+    class TestCallback implements MapView.OnMapReadyCallback {
+        MapController map;
+
+        @Override public void onMapReady(MapController mapController) {
+            map = mapController;
+        }
+    }
+
+    class TestMapView extends MapView {
+        public TestMapView() {
+            super(null);
+        }
+
+        @Override public void getMapAsync(OnMapReadyCallback callback, String sceneFilePath) {
+            callback.onMapReady(mock(TestMapController.class));
+        }
     }
 }

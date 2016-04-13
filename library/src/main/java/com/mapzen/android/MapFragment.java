@@ -19,25 +19,11 @@ public class MapFragment extends Fragment {
     private static final String RES_NAME = "vector_tiles_key";
     private static final String RES_TYPE = "string";
 
-    private MapView mapView;
-    private MapFactory mapFactory;
     private Activity activity;
     private MapManager mapManager;
     private MapController mapController;
 
-    /**
-     * Creates a map fragment using the default {@link MapFactory}.
-     */
-    public MapFragment() {
-        this(new MapFactory());
-    }
-
-    /**
-     * Creates a map fragment using the specified {@link MapFactory}.
-     */
-    public MapFragment(MapFactory mapFactory) {
-        this.mapFactory = mapFactory;
-    }
+    MapView mapView;
 
     @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
@@ -51,22 +37,21 @@ public class MapFragment extends Fragment {
     }
 
     /**
-     * Synchronously creates the map and configures the vector tiles API key using the string
-     * resource declared in the client application.
-     *
-     * @return a newly created {@link MapController} instance or existing instance
+     * Asynchronously creates the map and configures the vector tiles API key using the string
+     * resource declared in the client application. Uses default stylesheet (bubble wrap).
      */
-    public MapController getMap() {
-        if (mapController != null) {
-            return mapController;
-        }
+    public void getMapAsync(final MapView.OnMapReadyCallback callback) {
         final Resources res = activity.getResources();
-        mapController = mapFactory.getMap(getActivity(), mapView);
         final int apiKeyId = res.getIdentifier(RES_NAME, RES_TYPE, activity.getPackageName());
         final String apiKey = res.getString(apiKeyId);
 
-        mapController.setHttpHandler(new TileHttpHandler(apiKey));
-        return mapController;
+        mapView.getMapAsync(new MapView.OnMapReadyCallback() {
+            @Override public void onMapReady(MapController mapController) {
+                MapFragment.this.mapController = mapController;
+                mapController.setHttpHandler(new TileHttpHandler(apiKey));
+                callback.onMapReady(mapController);
+            }
+        }, "style/bubble-wrap.yaml");
     }
 
     /**
