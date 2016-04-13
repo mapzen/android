@@ -15,12 +15,13 @@ import org.powermock.reflect.Whitebox;
 
 import android.location.Location;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyDouble;
 import static org.mockito.Matchers.anyFloat;
 
 @RunWith(PowerMockRunner.class)
-@SuppressStaticInitializationFor("com.mapzen.tangram.*")
+@SuppressStaticInitializationFor("com.mapzen.tangram.MapController")
 @PrepareForTest(MapManager.class)
 public class MapManagerTest {
 
@@ -47,8 +48,8 @@ public class MapManagerTest {
         location.setLongitude(-40.0);
         location.setLatitude(-70.0);
         Whitebox.invokeMethod(mapManager.locationListener, "onLocationChanged", location);
-        assert (mapController.getMapPosition().latitude == location.getLatitude());
-        assert (mapController.getMapPosition().longitude == location.getLongitude());
+        assertThat(mapController.getMapPosition().latitude).isEqualTo(location.getLatitude());
+        assertThat(mapController.getMapPosition().longitude).isEqualTo(location.getLongitude());
     }
 
     @Test
@@ -62,7 +63,7 @@ public class MapManagerTest {
         mapManager.setMyLocationEnabled(true);
         Location location = new Location("test");
         Whitebox.invokeMethod(mapManager.locationListener, "onLocationChanged", location);
-        assert (mapController.getMapZoom() == 17);
+        assertThat(mapController.getMapZoom()).isEqualTo(17);
     }
 
     @Test
@@ -76,7 +77,7 @@ public class MapManagerTest {
         mapManager.setMyLocationEnabled(true);
         Location location = new Location("test");
         Whitebox.invokeMethod(mapManager.locationListener, "onLocationChanged", location);
-        assert (mapController.getMapTilt() == 8);
+        assertThat(mapController.getMapTilt()).isEqualTo(8);
     }
 
     @Test
@@ -91,7 +92,7 @@ public class MapManagerTest {
         mapManager.setMyLocationEnabled(true);
         Location location = new Location("test");
         Whitebox.invokeMethod(mapManager.locationListener, "onLocationChanged", location);
-        assert (mapController.getMapCameraType() == MapController.CameraType.ISOMETRIC);
+        assertThat(mapController.getMapCameraType()).isEqualTo(MapController.CameraType.ISOMETRIC);
     }
 
     @Test
@@ -105,6 +106,6 @@ public class MapManagerTest {
         mapManager.setMyLocationEnabled(true);
         Location location = new Location("test");
         Whitebox.invokeMethod(mapManager.locationListener, "onLocationChanged", location);
-        assert (mapController.getMapRotation() == 8);
+        assertThat(mapController.getMapRotation()).isEqualTo(8);
     }
 }

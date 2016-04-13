@@ -22,6 +22,8 @@ public class MapFragment extends Fragment {
     private MapView mapView;
     private MapFactory mapFactory;
     private Activity activity;
+    private MapManager mapManager;
+    private MapController mapController;
 
     /**
      * Creates a map fragment using the default {@link MapFactory}.
@@ -52,15 +54,41 @@ public class MapFragment extends Fragment {
      * Synchronously creates the map and configures the vector tiles API key using the string
      * resource declared in the client application.
      *
-     * @return a newly created {@link MapController} instance.
+     * @return a newly created {@link MapController} instance or existing instance
      */
     public MapController getMap() {
+        if (mapController != null) {
+            return mapController;
+        }
         final Resources res = activity.getResources();
-        final MapController mapController = mapFactory.getMap(getActivity(), mapView);
+        mapController = mapFactory.getMap(getActivity(), mapView);
         final int apiKeyId = res.getIdentifier(RES_NAME, RES_TYPE, activity.getPackageName());
         final String apiKey = res.getString(apiKeyId);
 
         mapController.setHttpHandler(new TileHttpHandler(apiKey));
         return mapController;
+    }
+
+    /**
+     * Synchronously creates map manager for interaction with map and location manager.
+     *
+     * @return newly created {@link MapManager} instance or existing instance
+     */
+    public MapManager getMapManager() {
+        if (mapController == null) {
+            return null;
+        }
+        if (mapManager != null) {
+            return mapManager;
+        }
+        mapManager = new MapManager(getContext(), mapController);
+        return mapManager;
+    }
+
+    @Override public void onDestroy() {
+        super.onDestroy();
+        if (mapManager != null) {
+            mapManager.onDestroy();
+        }
     }
 }

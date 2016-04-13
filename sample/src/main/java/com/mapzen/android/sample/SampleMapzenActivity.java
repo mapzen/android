@@ -28,6 +28,7 @@ public class SampleMapzenActivity extends AppCompatActivity {
     private static final int PERMISSIONS_REQUEST_CODE = 1;
     private static final int NUMBER_OF_PERMISSIONS = 2;
 
+    MapFragment mapFragment;
     MapController mapController;
     MapManager mapManager;
 
@@ -48,8 +49,7 @@ public class SampleMapzenActivity extends AppCompatActivity {
             }
         });
 
-        final MapFragment mapFragment =
-                (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
+        mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
         mapController = mapFragment.getMap();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -74,7 +74,7 @@ public class SampleMapzenActivity extends AppCompatActivity {
 
     private void configureMap() {
         mapController.setMapZoom(17);
-        mapManager = new MapManager(this, mapController);
+        mapManager = mapFragment.getMapManager();
         mapManager.setMyLocationEnabled(true);
     }
 
@@ -118,10 +118,5 @@ public class SampleMapzenActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
             break;
         }
-    }
-
-    @Override protected void onDestroy() {
-        super.onDestroy();
-        mapManager.onDestroy();
     }
 }
