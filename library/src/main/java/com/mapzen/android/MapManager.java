@@ -130,10 +130,8 @@ public class MapManager {
     }
 
     private void updateCurrentLocationMapData(final Location location) {
-        final Map<String, String> properties = new HashMap<>();
-        properties.put("type", "point");
         currentLocationMapData.clear();
-        currentLocationMapData.addPoint(convertLocation(location), properties);
+        currentLocationMapData.addPoint(convertLocation(location), null);
         currentLocationMapData.syncWithMap();
     }
 
