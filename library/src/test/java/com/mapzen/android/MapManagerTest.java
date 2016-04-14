@@ -1,6 +1,7 @@
 package com.mapzen.android;
 
 import com.mapzen.android.lost.api.LostApiClient;
+import com.mapzen.tangram.LngLat;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.TestMapController;
 
@@ -18,8 +19,8 @@ import android.location.Location;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyDouble;
 import static org.mockito.Matchers.anyFloat;
+import static org.mockito.Matchers.anyInt;
 
 @RunWith(PowerMockRunner.class)
 @SuppressStaticInitializationFor("com.mapzen.tangram.MapController")
@@ -40,73 +41,54 @@ public class MapManagerTest {
 
     @Test
     public void setMyLocationEnabled_shouldCenterMapOnCurrentLocation() throws Exception {
-        Mockito.doCallRealMethod().when(mapController).setMapPosition(anyDouble(), anyDouble(),
-                anyFloat());
-        Mockito.when(mapController.getMapPosition()).thenCallRealMethod();
+        Mockito.doCallRealMethod().when(mapController).setPosition(any(LngLat.class), anyInt());
+        Mockito.when(mapController.getPosition()).thenCallRealMethod();
 
         mapManager.setMyLocationEnabled(true);
         Location location = new Location("test");
         location.setLongitude(-40.0);
         location.setLatitude(-70.0);
         Whitebox.invokeMethod(mapManager.locationListener, "onLocationChanged", location);
-        assertThat(mapController.getMapPosition().latitude).isEqualTo(location.getLatitude());
-        assertThat(mapController.getMapPosition().longitude).isEqualTo(location.getLongitude());
+        assertThat(mapController.getPosition().latitude).isEqualTo(location.getLatitude());
+        assertThat(mapController.getPosition().longitude).isEqualTo(location.getLongitude());
     }
 
     @Test
     public void setMyLocationEnabled_shouldNotChangeZoomLevel() throws Exception {
-        Mockito.doCallRealMethod().when(mapController).setMapPosition(anyDouble(), anyDouble(),
-                anyFloat());
-        Mockito.doCallRealMethod().when(mapController).setMapZoom(anyFloat());
-        Mockito.when(mapController.getMapZoom()).thenCallRealMethod();
+        Mockito.doCallRealMethod().when(mapController).setPosition(any(LngLat.class), anyInt());
+        Mockito.doCallRealMethod().when(mapController).setZoom(anyFloat());
+        Mockito.when(mapController.getZoom()).thenCallRealMethod();
 
-        mapController.setMapZoom(17);
+        mapController.setZoom(17);
         mapManager.setMyLocationEnabled(true);
         Location location = new Location("test");
         Whitebox.invokeMethod(mapManager.locationListener, "onLocationChanged", location);
-        assertThat(mapController.getMapZoom()).isEqualTo(17);
+        assertThat(mapController.getZoom()).isEqualTo(17);
     }
 
     @Test
     public void setMyLocationEnabled_shouldNotChangeTilt() throws Exception {
-        Mockito.doCallRealMethod().when(mapController).setMapPosition(anyDouble(), anyDouble(),
-                anyFloat());
-        Mockito.doCallRealMethod().when(mapController).setMapTilt(anyFloat());
-        Mockito.when(mapController.getMapTilt()).thenCallRealMethod();
+        Mockito.doCallRealMethod().when(mapController).setPosition(any(LngLat.class), anyInt());
+        Mockito.doCallRealMethod().when(mapController).setTilt(anyFloat());
+        Mockito.when(mapController.getTilt()).thenCallRealMethod();
 
-        mapController.setMapTilt(8);
+        mapController.setTilt(8);
         mapManager.setMyLocationEnabled(true);
         Location location = new Location("test");
         Whitebox.invokeMethod(mapManager.locationListener, "onLocationChanged", location);
-        assertThat(mapController.getMapTilt()).isEqualTo(8);
-    }
-
-    @Test
-    public void setMyLocationEnabled_shouldNotChangeCameraType() throws Exception {
-        Mockito.doCallRealMethod().when(mapController).setMapPosition(anyDouble(), anyDouble(),
-                anyFloat());
-        Mockito.doCallRealMethod().when(mapController).setMapCameraType(any(
-                MapController.CameraType.class));
-        Mockito.when(mapController.getMapCameraType()).thenCallRealMethod();
-
-        mapController.setMapCameraType(MapController.CameraType.ISOMETRIC);
-        mapManager.setMyLocationEnabled(true);
-        Location location = new Location("test");
-        Whitebox.invokeMethod(mapManager.locationListener, "onLocationChanged", location);
-        assertThat(mapController.getMapCameraType()).isEqualTo(MapController.CameraType.ISOMETRIC);
+        assertThat(mapController.getTilt()).isEqualTo(8);
     }
 
     @Test
     public void setMyLocationEnabled_shouldNotChangeRotation() throws Exception {
-        Mockito.doCallRealMethod().when(mapController).setMapPosition(anyDouble(), anyDouble(),
-                anyFloat());
-        Mockito.doCallRealMethod().when(mapController).setMapRotation(anyFloat());
-        Mockito.when(mapController.getMapRotation()).thenCallRealMethod();
+        Mockito.doCallRealMethod().when(mapController).setPosition(any(LngLat.class), anyInt());
+        Mockito.doCallRealMethod().when(mapController).setRotation(anyFloat());
+        Mockito.when(mapController.getRotation()).thenCallRealMethod();
 
-        mapController.setMapRotation(8);
+        mapController.setRotation(8);
         mapManager.setMyLocationEnabled(true);
         Location location = new Location("test");
         Whitebox.invokeMethod(mapManager.locationListener, "onLocationChanged", location);
-        assertThat(mapController.getMapRotation()).isEqualTo(8);
+        assertThat(mapController.getRotation()).isEqualTo(8);
     }
 }
