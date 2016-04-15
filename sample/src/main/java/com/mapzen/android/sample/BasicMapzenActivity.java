@@ -2,12 +2,11 @@ package com.mapzen.android.sample;
 
 import com.mapzen.android.MapFragment;
 import com.mapzen.android.MapManager;
+import com.mapzen.android.MapView;
 import com.mapzen.tangram.MapController;
-import com.mapzen.tangram.MapView;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-
 
 /**
  * Basic SDK demo, tracks user's current location on map.
