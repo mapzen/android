@@ -102,7 +102,7 @@ public class OverlayManager {
      * Adds a polyline to the map.
      * @param polyline
      */
-    public void addPolyline(Polyline polyline) {
+    public MapData addPolyline(Polyline polyline) {
         if (polylineMapData == null) {
             polylineMapData = mapController.addDataLayer(NAME_POLYLINE);
         }
@@ -110,14 +110,14 @@ public class OverlayManager {
         for (LatLng coordinate : polyline.getCoordinates()) {
             line.add(new LngLat(coordinate.getLongitude(), coordinate.getLatitude()));
         }
-        polylineMapData.addPolyline(line, null);
+        return polylineMapData.addPolyline(line, null);
     }
 
     /**
      * Adds a polygon to the map.
      * @param polygon
      */
-    public void addPolygon(Polygon polygon) {
+    public MapData addPolygon(Polygon polygon) {
         if (polygonMapData == null) {
             polygonMapData = mapController.addDataLayer(NAME_POLYGON);
         }
@@ -129,16 +129,16 @@ public class OverlayManager {
         coords.add(new LngLat(first.getLongitude(), first.getLatitude()));
         List allCoords = new ArrayList();
         allCoords.add(coords);
-        polygonMapData.addPolygon(allCoords, null);
+        return polygonMapData.addPolygon(allCoords, null);
     }
 
-    public void addMarker(Marker marker) {
+    public MapData addMarker(Marker marker) {
         if (markerMapData == null) {
             markerMapData = mapController.addDataLayer(NAME_MARKER);
         }
         LngLat lngLat = new LngLat(marker.getLocation().getLongitude(),
                 marker.getLocation().getLatitude());
-        markerMapData.addPoint(lngLat, null);
+        return markerMapData.addPoint(lngLat, null);
     }
 
     /**

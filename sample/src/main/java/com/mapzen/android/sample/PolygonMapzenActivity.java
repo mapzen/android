@@ -5,6 +5,7 @@ import com.mapzen.android.OverlayManager;
 import com.mapzen.android.model.LatLng;
 import com.mapzen.android.model.Polygon;
 import com.mapzen.tangram.MapController;
+import com.mapzen.tangram.MapData;
 import com.mapzen.tangram.MapView;
 
 import android.os.Bundle;
@@ -18,6 +19,7 @@ public class PolygonMapzenActivity extends AppCompatActivity {
     MapFragment mapFragment;
     MapController mapController;
     OverlayManager overlayManager;
+    MapData polygonData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +43,19 @@ public class PolygonMapzenActivity extends AppCompatActivity {
                 .add(new LatLng(40.732172, -73.998674))
                 .add(new LatLng(40.741050, -73.996142))
                 .build();
-        overlayManager.addPolygon(polygon);
+        polygonData = overlayManager.addPolygon(polygon);
 
         //mapController.setMapZoom(17f);
         overlayManager.setMyLocationEnabled(true);
+    }
+
+
+    @Override protected void onDestroy() {
+        super.onDestroy();
+        cleanupMap();
+    }
+
+    private void cleanupMap() {
+        polygonData.remove();
     }
 }

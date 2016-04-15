@@ -4,10 +4,14 @@ import com.mapzen.android.MapFragment;
 import com.mapzen.android.OverlayManager;
 import com.mapzen.android.model.Marker;
 import com.mapzen.tangram.MapController;
+import com.mapzen.tangram.MapData;
 import com.mapzen.tangram.MapView;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Show map markers
@@ -16,6 +20,7 @@ public class MarkerMapzenActivity extends AppCompatActivity {
     MapFragment mapFragment;
     MapController mapController;
     OverlayManager mapManager;
+    MapData marker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +38,18 @@ public class MarkerMapzenActivity extends AppCompatActivity {
 
     private void configureMap() {
         mapManager = mapFragment.getMapManager();
-        mapManager.addMarker(new Marker(40.74433, -73.9903));
+        marker = mapManager.addMarker(new Marker(40.74433, -73.9903));
         mapManager.addMarker(new Marker(40.734807, -73.984770));
         mapManager.addMarker(new Marker(40.732172, -73.998674));
         mapManager.addMarker(new Marker(40.741050, -73.996142));
+    }
+
+    @Override protected void onDestroy() {
+        super.onDestroy();
+        cleanupMap();
+    }
+
+    private void cleanupMap() {
+        marker.remove();
     }
 }
