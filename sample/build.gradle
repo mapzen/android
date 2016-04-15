@@ -43,5 +43,5 @@ dependencies {
   compile project(':library')
   compile 'com.android.support:appcompat-v7:23.2.1'
   compile 'com.android.support:design:23.2.1'
-  compile 'com.mapzen.tangram:tangram:0.1'
+  compile 'com.mapzen.tangram:tangram:0.2-SNAPSHOT'
 }
