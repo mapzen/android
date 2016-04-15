@@ -4,6 +4,10 @@ import com.mapzen.android.lost.api.LocationListener;
 import com.mapzen.android.lost.api.LocationRequest;
 import com.mapzen.android.lost.api.LocationServices;
 import com.mapzen.android.lost.api.LostApiClient;
+import com.mapzen.android.model.LatLng;
+import com.mapzen.android.model.Marker;
+import com.mapzen.android.model.Polygon;
+import com.mapzen.android.model.Polyline;
 import com.mapzen.tangram.LngLat;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.MapData;
@@ -11,15 +15,23 @@ import com.mapzen.tangram.MapData;
 import android.content.Context;
 import android.location.Location;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Adds functionality to {@link MapController} map by way of {@link LostApiClient}.
  */
-public class MapManager {
+public class OverlayManager {
 
     private static final int LOCATION_REQUEST_INTERVAL_MILLIS = 5000;
     private static final int LOCATION_REQUEST_DISPLACEMENT_MILLIS = 5000;
     private static final String NAME_CURRENT_LOCATION = "find_me";
+    private static final String NAME_POLYLINE = "route";
+    private static final String NAME_POLYGON = "route";
+    private static final String NAME_MARKER = "reverse_geocode";
     private static final float ANIMATION_DURATION_SEC = .3f;
+    private static final String PROP_COLOR = "color";
+    private static final String COLOR_DEFAULT = "#D2655F";
 
     /**
      * For interaction with the map.
@@ -47,13 +59,18 @@ public class MapManager {
         }
     };
 
+    private MapData polylineMapData;
+
+    private MapData polygonMapData;
+
+    private MapData markerMapData;
     /**
      * Create a new {@link MapController} object for handling functionality between map and location
      * services using the {@link LocationFactory}'s shared {@link LostApiClient}.
      * @param context
      * @param mapController
      */
-    public MapManager(Context context, MapController mapController) {
+    public OverlayManager(Context context, MapController mapController) {
         this.mapController = mapController;
         this.lostApiClient = LocationFactory.sharedClient(context);
     }
@@ -64,7 +81,7 @@ public class MapManager {
      * @param mapController
      * @param lostApiClient
      */
-    public MapManager(MapController mapController, LostApiClient lostApiClient) {
+    public OverlayManager(MapController mapController, LostApiClient lostApiClient) {
         this.mapController = mapController;
         this.lostApiClient = lostApiClient;
     }
@@ -76,14 +93,61 @@ public class MapManager {
     public void setMyLocationEnabled(boolean enabled) {
         myLocationEnabled = enabled;
         if (currentLocationMapData == null) {
-            addCurrentLocationMapDataToMap();
+            currentLocationMapData = mapController.addDataLayer(NAME_CURRENT_LOCATION);
         }
         handleMyLocationEnabledChanged();
     }
 
-    private void addCurrentLocationMapDataToMap() {
-        currentLocationMapData = new MapData(NAME_CURRENT_LOCATION);
-        currentLocationMapData.addToMap(mapController);
+    /**
+     * Adds a polyline to the map.
+     * @param polyline
+     */
+    public void addPolyline(Polyline polyline) {
+        if (polylineMapData == null) {
+            polylineMapData = mapController.addDataLayer(NAME_POLYLINE);
+        }
+        List<LngLat> line = new ArrayList<>();
+        for (LatLng coordinate : polyline.getCoordinates()) {
+            line.add(new LngLat(coordinate.getLongitude(), coordinate.getLatitude()));
+        }
+        polylineMapData.addPolyline(line, null);
+    }
+
+    /**
+     * Adds a polygon to the map.
+     * @param polygon
+     */
+    public void addPolygon(Polygon polygon) {
+        if (polygonMapData == null) {
+            polygonMapData = mapController.addDataLayer(NAME_POLYGON);
+        }
+        List<LngLat> coords = new ArrayList<>();
+        for (LatLng coordinate : polygon.getCoordinates()) {
+            coords.add(new LngLat(coordinate.getLongitude(), coordinate.getLatitude()));
+        }
+        LatLng first = polygon.getCoordinates().get(0);
+        coords.add(new LngLat(first.getLongitude(), first.getLatitude()));
+        List allCoords = new ArrayList();
+        allCoords.add(coords);
+        polygonMapData.addPolygon(allCoords, null);
+    }
+
+    public void addMarker(Marker marker) {
+        if (markerMapData == null) {
+            markerMapData = mapController.addDataLayer(NAME_MARKER);
+        }
+        LngLat lngLat = new LngLat(marker.getLocation().getLongitude(),
+                marker.getLocation().getLatitude());
+        markerMapData.addPoint(lngLat, null);
+    }
+
+    /**
+     * You must call this method from your activity or fragment.
+     */
+    public void onDestroy() {
+        if (currentLocationMapData != null) {
+            currentLocationMapData.clear();
+        }
     }
 
     private void handleMyLocationEnabledChanged() {
@@ -129,26 +193,18 @@ public class MapManager {
     private void updateCurrentLocationMapData(final Location location) {
         currentLocationMapData.clear();
         currentLocationMapData.addPoint(convertLocation(location), null);
-        currentLocationMapData.syncWithMap();
     }
 
     private void updateMapPosition(Location location) {
         if (mapController == null) {
             return;
         }
-        mapController.setMapPosition(location.getLongitude(), location.getLatitude(),
-                ANIMATION_DURATION_SEC);
+        //TODO:
+        //mapController.setMapPosition(location.getLongitude(), location.getLatitude(), ANIMATION_DURATION_SEC);
         mapController.requestRender();
     }
 
     private LngLat convertLocation(Location location) {
         return new LngLat(location.getLongitude(), location.getLatitude());
-    }
-
-    /**
-     * You must call this method from your activity or fragment.
-     */
-    public void onDestroy() {
-        currentLocationMapData.clear();
     }
 }
