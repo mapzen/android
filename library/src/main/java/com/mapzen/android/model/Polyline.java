@@ -1,42 +1,69 @@
 package com.mapzen.android.model;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents polyline to be drawn on a map by {@link com.mapzen.tangram.MapController}
+ * Represents polyline to be drawn on a map by {@link com.mapzen.tangram.MapController}.
  */
 public class Polyline {
 
     private final List<LatLng> coordinates;
 
+    /**
+     * Constructs a new {@link Polyline} object.
+     * @param coordinates
+     */
     public Polyline(List<LatLng> coordinates) {
-        this.coordinates = coordinates;}
+        this.coordinates = coordinates;
+    }
 
+    /**
+     * {@link Polyline} builder class.
+     */
     public static class Builder {
         private List<LatLng> coordinates = new ArrayList<>();
 
+        /**
+         * Constructs a new {@link Builder}.
+         */
         public Builder() {
         }
 
+        /**
+         * Add a coordinate pair to the {@link Polyline}.
+         * @param c
+         * @return
+         */
         public Builder add(LatLng c) {
             coordinates.add(c);
             return this;
         }
 
+        /**
+         * Build the {@link Polyline} and configure it's values.
+         * @return the newly created {@link Polyline}
+         */
         public Polyline build() {
             return new Polyline(coordinates);
         }
     }
 
+    /**
+     * The {@link Polyline}'s coordinates.
+     * @return
+     */
     public List<LatLng> getCoordinates() {
         return coordinates;
     }
 
     @Override public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Polyline polyline = (Polyline) o;
 

@@ -25,11 +25,11 @@ public class OverlayManager {
 
     private static final int LOCATION_REQUEST_INTERVAL_MILLIS = 5000;
     private static final int LOCATION_REQUEST_DISPLACEMENT_MILLIS = 5000;
+    private static final int ANIMATION_DURATION_MILLIS = 300;
     private static final String NAME_CURRENT_LOCATION = "find_me";
     private static final String NAME_POLYLINE = "route";
     private static final String NAME_POLYGON = "route";
     private static final String NAME_MARKER = "reverse_geocode";
-    private static final float ANIMATION_DURATION_SEC = .3f;
     private static final String PROP_COLOR = "color";
     private static final String COLOR_DEFAULT = "#D2655F";
 
@@ -132,6 +132,11 @@ public class OverlayManager {
         return polygonMapData.addPolygon(allCoords, null);
     }
 
+    /**
+     * Add a point to the map for the marker.
+     * @param marker
+     * @return
+     */
     public MapData addMarker(Marker marker) {
         if (markerMapData == null) {
             markerMapData = mapController.addDataLayer(NAME_MARKER);
@@ -199,8 +204,8 @@ public class OverlayManager {
         if (mapController == null) {
             return;
         }
-        //TODO:
-        //mapController.setMapPosition(location.getLongitude(), location.getLatitude(), ANIMATION_DURATION_SEC);
+        LngLat lngLat = new LngLat(location.getLongitude(), location.getLatitude());
+        mapController.setPosition(lngLat, ANIMATION_DURATION_MILLIS);
         mapController.requestRender();
     }
 
