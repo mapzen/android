@@ -1,6 +1,6 @@
 test:
   override:
-    - ./gradlew clean verify
+    - ./gradlew clean verify assembleDebug
 
 deployment:
   master:
