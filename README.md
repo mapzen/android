@@ -15,11 +15,11 @@ We will be incorporating all of Mapzen’s services into the SDK through the fol
 - [On the road](https://github.com/mapzen/on-the-road)- The Mapzen Turn-by-Turn wrapper and other routing utilities.
 - [Pelias](https://github.com/pelias/pelias-android-sdk)- The Mapzen Search wrapper
 
-## Usage
+# Usage
 
-### Getting started
+## Getting started
 
-#### 1. Add a map layout
+### 1. Add a map layout
 
 A map can be added to a layout using either `MapView` or `MapFragment`.
 
@@ -31,7 +31,7 @@ A map can be added to a layout using either `MapView` or `MapFragment`.
     android:layout_height="match_parent" />
 ```
 
-#### 2. Register an API key
+### 2. Register an API key
 
 Sign up for a vector tiles API key from the [Mapzen developer portal](https://mapzen.com/developers). Add your vector tiles API key to your application as an XML string resource.
 
@@ -41,7 +41,7 @@ Sign up for a vector tiles API key from the [Mapzen developer portal](https://ma
 </resources>
 ```
 
-#### 3. Initialize the map
+### 3. Initialize the map
 
 Initialize the map using `getMapAsync(MapView.OnMapReadyCallback)`.
 
@@ -58,29 +58,29 @@ Your map is now ready to use. `MapContoller` is your main entry point to interac
 
 For advanced use (animations, custom styles, etc.) please refer to the [Tangram ES](https://github.com/tangrams/tangram-es) documentation.
 
-### Set position, rotation, and zoom level
+## Set position, rotation, and zoom level
 
 Coming soon.
 
-### Current location
+## Current location
 
 Coming soon.
 
-### Markers
+## Markers
 
 Coming soon.
 
-### Polylines
+## Polylines
 
 Coming soon.
 
-## Install
+# Install
 
-### Download
+## Download
 
 Download the [latest AAR](https://oss.sonatype.org/content/repositories/snapshots/com/mapzen/mapzen-android-sdk/0.1.0-SNAPSHOT/).
 
-### Maven
+## Maven
 
 Include dependency using Maven.
 
@@ -92,7 +92,7 @@ Include dependency using Maven.
 </dependency>
 ```
 
-### Gradle
+## Gradle
 
 Include dependency using Gradle.
 
