@@ -29,6 +29,8 @@ public class OverlayManager {
     private static final String NAME_POLYLINE = "route";
     private static final String NAME_POLYGON = "route";
     private static final String NAME_MARKER = "reverse_geocode";
+    private static final int MIN_COORDINATES_POLYGON = 2;
+    private static final int MIN_COORDINATES_POLYLINE = 2;
 
     /**
      * For interaction with the map.
@@ -100,6 +102,10 @@ public class OverlayManager {
      * @param polyline
      */
     public MapData addPolyline(Polyline polyline) {
+        if (polyline.getCoordinates().size() < MIN_COORDINATES_POLYLINE) {
+            throw new IllegalArgumentException("Polyine must contain at least 2 points");
+        }
+
         if (polylineMapData == null) {
             polylineMapData = mapController.addDataLayer(NAME_POLYLINE);
         }
@@ -111,13 +117,22 @@ public class OverlayManager {
      * @param polygon
      */
     public MapData addPolygon(Polygon polygon) {
+        if (polygon.getCoordinates().size() < MIN_COORDINATES_POLYGON) {
+            throw new IllegalArgumentException("Polygon must contain at least 2 points");
+        }
+
         if (polygonMapData == null) {
             polygonMapData = mapController.addDataLayer(NAME_POLYGON);
         }
         List<LngLat> coords = new ArrayList<>();
         coords.addAll(polygon.getCoordinates());
         LngLat first = polygon.getCoordinates().get(0);
-        coords.add(first);
+        int size = polygon.getCoordinates().size();
+        LngLat last = polygon.getCoordinates().get(size-1);
+        boolean closed = first.equals(last);
+        if (!closed) {
+            coords.add(first);
+        }
         List allCoords = new ArrayList();
         allCoords.add(coords);
         return polygonMapData.addPolygon(allCoords, null);
@@ -129,6 +144,10 @@ public class OverlayManager {
      * @return
      */
     public MapData addMarker(Marker marker) {
+        if (marker.getLocation() == null) {
+            throw new IllegalArgumentException("Marker must contain location");
+        }
+
         if (markerMapData == null) {
             markerMapData = mapController.addDataLayer(NAME_MARKER);
         }
