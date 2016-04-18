@@ -18,8 +18,8 @@ public class MapManager {
 
     private static final int LOCATION_REQUEST_INTERVAL_MILLIS = 5000;
     private static final int LOCATION_REQUEST_DISPLACEMENT_MILLIS = 5000;
+    private static final int ANIMATION_DURATION_MILLIS = 300;
     private static final String NAME_CURRENT_LOCATION = "find_me";
-    private static final float ANIMATION_DURATION_SEC = .3f;
 
     /**
      * For interaction with the map.
@@ -82,8 +82,7 @@ public class MapManager {
     }
 
     private void addCurrentLocationMapDataToMap() {
-        currentLocationMapData = new MapData(NAME_CURRENT_LOCATION);
-        currentLocationMapData.addToMap(mapController);
+        currentLocationMapData = mapController.addDataLayer(NAME_CURRENT_LOCATION);
     }
 
     private void handleMyLocationEnabledChanged() {
@@ -129,15 +128,15 @@ public class MapManager {
     private void updateCurrentLocationMapData(final Location location) {
         currentLocationMapData.clear();
         currentLocationMapData.addPoint(convertLocation(location), null);
-        currentLocationMapData.syncWithMap();
     }
 
     private void updateMapPosition(Location location) {
         if (mapController == null) {
             return;
         }
-        mapController.setMapPosition(location.getLongitude(), location.getLatitude(),
-                ANIMATION_DURATION_SEC);
+
+        final LngLat lngLat = new LngLat(location.getLongitude(), location.getLatitude());
+        mapController.setPosition(lngLat, ANIMATION_DURATION_MILLIS);
         mapController.requestRender();
     }
 
