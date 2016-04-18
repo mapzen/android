@@ -30,6 +30,14 @@ public class MapFragment extends Fragment {
     }
 
     /**
+     * Asynchronously creates the map and configures the vector tiles API key using the given
+     * string parameter. Uses default stylesheet (bubble wrap).
+     */
+    public void getMapAsync(final MapView.OnMapReadyCallback callback, final String key) {
+        mapView.getMapAsync(callback, key);
+    }
+
+    /**
      * Synchronously creates map manager for interaction with map and location manager.
      *
      * @return newly created {@link MapManager} instance or existing instance

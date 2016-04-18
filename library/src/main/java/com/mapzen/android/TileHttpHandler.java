@@ -8,16 +8,16 @@ import com.squareup.okhttp.Request;
 /**
  * A handler responsible for appending an API key to vector tile requests.
  */
-class TileHttpHandler extends HttpHandler {
+public class TileHttpHandler extends HttpHandler {
     static final String PARAM_API_KEY = "?api_key=";
 
-    private final String apiKey;
+    private String apiKey;
 
     /**
      * Creates a new HTTP handler.
      * @param apiKey key to append to all requests.
      */
-    TileHttpHandler(String apiKey) {
+    public TileHttpHandler(String apiKey) {
         this.apiKey = apiKey;
     }
 
@@ -39,5 +39,13 @@ class TileHttpHandler extends HttpHandler {
     @Override public void onCancel(String url) {
         final String urlWithKey = url + PARAM_API_KEY + apiKey;
         super.onCancel(urlWithKey);
+    }
+
+    void setApiKey(String apiKey) {
+        this.apiKey = apiKey;
+    }
+
+    String getApiKey() {
+        return apiKey;
     }
 }
