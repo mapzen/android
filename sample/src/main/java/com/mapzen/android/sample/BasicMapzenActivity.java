@@ -1,7 +1,7 @@
 package com.mapzen.android.sample;
 
 import com.mapzen.android.MapFragment;
-import com.mapzen.android.MapManager;
+import com.mapzen.android.OverlayManager;
 import com.mapzen.android.MapView;
 import com.mapzen.tangram.MapController;
 
@@ -15,7 +15,7 @@ public class BasicMapzenActivity extends AppCompatActivity {
 
     MapFragment mapFragment;
     MapController mapController;
-    MapManager mapManager;
+    OverlayManager mapManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +32,7 @@ public class BasicMapzenActivity extends AppCompatActivity {
     }
 
     private void configureMap() {
-        mapManager = mapFragment.getMapManager();
+        mapManager = mapFragment.getOverlayManager();
         mapManager.setMyLocationEnabled(true);
     }
 }

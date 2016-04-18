@@ -1,12 +1,11 @@
 package com.mapzen.android.sample;
 
 import com.mapzen.android.MapFragment;
-import com.mapzen.android.MapManager;
-import com.mapzen.android.model.LatLng;
+import com.mapzen.android.OverlayManager;
 import com.mapzen.android.model.Polygon;
+import com.mapzen.tangram.LngLat;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.MapData;
-import com.mapzen.tangram.MapView;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,7 +17,7 @@ public class PolygonMapzenActivity extends AppCompatActivity {
 
     MapFragment mapFragment;
     MapController mapController;
-    MapManager overlayManager;
+    OverlayManager overlayManager;
     MapData polygonData;
 
     @Override
@@ -36,17 +35,17 @@ public class PolygonMapzenActivity extends AppCompatActivity {
     }
 
     private void configureMap() {
-        overlayManager = mapFragment.getMapManager();
+        overlayManager = mapFragment.getOverlayManager();
         Polygon polygon = new Polygon.Builder()
-                .add(new LatLng(40.74433, -73.9903))
-                .add(new LatLng(40.734807, -73.984770))
-                .add(new LatLng(40.732172, -73.998674))
-                .add(new LatLng(40.741050, -73.996142))
+                .add(new LngLat(-73.9903, 40.74433))
+                .add(new LngLat(-73.984770, 40.734807))
+                .add(new LngLat(-73.998674, 40.732172))
+                .add(new LngLat(-73.996142, 40.741050))
                 .build();
         polygonData = overlayManager.addPolygon(polygon);
 
-        //mapController.setMapZoom(17f);
-        overlayManager.setMyLocationEnabled(true);
+        mapController.setZoom(15f);
+        mapController.setPosition(new LngLat(-73.9918, 40.73633));
     }
 
 

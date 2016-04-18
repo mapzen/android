@@ -24,17 +24,17 @@ import static org.mockito.Matchers.anyInt;
 
 @RunWith(PowerMockRunner.class)
 @SuppressStaticInitializationFor("com.mapzen.tangram.MapController")
-@PrepareForTest(MapManager.class)
-public class MapManagerTest {
+@PrepareForTest(OverlayManager.class)
+public class OverlayManagerTest {
 
     private MapController mapController;
-    private MapManager mapManager;
+    private OverlayManager mapManager;
 
     @Before
     public void setup() throws Exception {
         mapController = PowerMockito.mock(TestMapController.class);
         LostApiClient lostApiClient = PowerMockito.mock(LostApiClient.class);
-        mapManager = PowerMockito.spy(new MapManager(mapController, lostApiClient));
+        mapManager = PowerMockito.spy(new OverlayManager(mapController, lostApiClient));
         PowerMockito.doNothing().when(mapManager, "addCurrentLocationMapDataToMap");
         PowerMockito.doNothing().when(mapManager, "handleMyLocationEnabledChanged");
     }

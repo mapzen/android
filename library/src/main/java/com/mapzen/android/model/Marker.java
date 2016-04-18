@@ -1,27 +1,28 @@
 package com.mapzen.android.model;
 
+import com.mapzen.tangram.LngLat;
 
 /**
  * Represents a pin marker on a map.
  */
 public class Marker {
 
-    private final LatLng latLng;
+    private final LngLat latLng;
 
     /**
      * Constructs a new object.
      * @param latitude
      * @param longitude
      */
-    public Marker(double latitude, double longitude) {
-        this.latLng = new LatLng(latitude, longitude);
+    public Marker(double longitude, double latitude) {
+        this.latLng = new LngLat(longitude, latitude);
     }
 
     /**
      * Return the marker's coordinate location.
      * @return
      */
-    public LatLng getLocation() {
+    public LngLat getLocation() {
         return latLng;
     }
 

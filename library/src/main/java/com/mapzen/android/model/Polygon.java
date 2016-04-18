@@ -1,6 +1,8 @@
 package com.mapzen.android.model;
 
 
+import com.mapzen.tangram.LngLat;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,13 +11,13 @@ import java.util.List;
  */
 public class Polygon {
 
-    private final List<LatLng> coordinates;
+    private final List<LngLat> coordinates;
 
     /**
      * Construct a new polygon.
      * @param coordinates
      */
-    public Polygon(List<LatLng> coordinates) {
+    public Polygon(List<LngLat> coordinates) {
         this.coordinates = coordinates;
     }
 
@@ -23,7 +25,7 @@ public class Polygon {
      * Polygon's builder class.
      */
     public static class Builder {
-        private List<LatLng> coordinates = new ArrayList<>();
+        private List<LngLat> coordinates = new ArrayList<>();
 
         /**
          * Construct a new builder.
@@ -36,7 +38,7 @@ public class Polygon {
          * @param c
          * @return
          */
-        public Builder add(LatLng c) {
+        public Builder add(LngLat c) {
             coordinates.add(c);
             return this;
         }
@@ -55,7 +57,7 @@ public class Polygon {
      * Get the coordinate pair.
      * @return
      */
-    public List<LatLng> getCoordinates() {
+    public List<LngLat> getCoordinates() {
         return coordinates;
     }
 
