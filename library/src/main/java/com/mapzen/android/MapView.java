@@ -39,10 +39,23 @@ public class MapView extends com.mapzen.tangram.MapView {
     }
 
     /**
-     * Load map asynchronously.
+     * Load map asynchronously using APK key declared in XML resources. For example:
+     * {@code <string name="vector_tiles_key">[YOUR_VECTOR_TILES_KEY]</string>}
+     *
+     * @param callback listener to be invoked when map is initialized and ready to use.
      */
     public void getMapAsync(@NonNull OnMapReadyCallback callback) {
         mapInitializer.init(this, callback);
+    }
+
+    /**
+     * Load map asynchronously using given API key.
+     *
+     * @param callback listener to be invoked when map is initialized and ready to use.
+     * @param key vector tiles API key that should be used to load map tiles.
+     */
+    public void getMapAsync(@NonNull OnMapReadyCallback callback, @NonNull String key) {
+        mapInitializer.init(this, callback, key);
     }
 
     /**

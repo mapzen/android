@@ -1,5 +1,6 @@
 package com.mapzen.android.dagger;
 
+import com.mapzen.android.MapInitializer;
 import com.mapzen.android.MapView;
 
 import android.content.Context;
@@ -18,10 +19,8 @@ class DependencyInjector {
     @Singleton
     @Component(modules = { AndroidModule.class, CommonModule.class })
     public interface LibraryComponent {
-        /**
-         * Inject dependencies into {@link MapView} component.
-         */
         void inject(MapView mapView);
+        void inject(MapInitializer mapInitializer);
     }
 
     private LibraryComponent component;

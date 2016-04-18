@@ -33,4 +33,13 @@ public class MapViewTest {
         mapView.getMapAsync(callback);
         verify(mapInitializer, times(1)).init(mapView, callback);
     }
+
+    @Test public void getMapAsync_shouldInvokeMapInitializerWithApiKey() throws Exception {
+        final MapInitializer mapInitializer = mock(MapInitializer.class);
+        final MapView.OnMapReadyCallback callback = new TestCallback();
+        final String key = "vector-tiles-test-key";
+        mapView.mapInitializer = mapInitializer;
+        mapView.getMapAsync(callback, key);
+        verify(mapInitializer, times(1)).init(mapView, callback, key);
+    }
 }
