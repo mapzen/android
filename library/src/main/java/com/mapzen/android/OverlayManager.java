@@ -64,8 +64,8 @@ public class OverlayManager {
 
     private MapData markerMapData;
     /**
-     * Create a new {@link MapController} object for handling functionality between map and location
-     * services using the {@link LocationFactory}'s shared {@link LostApiClient}.
+     * Create a new {@link OverlayManager} object for handling functionality between map and
+     * location services using the {@link LocationFactory}'s shared {@link LostApiClient}.
      * @param context
      * @param mapController
      */
@@ -75,8 +75,8 @@ public class OverlayManager {
     }
 
     /**
-     * Create a new {@link MapController} object for handling functionality between map and location
-     * services.
+     * Create a new {@link OverlayManager} object for handling functionality between map and
+     * location services.
      * @param mapController
      * @param lostApiClient
      */

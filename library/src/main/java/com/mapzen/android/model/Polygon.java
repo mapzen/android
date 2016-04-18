@@ -9,16 +9,13 @@ import java.util.List;
 /**
  * Polygon to be drawn on a map.
  */
-public class Polygon {
-
-    private final List<LngLat> coordinates;
+public class Polygon extends Polyline {
 
     /**
-     * Construct a new polygon.
-     * @param coordinates
+     * Constructs a new {@link Polyline} object.
      */
     public Polygon(List<LngLat> coordinates) {
-        this.coordinates = coordinates;
+        super(coordinates);
     }
 
     /**
@@ -53,29 +50,4 @@ public class Polygon {
         }
     }
 
-    /**
-     * Get the coordinate pair.
-     * @return
-     */
-    public List<LngLat> getCoordinates() {
-        return coordinates;
-    }
-
-    @Override public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        Polygon polygon = (Polygon) o;
-
-        return !(coordinates != null ? !coordinates.equals(polygon.coordinates)
-                : polygon.coordinates != null);
-    }
-
-    @Override public int hashCode() {
-        return coordinates != null ? coordinates.hashCode() : 0;
-    }
 }
