@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -30,8 +31,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyFloat;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyMap;
+import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyString;
+
 
 @RunWith(PowerMockRunner.class)
 @SuppressStaticInitializationFor("com.mapzen.tangram.MapController")
@@ -107,9 +109,8 @@ public class OverlayManagerTest {
     public void addPolyline_shouldReturnMapData() throws Exception {
         PowerMockito.doReturn(Mockito.mock(MapData.class)).when(mapController, "addDataLayer",
                 anyString());
-        Field mapDataField = Whitebox.getField(OverlayManager.class, "polylineMapData");
-        PowerMockito.doReturn(Mockito.mock(MapData.class)).when(mapDataField, "addPolyline",
-                Matchers.<List<LngLat>>any(), Matchers.<Map<String, String>>any());
+        PowerMockito.doReturn(Mockito.mock(MapData.class)).when(overlayManager,
+                "addPolylineToPolylineMapData", anyList());
 
         Polyline polyline = new Polyline.Builder()
                 .add(new LngLat(-73.9903, 40.74433))
@@ -134,9 +135,8 @@ public class OverlayManagerTest {
     public void addPolygon_shouldReturnMapData() throws Exception {
         PowerMockito.doReturn(Mockito.mock(MapData.class)).when(mapController, "addDataLayer",
                 anyString());
-        Field mapDataField = Whitebox.getField(OverlayManager.class, "polygonMapData");
-        PowerMockito.doReturn(Mockito.mock(MapData.class)).when(mapDataField, "addPolygon",
-                Matchers.<List<List<LngLat>>>any(), Matchers.<Map<String, String>>any());
+        PowerMockito.doReturn(Mockito.mock(MapData.class)).when(overlayManager,
+                "addPolygonToPolygonMapData", anyList());
 
         Polygon polygon = new Polygon.Builder()
                 .add(new LngLat(-73.9903, 40.74433))
@@ -161,10 +161,8 @@ public class OverlayManagerTest {
     public void addMarker_shouldReturnMapData() throws Exception {
         PowerMockito.doReturn(Mockito.mock(MapData.class)).when(mapController, "addDataLayer",
                 anyString());
-        //Field mapDataField = Whitebox.getField(OverlayManager.class, "markerMapData");
-        MapData mapDataMock = Mockito.mock(MapData.class);
-        PowerMockito.doReturn(Mockito.mock(MapData.class)).when(mapDataMock, "addPoint",
-                any(LngLat.class), anyMap());
+        PowerMockito.doReturn(Mockito.mock(MapData.class)).when(overlayManager,
+                "addPointToMarkerMapData", any(Marker.class));
 
         Marker marker = new Marker(-73.9903, 40.74433);
         MapData markerMapData = overlayManager.addMarker(marker);
