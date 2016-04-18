@@ -49,7 +49,7 @@ public class MapFragment extends Fragment {
         if (overlayManager != null) {
             return overlayManager;
         }
-        overlayManager = new OverlayManager(getContext(), mapView.mapController);
+        overlayManager = new OverlayManager(getContext(), mapView.mapController, mapView);
         return overlayManager;
     }
 

@@ -2,7 +2,10 @@ package com.mapzen.android;
 
 import com.mapzen.tangram.MapController;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
+import org.powermock.api.mockito.PowerMockito;
 
 import static com.mapzen.android.TestHelper.getMockContext;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -11,7 +14,12 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 public class MapViewTest {
-    private MapView mapView = new MapView(getMockContext());
+    private MapView mapView;
+
+    @Before public void setup() throws Exception {
+        mapView = PowerMockito.spy(new MapView(getMockContext()));
+        Mockito.when(mapView.getTangramMap()).thenReturn(mock(TangramMap.class));
+    }
 
     @Test public void shouldNotBeNull() throws Exception {
         assertThat(mapView).isNotNull();

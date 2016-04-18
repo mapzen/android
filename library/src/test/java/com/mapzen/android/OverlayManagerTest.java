@@ -41,7 +41,9 @@ public class OverlayManagerTest {
     public void setup() throws Exception {
         mapController = PowerMockito.mock(TestMapController.class);
         LostApiClient lostApiClient = PowerMockito.mock(LostApiClient.class);
-        overlayManager = PowerMockito.spy(new OverlayManager(mapController, lostApiClient));
+        MapView mapView = PowerMockito.mock(MapView.class);
+        overlayManager = PowerMockito.spy(new OverlayManager(mapController, lostApiClient,
+                mapView));
         PowerMockito.doNothing().when(overlayManager, "initCurrentLocationMapData");
         PowerMockito.doNothing().when(overlayManager, "handleMyLocationEnabledChanged");
     }

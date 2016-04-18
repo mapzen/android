@@ -13,6 +13,8 @@ import com.mapzen.tangram.MapData;
 
 import android.content.Context;
 import android.location.Location;
+import android.view.View;
+import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +43,10 @@ public class OverlayManager {
      */
     private LostApiClient lostApiClient;
     /**
+     * For interaction with map ui objects such as the "find me" button.
+     */
+    private MapView mapView;
+    /**
      * Object to hold current location information to be displayed on map.
      */
     private MapData currentLocationMapData;
@@ -49,11 +55,16 @@ public class OverlayManager {
      */
     private boolean myLocationEnabled;
 
+    boolean locationReqested = false;
+
     /**
      * Receives location updates for {@link LostApiClient}.
      */
     LocationListener locationListener = new LocationListener() {
         @Override public void onLocationChanged(Location location) {
+            if (!locationReqested) {
+                return;
+            }
             handleLocationChange(location);
         }
     };
@@ -68,10 +79,12 @@ public class OverlayManager {
      * location services using the {@link LocationFactory}'s shared {@link LostApiClient}.
      * @param context
      * @param mapController
+     * @param mapView
      */
-    public OverlayManager(Context context, MapController mapController) {
+    public OverlayManager(Context context, MapController mapController, MapView mapView) {
         this.mapController = mapController;
         this.lostApiClient = LocationFactory.sharedClient(context);
+        this.mapView = mapView;
     }
 
     /**
@@ -79,10 +92,13 @@ public class OverlayManager {
      * location services.
      * @param mapController
      * @param lostApiClient
+     * @param mapView
      */
-    public OverlayManager(MapController mapController, LostApiClient lostApiClient) {
+    public OverlayManager(MapController mapController, LostApiClient lostApiClient,
+            MapView mapView) {
         this.mapController = mapController;
         this.lostApiClient = lostApiClient;
+        this.mapView = mapView;
     }
 
     /**
@@ -181,10 +197,31 @@ public class OverlayManager {
         if (myLocationEnabled) {
             lostApiClient.connect();
             showLastKnownLocation();
+            showFindMe();
             requestLocationUpdates();
         } else {
+            hideFindMe();
             removeLocationUpdates();
         }
+    }
+
+    private void showFindMe() {
+        ImageButton button = mapView.showFindMe();
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                centerMap();
+            }
+        });
+    }
+
+    private void hideFindMe() {
+        mapView.hideFindMe();
+        locationReqested = false;
+    }
+
+    private void centerMap() {
+        locationReqested = true;
+        showLastKnownLocation();
     }
 
     private void showLastKnownLocation() {
@@ -210,9 +247,10 @@ public class OverlayManager {
     }
 
     private void handleLocationChange(Location location) {
-        if (!myLocationEnabled) {
+        if (!myLocationEnabled || !locationReqested) {
             return;
         }
+        locationReqested = false;
         updateCurrentLocationMapData(location);
         updateMapPosition(location);
     }

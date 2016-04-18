@@ -2,6 +2,7 @@ package com.mapzen.android;
 
 import com.mapzen.tangram.MapController;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import static com.mapzen.android.TestHelper.getMockContext;
@@ -13,8 +14,12 @@ public class TestMapView extends MapView {
     }
 
     @Override public void getMapAsync(
-            @NonNull com.mapzen.tangram.MapView.OnMapReadyCallback callback,
-            @NonNull final String sceneFilePath) {
+            @NonNull OnMapReadyCallback callback,
+            @NonNull String sceneFilePath) {
         callback.onMapReady(mock(MapController.class));
+    }
+
+    @Override public TangramMap getTangramMap() {
+        return new TestTangramMapView(mock(Context.class));
     }
 }
