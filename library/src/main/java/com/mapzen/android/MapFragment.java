@@ -20,7 +20,7 @@ public class MapFragment extends Fragment {
     private static final String RES_TYPE = "string";
 
     private Activity activity;
-    private OverlayManager mapManager;
+    private MapManager mapManager;
     private MapController mapController;
 
     MapView mapView;
@@ -57,16 +57,16 @@ public class MapFragment extends Fragment {
     /**
      * Synchronously creates map manager for interaction with map and location manager.
      *
-     * @return newly created {@link OverlayManager} instance or existing instance
+     * @return newly created {@link MapManager} instance or existing instance
      */
-    public OverlayManager getMapManager() {
+    public MapManager getMapManager() {
         if (mapController == null) {
             return null;
         }
         if (mapManager != null) {
             return mapManager;
         }
-        mapManager = new OverlayManager(getContext(), mapController);
+        mapManager = new MapManager(getContext(), mapController);
         return mapManager;
     }
 

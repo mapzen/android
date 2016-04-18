@@ -1,7 +1,7 @@
 package com.mapzen.android.sample;
 
 import com.mapzen.android.MapFragment;
-import com.mapzen.android.OverlayManager;
+import com.mapzen.android.MapManager;
 import com.mapzen.android.model.LatLng;
 import com.mapzen.android.model.Polygon;
 import com.mapzen.tangram.MapController;
@@ -18,7 +18,7 @@ public class PolygonMapzenActivity extends AppCompatActivity {
 
     MapFragment mapFragment;
     MapController mapController;
-    OverlayManager overlayManager;
+    MapManager overlayManager;
     MapData polygonData;
 
     @Override

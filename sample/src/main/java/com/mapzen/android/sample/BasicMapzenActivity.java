@@ -1,7 +1,7 @@
 package com.mapzen.android.sample;
 
 import com.mapzen.android.MapFragment;
-import com.mapzen.android.OverlayManager;
+import com.mapzen.android.MapManager;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.MapView;
 
@@ -16,7 +16,7 @@ public class BasicMapzenActivity extends AppCompatActivity {
 
     MapFragment mapFragment;
     MapController mapController;
-    OverlayManager mapManager;
+    MapManager mapManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

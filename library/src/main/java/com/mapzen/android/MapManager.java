@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Adds functionality to {@link MapController} map by way of {@link LostApiClient}.
  */
-public class OverlayManager {
+public class MapManager {
 
     private static final int LOCATION_REQUEST_INTERVAL_MILLIS = 5000;
     private static final int LOCATION_REQUEST_DISPLACEMENT_MILLIS = 5000;
@@ -70,7 +70,7 @@ public class OverlayManager {
      * @param context
      * @param mapController
      */
-    public OverlayManager(Context context, MapController mapController) {
+    public MapManager(Context context, MapController mapController) {
         this.mapController = mapController;
         this.lostApiClient = LocationFactory.sharedClient(context);
     }
@@ -81,7 +81,7 @@ public class OverlayManager {
      * @param mapController
      * @param lostApiClient
      */
-    public OverlayManager(MapController mapController, LostApiClient lostApiClient) {
+    public MapManager(MapController mapController, LostApiClient lostApiClient) {
         this.mapController = mapController;
         this.lostApiClient = lostApiClient;
     }
