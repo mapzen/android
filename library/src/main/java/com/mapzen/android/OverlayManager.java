@@ -92,7 +92,7 @@ public class OverlayManager {
     public void setMyLocationEnabled(boolean enabled) {
         myLocationEnabled = enabled;
         if (currentLocationMapData == null) {
-            currentLocationMapData = mapController.addDataLayer(NAME_CURRENT_LOCATION);
+            initCurrentLocationMapData();
         }
         handleMyLocationEnabledChanged();
     }
@@ -102,12 +102,16 @@ public class OverlayManager {
      * @param polyline
      */
     public MapData addPolyline(Polyline polyline) {
+        if (polyline == null) {
+            throw new IllegalArgumentException("Must provide marker when calling "
+                    + "MapData#addPolyline");
+        }
         if (polyline.getCoordinates().size() < MIN_COORDINATES_POLYLINE) {
             throw new IllegalArgumentException("Polyine must contain at least 2 points");
         }
 
         if (polylineMapData == null) {
-            polylineMapData = mapController.addDataLayer(NAME_POLYLINE);
+            initPolylineMapData();
         }
         return polylineMapData.addPolyline(polyline.getCoordinates(), null);
     }
@@ -117,18 +121,23 @@ public class OverlayManager {
      * @param polygon
      */
     public MapData addPolygon(Polygon polygon) {
+        if (polygon == null) {
+            throw new IllegalArgumentException("Must provide marker when calling "
+                    + "MapData#addPolygon");
+        }
         if (polygon.getCoordinates().size() < MIN_COORDINATES_POLYGON) {
             throw new IllegalArgumentException("Polygon must contain at least 2 points");
         }
 
         if (polygonMapData == null) {
-            polygonMapData = mapController.addDataLayer(NAME_POLYGON);
+            initPolygonMapData();
         }
+
         List<LngLat> coords = new ArrayList<>();
         coords.addAll(polygon.getCoordinates());
         LngLat first = polygon.getCoordinates().get(0);
         int size = polygon.getCoordinates().size();
-        LngLat last = polygon.getCoordinates().get(size-1);
+        LngLat last = polygon.getCoordinates().get(size - 1);
         boolean closed = first.equals(last);
         if (!closed) {
             coords.add(first);
@@ -144,12 +153,13 @@ public class OverlayManager {
      * @return
      */
     public MapData addMarker(Marker marker) {
-        if (marker.getLocation() == null) {
-            throw new IllegalArgumentException("Marker must contain location");
+        if (marker == null) {
+            throw new IllegalArgumentException("Must provide marker when calling "
+                    + "MapData#addMarker");
         }
 
         if (markerMapData == null) {
-            markerMapData = mapController.addDataLayer(NAME_MARKER);
+            initMarkerMapData();
         }
         return markerMapData.addPoint(marker.getLocation(), null);
     }
@@ -163,7 +173,7 @@ public class OverlayManager {
         }
     }
 
-    private void addCurrentLocationMapDataToMap() {
+    private void initCurrentLocationMapData() {
         currentLocationMapData = mapController.addDataLayer(NAME_CURRENT_LOCATION);
     }
 
@@ -224,5 +234,17 @@ public class OverlayManager {
 
     private LngLat convertLocation(Location location) {
         return new LngLat(location.getLongitude(), location.getLatitude());
+    }
+
+    private void initPolylineMapData() {
+        polylineMapData = mapController.addDataLayer(NAME_POLYLINE);
+    }
+
+    private void initPolygonMapData() {
+        polygonMapData = mapController.addDataLayer(NAME_POLYGON);
+    }
+
+    private void initMarkerMapData() {
+        markerMapData = mapController.addDataLayer(NAME_MARKER);
     }
 }

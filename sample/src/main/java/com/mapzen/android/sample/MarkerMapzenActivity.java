@@ -11,7 +11,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 /**
- * Show map markers
+ * Show map markers.
  */
 public class MarkerMapzenActivity extends AppCompatActivity {
     MapFragment mapFragment;
