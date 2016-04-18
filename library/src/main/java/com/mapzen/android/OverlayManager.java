@@ -4,6 +4,9 @@ import com.mapzen.android.lost.api.LocationListener;
 import com.mapzen.android.lost.api.LocationRequest;
 import com.mapzen.android.lost.api.LocationServices;
 import com.mapzen.android.lost.api.LostApiClient;
+import com.mapzen.android.model.Marker;
+import com.mapzen.android.model.Polygon;
+import com.mapzen.android.model.Polyline;
 import com.mapzen.tangram.LngLat;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.MapData;
@@ -11,15 +14,23 @@ import com.mapzen.tangram.MapData;
 import android.content.Context;
 import android.location.Location;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Adds functionality to {@link MapController} map by way of {@link LostApiClient}.
  */
-public class MapManager {
+public class OverlayManager {
 
     private static final int LOCATION_REQUEST_INTERVAL_MILLIS = 5000;
     private static final int LOCATION_REQUEST_DISPLACEMENT_MILLIS = 5000;
     private static final int ANIMATION_DURATION_MILLIS = 300;
     private static final String NAME_CURRENT_LOCATION = "find_me";
+    private static final String NAME_POLYLINE = "route";
+    private static final String NAME_POLYGON = "route";
+    private static final String NAME_MARKER = "reverse_geocode";
+    private static final int MIN_COORDINATES_POLYGON = 2;
+    private static final int MIN_COORDINATES_POLYLINE = 2;
 
     /**
      * For interaction with the map.
@@ -47,24 +58,29 @@ public class MapManager {
         }
     };
 
+    private MapData polylineMapData;
+
+    private MapData polygonMapData;
+
+    private MapData markerMapData;
     /**
-     * Create a new {@link MapController} object for handling functionality between map and location
-     * services using the {@link LocationFactory}'s shared {@link LostApiClient}.
+     * Create a new {@link OverlayManager} object for handling functionality between map and
+     * location services using the {@link LocationFactory}'s shared {@link LostApiClient}.
      * @param context
      * @param mapController
      */
-    public MapManager(Context context, MapController mapController) {
+    public OverlayManager(Context context, MapController mapController) {
         this.mapController = mapController;
         this.lostApiClient = LocationFactory.sharedClient(context);
     }
 
     /**
-     * Create a new {@link MapController} object for handling functionality between map and location
-     * services.
+     * Create a new {@link OverlayManager} object for handling functionality between map and
+     * location services.
      * @param mapController
      * @param lostApiClient
      */
-    public MapManager(MapController mapController, LostApiClient lostApiClient) {
+    public OverlayManager(MapController mapController, LostApiClient lostApiClient) {
         this.mapController = mapController;
         this.lostApiClient = lostApiClient;
     }
@@ -76,12 +92,88 @@ public class MapManager {
     public void setMyLocationEnabled(boolean enabled) {
         myLocationEnabled = enabled;
         if (currentLocationMapData == null) {
-            addCurrentLocationMapDataToMap();
+            initCurrentLocationMapData();
         }
         handleMyLocationEnabledChanged();
     }
 
-    private void addCurrentLocationMapDataToMap() {
+    /**
+     * Adds a polyline to the map.
+     * @param polyline
+     */
+    public MapData addPolyline(Polyline polyline) {
+        if (polyline == null) {
+            throw new IllegalArgumentException("Must provide marker when calling "
+                    + "MapData#addPolyline");
+        }
+        if (polyline.getCoordinates().size() < MIN_COORDINATES_POLYLINE) {
+            throw new IllegalArgumentException("Polyine must contain at least 2 points");
+        }
+
+        if (polylineMapData == null) {
+            initPolylineMapData();
+        }
+        return addPolylineToPolylineMapData(polyline.getCoordinates());
+    }
+
+    /**
+     * Adds a polygon to the map.
+     * @param polygon
+     */
+    public MapData addPolygon(Polygon polygon) {
+        if (polygon == null) {
+            throw new IllegalArgumentException("Must provide marker when calling "
+                    + "MapData#addPolygon");
+        }
+        if (polygon.getCoordinates().size() < MIN_COORDINATES_POLYGON) {
+            throw new IllegalArgumentException("Polygon must contain at least 2 points");
+        }
+
+        if (polygonMapData == null) {
+            initPolygonMapData();
+        }
+
+        List<LngLat> coords = new ArrayList<>();
+        coords.addAll(polygon.getCoordinates());
+        LngLat first = polygon.getCoordinates().get(0);
+        int size = polygon.getCoordinates().size();
+        LngLat last = polygon.getCoordinates().get(size - 1);
+        boolean closed = first.equals(last);
+        if (!closed) {
+            coords.add(first);
+        }
+        List allCoords = new ArrayList();
+        allCoords.add(coords);
+        return addPolygonToPolygonMapData(allCoords);
+    }
+
+    /**
+     * Add a point to the map for the marker.
+     * @param marker
+     * @return
+     */
+    public MapData addMarker(Marker marker) {
+        if (marker == null) {
+            throw new IllegalArgumentException("Must provide marker when calling "
+                    + "MapData#addMarker");
+        }
+
+        if (markerMapData == null) {
+            initMarkerMapData();
+        }
+        return addPointToMarkerMapData(marker);
+    }
+
+    /**
+     * You must call this method from your activity or fragment.
+     */
+    public void onDestroy() {
+        if (currentLocationMapData != null) {
+            currentLocationMapData.clear();
+        }
+    }
+
+    private void initCurrentLocationMapData() {
         currentLocationMapData = mapController.addDataLayer(NAME_CURRENT_LOCATION);
     }
 
@@ -144,10 +236,27 @@ public class MapManager {
         return new LngLat(location.getLongitude(), location.getLatitude());
     }
 
-    /**
-     * You must call this method from your activity or fragment.
-     */
-    public void onDestroy() {
-        currentLocationMapData.clear();
+    private void initPolylineMapData() {
+        polylineMapData = mapController.addDataLayer(NAME_POLYLINE);
+    }
+
+    private void initPolygonMapData() {
+        polygonMapData = mapController.addDataLayer(NAME_POLYGON);
+    }
+
+    private void initMarkerMapData() {
+        markerMapData = mapController.addDataLayer(NAME_MARKER);
+    }
+
+    private MapData addPolylineToPolylineMapData(List<LngLat> coordinates) {
+        return polylineMapData.addPolyline(coordinates, null);
+    }
+
+    private MapData addPolygonToPolygonMapData(List<List<LngLat>> coordinates) {
+        return polygonMapData.addPolygon(coordinates, null);
+    }
+
+    private MapData addPointToMarkerMapData(Marker marker) {
+        return markerMapData.addPoint(marker.getLocation(), null);
     }
 }

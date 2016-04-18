@@ -13,7 +13,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".BasicMapzenActivity"/>
-        <activity android:name=".CircleMapzenActivity"/>
+        <activity android:name=".MarkerMapzenActivity"/>
         <activity android:name=".PolylineMapzenActivity"/>
         <activity android:name=".PolygonMapzenActivity"/>
     </application>

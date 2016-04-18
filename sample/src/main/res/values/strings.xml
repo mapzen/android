@@ -10,4 +10,6 @@
     <string name="polyline_map_demo_description">Adds a polyline to map</string>
     <string name="polygon_map_demo_label">Polygon</string>
     <string name="polygon_map_demo_description">Adds a polygon to map</string>
+    <string name="marker_map_demo_label">Marker</string>
+    <string name="marker_map_demo_description">Adds markers to map</string>
 </resources>
