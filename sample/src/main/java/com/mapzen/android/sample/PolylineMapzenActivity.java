@@ -27,7 +27,7 @@ public class PolylineMapzenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sample_mapzen);
 
         mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
-        mapFragment.getMapAsync(new MapView.OnMapReadyCallback() {
+        mapFragment.getMapAsync(new com.mapzen.android.MapView.OnMapReadyCallback() {
             @Override public void onMapReady(MapController mapController) {
                 PolylineMapzenActivity.this.mapController = mapController;
                 configureMap();

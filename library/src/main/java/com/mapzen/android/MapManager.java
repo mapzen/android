@@ -155,6 +155,10 @@ public class MapManager {
         }
     }
 
+    private void addCurrentLocationMapDataToMap() {
+        currentLocationMapData = mapController.addDataLayer(NAME_CURRENT_LOCATION);
+    }
+
     private void handleMyLocationEnabledChanged() {
         if (myLocationEnabled) {
             lostApiClient.connect();
@@ -204,7 +208,8 @@ public class MapManager {
         if (mapController == null) {
             return;
         }
-        LngLat lngLat = new LngLat(location.getLongitude(), location.getLatitude());
+
+        final LngLat lngLat = new LngLat(location.getLongitude(), location.getLatitude());
         mapController.setPosition(lngLat, ANIMATION_DURATION_MILLIS);
         mapController.requestRender();
     }

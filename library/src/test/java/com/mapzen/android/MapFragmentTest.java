@@ -1,8 +1,6 @@
 package com.mapzen.android;
 
 import com.mapzen.tangram.MapController;
-import com.mapzen.tangram.MapView;
-import com.mapzen.tangram.TestMapController;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -57,23 +55,5 @@ public class MapFragmentTest {
         TestCallback callback = new TestCallback();
         mapFragment.getMapAsync(callback);
         Mockito.verify(callback.map, times(1)).setHttpHandler((TileHttpHandler) Mockito.any());
-    }
-
-    class TestCallback implements MapView.OnMapReadyCallback {
-        MapController map;
-
-        @Override public void onMapReady(MapController mapController) {
-            map = mapController;
-        }
-    }
-
-    class TestMapView extends MapView {
-        public TestMapView() {
-            super(null);
-        }
-
-        @Override public void getMapAsync(OnMapReadyCallback callback, String sceneFilePath) {
-            callback.onMapReady(mock(TestMapController.class));
-        }
     }
 }
