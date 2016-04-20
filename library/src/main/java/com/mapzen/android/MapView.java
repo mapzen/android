@@ -8,15 +8,15 @@ import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 
 import javax.inject.Inject;
 
 /**
  * Wrapper for Tangram MapView that initializes {@link MapController} for client applications.
  */
-public class MapView extends FrameLayout {
+public class MapView extends RelativeLayout {
     @Inject MapInitializer mapInitializer;
 
     TangramMap tangramMap;
