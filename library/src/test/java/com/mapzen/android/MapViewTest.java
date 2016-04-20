@@ -4,7 +4,6 @@ import com.mapzen.tangram.MapController;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 
 import static com.mapzen.android.TestHelper.getMockContext;
@@ -12,13 +11,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class MapViewTest {
     private MapView mapView;
 
     @Before public void setup() throws Exception {
         mapView = PowerMockito.spy(new MapView(getMockContext()));
-        Mockito.when(mapView.getTangramMap()).thenReturn(mock(TangramMap.class));
+        when(mapView.getTangramMapView()).thenReturn(mock(TangramMapView.class));
     }
 
     @Test public void shouldNotBeNull() throws Exception {

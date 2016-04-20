@@ -19,7 +19,7 @@ public class TestMapView extends MapView {
         callback.onMapReady(mock(MapController.class));
     }
 
-    @Override public TangramMap getTangramMap() {
+    @Override public TangramMapView getTangramMapView() {
         return new TestTangramMapView(mock(Context.class));
     }
 }

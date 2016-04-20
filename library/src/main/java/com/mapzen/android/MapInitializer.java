@@ -37,8 +37,8 @@ public class MapInitializer {
         loadMap(mapView, callback);
     }
 
-    private TangramMap getTangramView(final MapView mapView) {
-        return mapView.getTangramMap();
+    private TangramMapView getTangramView(final MapView mapView) {
+        return mapView.getTangramMapView();
     }
 
     private void loadMap(final MapView mapView, final MapView.OnMapReadyCallback callback) {
