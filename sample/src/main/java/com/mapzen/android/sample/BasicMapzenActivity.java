@@ -15,7 +15,7 @@ public class BasicMapzenActivity extends AppCompatActivity {
 
     MapFragment mapFragment;
     MapController mapController;
-    OverlayManager mapManager;
+    OverlayManager overlayManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +32,7 @@ public class BasicMapzenActivity extends AppCompatActivity {
     }
 
     private void configureMap() {
-        mapManager = mapFragment.getOverlayManager();
-        mapManager.setMyLocationEnabled(true);
+        overlayManager = mapFragment.getOverlayManager();
+        overlayManager.setMyLocationEnabled(true);
     }
 }
