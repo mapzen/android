@@ -1,4 +1,7 @@
-package com.mapzen.tangram;
+package com.mapzen.android;
+
+import com.mapzen.tangram.LngLat;
+import com.mapzen.tangram.MapController;
 
 import org.mockito.Mockito;
 

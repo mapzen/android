@@ -25,7 +25,7 @@ public class MapFragment extends Fragment {
      * Asynchronously creates the map and configures the vector tiles API key using the string
      * resource declared in the client application. Uses default stylesheet (bubble wrap).
      */
-    public void getMapAsync(final MapView.OnMapReadyCallback callback) {
+    public void getMapAsync(final OnMapReadyCallback callback) {
         mapView.getMapAsync(callback);
     }
 
@@ -33,7 +33,7 @@ public class MapFragment extends Fragment {
      * Asynchronously creates the map and configures the vector tiles API key using the given
      * string parameter. Uses default stylesheet (bubble wrap).
      */
-    public void getMapAsync(final MapView.OnMapReadyCallback callback, final String key) {
+    public void getMapAsync(final OnMapReadyCallback callback, final String key) {
         mapView.getMapAsync(callback, key);
     }
 

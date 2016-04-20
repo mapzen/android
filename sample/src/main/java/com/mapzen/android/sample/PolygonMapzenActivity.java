@@ -1,6 +1,8 @@
 package com.mapzen.android.sample;
 
 import com.mapzen.android.MapFragment;
+import com.mapzen.android.MapzenMap;
+import com.mapzen.android.OnMapReadyCallback;
 import com.mapzen.android.OverlayManager;
 import com.mapzen.android.model.Polygon;
 import com.mapzen.tangram.LngLat;
@@ -26,9 +28,9 @@ public class PolygonMapzenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sample_mapzen);
 
         mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
-        mapFragment.getMapAsync(new com.mapzen.android.MapView.OnMapReadyCallback() {
-            @Override public void onMapReady(MapController mapController) {
-                PolygonMapzenActivity.this.mapController = mapController;
+        mapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override public void onMapReady(MapzenMap map) {
+                PolygonMapzenActivity.this.mapController = map.getMapController();
                 configureMap();
             }
         });

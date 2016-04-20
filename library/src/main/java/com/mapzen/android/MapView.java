@@ -89,17 +89,6 @@ public class MapView extends RelativeLayout {
     }
 
     /**
-     * Interface for receiving a {@code MapController} once it is ready to be used.
-     */
-    public interface OnMapReadyCallback {
-        /**
-         * Called when the map is ready to be used.
-         * @param mapController A non-null {@code MapController} instance for this {@code MapView}.
-         */
-        void onMapReady(MapController mapController);
-    }
-
-    /**
      * Show button for finding user's location on map.
      * @return
      */

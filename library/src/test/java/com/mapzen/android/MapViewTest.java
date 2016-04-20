@@ -1,7 +1,5 @@
 package com.mapzen.android;
 
-import com.mapzen.tangram.MapController;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.powermock.api.mockito.PowerMockito;
@@ -26,17 +24,13 @@ public class MapViewTest {
     }
 
     @Test public void getMapAsync_shouldInjectMapInitializer() throws Exception {
-        mapView.getMapAsync(new TestCallback() {
-            @Override public void onMapReady(MapController mapController) {
-            }
-        });
-
+        mapView.getMapAsync(new TestCallback());
         assertThat(mapView.mapInitializer).isNotNull();
     }
 
     @Test public void getMapAsync_shouldInvokeMapInitializer() throws Exception {
         final MapInitializer mapInitializer = mock(MapInitializer.class);
-        final MapView.OnMapReadyCallback callback = new TestCallback();
+        final OnMapReadyCallback callback = new TestCallback();
         mapView.mapInitializer = mapInitializer;
         mapView.getMapAsync(callback);
         verify(mapInitializer, times(1)).init(mapView, callback);
@@ -44,7 +38,7 @@ public class MapViewTest {
 
     @Test public void getMapAsync_shouldInvokeMapInitializerWithApiKey() throws Exception {
         final MapInitializer mapInitializer = mock(MapInitializer.class);
-        final MapView.OnMapReadyCallback callback = new TestCallback();
+        final OnMapReadyCallback callback = new TestCallback();
         final String key = "vector-tiles-test-key";
         mapView.mapInitializer = mapInitializer;
         mapView.getMapAsync(callback, key);

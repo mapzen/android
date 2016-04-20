@@ -1,11 +1,8 @@
 package com.mapzen.android;
 
-import com.mapzen.tangram.MapController;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.powermock.core.classloader.annotations.SuppressStaticInitializationFor;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -16,6 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(PowerMockRunner.class)
@@ -44,16 +42,16 @@ public class MapFragmentTest {
     }
 
     @Test
-    public void getMap_shouldReturnMapController() throws Exception {
+    public void getMap_shouldReturnMapzenMap() throws Exception {
         TestCallback callback = new TestCallback();
         mapFragment.getMapAsync(callback);
-        assertThat(callback.map).isInstanceOf(MapController.class);
+        assertThat(callback.map).isInstanceOf(MapzenMap.class);
     }
 
     @Test
     public void getMap_shouldSetHttpHandler() throws Exception {
         TestCallback callback = new TestCallback();
         mapFragment.getMapAsync(callback);
-        Mockito.verify(callback.map, times(1)).setHttpHandler((TileHttpHandler) Mockito.any());
+        verify(callback.map.getMapController(), times(1)).setHttpHandler((TileHttpHandler) any());
     }
 }
