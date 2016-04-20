@@ -16,10 +16,10 @@ public class TestMapView extends MapView {
     @Override public void getMapAsync(
             @NonNull OnMapReadyCallback callback,
             @NonNull String sceneFilePath) {
-        callback.onMapReady(mock(MapController.class));
+        callback.onMapReady(new MapzenMap(mock(MapController.class)));
     }
 
-    @Override public TangramMap getTangramMap() {
+    @Override public TangramMapView getTangramMapView() {
         return new TestTangramMapView(mock(Context.class));
     }
 }

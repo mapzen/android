@@ -7,7 +7,6 @@ import com.mapzen.android.model.Polyline;
 import com.mapzen.tangram.LngLat;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.MapData;
-import com.mapzen.tangram.TestMapController;
 
 import org.junit.Before;
 import org.junit.Test;

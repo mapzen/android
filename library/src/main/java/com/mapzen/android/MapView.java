@@ -19,7 +19,7 @@ import javax.inject.Inject;
 public class MapView extends RelativeLayout {
     @Inject MapInitializer mapInitializer;
 
-    TangramMap tangramMap;
+    TangramMapView tangramMapView;
     ImageButton findMe;
     MapController mapController;
 
@@ -56,7 +56,7 @@ public class MapView extends RelativeLayout {
 
     @Override protected void onFinishInflate() {
         super.onFinishInflate();
-        tangramMap = (TangramMap) findViewById(R.id.map);
+        tangramMapView = (TangramMapView) findViewById(R.id.map);
         findMe = (ImageButton) findViewById(R.id.find_me);
     }
 
@@ -64,8 +64,8 @@ public class MapView extends RelativeLayout {
      * Get the underlying Tangram map object.
      * @return
      */
-    public TangramMap getTangramMap() {
-        return tangramMap;
+    public TangramMapView getTangramMapView() {
+        return tangramMapView;
     }
 
     /**
@@ -86,17 +86,6 @@ public class MapView extends RelativeLayout {
      */
     public void getMapAsync(@NonNull OnMapReadyCallback callback, @NonNull String key) {
         mapInitializer.init(this, callback, key);
-    }
-
-    /**
-     * Interface for receiving a {@code MapController} once it is ready to be used.
-     */
-    public interface OnMapReadyCallback {
-        /**
-         * Called when the map is ready to be used.
-         * @param mapController A non-null {@code MapController} instance for this {@code MapView}.
-         */
-        void onMapReady(MapController mapController);
     }
 
     /**

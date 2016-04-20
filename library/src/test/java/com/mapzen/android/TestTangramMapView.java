@@ -8,7 +8,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 
-public class TestTangramMapView extends TangramMap {
+public class TestTangramMapView extends TangramMapView {
 
     public TestTangramMapView(Context context) {
         super(context);

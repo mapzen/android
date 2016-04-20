@@ -21,32 +21,31 @@ public class MapInitializer {
     }
 
     /**
-     * Initialize map for the current {@link MapView} and notify via
-     * {@link MapView.OnMapReadyCallback}.
+     * Initialize map for the current {@link MapView} and notify via {@link OnMapReadyCallback}.
      */
-    public void init(final MapView mapView, final MapView.OnMapReadyCallback callback) {
+    public void init(final MapView mapView, final OnMapReadyCallback callback) {
         loadMap(mapView, callback);
     }
 
     /**
      * Initialize map for the current {@link MapView} with given API key and notify via
-     * {@link MapView.OnMapReadyCallback}.
+     * {@link OnMapReadyCallback}.
      */
-    public void init(final MapView mapView, final MapView.OnMapReadyCallback callback, String key) {
+    public void init(final MapView mapView, final OnMapReadyCallback callback, String key) {
         httpHandler.setApiKey(key);
         loadMap(mapView, callback);
     }
 
-    private TangramMap getTangramView(final MapView mapView) {
-        return mapView.getTangramMap();
+    private TangramMapView getTangramView(final MapView mapView) {
+        return mapView.getTangramMapView();
     }
 
-    private void loadMap(final MapView mapView, final MapView.OnMapReadyCallback callback) {
+    private void loadMap(final MapView mapView, final OnMapReadyCallback callback) {
         getTangramView(mapView).getMapAsync(new com.mapzen.tangram.MapView.OnMapReadyCallback() {
             @Override public void onMapReady(MapController mapController) {
                 mapController.setHttpHandler(httpHandler);
                 mapView.mapController = mapController;
-                callback.onMapReady(mapController);
+                callback.onMapReady(new MapzenMap(mapController));
             }
         }, DEFAULT_SCENE_FILE);
     }

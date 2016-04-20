@@ -7,21 +7,21 @@ import android.util.AttributeSet;
  * Entry point for interaction with Tangram map. Wrapped inside of {@link MapView}.
  * Do not use this class directly, instead access it via {@link MapView}.
  */
-public class TangramMap extends com.mapzen.tangram.MapView {
+public class TangramMapView extends com.mapzen.tangram.MapView {
 
     /**
-     * Creates a new {@link TangramMap}.
+     * Creates a new {@link TangramMapView}.
      * @param context
      */
-    public TangramMap(Context context) {
+    public TangramMapView(Context context) {
         super(context);
     }
 
     /**
-     * Creates a new {@link TangramMap}.
+     * Creates a new {@link TangramMapView}.
      * @param context
      */
-    public TangramMap(Context context, AttributeSet attrs) {
+    public TangramMapView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 }

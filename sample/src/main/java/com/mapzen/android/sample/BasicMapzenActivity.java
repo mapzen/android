@@ -1,8 +1,9 @@
 package com.mapzen.android.sample;
 
 import com.mapzen.android.MapFragment;
+import com.mapzen.android.MapzenMap;
+import com.mapzen.android.OnMapReadyCallback;
 import com.mapzen.android.OverlayManager;
-import com.mapzen.android.MapView;
 import com.mapzen.tangram.MapController;
 
 import android.os.Bundle;
@@ -23,9 +24,9 @@ public class BasicMapzenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sample_mapzen);
 
         mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
-        mapFragment.getMapAsync(new MapView.OnMapReadyCallback() {
-            @Override public void onMapReady(MapController mapController) {
-                BasicMapzenActivity.this.mapController = mapController;
+        mapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override public void onMapReady(MapzenMap map) {
+                BasicMapzenActivity.this.mapController = map.getMapController();
                 configureMap();
             }
         });
