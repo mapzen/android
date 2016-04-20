@@ -48,7 +48,7 @@ public class MapInitializerTest {
         final TestCallback callback = new TestCallback();
         final TestMapView mapView = new TestMapView();
         final String key = "vector-tiles-test-key";
-        mapInitializer.init(mapView, callback, key);
+        mapInitializer.init(mapView, key, callback);
         assertThat(mapInitializer.httpHandler.getApiKey()).isEqualTo(key);
     }
 }

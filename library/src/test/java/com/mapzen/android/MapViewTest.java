@@ -41,7 +41,7 @@ public class MapViewTest {
         final OnMapReadyCallback callback = new TestCallback();
         final String key = "vector-tiles-test-key";
         mapView.mapInitializer = mapInitializer;
-        mapView.getMapAsync(callback, key);
-        verify(mapInitializer, times(1)).init(mapView, callback, key);
+        mapView.getMapAsync(key, callback);
+        verify(mapInitializer, times(1)).init(mapView, key, callback);
     }
 }

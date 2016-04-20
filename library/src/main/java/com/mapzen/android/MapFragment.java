@@ -1,5 +1,7 @@
 package com.mapzen.android;
 
+import com.mapzen.android.model.MapStyle;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -28,11 +30,20 @@ public class MapFragment extends Fragment {
     }
 
     /**
+     * Asynchronously creates the map and configures the vector tiles API key using the string
+     * resource declared in the client application. Configures the stylesheet using the stylesheet
+     * parameter
+     */
+    public void getMapAsync(MapStyle mapStyle, final OnMapReadyCallback callback) {
+        mapView.getMapAsync(mapStyle, callback);
+    }
+
+    /**
      * Asynchronously creates the map and configures the vector tiles API key using the given
      * string parameter. Uses default stylesheet (bubble wrap).
      */
-    public void getMapAsync(final OnMapReadyCallback callback, final String key) {
-        mapView.getMapAsync(callback, key);
+    public void getMapAsync(final String key, final OnMapReadyCallback callback) {
+        mapView.getMapAsync(key, callback);
     }
 
     @Override public void onDestroy() {

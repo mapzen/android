@@ -4,6 +4,7 @@ import com.mapzen.android.model.Marker;
 import com.mapzen.android.model.Polygon;
 import com.mapzen.android.model.Polyline;
 import com.mapzen.tangram.LngLat;
+import com.mapzen.android.model.MapStyle;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.MapData;
 
@@ -28,15 +29,23 @@ public class MapzenMap {
     /**
      * Provides access to the underlying Tangram {@link MapController}.
      */
-    protected MapController getMapController() {
+    public MapController getMapController() {
         return mapController;
     }
 
     /**
      * Provides access to the underlying {@link OverlayManager}.
      */
-    protected OverlayManager getOverlayManager() {
+    public OverlayManager getOverlayManager() {
         return overlayManager;
+    }
+
+    /**
+     * Sets the map's underlying stylesheet.
+     * @param mapStyle
+     */
+    public void setStyle(MapStyle mapStyle) {
+        mapController.loadSceneFile(MapStyleToSceneFile.MAP_STYLE_TO_SCENE_FILE.get(mapStyle));
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.mapzen.android;
 
 import com.mapzen.android.dagger.DI;
+import com.mapzen.android.model.MapStyle;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -77,13 +78,36 @@ public class MapView extends RelativeLayout {
     }
 
     /**
+     * Load map asynchronously using APK key declared in XML resources. For example:
+     * {@code <string name="vector_tiles_key">[YOUR_VECTOR_TILES_KEY]</string>}
+     *
+     * @param callback listener to be invoked when map is initialized and ready to use.
+     * @param mapStyle mapStyle that should be set
+     */
+    public void getMapAsync(MapStyle mapStyle, @NonNull OnMapReadyCallback callback) {
+        mapInitializer.init(this, mapStyle, callback);
+    }
+
+    /**
      * Load map asynchronously using given API key.
      *
      * @param callback listener to be invoked when map is initialized and ready to use.
      * @param key vector tiles API key that should be used to load map tiles.
      */
-    public void getMapAsync(@NonNull OnMapReadyCallback callback, @NonNull String key) {
-        mapInitializer.init(this, callback, key);
+    public void getMapAsync(@NonNull String key, @NonNull OnMapReadyCallback callback) {
+        mapInitializer.init(this, key, callback);
+    }
+
+    /**
+     * Load map asynchronously using given API key.
+     *
+     * @param callback listener to be invoked when map is initialized and ready to use.
+     * @param key vector tiles API key that should be used to load map tiles.
+     * @param mapStyle mapStyle that should be set
+     */
+    public void getMapAsync(@NonNull String key,
+            MapStyle mapStyle, @NonNull OnMapReadyCallback callback) {
+        mapInitializer.init(this, key, mapStyle, callback);
     }
 
     /**
