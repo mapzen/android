@@ -54,3 +54,7 @@ Coming soon.
 ## Polylines
 
 Coming soon.
+
+## Switching styles?
+
+Coming soon.
