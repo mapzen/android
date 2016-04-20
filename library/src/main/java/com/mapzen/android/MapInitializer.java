@@ -37,8 +37,12 @@ public class MapInitializer {
         loadMap(mapView, callback);
     }
 
+    private TangramMap getTangramView(final MapView mapView) {
+        return mapView.getTangramMap();
+    }
+
     private void loadMap(final MapView mapView, final MapView.OnMapReadyCallback callback) {
-        mapView.getMapAsync(new com.mapzen.tangram.MapView.OnMapReadyCallback() {
+        getTangramView(mapView).getMapAsync(new com.mapzen.tangram.MapView.OnMapReadyCallback() {
             @Override public void onMapReady(MapController mapController) {
                 mapController.setHttpHandler(httpHandler);
                 mapView.mapController = mapController;

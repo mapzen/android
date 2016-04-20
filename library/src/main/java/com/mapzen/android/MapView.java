@@ -6,15 +6,21 @@ import com.mapzen.tangram.MapController;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 
 import javax.inject.Inject;
 
 /**
  * Wrapper for Tangram MapView that initializes {@link MapController} for client applications.
  */
-public class MapView extends com.mapzen.tangram.MapView {
+public class MapView extends RelativeLayout {
     @Inject MapInitializer mapInitializer;
 
+    TangramMap tangramMap;
+    ImageButton findMe;
     MapController mapController;
 
     /**
@@ -23,6 +29,7 @@ public class MapView extends com.mapzen.tangram.MapView {
     public MapView(Context context) {
         super(context);
         initDI(context);
+        initViews(context);
     }
 
     /**
@@ -31,11 +38,34 @@ public class MapView extends com.mapzen.tangram.MapView {
     public MapView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initDI(context);
+        initViews(context);
     }
 
     private void initDI(Context context) {
         DI.init(context);
         DI.component().inject(this);
+    }
+
+    private void initViews(Context context) {
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(
+                Context.LAYOUT_INFLATER_SERVICE);
+        if (inflater != null) {
+            inflater.inflate(R.layout.view_map, this);
+        }
+    }
+
+    @Override protected void onFinishInflate() {
+        super.onFinishInflate();
+        tangramMap = (TangramMap) findViewById(R.id.map);
+        findMe = (ImageButton) findViewById(R.id.find_me);
+    }
+
+    /**
+     * Get the underlying Tangram map object.
+     * @return
+     */
+    public TangramMap getTangramMap() {
+        return tangramMap;
     }
 
     /**
@@ -67,5 +97,21 @@ public class MapView extends com.mapzen.tangram.MapView {
          * @param mapController A non-null {@code MapController} instance for this {@code MapView}.
          */
         void onMapReady(MapController mapController);
+    }
+
+    /**
+     * Show button for finding user's location on map.
+     * @return
+     */
+    public ImageButton showFindMe() {
+        findMe.setVisibility(View.VISIBLE);
+        return findMe;
+    }
+
+    /**
+     * Hide button for finding user's location on map.
+     */
+    public void hideFindMe() {
+        findMe.setVisibility(View.GONE);
     }
 }

@@ -16,7 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 public class MarkerMapzenActivity extends AppCompatActivity {
     MapFragment mapFragment;
     MapController mapController;
-    OverlayManager mapManager;
+    OverlayManager overlayManager;
     MapData marker;
 
     @Override
@@ -34,11 +34,11 @@ public class MarkerMapzenActivity extends AppCompatActivity {
     }
 
     private void configureMap() {
-        mapManager = mapFragment.getOverlayManager();
-        marker = mapManager.addMarker(new Marker(-73.9903, 40.74433));
-        mapManager.addMarker(new Marker(-73.984770, 40.734807));
-        mapManager.addMarker(new Marker(-73.998674, 40.732172));
-        mapManager.addMarker(new Marker(-73.996142, 40.741050));
+        overlayManager = mapFragment.getOverlayManager();
+        marker = overlayManager.addMarker(new Marker(-73.9903, 40.74433));
+        overlayManager.addMarker(new Marker(-73.984770, 40.734807));
+        overlayManager.addMarker(new Marker(-73.998674, 40.732172));
+        overlayManager.addMarker(new Marker(-73.996142, 40.741050));
 
         mapController.setZoom(15f);
         mapController.setPosition(new LngLat(-73.9918, 40.73633));
