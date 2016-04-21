@@ -1,6 +1,0 @@
-[submodule "library/src/main/assets/style"]
-	path = library/src/main/assets/style
-	url = git://github.com/tangrams/bubble-wrap.git
-[submodule "library/src/main/assets/outdoor-style"]
-	path = library/src/main/assets/outdoor-style
-	url = git@github.com:tangrams/outdoor-style.git
