@@ -15,8 +15,14 @@ We will be incorporating all of Mapzen’s services into the SDK through the fol
 - [On the road](https://github.com/mapzen/on-the-road)- The Mapzen Turn-by-Turn wrapper and other routing utilities.
 - [Pelias](https://github.com/pelias/pelias-android-sdk)- The Mapzen Search wrapper
 
-# Getting started
+# Usage
 Everything you need to get going using the Mapzen SDK
 
-- [Installation](https://github.com/mapzen/android/blob/master/docs/Installation.md)
-- [Getting started with the map](https://github.com/mapzen/android/blob/master/docs/tangram.md)
+- [Installation](https://github.com/mapzen/android/blob/master/docs/installation.md)
+- [Getting started](https://github.com/mapzen/android/blob/master/docs/getting-started.md)
+- [Position, rotation, and zoom](https://github.com/mapzen/android/blob/master/docs/basic-functions.md)
+- [Current location](https://github.com/mapzen/android/blob/master/docs/current-location.md)
+- [Markers](https://github.com/mapzen/android/blob/master/docs/markers.md)
+- [Polylines](https://github.com/mapzen/android/blob/master/docs/polyline.md)
+- [Polygons](https://github.com/mapzen/android/blob/master/docs/polygon.md)
+- [Switching styles](https://github.com/mapzen/android/blob/master/docs/styles.md)
