@@ -175,15 +175,6 @@ public class OverlayManager {
         return addPointToMarkerMapData(marker);
     }
 
-    /**
-     * You must call this method from your activity or fragment.
-     */
-    public void onDestroy() {
-        if (currentLocationMapData != null) {
-            currentLocationMapData.clear();
-        }
-    }
-
     private void initCurrentLocationMapData() {
         currentLocationMapData = mapController.addDataLayer(NAME_CURRENT_LOCATION);
     }

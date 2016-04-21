@@ -1,7 +1,5 @@
 package com.mapzen.android;
 
-import com.mapzen.tangram.MapController;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,8 +11,6 @@ import android.view.ViewGroup;
  * It's a wrapper around a view of a map to automatically handle the necessary life cycle needs.
  */
 public class MapFragment extends Fragment {
-    private OverlayManager overlayManager;
-
     MapView mapView;
 
     @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,25 +33,5 @@ public class MapFragment extends Fragment {
      */
     public void getMapAsync(final OnMapReadyCallback callback, final String key) {
         mapView.getMapAsync(callback, key);
-    }
-
-    /**
-     * Synchronously creates map manager for interaction with map and location manager.
-     *
-     * @return newly created {@link OverlayManager} instance or existing instance
-     */
-    public OverlayManager getOverlayManager(MapController mapController) {
-        if (overlayManager != null) {
-            return overlayManager;
-        }
-        overlayManager = new OverlayManager(mapView, mapController);
-        return overlayManager;
-    }
-
-    @Override public void onDestroy() {
-        super.onDestroy();
-        if (overlayManager != null) {
-            overlayManager.onDestroy();
-        }
     }
 }
