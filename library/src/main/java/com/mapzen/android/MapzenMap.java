@@ -5,8 +5,8 @@ import com.mapzen.tangram.MapController;
 /**
  * This is the main class of the Mapzen Android API and is the entry point for all methods related
  * to the map. You cannot instantiate a {@link MapzenMap} object directly. Rather you must obtain
- * one from {@link MapFragment#getMapAsync(MapView.OnMapReadyCallback)} or
- * {@link MapView#getMapAsync(MapView.OnMapReadyCallback)}.
+ * one from {@link MapFragment#getMapAsync(OnMapReadyCallback)} or
+ * {@link MapView#getMapAsync(OnMapReadyCallback)}.
  */
 public class MapzenMap {
     private final MapController mapController;
