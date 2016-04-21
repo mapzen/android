@@ -34,4 +34,11 @@ public class MapFragment extends Fragment {
     public void getMapAsync(final OnMapReadyCallback callback, final String key) {
         mapView.getMapAsync(callback, key);
     }
+
+    @Override public void onDestroy() {
+        super.onDestroy();
+        if (mapView != null) {
+            mapView.onDestroy();
+        }
+    }
 }

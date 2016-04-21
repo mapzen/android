@@ -102,4 +102,8 @@ public class MapView extends RelativeLayout {
     public void hideFindMe() {
         findMe.setVisibility(View.GONE);
     }
+
+    public void onDestroy() {
+        getTangramMapView().onDestroy();
+    }
 }
