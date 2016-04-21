@@ -21,7 +21,6 @@ public class MapView extends RelativeLayout {
 
     TangramMapView tangramMapView;
     ImageButton findMe;
-    MapController mapController;
 
     /**
      * Create new instance.

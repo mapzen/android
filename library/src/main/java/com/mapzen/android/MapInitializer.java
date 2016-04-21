@@ -44,7 +44,6 @@ public class MapInitializer {
         getTangramView(mapView).getMapAsync(new com.mapzen.tangram.MapView.OnMapReadyCallback() {
             @Override public void onMapReady(MapController mapController) {
                 mapController.setHttpHandler(httpHandler);
-                mapView.mapController = mapController;
                 callback.onMapReady(new MapzenMap(mapView, mapController));
             }
         }, DEFAULT_SCENE_FILE);

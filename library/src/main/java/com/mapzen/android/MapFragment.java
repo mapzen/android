@@ -1,5 +1,7 @@
 package com.mapzen.android;
 
+import com.mapzen.tangram.MapController;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -42,14 +44,11 @@ public class MapFragment extends Fragment {
      *
      * @return newly created {@link OverlayManager} instance or existing instance
      */
-    public OverlayManager getOverlayManager() {
-        if (mapView.mapController == null) {
-            return null;
-        }
+    public OverlayManager getOverlayManager(MapController mapController) {
         if (overlayManager != null) {
             return overlayManager;
         }
-        overlayManager = new OverlayManager(getContext(), mapView.mapController, mapView);
+        overlayManager = new OverlayManager(mapView, mapController);
         return overlayManager;
     }
 
