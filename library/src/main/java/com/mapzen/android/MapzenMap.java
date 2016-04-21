@@ -68,6 +68,20 @@ public class MapzenMap {
     }
 
     /**
+     * Set map rotation in radians.
+     */
+    public void setRotation(float radians) {
+        mapController.setRotation(radians);
+    }
+
+    /**
+     * Get map rotation in radians.
+     */
+    public float getRotation() {
+        return mapController.getRotation();
+    }
+
+    /**
      * Enable/disable location tracking layer.
      */
     public void setMyLocationEnabled(boolean enabled) {

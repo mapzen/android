@@ -65,6 +65,16 @@ public class MapzenMapTest {
         assertThat(map.getPosition()).isEqualTo(lngLat);
     }
 
+    @Test public void setRotation_shouldInvokeMapController() throws Exception {
+        map.setRotation(3.14f);
+        verify(mapController).setRotation(3.14f);
+    }
+
+    @Test public void getRotation_shouldInvokeMapController() throws Exception {
+        when(mapController.getRotation()).thenReturn(3.14f);
+        assertThat(map.getRotation()).isEqualTo(3.14f);
+    }
+
     @Test public void setMyLocationEnabled_shouldInvokeOverlayManager() throws Exception {
         map.setMyLocationEnabled(true);
         verify(overlayManager).setMyLocationEnabled(true);
