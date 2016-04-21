@@ -26,7 +26,11 @@ import static org.mockito.Matchers.anyFloat;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyString;
-
+import static org.mockito.Mockito.doCallRealMethod;
+import static org.mockito.Mockito.when;
+import static org.powermock.api.mockito.PowerMockito.doNothing;
+import static org.powermock.api.mockito.PowerMockito.mock;
+import static org.powermock.api.mockito.PowerMockito.spy;
 
 @RunWith(PowerMockRunner.class)
 @SuppressStaticInitializationFor("com.mapzen.tangram.MapController")
@@ -38,19 +42,18 @@ public class OverlayManagerTest {
 
     @Before
     public void setup() throws Exception {
-        mapController = PowerMockito.mock(TestMapController.class);
-        LostApiClient lostApiClient = PowerMockito.mock(LostApiClient.class);
-        MapView mapView = PowerMockito.mock(MapView.class);
-        overlayManager = PowerMockito.spy(new OverlayManager(mapController, lostApiClient,
-                mapView));
-        PowerMockito.doNothing().when(overlayManager, "initCurrentLocationMapData");
-        PowerMockito.doNothing().when(overlayManager, "handleMyLocationEnabledChanged");
+        mapController = mock(TestMapController.class);
+        LostApiClient lostApiClient = mock(LostApiClient.class);
+        MapView mapView = mock(MapView.class);
+        overlayManager = spy(new OverlayManager(mapView, mapController, lostApiClient));
+        doNothing().when(overlayManager, "initCurrentLocationMapData");
+        doNothing().when(overlayManager, "handleMyLocationEnabledChanged");
     }
 
     @Test
     public void setMyLocationEnabled_shouldCenterMapOnCurrentLocation() throws Exception {
-        Mockito.doCallRealMethod().when(mapController).setPosition(any(LngLat.class), anyInt());
-        Mockito.when(mapController.getPosition()).thenCallRealMethod();
+        doCallRealMethod().when(mapController).setPosition(any(LngLat.class), anyInt());
+        when(mapController.getPosition()).thenCallRealMethod();
 
         overlayManager.setMyLocationEnabled(true);
         Location location = new Location("test");
@@ -63,9 +66,9 @@ public class OverlayManagerTest {
 
     @Test
     public void setMyLocationEnabled_shouldNotChangeZoomLevel() throws Exception {
-        Mockito.doCallRealMethod().when(mapController).setPosition(any(LngLat.class), anyInt());
-        Mockito.doCallRealMethod().when(mapController).setZoom(anyFloat());
-        Mockito.when(mapController.getZoom()).thenCallRealMethod();
+        doCallRealMethod().when(mapController).setPosition(any(LngLat.class), anyInt());
+        doCallRealMethod().when(mapController).setZoom(anyFloat());
+        when(mapController.getZoom()).thenCallRealMethod();
 
         mapController.setZoom(17);
         overlayManager.setMyLocationEnabled(true);
@@ -76,9 +79,9 @@ public class OverlayManagerTest {
 
     @Test
     public void setMyLocationEnabled_shouldNotChangeTilt() throws Exception {
-        Mockito.doCallRealMethod().when(mapController).setPosition(any(LngLat.class), anyInt());
-        Mockito.doCallRealMethod().when(mapController).setTilt(anyFloat());
-        Mockito.when(mapController.getTilt()).thenCallRealMethod();
+        doCallRealMethod().when(mapController).setPosition(any(LngLat.class), anyInt());
+        doCallRealMethod().when(mapController).setTilt(anyFloat());
+        when(mapController.getTilt()).thenCallRealMethod();
 
         mapController.setTilt(8);
         overlayManager.setMyLocationEnabled(true);
@@ -89,9 +92,9 @@ public class OverlayManagerTest {
 
     @Test
     public void setMyLocationEnabled_shouldNotChangeRotation() throws Exception {
-        Mockito.doCallRealMethod().when(mapController).setPosition(any(LngLat.class), anyInt());
-        Mockito.doCallRealMethod().when(mapController).setRotation(anyFloat());
-        Mockito.when(mapController.getRotation()).thenCallRealMethod();
+        doCallRealMethod().when(mapController).setPosition(any(LngLat.class), anyInt());
+        doCallRealMethod().when(mapController).setRotation(anyFloat());
+        when(mapController.getRotation()).thenCallRealMethod();
 
         mapController.setRotation(8);
         overlayManager.setMyLocationEnabled(true);

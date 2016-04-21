@@ -11,8 +11,6 @@ import android.view.ViewGroup;
  * It's a wrapper around a view of a map to automatically handle the necessary life cycle needs.
  */
 public class MapFragment extends Fragment {
-    private OverlayManager overlayManager;
-
     MapView mapView;
 
     @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,26 +35,10 @@ public class MapFragment extends Fragment {
         mapView.getMapAsync(callback, key);
     }
 
-    /**
-     * Synchronously creates map manager for interaction with map and location manager.
-     *
-     * @return newly created {@link OverlayManager} instance or existing instance
-     */
-    public OverlayManager getOverlayManager() {
-        if (mapView.mapController == null) {
-            return null;
-        }
-        if (overlayManager != null) {
-            return overlayManager;
-        }
-        overlayManager = new OverlayManager(getContext(), mapView.mapController, mapView);
-        return overlayManager;
-    }
-
     @Override public void onDestroy() {
         super.onDestroy();
-        if (overlayManager != null) {
-            overlayManager.onDestroy();
+        if (mapView != null) {
+            mapView.onDestroy();
         }
     }
 }

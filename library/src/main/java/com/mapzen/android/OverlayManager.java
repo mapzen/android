@@ -11,7 +11,6 @@ import com.mapzen.tangram.LngLat;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.MapData;
 
-import android.content.Context;
 import android.location.Location;
 import android.view.View;
 import android.widget.ImageButton;
@@ -55,14 +54,14 @@ public class OverlayManager {
      */
     private boolean myLocationEnabled;
 
-    boolean locationReqested = false;
+    private boolean locationRequested = false;
 
     /**
      * Receives location updates for {@link LostApiClient}.
      */
     LocationListener locationListener = new LocationListener() {
         @Override public void onLocationChanged(Location location) {
-            if (!locationReqested) {
+            if (!locationRequested) {
                 return;
             }
             handleLocationChange(location);
@@ -77,14 +76,11 @@ public class OverlayManager {
     /**
      * Create a new {@link OverlayManager} object for handling functionality between map and
      * location services using the {@link LocationFactory}'s shared {@link LostApiClient}.
-     * @param context
-     * @param mapController
      * @param mapView
+     * @param mapController
      */
-    public OverlayManager(Context context, MapController mapController, MapView mapView) {
-        this.mapController = mapController;
-        this.lostApiClient = LocationFactory.sharedClient(context);
-        this.mapView = mapView;
+    OverlayManager(MapView mapView, MapController mapController) {
+        this(mapView, mapController, LocationFactory.sharedClient(mapView.getContext()));
     }
 
     /**
@@ -94,11 +90,10 @@ public class OverlayManager {
      * @param lostApiClient
      * @param mapView
      */
-    public OverlayManager(MapController mapController, LostApiClient lostApiClient,
-            MapView mapView) {
+    OverlayManager(MapView mapView, MapController mapController, LostApiClient lostApiClient) {
+        this.mapView = mapView;
         this.mapController = mapController;
         this.lostApiClient = lostApiClient;
-        this.mapView = mapView;
     }
 
     /**
@@ -180,15 +175,6 @@ public class OverlayManager {
         return addPointToMarkerMapData(marker);
     }
 
-    /**
-     * You must call this method from your activity or fragment.
-     */
-    public void onDestroy() {
-        if (currentLocationMapData != null) {
-            currentLocationMapData.clear();
-        }
-    }
-
     private void initCurrentLocationMapData() {
         currentLocationMapData = mapController.addDataLayer(NAME_CURRENT_LOCATION);
     }
@@ -216,11 +202,11 @@ public class OverlayManager {
 
     private void hideFindMe() {
         mapView.hideFindMe();
-        locationReqested = false;
+        locationRequested = false;
     }
 
     private void centerMap() {
-        locationReqested = true;
+        locationRequested = true;
         showLastKnownLocation();
     }
 
@@ -247,10 +233,10 @@ public class OverlayManager {
     }
 
     private void handleLocationChange(Location location) {
-        if (!myLocationEnabled || !locationReqested) {
+        if (!myLocationEnabled || !locationRequested) {
             return;
         }
-        locationReqested = false;
+        locationRequested = false;
         updateCurrentLocationMapData(location);
         updateMapPosition(location);
     }

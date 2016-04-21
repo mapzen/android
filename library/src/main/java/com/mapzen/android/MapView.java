@@ -1,7 +1,6 @@
 package com.mapzen.android;
 
 import com.mapzen.android.dagger.DI;
-import com.mapzen.tangram.MapController;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -14,14 +13,13 @@ import android.widget.RelativeLayout;
 import javax.inject.Inject;
 
 /**
- * Wrapper for Tangram MapView that initializes {@link MapController} for client applications.
+ * Wrapper for Tangram MapView that initializes {@link MapzenMap} for client applications.
  */
 public class MapView extends RelativeLayout {
     @Inject MapInitializer mapInitializer;
 
     TangramMapView tangramMapView;
     ImageButton findMe;
-    MapController mapController;
 
     /**
      * Create new instance.
@@ -102,5 +100,12 @@ public class MapView extends RelativeLayout {
      */
     public void hideFindMe() {
         findMe.setVisibility(View.GONE);
+    }
+
+    /**
+     * You must call this method from the parent Activity/Fragment's corresponding method.
+     */
+    public void onDestroy() {
+        getTangramMapView().onDestroy();
     }
 }
