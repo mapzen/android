@@ -10,11 +10,13 @@ import com.mapzen.tangram.MapController;
  */
 public class MapzenMap {
     private final MapController mapController;
+    private final MapView mapView;
 
     /**
-     * Creates a new map based on the given {@link MapController}.
+     * Creates a new map based on the given {@link MapView} and {@link MapController}.
      */
-    MapzenMap(MapController mapController) {
+    MapzenMap(MapView mapView, MapController mapController) {
+        this.mapView = mapView;
         this.mapController = mapController;
     }
 

@@ -45,7 +45,7 @@ public class MapInitializer {
             @Override public void onMapReady(MapController mapController) {
                 mapController.setHttpHandler(httpHandler);
                 mapView.mapController = mapController;
-                callback.onMapReady(new MapzenMap(mapController));
+                callback.onMapReady(new MapzenMap(mapView, mapController));
             }
         }, DEFAULT_SCENE_FILE);
     }

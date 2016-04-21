@@ -18,7 +18,7 @@ public class MapzenMapTest {
     private MapzenMap map;
 
     @Before public void setUp() throws Exception {
-        map = new MapzenMap(mock(MapController.class));
+        map = new MapzenMap(new TestMapView(), mock(MapController.class));
     }
 
     @Test public void shouldNotBeNull() throws Exception {
