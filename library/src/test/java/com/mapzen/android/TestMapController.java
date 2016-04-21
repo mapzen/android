@@ -22,7 +22,7 @@ public class TestMapController extends MapController {
         super(getMockContext(), "");
     }
 
-    @Override public void setPosition(LngLat lngLat, int duration) {
+    @Override public void setPositionEased(LngLat lngLat, int duration) {
         longitude = lngLat.longitude;
         latitude = lngLat.latitude;
     }

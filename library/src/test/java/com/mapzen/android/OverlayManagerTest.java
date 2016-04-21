@@ -52,7 +52,7 @@ public class OverlayManagerTest {
 
     @Test
     public void setMyLocationEnabled_shouldCenterMapOnCurrentLocation() throws Exception {
-        doCallRealMethod().when(mapController).setPosition(any(LngLat.class), anyInt());
+        doCallRealMethod().when(mapController).setPositionEased(any(LngLat.class), anyInt());
         when(mapController.getPosition()).thenCallRealMethod();
 
         overlayManager.setMyLocationEnabled(true);
@@ -66,7 +66,7 @@ public class OverlayManagerTest {
 
     @Test
     public void setMyLocationEnabled_shouldNotChangeZoomLevel() throws Exception {
-        doCallRealMethod().when(mapController).setPosition(any(LngLat.class), anyInt());
+        doCallRealMethod().when(mapController).setPositionEased(any(LngLat.class), anyInt());
         doCallRealMethod().when(mapController).setZoom(anyFloat());
         when(mapController.getZoom()).thenCallRealMethod();
 
@@ -79,7 +79,7 @@ public class OverlayManagerTest {
 
     @Test
     public void setMyLocationEnabled_shouldNotChangeTilt() throws Exception {
-        doCallRealMethod().when(mapController).setPosition(any(LngLat.class), anyInt());
+        doCallRealMethod().when(mapController).setPositionEased(any(LngLat.class), anyInt());
         doCallRealMethod().when(mapController).setTilt(anyFloat());
         when(mapController.getTilt()).thenCallRealMethod();
 
@@ -92,7 +92,7 @@ public class OverlayManagerTest {
 
     @Test
     public void setMyLocationEnabled_shouldNotChangeRotation() throws Exception {
-        doCallRealMethod().when(mapController).setPosition(any(LngLat.class), anyInt());
+        doCallRealMethod().when(mapController).setPositionEased(any(LngLat.class), anyInt());
         doCallRealMethod().when(mapController).setRotation(anyFloat());
         when(mapController.getRotation()).thenCallRealMethod();
 

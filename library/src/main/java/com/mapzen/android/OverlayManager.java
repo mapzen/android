@@ -252,7 +252,7 @@ public class OverlayManager {
         }
 
         final LngLat lngLat = new LngLat(location.getLongitude(), location.getLatitude());
-        mapController.setPosition(lngLat, ANIMATION_DURATION_MILLIS);
+        mapController.setPositionEased(lngLat, ANIMATION_DURATION_MILLIS);
         mapController.requestRender();
     }
 
