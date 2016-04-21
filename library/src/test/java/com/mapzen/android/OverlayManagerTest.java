@@ -45,7 +45,7 @@ public class OverlayManagerTest {
         mapController = mock(TestMapController.class);
         LostApiClient lostApiClient = mock(LostApiClient.class);
         MapView mapView = mock(MapView.class);
-        overlayManager = spy(new OverlayManager(mapView, mapController,lostApiClient));
+        overlayManager = spy(new OverlayManager(mapView, mapController, lostApiClient));
         doNothing().when(overlayManager, "initCurrentLocationMapData");
         doNothing().when(overlayManager, "handleMyLocationEnabledChanged");
     }
