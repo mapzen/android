@@ -18,8 +18,11 @@ We will be incorporating all of Mapzen’s services into the SDK through the fol
 # Usage
 Everything you need to get going using the Mapzen SDK
 
+Set up:
 - [Installation](https://github.com/mapzen/android/blob/master/docs/installation.md)
 - [Getting started](https://github.com/mapzen/android/blob/master/docs/getting-started.md)
+
+Interacting with the map:
 - [Position, rotation, and zoom](https://github.com/mapzen/android/blob/master/docs/basic-functions.md)
 - [Current location](https://github.com/mapzen/android/blob/master/docs/current-location.md)
 - [Markers](https://github.com/mapzen/android/blob/master/docs/markers.md)
