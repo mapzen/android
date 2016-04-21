@@ -20,9 +20,9 @@ public class MapzenMap {
     /**
      * Creates a new map based on the given {@link MapView} and {@link MapController}.
      */
-    MapzenMap(MapView mapView, MapController mapController) {
+    MapzenMap(MapController mapController, OverlayManager overlayManager) {
         this.mapController = mapController;
-        this.overlayManager = new OverlayManager(mapView, mapController);
+        this.overlayManager = overlayManager;
     }
 
     /**
