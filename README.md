@@ -1,7 +1,7 @@
 # Mapzen Android SDK
 [![Circle CI](https://circleci.com/gh/mapzen/android.svg?style=svg&circle-token=3191e9499a851a9a3869a72ee3c55d4e29133ebc)](https://circleci.com/gh/mapzen/android)
 
-The Mapzen Android SDK is a thin wrapper that packages up everything you need to use Mapzen services in your Android applications. It also handles API key management, interaction between the components, UI elemets, and assorted other things
+The Mapzen Android SDK is a thin wrapper that packages up everything you need to use Mapzen services in your Android applications. It also simplify setup, installation, API key management and generally make your life better.s
 
 ## Current functionality:
 Currently the Mapzen SDK supports map rendering and location tracking through the following projects:
