@@ -79,7 +79,7 @@ public class OverlayManager {
      * @param mapView
      * @param mapController
      */
-    public OverlayManager(MapView mapView, MapController mapController) {
+    OverlayManager(MapView mapView, MapController mapController) {
         this(mapView, mapController, LocationFactory.sharedClient(mapView.getContext()));
     }
 
