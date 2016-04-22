@@ -1,35 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<fragment android:id="@+id/fragment"
-    android:name="com.mapzen.android.MapFragment"
-    xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <Button android:id="@+id/btn_bubble"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/style_bubble_wrap" />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
 
-        <Button android:id="@+id/btn_cinnabar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/style_cinnabar" />
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
-        <Button android:id="@+id/btn_refill"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/style_refill" />
+        </android.support.v7.widget.Toolbar>
 
-        <Button android:id="@+id/btn_outdoor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/style_outdoor" />
+    </android.support.design.widget.AppBarLayout>
 
-    </LinearLayout>
+    <fragment
+        android:id="@+id/fragment"
+        android:name="com.mapzen.android.MapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-</fragment>
+</android.support.design.widget.CoordinatorLayout>

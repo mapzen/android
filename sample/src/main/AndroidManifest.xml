@@ -16,7 +16,8 @@
         <activity android:name=".MarkerMapzenActivity"/>
         <activity android:name=".PolylineMapzenActivity"/>
         <activity android:name=".PolygonMapzenActivity"/>
-        <activity android:name=".SwitchStyleActivity" />
+        <activity android:name=".SwitchStyleActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

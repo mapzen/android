@@ -18,4 +18,10 @@
     <string name="style_cinnabar">Cinnabar</string>
     <string name="style_refill">Refill</string>
     <string name="style_outdoor">Outdoor</string>
+    <string-array name="style_array">
+        <item>Bubble Wrap</item>
+        <item>Cinnabar</item>
+        <item>Refill</item>
+        <item>Outdoor</item>
+    </string-array>
 </resources>
