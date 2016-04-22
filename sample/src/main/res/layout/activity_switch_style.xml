@@ -10,15 +10,25 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <Button android:id="@+id/btn_outdoor_style"
+        <Button android:id="@+id/btn_bubble"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Outdoor Style"/>
+            android:text="@string/style_bubble_wrap" />
 
-        <Button android:id="@+id/btn_bubble_style"
+        <Button android:id="@+id/btn_cinnabar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="BubbleWrap Style" />
+            android:text="@string/style_cinnabar" />
+
+        <Button android:id="@+id/btn_refill"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/style_refill" />
+
+        <Button android:id="@+id/btn_outdoor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/style_outdoor" />
 
     </LinearLayout>
 

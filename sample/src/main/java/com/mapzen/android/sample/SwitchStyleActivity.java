@@ -15,33 +15,49 @@ import android.widget.Button;
  */
 public class SwitchStyleActivity extends AppCompatActivity {
 
-    MapFragment mapFragment;
-    MapzenMap mapzenMap;
+    private MapFragment mapFragment;
+    private MapzenMap mapzenMap;
 
-    Button outdoorBtn;
-    Button bubbleBtn;
+    private Button bubbleBtn;
+    private Button cinnabarBtn;
+    private Button refillBtn;
+    private Button outdoorBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_switch_style);
 
-        outdoorBtn = (Button) findViewById(R.id.btn_outdoor_style);
-        outdoorBtn.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                changeMapStyle(MapStyle.OUTDOOR);
-            }
-        });
-
-        bubbleBtn = (Button) findViewById(R.id.btn_bubble_style);
+        bubbleBtn = (Button) findViewById(R.id.btn_bubble);
         bubbleBtn.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 changeMapStyle(MapStyle.BUBBLE_WRAP);
             }
         });
 
+        cinnabarBtn = (Button) findViewById(R.id.btn_cinnabar);
+        cinnabarBtn.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                changeMapStyle(MapStyle.CINNABAR);
+            }
+        });
+
+        refillBtn = (Button) findViewById(R.id.btn_refill);
+        refillBtn.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                changeMapStyle(MapStyle.REFILL);
+            }
+        });
+
+        outdoorBtn = (Button) findViewById(R.id.btn_outdoor);
+        outdoorBtn.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                changeMapStyle(MapStyle.OUTDOOR);
+            }
+        });
+
         mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
-        mapFragment.getMapAsync(MapStyle.OUTDOOR, new OnMapReadyCallback() {
+        mapFragment.getMapAsync(MapStyle.BUBBLE_WRAP, new OnMapReadyCallback() {
             @Override public void onMapReady(MapzenMap mapzenMap) {
                 SwitchStyleActivity.this.mapzenMap = mapzenMap;
             }
@@ -51,5 +67,4 @@ public class SwitchStyleActivity extends AppCompatActivity {
     private void changeMapStyle(MapStyle style) {
         mapzenMap.setStyle(style);
     }
-
 }

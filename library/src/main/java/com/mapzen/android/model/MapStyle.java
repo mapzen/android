@@ -5,5 +5,7 @@ package com.mapzen.android.model;
  */
 public enum MapStyle {
     BUBBLE_WRAP,
+    CINNABAR,
+    REFILL,
     OUTDOOR
 }
