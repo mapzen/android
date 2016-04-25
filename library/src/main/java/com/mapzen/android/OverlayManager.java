@@ -26,10 +26,10 @@ public class OverlayManager {
     private static final int LOCATION_REQUEST_INTERVAL_MILLIS = 5000;
     private static final int LOCATION_REQUEST_DISPLACEMENT_MILLIS = 5000;
     private static final int ANIMATION_DURATION_MILLIS = 300;
-    private static final String NAME_CURRENT_LOCATION = "find_me";
-    private static final String NAME_POLYLINE = "route";
-    private static final String NAME_POLYGON = "route";
-    private static final String NAME_MARKER = "reverse_geocode";
+    private static final String NAME_CURRENT_LOCATION = "mz_current_location";
+    private static final String NAME_POLYLINE = "mz_default_line";
+    private static final String NAME_POLYGON = "mz_default_polygon";
+    private static final String NAME_MARKER = "mz_default_point";
     private static final int MIN_COORDINATES_POLYGON = 2;
     private static final int MIN_COORDINATES_POLYLINE = 2;
 
@@ -252,7 +252,7 @@ public class OverlayManager {
         }
 
         final LngLat lngLat = new LngLat(location.getLongitude(), location.getLatitude());
-        mapController.setPosition(lngLat, ANIMATION_DURATION_MILLIS);
+        mapController.setPositionEased(lngLat, ANIMATION_DURATION_MILLIS);
         mapController.requestRender();
     }
 

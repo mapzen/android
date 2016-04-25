@@ -21,5 +21,8 @@ public final class SampleDetailsList {
             new SampleDetails(R.string.polygon_map_demo_label,
                     R.string.polygon_map_demo_description,
                     PolygonMapzenActivity.class),
+            new SampleDetails(R.string.switch_style_map_demo_label,
+                    R.string.switch_style_map_demo_description,
+                    SwitchStyleActivity.class)
     };
 }

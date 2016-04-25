@@ -14,8 +14,8 @@ public class TestMapView extends MapView {
     }
 
     @Override public void getMapAsync(
-            @NonNull OnMapReadyCallback callback,
-            @NonNull String sceneFilePath) {
+            @NonNull String sceneFilePath,
+            @NonNull OnMapReadyCallback callback) {
         callback.onMapReady(new MapzenMap(mock(MapController.class), mock(OverlayManager.class)));
     }
 

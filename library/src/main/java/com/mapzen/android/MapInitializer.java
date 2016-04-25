@@ -1,15 +1,17 @@
 package com.mapzen.android;
 
 import com.mapzen.android.dagger.DI;
+import com.mapzen.android.model.MapStyle;
 import com.mapzen.tangram.MapController;
 
 import javax.inject.Inject;
+
+import static com.mapzen.android.MapStyleToSceneFile.MAP_STYLE_TO_SCENE_FILE;
 
 /**
  * Class responsible for initializing the map.
  */
 public class MapInitializer {
-    private static final String DEFAULT_SCENE_FILE = "style/bubble-wrap.yaml";
 
     @Inject TileHttpHandler httpHandler;
 
@@ -24,29 +26,52 @@ public class MapInitializer {
      * Initialize map for the current {@link MapView} and notify via {@link OnMapReadyCallback}.
      */
     public void init(final MapView mapView, final OnMapReadyCallback callback) {
-        loadMap(mapView, callback);
+        init(mapView, MapStyle.BUBBLE_WRAP, callback);
+    }
+
+    /**
+     * Initialize map for current {@link MapView} and {@link MapStyle} before notifying via
+     * {@link OnMapReadyCallback}.
+     * @param mapView
+     * @param mapStyle
+     * @param callback
+     */
+    public void init(final MapView mapView, MapStyle mapStyle, final OnMapReadyCallback callback) {
+        loadMap(mapView, mapStyle, callback);
     }
 
     /**
      * Initialize map for the current {@link MapView} with given API key and notify via
      * {@link OnMapReadyCallback}.
      */
-    public void init(final MapView mapView, final OnMapReadyCallback callback, String key) {
+    public void init(final MapView mapView, String key, final OnMapReadyCallback callback) {
         httpHandler.setApiKey(key);
-        loadMap(mapView, callback);
+        loadMap(mapView, MapStyle.BUBBLE_WRAP, callback);
+    }
+
+    /**
+     * Initialize map for the current {@link MapView} with given API key and notify via
+     * {@link OnMapReadyCallback}.
+     */
+    public void init(final MapView mapView, String key,
+            MapStyle mapStyle, final OnMapReadyCallback callback) {
+        httpHandler.setApiKey(key);
+        loadMap(mapView, mapStyle, callback);
     }
 
     private TangramMapView getTangramView(final MapView mapView) {
         return mapView.getTangramMapView();
     }
 
-    private void loadMap(final MapView mapView, final OnMapReadyCallback callback) {
+    private void loadMap(final MapView mapView, MapStyle mapStyle,
+            final OnMapReadyCallback callback) {
         getTangramView(mapView).getMapAsync(new com.mapzen.tangram.MapView.OnMapReadyCallback() {
             @Override public void onMapReady(MapController mapController) {
                 mapController.setHttpHandler(httpHandler);
                 callback.onMapReady(new MapzenMap(mapController,
                         new OverlayManager(mapView, mapController)));
             }
-        }, DEFAULT_SCENE_FILE);
+        }, MAP_STYLE_TO_SCENE_FILE.get(mapStyle));
     }
+
 }

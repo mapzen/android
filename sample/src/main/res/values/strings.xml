@@ -12,4 +12,16 @@
     <string name="polygon_map_demo_description">Adds a polygon to map</string>
     <string name="marker_map_demo_label">Marker</string>
     <string name="marker_map_demo_description">Adds markers to map</string>
+    <string name="switch_style_map_demo_label">Switch Style</string>
+    <string name="switch_style_map_demo_description">Demonstrates how to change map style</string>
+    <string name="style_bubble_wrap">Bubble Wrap</string>
+    <string name="style_cinnabar">Cinnabar</string>
+    <string name="style_refill">Refill</string>
+    <string name="style_outdoor">Outdoor</string>
+    <string-array name="style_array">
+        <item>Bubble Wrap</item>
+        <item>Cinnabar</item>
+        <item>Refill</item>
+        <item>Outdoor</item>
+    </string-array>
 </resources>
