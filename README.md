@@ -3,6 +3,8 @@
 
 The Mapzen Android SDK is a thin wrapper that packages up everything you need to use Mapzen services in your Android applications. It also simplifies setup, installation, API key management and generally makes your life better.
 
+Check out [the sample app](https://github.com/mapzen/android/tree/master/sample) to get a feel for the project.  
+
 ## Current functionality:
 Currently the Mapzen SDK supports map rendering and location tracking through the following projects:
 
