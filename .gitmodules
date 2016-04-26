@@ -4,9 +4,6 @@
 [submodule "library/src/main/assets/styles/cinnabar"]
 	path = library/src/main/assets/styles/cinnabar
 	url = git@github.com:tangrams/cinnabar-style.git
-[submodule "library/src/main/assets/styles/outdoor"]
-	path = library/src/main/assets/styles/outdoor
-	url = git@github.com:tangrams/outdoor-style.git
 [submodule "library/src/main/assets/styles/refill"]
 	path = library/src/main/assets/styles/refill
 	url = git@github.com:tangrams/refill-style.git

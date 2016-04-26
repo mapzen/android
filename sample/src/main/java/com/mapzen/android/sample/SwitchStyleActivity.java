@@ -63,9 +63,6 @@ public class SwitchStyleActivity extends AppCompatActivity implements
             case 2:
                 changeMapStyle(MapStyle.REFILL);
                 break;
-            case 3:
-                changeMapStyle(MapStyle.OUTDOOR);
-                break;
             default:
                 changeMapStyle(MapStyle.BUBBLE_WRAP);
                 break;
