@@ -10,6 +10,7 @@ import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.MapData;
 import com.mapzen.tangram.TouchInput;
 
+
 import java.util.HashMap;
 
 /**
@@ -31,7 +32,8 @@ public class MapzenMap {
     private TouchInput.ShoveResponder shoveResponder;
 
     private static final HashMap<EaseType, MapController.EaseType>
-        EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE = new HashMap();
+            EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE = new HashMap();
+
     static {
         EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.put(EaseType.LINEAR, MapController.EaseType.LINEAR);
         EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.put(EaseType.CUBIC, MapController.EaseType.CUBIC);
@@ -78,23 +80,25 @@ public class MapzenMap {
 
     /**
      * Sets map zoom with animation and default, {@code EaseType.CUBIC} easing.
+     *
      * @param zoom map zoom level
      * @param duration animation duration in millis
      */
     public void setZoom(float zoom, int duration) {
-        mapController.setZoom(zoom, duration);
+        mapController.setZoomEased(zoom, duration);
     }
 
     /**
      * Sets map zoom with animation and easing.
+     *
      * @param zoom map zoom level
      * @param duration animation duration in millis
      * @param easeType map ease type
      */
     public void setZoom(float zoom, int duration, EaseType easeType) {
-        mapController.setZoom(zoom, duration, EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.get(easeType));
+        mapController.setZoomEased(zoom, duration, EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.get(
+                easeType));
     }
-
 
     /**
      * Returns map zoom.
@@ -112,21 +116,23 @@ public class MapzenMap {
 
     /**
      * Set map position with animation and default {@code EaseType.CUBIC} easing.
+     *
      * @param lngLat position to center map on
      * @param duration animation duration in millis
      */
     public void setPosition(LngLat lngLat, int duration) {
-        mapController.setPosition(lngLat, duration);
+        mapController.setPositionEased(lngLat, duration);
     }
 
     /**
      * Set map position with animation and easing.
+     *
      * @param lngLat position to center map on
      * @param duration animation duration in millis
      * @param easeType map ease type
      */
     public void setPosition(LngLat lngLat, int duration, EaseType easeType) {
-        mapController.setPosition(lngLat, duration, EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.get(
+        mapController.setPositionEased(lngLat, duration, EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.get(
                 easeType));
     }
 
@@ -146,21 +152,23 @@ public class MapzenMap {
 
     /**
      * Set map rotation in radians with animation and default {@code EaseType.CUBIC} easing.
+     *
      * @param radians map rotation
      * @param duration animation duration in millis
      */
     public void setRotation(float radians, int duration) {
-        mapController.setRotation(radians, duration);
+        mapController.setRotationEased(radians, duration);
     }
 
     /**
      * Set map rotation in radians with animation and custom easing.
+     *
      * @param radians map rotation
      * @param duration animation duration in millis
      * @param easeType map ease type
      */
     public void setRotation(float radians, int duration, EaseType easeType) {
-        mapController.setRotation(radians, duration, EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.get(
+        mapController.setRotationEased(radians, duration, EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.get(
                 easeType));
     }
 
@@ -173,6 +181,7 @@ public class MapzenMap {
 
     /**
      * Set map tilt in radians without animation.
+     *
      * @param radians tilt in radians
      */
     public void setTilt(float radians) {
@@ -181,21 +190,23 @@ public class MapzenMap {
 
     /**
      * Set map tilt in radians with animation and default {@code EaseType.CUBIC} easing.
+     *
      * @param radians tilt in radians
      * @param duration duration in millis
      */
     public void setTilt(float radians, int duration) {
-        mapController.setTilt(radians, duration);
+        mapController.setTiltEased(radians, duration);
     }
 
     /**
      * Set map tilt in radians with animation and custom easing.
+     *
      * @param radians tilt in radians
      * @param duration duration in millis
      * @param easeType map ease type
      */
     public void setTilt(float radians, int duration, EaseType easeType) {
-        mapController.setTilt(radians, duration, EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.get(
+        mapController.setTiltEased(radians, duration, EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.get(
                 easeType));
     }
 
@@ -237,7 +248,8 @@ public class MapzenMap {
     }
 
     /**
-     * Find the geographic coordinates corresponding to the given position on screen
+     * Find the geographic coordinates corresponding to the given position on screen.
+     *
      * @param screenX Pixels from the left edge of the screen
      * @param screenY Pixels from the top edge of the screen
      * @return LngLat corresponding to the given point
@@ -249,71 +261,129 @@ public class MapzenMap {
     /**
      * Set tap responder for tap gestures on map.
      */
-    public void setTapResponder(TouchInput.TapResponder tapResponder) {
+    public void setTapResponder(final TouchInput.TapResponder tapResponder) {
         this.tapResponder = tapResponder;
         mapController.setTapResponder(this.tapResponder);
     }
 
     /**
-     * Get the map's tap responder
+     * Get the map's tap responder.
      */
     public TouchInput.TapResponder getTapResponder() {
         return tapResponder;
     }
 
+    /**
+     * Set double tap responder for tap gestures on map.
+     */
     public void setDoubleTapResponder(TouchInput.DoubleTapResponder doubleTapResponder) {
         this.doubleTapResponder = doubleTapResponder;
         mapController.setDoubleTapResponder(this.doubleTapResponder);
     }
 
+    /**
+     * Get the map's double tap responder.
+     */
     public TouchInput.DoubleTapResponder getDoubleTapResponder() {
         return doubleTapResponder;
     }
 
-
+    /**
+     * Set long press responder for tap gestures on map.
+     */
     public void setLongPressResponder(TouchInput.LongPressResponder longPressResponder) {
         this.longPressResponder = longPressResponder;
         mapController.setLongPressResponder(this.longPressResponder);
     }
 
+    /**
+     * Get the map's long press responder.
+     */
     public TouchInput.LongPressResponder getLongPressResponder() {
         return longPressResponder;
     }
 
+    /**
+     * Set pan responder for tap gestures on map.
+     */
     public void setPanResponder(TouchInput.PanResponder panResponder) {
         this.panResponder = panResponder;
         mapController.setPanResponder(this.panResponder);
     }
 
+    /**
+     * Get the map's pan responder.
+     */
     public TouchInput.PanResponder getPanResponder() {
         return panResponder;
     }
 
+    /**
+     * Set rotate responder for tap gestures on map.
+     */
     public void setRotateResponder(TouchInput.RotateResponder rotateResponder) {
         this.rotateResponder = rotateResponder;
         mapController.setRotateResponder(this.rotateResponder);
     }
 
+    /**
+     * Get the map's rotate responder.
+     */
     public TouchInput.RotateResponder getRotateResponder() {
         return rotateResponder;
     }
 
+    /**
+     * Set scale responder for tap gestures on map.
+     */
     public void setScaleResponder(TouchInput.ScaleResponder scaleResponder) {
         this.scaleResponder = scaleResponder;
         mapController.setScaleResponder(scaleResponder);
     }
 
+    /**
+     * Get the map's scale responder.
+     */
     public TouchInput.ScaleResponder getScaleResponder() {
         return scaleResponder;
     }
 
+    /**
+     * Set shove responder for tap gestures on map.
+     */
     public void setShoveResponder(TouchInput.ShoveResponder shoveResponder) {
         this.shoveResponder = shoveResponder;
         mapController.setShoveResponder(this.shoveResponder);
     }
 
+    /**
+     * Get the map's shove responder.
+     */
     public TouchInput.ShoveResponder getShoveResponder() {
         return shoveResponder;
     }
 
+    /**
+     * Set whether the gesture {@code second} can be recognized while {@code first} is in progress.
+     *
+     * @param first Initial gesture type
+     * @param second Subsequent gesture type
+     * @param allowed True if {@code second} should be recognized, else false
+     */
+    public void setSimultaneousGestureAllowed(TouchInput.Gestures first, TouchInput.Gestures second,
+            boolean allowed) {
+        mapController.setSimultaneousGestureAllowed(first, second, allowed);
+    }
+
+    /**
+     * Get whether the gesture {@code second} can be recognized while {@code first} is in progress.
+     *
+     * @param first Initial gesture type
+     * @param second Subsequent gesture type
+     * @return True if {@code second} will be recognized, else false
+     */
+    public boolean isSimultaneousGestureAllowed(TouchInput.Gestures first,
+            TouchInput.Gestures second) {
+        return mapController.isSimultaneousGestureAllowed(first, second);
+    }
 }

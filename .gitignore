@@ -6,8 +6,3 @@ captures
 .DS_Store
 *.iml
 
-library/src/main/assets/styles/bubble-wrap
-library/src/main/assets/styles/cinnabar
-library/src/main/assets/styles/outdoor
-library/src/main/assets/styles/refill
-

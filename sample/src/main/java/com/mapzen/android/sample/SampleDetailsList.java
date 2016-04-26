@@ -23,6 +23,9 @@ public final class SampleDetailsList {
                     PolygonMapzenActivity.class),
             new SampleDetails(R.string.switch_style_map_demo_label,
                     R.string.switch_style_map_demo_description,
-                    SwitchStyleActivity.class)
+                    SwitchStyleActivity.class),
+            new SampleDetails(R.string.touch_responder_map_demo_label,
+                    R.string.touch_responder_map_demo_description,
+                    TouchResponderActivity.class)
     };
 }
