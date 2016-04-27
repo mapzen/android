@@ -31,3 +31,6 @@ Interacting with the map:
 - [Polylines](https://github.com/mapzen/android/blob/master/docs/polyline.md)
 - [Polygons](https://github.com/mapzen/android/blob/master/docs/polygon.md)
 - [Switching styles](https://github.com/mapzen/android/blob/master/docs/styles.md)
+
+# Sample
+For a working example please refer to the SDK [sample app](https://github.com/mapzen/android/tree/master/sample).
