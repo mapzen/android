@@ -5,7 +5,6 @@ import com.mapzen.android.model.MapStyle;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Paint;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
@@ -64,8 +63,7 @@ public class MapView extends RelativeLayout {
         super.onFinishInflate();
         tangramMapView = (TangramMapView) findViewById(R.id.map);
         findMe = (ImageButton) findViewById(R.id.find_me);
-        TextView attribution = (TextView) findViewById(R.id.attribution);
-        attribution.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+        final TextView attribution = (TextView) findViewById(R.id.attribution);
         attribution.setOnClickListener(new OnClickListener() {
             @Override public void onClick(View v) {
                 Intent intent = new Intent();
