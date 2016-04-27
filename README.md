@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/mapzen/android.png?label=ready&title=Ready)](https://waffle.io/mapzen/android)
 # Mapzen Android SDK
 [![Circle CI](https://circleci.com/gh/mapzen/android.svg?style=svg&circle-token=3191e9499a851a9a3869a72ee3c55d4e29133ebc)](https://circleci.com/gh/mapzen/android)
 
