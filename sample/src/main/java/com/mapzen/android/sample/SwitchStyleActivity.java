@@ -5,6 +5,9 @@ import com.mapzen.android.MapzenMap;
 import com.mapzen.android.OnMapReadyCallback;
 import com.mapzen.android.model.MapStyle;
 
+import com.mapzen.tangram.TouchInput.DoubleTapResponder;
+import com.mapzen.tangram.LngLat;
+
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,7 +20,7 @@ import android.widget.Spinner;
  * Demonstrates switching the map's style.
  */
 public class SwitchStyleActivity extends AppCompatActivity implements
-        AdapterView.OnItemSelectedListener {
+        AdapterView.OnItemSelectedListener, DoubleTapResponder {
 
     private MapFragment mapFragment;
     private MapzenMap mapzenMap;
@@ -42,6 +45,7 @@ public class SwitchStyleActivity extends AppCompatActivity implements
         mapFragment.getMapAsync(MapStyle.BUBBLE_WRAP, new OnMapReadyCallback() {
             @Override public void onMapReady(MapzenMap mapzenMap) {
                 SwitchStyleActivity.this.mapzenMap = mapzenMap;
+                mapzenMap.getMapController().setDoubleTapResponder(SwitchStyleActivity.this);
             }
         });
     }
@@ -63,6 +67,15 @@ public class SwitchStyleActivity extends AppCompatActivity implements
             case 2:
                 changeMapStyle(MapStyle.REFILL);
                 break;
+            case 3:
+                changeMapStyle(MapStyle.OUTDOOR);
+                break;
+            case 4:
+                changeMapStyle(MapStyle.GOTHAM);
+                break;
+            case 5:
+                changeMapStyle(MapStyle.BLUEPRINT);
+                break;
             default:
                 changeMapStyle(MapStyle.BUBBLE_WRAP);
                 break;
@@ -71,5 +84,17 @@ public class SwitchStyleActivity extends AppCompatActivity implements
 
     @Override public void onNothingSelected(AdapterView<?> parent) {
         // Do nothing.
+    }
+
+    @Override
+    public boolean onDoubleTap(float x, float y) {
+        mapzenMap.getMapController().setZoomEased(mapzenMap.getZoom() + 1.f, 500);
+        LngLat tapped = mapzenMap.getMapController().coordinatesAtScreenPosition(x, y);
+        LngLat current = mapzenMap.getPosition();
+        LngLat next = new LngLat(
+                .5 * (tapped.longitude + current.longitude),
+                .5 * (tapped.latitude + current.latitude));
+        mapzenMap.getMapController().setPositionEased(next, 500);
+        return true;
     }
 }
