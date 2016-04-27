@@ -1,0 +1,346 @@
+# Author @patriciogv - 2015
+
+sources:
+    osm:
+        type: TopoJSON
+        url:  http://vector.mapzen.com/osm/all/{z}/{x}/{y}.topojson?api_key=vector-tiles-JUsa0Gc
+cameras:
+    perspective:
+        type: perspective
+        vanishing_point: [0, -500]
+lights:
+    directional1:
+        type: directional
+        direction: [.1, .5, -1]
+        diffuse: .7
+        ambient: .5
+scene:
+    background:
+        color: [0.,0.5,0.8]
+styles:
+    geometry-normal:
+        shaders:
+            blocks:
+                global: |
+                    #ifdef TANGRAM_FRAGMENT_SHADER
+                    // Ask to the geometry normals if this surface is a Wall
+                    bool isWall() {
+                        return dot(vec3(0., 0., 1.), worldNormal()) < 1.0 - TANGRAM_EPSILON;
+                    }
+                    //
+                    // Ask to the geometry normals if this surface is a roof
+                    bool isRoof() {
+                        return !isWall();
+                    }
+                    #endif
+    color-tools:
+        shaders:
+            blocks:
+                global: |
+                    // Get the intensity of a color
+                    // ================================
+                    float getIntensity (vec3 c) {
+                        return (c.r+c.g+c.b)/3.0;
+                    }
+                    float getIntensity (vec4 c) {
+                        return getIntensity(c.rgb);
+                    }
+                    //
+                    // Get the Brightness of a color
+                    // ================================
+                    float getBrightness (vec3 c) {
+                        return 0.212655 * c.r + 0.715158 * c.g + 0.072187 * c.b;
+                    }
+                    float getBrightness (vec4 c) {
+                        return getBrightness(c.rgb);
+                    }
+    generative-random:
+        shaders:
+            blocks:
+                global: |
+                    // 1D Random for 1 and 2 dimentions
+                    // ================================
+                    float random (float x) {
+                        return fract(sin(x)*1e4);
+                    }
+                    float random (vec2 xy) {
+                        return fract(sin(dot(xy.xy, vec2(12.9898,78.233)))* 43758.5453123);
+                    }
+                    //
+                    // 2D Random for 2 dimentions
+                    // ================================
+                    vec2 random2 (vec2 xy) {
+                        return fract(sin(vec2(dot(xy,vec2(127.1,311.7)),dot(xy,vec2(269.5,183.3))))*43758.5453);
+                    }
+                    //
+                    // 3D Random for 2 dimentions
+                    // ================================
+                    vec3 random3 (vec2 xy) { 
+                        return fract(sin(vec3( dot(xy,vec2(127.1,311.7)), dot(xy,vec2(269.5,183.3)), dot(xy,vec2(419.2,371.9)) ))*43758.5453); 
+                    }
+    generative-noise:
+        mix: generative-random
+        shaders:
+            blocks:
+                global: |
+                    // 1D Value Noise for 1, 2 and 3 dimentions
+                    // ================================
+                    float noise (in float x) {
+                        float i = floor(x);
+                        float f = fract(x);
+                        float u = f * f * (3.0 - 2.0 * f);
+                        return mix(random(i), random(i + 1.0), u);
+                    }
+                    float noise (vec2 xy) {
+                        vec2 i = floor(xy);
+                        vec2 f = fract(xy);
+                        float a = random(i);
+                        float b = random(i + vec2(1.0, 0.0));
+                        float c = random(i + vec2(0.0, 1.0));
+                        float d = random(i + vec2(1.0, 1.0));
+                        vec2 u = f * f * (3.0 - 2.0 * f);
+                        return mix(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
+                    }
+                    float noise (vec3 xyz) {
+                        const vec3 step = vec3(110.0, 241.0, 171.0);
+                        vec3 i = floor(xyz);
+                        vec3 f = fract(xyz);
+                        float n = dot(i, step);
+                        vec3 u = f * f * (3.0 - 2.0 * f);
+                        return mix( mix(mix(random(n + dot(step, vec3(0,0,0))),
+                                            random(n + dot(step, vec3(1,0,0))),
+                                            u.x),
+                                        mix(random(n + dot(step, vec3(0,1,0))),
+                                            random(n + dot(step, vec3(1,1,0))),
+                                            u.x),
+                                        u.y),
+                                    mix(mix(random(n + dot(step, vec3(0,0,1))),
+                                        random(n + dot(step, vec3(1,0,1))),
+                                        u.x),
+                                        mix(random(n + dot(step, vec3(0,1,1))),
+                                            random(n + dot(step, vec3(1,1,1))),
+                                            u.x),
+                                    u.y),
+                                u.z);
+                    }
+    generative-fbm:
+        mix: generative-noise
+        shaders:
+            defines:
+                NUM_OCTAVES: 5
+            blocks:
+                global: |
+                    // Fractional Brownian motion for 1 and 2 dimensions
+                    float fbm (float x) {
+                        float v = 0.0;
+                        float a = 0.5;
+                        float shift = float(100.0);
+                        for (int i = 0; i < int(NUM_OCTAVES); ++i) {
+                            v += a * noise(x);
+                            x = x * 2.0 + shift;
+                            a *= 0.5;
+                        }
+                        return v;
+                    }
+                    float fbm (vec2 xy) {
+                        float v = 0.0;
+                        float a = 0.5;
+                        vec2 shift = vec2(100.0);
+                        mat2 rot = mat2(cos(0.5), sin(0.5), 
+                                        -sin(0.5), cos(0.50));
+                        for (int i = 0; i < int(NUM_OCTAVES); ++i) {
+                            v += a * noise(xy);
+                            xy = rot * xy * 2.0 + shift;
+                            a *= 0.5;
+                        }
+                        return v;
+                    }
+    grids-grid:
+        shaders:
+            blocks:
+                global: |
+                    // Draw a grid in the space a specific resolution and pressition
+                    bool grid (vec2 st, float res, float press) {
+                        vec2 grid = fract(st*res);
+                        return grid.x < res*press || grid.y < res*press;
+                    }
+                    //
+                    // Draw a grid in the space a specific resolution
+                    bool grid (vec2 st, float res) {
+                        return grid(st, res, 1.0);
+                    }
+    functions-map:
+        shaders:
+            defines:
+                EPSILON: 0.0000001
+            blocks:
+                global: |
+                    float map (in float value, in float inputMin, in float inputMax, in float outputMin, in float outputMax, bool clamp) {
+                        if (abs(inputMin - inputMax) < EPSILON){
+                            return outputMin;
+                        } else {
+                            float outVal = ((value - inputMin) / (inputMax - inputMin) * (outputMax - outputMin) + outputMin);
+                        
+                            if( clamp ){
+                                if(outputMax < outputMin){
+                                    if( outVal < outputMax ) outVal = outputMax;
+                                    else if( outVal > outputMin ) outVal = outputMin;
+                                }else{
+                                    if( outVal > outputMax ) outVal = outputMax;
+                                    else if( outVal < outputMin ) outVal = outputMin;
+                                }
+                            }
+                            return outVal;
+                        }
+                    }
+                    
+                    float map (in float value, in float inputMin, in float inputMax, in float outputMin, in float outputMax) {
+                        return map(value, inputMin, inputMax, outputMin, outputMax, true); 
+                    }
+    geometry-dynamic-height:
+        mix: functions-map
+        shaders:
+            defines:
+                ZOOM_START: 15.0
+                ZOOM_END: 20.0
+                ZOOM_LINEAR_FACTOR: 2.0
+            blocks:
+                position: |
+                    float zoom = map(u_map_position.z,ZOOM_START,ZOOM_END,1.,0.);
+                    position.z *= max(1.,.5+ZOOM_LINEAR_FACTOR*zoom);
+    geometry-dynamic-width:
+        shaders:
+            blocks:
+                width: |
+                    width *= 0.2+min(pow(position.z*0.006,2.),.6);                   
+    blueprint:
+        base: polygons
+        mix: [color-tools, generative-fbm, grids-grid]
+        lighting: false
+        shaders:
+            blocks:
+                global: |
+                    // Fragment Shader function that makes the grid and dust efect
+                    // on screen space 
+                    #ifdef TANGRAM_FRAGMENT_SHADER
+                    vec3 BluePrint(){
+                        vec2 pos = gl_FragCoord.xy;
+                        vec2 st = pos/u_resolution.xy-vec2(.5);
+                        // Interpolate circularly (+ dust FBn noise) this two colors
+                        vec3 background = mix(  vec3(0.,0.5,0.8), // Cyan
+                                                vec3(0.,0.0,0.3), // Dark blue
+                                                dot(st,st) + (fbm(pos*0.6)*0.1) );
+                        if (grid(pos,0.01)) { background += vec3(0.05); }
+                        if (grid(pos,0.1)) { background += vec3(0.02); }
+                        return background;
+                    }
+                    #endif
+    base:
+        base: polygons
+        mix: blueprint
+        lighting: false
+        shaders:
+            blocks: 
+                filter: |
+                    // Apply this bluePrint effect as a final filter
+                    color.rgb += BluePrint();
+    baseline:
+        base: lines
+        lighting: false
+    buildings:
+        base: polygons
+        mix: [blueprint, geometry-normal, geometry-dynamic-height]
+        texcoords: true
+        lighting: vertex
+        shaders:
+            blocks:
+                color: |
+                    if (isWall()){
+                        // Put lines at the edge of walls
+                        float lineWidth = 0.005*(u_tile_origin.z/20.0);
+                        color.rgb = 1.0-vec3(step(lineWidth,v_texcoord.x)-step(1.0-lineWidth,v_texcoord.x));
+                    }
+                filter: |
+                    // Apply this bluePrint effect as a final filter
+                    color.rgb += BluePrint();
+    buildingsLines:
+        base: lines
+        mix: [blueprint, geometry-dynamic-height, geometry-dynamic-width]
+        lighting: false
+        shaders:
+            blocks:
+                filter: |
+                    color.rgb = mix(BluePrint(),
+                                    vec3(1.),
+                                    min(max(0.001,(u_map_position.z-13.))/3.,1.0) );
+    roads:
+        base: lines
+        mix: blueprint
+        texcoords: true
+        lighting: false
+        shaders:
+            blocks:
+                color: |
+                    float lineWidth = 0.1;
+                    float pct = 1.0-(step(lineWidth,v_texcoord.x)-step(1.0-lineWidth,v_texcoord.x));
+                    color.rgb = vec3(0.14+pct*0.1);
+                filter: |
+                    // Apply this bluePrint effect as a final filter
+                    color.rgb += BluePrint();
+layers:
+    water:
+        data: { source: osm }
+        draw:
+            base:
+                order: 3
+                color: [.1,.1,.1]
+    earth:
+        data: { source: osm }
+        draw:
+            baseline:
+                order: 4
+                width: 1.5px
+                color: '#C1D3DC' 
+            base:
+                order: 0
+                color: [0.080,0.080,0.080]
+    landuse:
+        data: { source: osm }
+        draw:
+            baseline:
+                order: 2
+                width: 0.5px
+                color: white
+            base:
+                order: 1
+                color: [0.116,0.116,0.116]
+    roads:
+        data: { source: osm }
+        filter: { not: { kind: ferry } }
+        properties: { width: 3 }
+        draw:
+            roads:
+                order: 4
+                color: '#C1D3DC'
+                width: 6
+    buildings:
+        data: { source: osm }
+        filter: { $zoom: { min: 10 } }
+        draw:
+            buildings:
+                order: 5
+                color: [.05,.05,0.05]
+            baseline:
+                order: 5
+                width: [[12, .1px], [18, 0.5m]]
+                color: '#C1D3DC'
+        extruded:
+            filter: { $zoom: { min: 13 } }
+            draw:
+                buildings:
+                    extrude: true
+                buildingsLines:
+                    order: 6
+                    color: white
+                    width: [[12, 0.1px], [14, 1.0px], [15, 1.5px], [17, 2px], [18, 2.5px]]
+                    extrude: true

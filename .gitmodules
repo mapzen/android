@@ -7,3 +7,6 @@
 [submodule "library/src/main/assets/styles/refill"]
 	path = library/src/main/assets/styles/refill
 	url = git@github.com:tangrams/refill-style.git
+[submodule "library/src/main/assets/styles/outdoors"]
+	path = library/src/main/assets/styles/outdoors
+	url = https://github.com/tangrams/outdoor-style
