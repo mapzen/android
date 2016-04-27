@@ -27,7 +27,7 @@ Sign up for a vector tiles API key from the [Mapzen developer portal](https://ma
 Initialize the map using `getMapAsync(OnMapReadyCallback)`.
 
 ```java
-mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
+MapFragment mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.map_fragment);
 mapFragment.getMapAsync(new OnMapReadyCallback() {
   @Override public void onMapReady(MapzenMap map) {
     // Map is ready.

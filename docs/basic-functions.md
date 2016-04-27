@@ -3,7 +3,7 @@
 Use the `MapzenMap` instance returned by `getMapAsync(OnMapReadyCallback)` to set the position, rotation, and zoom level.
 
 ```java
-mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
+MapFragment mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.map_fragment);
 mapFragment.getMapAsync(new OnMapReadyCallback() {
     @Override public void onMapReady(MapzenMap map) {
         map.setPosition(new LngLat(-73.9903, 40.74433));

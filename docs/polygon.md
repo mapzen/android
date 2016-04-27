@@ -11,7 +11,7 @@ protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_sample_mapzen);
 
-    mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
+    MapFragment mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.map_fragment);
     mapFragment.getMapAsync(OnMapReadyCallback() {
         @Override public void onMapReady(MapzenMap map) {
             configureMap(map);
