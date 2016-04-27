@@ -2,7 +2,7 @@
 
 ## Download
 
-Download the [latest AAR](https://oss.sonatype.org/content/repositories/snapshots/com/mapzen/mapzen-android-sdk/0.1.0-SNAPSHOT/).
+Download the [latest AAR](http://search.maven.org/remotecontent?filepath=com/mapzen/mapzen-android-sdk/1.0.0/mapzen-android-sdk-1.0.0.aar).
 
 ## Maven
 
@@ -12,7 +12,8 @@ Include dependency using Maven.
 <dependency>
   <groupId>com.mapzen</groupId>
   <artifactId>mapzen-android-sdk</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>1.0.0</version>
+  <type>aar</type>
 </dependency>
 ```
 
@@ -21,5 +22,12 @@ Include dependency using Maven.
 Include dependency using Gradle.
 
 ```groovy
-compile 'com.mapzen:mapzen-android-sdk:0.1.0-SNAPSHOT'
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  compile 'com.mapzen:mapzen-android-sdk:1.0.0'
+  ...
+}
 ```
