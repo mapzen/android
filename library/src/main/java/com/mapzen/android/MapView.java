@@ -4,12 +4,16 @@ import com.mapzen.android.dagger.DI;
 import com.mapzen.android.model.MapStyle;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Paint;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import javax.inject.Inject;
 
@@ -17,6 +21,9 @@ import javax.inject.Inject;
  * Wrapper for Tangram MapView that initializes {@link MapzenMap} for client applications.
  */
 public class MapView extends RelativeLayout {
+
+    private static final String MAPZEN_RIGHTS = "https://mapzen.com/rights/";
+
     @Inject MapInitializer mapInitializer;
 
     TangramMapView tangramMapView;
@@ -57,6 +64,16 @@ public class MapView extends RelativeLayout {
         super.onFinishInflate();
         tangramMapView = (TangramMapView) findViewById(R.id.map);
         findMe = (ImageButton) findViewById(R.id.find_me);
+        TextView attribution = (TextView) findViewById(R.id.attribution);
+        attribution.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+        attribution.setOnClickListener(new OnClickListener() {
+            @Override public void onClick(View v) {
+                Intent intent = new Intent();
+                Uri uri = Uri.parse(MAPZEN_RIGHTS);
+                intent.setData(uri);
+                MapView.this.getContext().startActivity(intent);
+            }
+        });
     }
 
     /**

@@ -21,4 +21,15 @@
         android:src="@drawable/ic_find_me"
         tools:ignore="RtlHardcoded" />
 
+    <TextView
+        android:id="@+id/attribution"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_blue_bright"
+        android:textSize="9dp"
+        android:text="@string/attribution"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="8dp"/>
+
 </merge>
