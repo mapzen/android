@@ -7,5 +7,7 @@ public enum MapStyle {
     BUBBLE_WRAP,
     CINNABAR,
     REFILL,
-    OUTDOOR
+    OUTDOOR,
+    GOTHAM,
+    BLUEPRINT
 }
