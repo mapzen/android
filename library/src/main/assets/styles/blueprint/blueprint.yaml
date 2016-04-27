@@ -292,17 +292,18 @@ layers:
         data: { source: osm }
         draw:
             base:
-                order: 3
+                order: function() { return feature.sort_key; }
                 color: [.1,.1,.1]
     earth:
         data: { source: osm }
         draw:
             baseline:
+                order: function() { return feature.sort_key; }
                 order: 4
                 width: 1.5px
                 color: '#C1D3DC' 
             base:
-                order: 0
+                order: function() { return feature.sort_key; }
                 color: [0.080,0.080,0.080]
     landuse:
         data: { source: osm }
@@ -320,7 +321,7 @@ layers:
         properties: { width: 3 }
         draw:
             roads:
-                order: 4
+                order: function() { return feature.sort_key; }
                 color: '#C1D3DC'
                 width: 6
     buildings:
@@ -328,10 +329,11 @@ layers:
         filter: { $zoom: { min: 10 } }
         draw:
             buildings:
+                order: function() { return feature.sort_key; }
                 order: 5
                 color: [.05,.05,0.05]
             baseline:
-                order: 5
+                order: function() { return feature.sort_key; }
                 width: [[12, .1px], [18, 0.5m]]
                 color: '#C1D3DC'
         extruded:
@@ -340,7 +342,7 @@ layers:
                 buildings:
                     extrude: true
                 buildingsLines:
-                    order: 6
+                    order: function() { return feature.sort_key + 5; }
                     color: white
                     width: [[12, 0.1px], [14, 1.0px], [15, 1.5px], [17, 2px], [18, 2.5px]]
                     extrude: true
