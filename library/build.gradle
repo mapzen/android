@@ -60,6 +60,7 @@ task checkstyle(type: Checkstyle) {
 }
 
 task verify(dependsOn: [
+    'compileDebugSources',
     'test',
     'checkstyle',
     'lint'
