@@ -7,6 +7,7 @@ import org.mockito.Mockito;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.opengl.GLSurfaceView;
 
 import static org.mockito.Mockito.when;
 
@@ -19,7 +20,7 @@ public class TestMapController extends MapController {
     private float mapTilt = 0;
 
     public TestMapController() {
-        super(getMockContext(), "");
+        super(new GLSurfaceView(getMockContext()), "");
     }
 
     @Override public void setPositionEased(LngLat lngLat, int duration) {
