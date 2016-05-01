@@ -23,4 +23,15 @@
         <item>Cinnabar</item>
         <item>Refill</item>
     </string-array>
+    <string name="on_single_tap_up">Single Tap Up</string>
+    <string name="on_single_tap_confirmed">Single Tap Confirmed</string>
+    <string name="on_shove">Shove</string>
+    <string name="on_scale">Scale</string>
+    <string name="on_pan">Pan</string>
+    <string name="on_fling">Fling</string>
+    <string name="on_double_tap">Double Tap</string>
+    <string name="on_long_press">Long Press</string>
+    <string name="touch_responder_map_demo_label">Touch Responders</string>
+    <string name="touch_responder_map_demo_description">Adds various touch responders to map</string>
+    <string name="on_rotate">Rotate</string>
 </resources>
