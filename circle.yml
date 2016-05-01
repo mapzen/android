@@ -5,7 +5,7 @@ checkout:
 
 test:
   override:
-    - ./gradlew clean verify assembleDebug
+    - ./gradlew clean verify
 
 deployment:
   master:
