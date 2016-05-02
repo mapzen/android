@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Mapzen Sample</string>
+    <string name="app_name">Mapzen SDK</string>
     <string name="action_settings">Settings</string>
     <string name="need_permissions">Can\'t show all demo features, don\'t have necessary permissions</string>
     <string name="sample_map_demo_label">Basic Map</string>
