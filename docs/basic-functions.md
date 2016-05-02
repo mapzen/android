@@ -8,7 +8,8 @@ mapFragment.getMapAsync(new OnMapReadyCallback() {
     @Override public void onMapReady(MapzenMap map) {
         map.setPosition(new LngLat(-73.9903, 40.74433));
         map.setRotation(0f);
-        map.setZoom(17f); 
+        map.setZoom(17f);
+        map.setTilt(0f);
     }
 });
 ```
