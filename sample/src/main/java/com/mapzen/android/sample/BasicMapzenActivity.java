@@ -14,6 +14,12 @@ public class BasicMapzenActivity extends AppCompatActivity {
 
     private MapzenMap map;
 
+    /**
+     *  To conserve resources, {@link MapzenMap#setMyLocationEnabled} is set to false when
+     *  the activity is paused and re-enabled when the activity resumes.
+     */
+    private boolean enableLocationOnResume = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,5 +37,20 @@ public class BasicMapzenActivity extends AppCompatActivity {
 
     private void configureMap() {
         map.setMyLocationEnabled(true);
+    }
+
+    @Override protected void onPause() {
+        super.onPause();
+        if (map.isMyLocationEnabled()) {
+            map.setMyLocationEnabled(false);
+            enableLocationOnResume = true;
+        }
+    }
+
+    @Override protected void onResume() {
+        super.onResume();
+        if (enableLocationOnResume) {
+            map.setMyLocationEnabled(true);
+        }
     }
 }

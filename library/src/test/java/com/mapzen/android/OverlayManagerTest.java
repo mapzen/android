@@ -104,6 +104,18 @@ public class OverlayManagerTest {
     }
 
     @Test
+    public void isMyLocationEnabled_shouldReturnTrue() throws Exception {
+        overlayManager.setMyLocationEnabled(true);
+        assertThat(overlayManager.isMyLocationEnabled()).isTrue();
+    }
+
+    @Test
+    public void isMyLocationEnabled_shouldReturnFalse() throws Exception {
+        overlayManager.setMyLocationEnabled(false);
+        assertThat(overlayManager.isMyLocationEnabled()).isFalse();
+    }
+
+    @Test
     public void addPolyline_shouldReturnMapData() throws Exception {
         PowerMockito.doReturn(Mockito.mock(MapData.class)).when(mapController, "addDataLayer",
                 anyString());

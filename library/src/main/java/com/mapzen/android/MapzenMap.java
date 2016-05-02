@@ -227,6 +227,14 @@ public class MapzenMap {
     }
 
     /**
+     * Are we tracking the user's current location.
+     * @return
+     */
+    public boolean isMyLocationEnabled() {
+        return overlayManager.isMyLocationEnabled();
+    }
+
+    /**
      * Adds marker overlay to map. Returned {@link MapData} should be removed from map
      */
     public MapData addMarker(Marker marker) {
