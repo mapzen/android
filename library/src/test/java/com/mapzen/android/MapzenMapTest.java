@@ -138,6 +138,11 @@ public class MapzenMapTest {
         verify(overlayManager).setMyLocationEnabled(true);
     }
 
+    @Test public void isMyLocationEnabled_shouldInvokeOverlayManager() throws Exception {
+        map.isMyLocationEnabled();
+        verify(overlayManager).isMyLocationEnabled();
+    }
+
     @Test public void addMarker_shouldInvokeOverlayManager() throws Exception {
         Marker marker = new Marker(0, 0);
         map.addMarker(marker);

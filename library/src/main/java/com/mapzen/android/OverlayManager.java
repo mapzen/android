@@ -109,6 +109,14 @@ public class OverlayManager {
     }
 
     /**
+     * Are we tracking the user's current location.
+     * @return
+     */
+    public boolean isMyLocationEnabled() {
+        return myLocationEnabled;
+    }
+
+    /**
      * Adds a polyline to the map.
      * @param polyline
      */
