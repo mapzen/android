@@ -23,7 +23,7 @@ protected void onCreate(Bundle savedInstanceState) {
     spinner.setOnItemSelectedListener(this);
 
     mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
-    mapFragment.getMapAsync(MapStyle.REFILL, new OnMapReadyCallback() {
+    mapFragment.getMapAsync(new RefillStyle(), new OnMapReadyCallback() {
         @Override public void onMapReady(MapzenMap mapzenMap) {
             SwitchStyleActivity.this.mapzenMap = mapzenMap;
         }
@@ -40,16 +40,16 @@ private void changeMapStyle(MapStyle style) {
 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
     switch (position) {
         case 0:
-            changeMapStyle(MapStyle.BUBBLE_WRAP);
+            changeMapStyle(new BubbleWrapStyle());
             break;
         case 1:
-            changeMapStyle(MapStyle.CINNABAR);
+            changeMapStyle(new CinnabarStyle());
             break;
         case 2:
-            changeMapStyle(MapStyle.REFILL);
+            changeMapStyle(new RefillStyle());
             break;
         default:
-            changeMapStyle(MapStyle.BUBBLE_WRAP);
+            changeMapStyle(new BubbleWrapStyle());
             break;
     }
 }

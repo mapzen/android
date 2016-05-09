@@ -3,7 +3,10 @@ package com.mapzen.android.sample;
 import com.mapzen.android.MapFragment;
 import com.mapzen.android.MapzenMap;
 import com.mapzen.android.OnMapReadyCallback;
+import com.mapzen.android.model.BubbleWrapStyle;
+import com.mapzen.android.model.CinnabarStyle;
 import com.mapzen.android.model.MapStyle;
+import com.mapzen.android.model.RefillStyle;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -39,7 +42,7 @@ public class SwitchStyleActivity extends AppCompatActivity implements
         spinner.setOnItemSelectedListener(this);
 
         mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
-        mapFragment.getMapAsync(MapStyle.BUBBLE_WRAP, new OnMapReadyCallback() {
+        mapFragment.getMapAsync(new BubbleWrapStyle(), new OnMapReadyCallback() {
             @Override public void onMapReady(MapzenMap mapzenMap) {
                 SwitchStyleActivity.this.mapzenMap = mapzenMap;
             }
@@ -55,16 +58,16 @@ public class SwitchStyleActivity extends AppCompatActivity implements
     @Override public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch (position) {
             case 0:
-                changeMapStyle(MapStyle.BUBBLE_WRAP);
+                changeMapStyle(new BubbleWrapStyle());
                 break;
             case 1:
-                changeMapStyle(MapStyle.CINNABAR);
+                changeMapStyle(new CinnabarStyle());
                 break;
             case 2:
-                changeMapStyle(MapStyle.REFILL);
+                changeMapStyle(new RefillStyle());
                 break;
             default:
-                changeMapStyle(MapStyle.BUBBLE_WRAP);
+                changeMapStyle(new BubbleWrapStyle());
                 break;
         }
     }

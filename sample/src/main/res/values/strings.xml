@@ -34,4 +34,6 @@
     <string name="touch_responder_map_demo_label">Touch Responders</string>
     <string name="touch_responder_map_demo_description">Adds various touch responders to map</string>
     <string name="on_rotate">Rotate</string>
+    <string name="custom_style_map_demo_label">Custom Stylesheet</string>
+    <string name="custom_style_map_demo_description">Demonstrates setting a custom scene file on the map</string>
 </resources>

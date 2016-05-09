@@ -44,4 +44,5 @@ public class MapViewTest {
         mapView.getMapAsync(key, callback);
         verify(mapInitializer, times(1)).init(mapView, key, callback);
     }
+
 }

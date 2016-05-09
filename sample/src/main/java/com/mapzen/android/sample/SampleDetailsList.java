@@ -24,6 +24,9 @@ public final class SampleDetailsList {
             new SampleDetails(R.string.switch_style_map_demo_label,
                     R.string.switch_style_map_demo_description,
                     SwitchStyleActivity.class),
+            new SampleDetails(R.string.custom_style_map_demo_label,
+                    R.string.custom_style_map_demo_description,
+                    CustomStylesheetActivity.class),
             new SampleDetails(R.string.touch_responder_map_demo_label,
                     R.string.touch_responder_map_demo_description,
                     TouchResponderActivity.class)
