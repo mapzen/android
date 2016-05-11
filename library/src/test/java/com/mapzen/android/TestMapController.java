@@ -2,6 +2,8 @@ package com.mapzen.android;
 
 import com.mapzen.tangram.LngLat;
 import com.mapzen.tangram.MapController;
+import com.mapzen.tangram.MapData;
+import com.mapzen.tangram.TestMapData;
 
 import org.mockito.Mockito;
 
@@ -54,6 +56,14 @@ public class TestMapController extends MapController {
 
     @Override public float getTilt() {
         return mapTilt;
+    }
+
+    @Override public MapData addDataLayer(String name) {
+        return new TestMapData(name);
+    }
+
+    @Override public void requestRender() {
+
     }
 
     private static Context getMockContext() {

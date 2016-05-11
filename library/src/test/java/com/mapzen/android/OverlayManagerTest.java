@@ -20,6 +20,9 @@ import org.powermock.reflect.Whitebox;
 
 import android.location.Location;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyFloat;
@@ -27,6 +30,8 @@ import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doCallRealMethod;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.doNothing;
 import static org.powermock.api.mockito.PowerMockito.mock;
@@ -184,4 +189,172 @@ public class OverlayManagerTest {
         MapData markerMapData = overlayManager.addMarker(null);
         assertThat(markerMapData).isNotNull();
     }
+
+    @Test
+    public void drawRoutePins_shouldAddStartPin() {
+        when(mapController.addDataLayer(anyString())).thenCallRealMethod();
+
+        LngLat start = new LngLat(-123, -70);
+        LngLat end = new LngLat(-123.1, -70.1);
+        overlayManager.drawRoutePins(start, end);
+        verify(mapController).addDataLayer("mz_route_start");
+    }
+
+    @Test
+    public void drawRoutePins_shouldNotAddStartPin() {
+        when(mapController.addDataLayer(anyString())).thenCallRealMethod();
+
+        LngLat start = new LngLat(-123, -70);
+        LngLat end = new LngLat(-123.1, -70.1);
+        overlayManager.drawRoutePins(start, end);
+        overlayManager.drawRoutePins(start, end);
+        verify(mapController, times(1)).addDataLayer("mz_route_start");
+    }
+
+    @Test
+    public void drawRoutePins_shouldAddEndPin() {
+        when(mapController.addDataLayer(anyString())).thenCallRealMethod();
+
+        LngLat start = new LngLat(-123, -70);
+        LngLat end = new LngLat(-123.1, -70.1);
+        overlayManager.drawRoutePins(start, end);
+        verify(mapController).addDataLayer("mz_route_stop");
+    }
+
+    @Test
+    public void drawRoutePins_shouldNotAddEndPin() {
+        when(mapController.addDataLayer(anyString())).thenCallRealMethod();
+
+        LngLat start = new LngLat(-123, -70);
+        LngLat end = new LngLat(-123.1, -70.1);
+        overlayManager.drawRoutePins(start, end);
+        overlayManager.drawRoutePins(start, end);
+        verify(mapController).addDataLayer("mz_route_stop");
+    }
+
+    @Test
+    public void drawRoutePins_shouldRender() {
+        PowerMockito.doCallRealMethod().when(mapController).requestRender();
+        when(mapController.addDataLayer(anyString())).thenCallRealMethod();
+
+        LngLat start = new LngLat(-123, -70);
+        LngLat end = new LngLat(-123.1, -70.1);
+        overlayManager.drawRoutePins(start, end);
+        verify(mapController).requestRender();
+    }
+
+    @Test
+    public void drawDroppedPin_shouldAddDataLayer() {
+        PowerMockito.doCallRealMethod().when(mapController).addDataLayer(anyString());
+
+        LngLat point = new LngLat(-123, -70);
+        overlayManager.drawDroppedPin(point);
+        verify(mapController).addDataLayer("mz_dropped_pin");
+    }
+
+    @Test
+    public void drawDroppedPin_shouldRender() {
+        PowerMockito.doCallRealMethod().when(mapController).addDataLayer(anyString());
+        PowerMockito.doCallRealMethod().when(mapController).requestRender();
+
+        LngLat point = new LngLat(-123, -70);
+        overlayManager.drawDroppedPin(point);
+        verify(mapController).requestRender();
+    }
+
+    @Test
+    public void drawSearchResult_shouldAddDataLayer() {
+        PowerMockito.doCallRealMethod().when(mapController).addDataLayer(anyString());
+
+        LngLat point = new LngLat(-123, -70);
+        overlayManager.drawSearchResult(point, true, 0);
+        verify(mapController).addDataLayer("mz_search_result");
+    }
+
+    @Test
+    public void drawSearchResult_shouldRequestRender() {
+        PowerMockito.doCallRealMethod().when(mapController).addDataLayer(anyString());
+        PowerMockito.doCallRealMethod().when(mapController).requestRender();
+
+        LngLat point = new LngLat(-123, -70);
+        overlayManager.drawSearchResult(point, true, 0);
+        verify(mapController).requestRender();
+    }
+
+    @Test
+    public void drawRoutePin_shouldAddDataLayer() {
+        PowerMockito.doCallRealMethod().when(mapController).addDataLayer(anyString());
+
+        LngLat point = new LngLat(-123, -70);
+        overlayManager.drawRoutePin(point);
+        verify(mapController).addDataLayer("mz_route_location");
+    }
+
+    @Test
+    public void drawRoutePin_shouldAddDataLayerOnce() {
+        PowerMockito.doCallRealMethod().when(mapController).addDataLayer(anyString());
+
+        LngLat point = new LngLat(-123, -70);
+        overlayManager.drawRoutePin(point);
+        overlayManager.drawRoutePin(point);
+        verify(mapController, times(1)).addDataLayer("mz_route_location");
+    }
+
+    @Test
+    public void drawRoutePin_shouldRequestRender() {
+        PowerMockito.doCallRealMethod().when(mapController).addDataLayer(anyString());
+        PowerMockito.doCallRealMethod().when(mapController).requestRender();
+
+        LngLat point = new LngLat(-123, -70);
+        overlayManager.drawRoutePin(point);
+        verify(mapController).requestRender();
+    }
+
+    @Test
+    public void drawRouteLine_shouldAddDataLayer() {
+        PowerMockito.doCallRealMethod().when(mapController).addDataLayer(anyString());
+
+        LngLat point1 = new LngLat(-123, -70.0);
+        LngLat point2 = new LngLat(-123, -70.1);
+        LngLat point3 = new LngLat(-123, -70.2);
+        List<LngLat> points = new ArrayList<>();
+        points.add(point1);
+        points.add(point2);
+        points.add(point3);
+        overlayManager.drawRouteLine(points);
+        verify(mapController).addDataLayer("mz_route_line");
+    }
+
+    @Test
+    public void drawRouteLine_shouldAddDataLayerOnce() {
+        PowerMockito.doCallRealMethod().when(mapController).addDataLayer(anyString());
+
+        LngLat point1 = new LngLat(-123, -70.0);
+        LngLat point2 = new LngLat(-123, -70.1);
+        LngLat point3 = new LngLat(-123, -70.2);
+        List<LngLat> points = new ArrayList<>();
+        points.add(point1);
+        points.add(point2);
+        points.add(point3);
+        overlayManager.drawRouteLine(points);
+        overlayManager.drawRouteLine(points);
+        verify(mapController, times(1)).addDataLayer("mz_route_line");
+    }
+
+    @Test
+    public void drawRouteLine_shouldRequestRender() {
+        PowerMockito.doCallRealMethod().when(mapController).addDataLayer(anyString());
+        PowerMockito.doCallRealMethod().when(mapController).requestRender();
+
+        LngLat point1 = new LngLat(-123, -70.0);
+        LngLat point2 = new LngLat(-123, -70.1);
+        LngLat point3 = new LngLat(-123, -70.2);
+        List<LngLat> points = new ArrayList<>();
+        points.add(point1);
+        points.add(point2);
+        points.add(point3);
+        overlayManager.drawRouteLine(points);
+        verify(mapController).requestRender();
+    }
+
 }

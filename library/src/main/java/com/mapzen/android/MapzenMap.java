@@ -10,8 +10,8 @@ import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.MapData;
 import com.mapzen.tangram.TouchInput;
 
-
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * This is the main class of the Mapzen Android API and is the entry point for all methods related
@@ -20,6 +20,7 @@ import java.util.HashMap;
  * {@link MapView#getMapAsync(OnMapReadyCallback)}.
  */
 public class MapzenMap {
+
     private final MapController mapController;
     private final OverlayManager overlayManager;
 
@@ -393,5 +394,124 @@ public class MapzenMap {
     public boolean isSimultaneousGestureAllowed(TouchInput.Gestures first,
             TouchInput.Gestures second) {
         return mapController.isSimultaneousGestureAllowed(first, second);
+    }
+
+    /**
+     * Draws two pins on the map. The start pin is active and the end pin is inactive.
+     * @param start
+     * @param end
+     */
+    public void drawRoutePins(LngLat start, LngLat end) {
+        overlayManager.drawRoutePins(start, end);
+    }
+
+    /**
+     * Clears the start and end pins from the map.
+     */
+    public void clearRoutePins() {
+        overlayManager.clearRoutePins();
+    }
+
+    /**
+     * Draws a dropped pin on the map at the point supplied.
+     * @param point
+     */
+    public void drawDroppedPin(LngLat point) {
+        overlayManager.drawDroppedPin(point);
+    }
+
+    /**
+     * Clears the dropped pin from the map.
+     */
+    public void clearDroppedPin() {
+        overlayManager.clearDroppedPin();
+    }
+
+    /**
+     * Draws a search result on the map at the point supplied. The pin will be active.
+     * @param point
+     */
+    public void drawSearchResult(LngLat point) {
+        drawSearchResult(point, true);
+    }
+
+    /**
+     * Draws a search result on the map at the point supplied.
+     * @param point
+     * @param active
+     */
+    public void drawSearchResult(LngLat point, boolean active) {
+        overlayManager.drawSearchResult(point, active);
+    }
+
+    /**
+     * Draws search results on the map. All pins are displayed as active.
+     * @param points
+     */
+    public void drawSearchResults(List<LngLat> points) {
+        int index = 0;
+        for (LngLat point : points) {
+            overlayManager.drawSearchResult(point, true, index);
+            index++;
+        }
+    }
+
+    /**
+     * Draws search results on the map. All pins will be inactive except for the one at the active
+     * index supplied.
+     * @param points
+     * @param active
+     */
+    public void drawSearchResults(List<LngLat> points, int active) {
+        int index = 0;
+        for (LngLat point : points) {
+            boolean status = active == index;
+            overlayManager.drawSearchResult(point, status, index);
+            index++;
+        }
+    }
+
+    /**
+     * Clears search result from the map.
+     */
+    public void clearSearchResult() {
+        overlayManager.clearSearchResult();
+    }
+
+    /**
+     * Clears search results from the map.
+     */
+    public void clearSearchResults() {
+        overlayManager.clearSearchResult();
+    }
+
+    /**
+     * Draws route pin at the point supplied.
+     * @param point
+     */
+    public void drawRoutePin(LngLat point) {
+        overlayManager.drawRoutePin(point);
+    }
+
+    /**
+     * Clears route pin from the map.
+     */
+    public void clearRoutePin() {
+        overlayManager.clearRoutePin();
+    }
+
+    /**
+     * Draws route line on the map for the points supplied.
+     * @param points
+     */
+    public void drawRouteLine(List<LngLat> points) {
+        overlayManager.drawRouteLine(points);
+    }
+
+    /**
+     * Clears route line from the map.
+     */
+    public void clearRouteLine() {
+        overlayManager.clearRouteLine();
     }
 }
