@@ -19,7 +19,8 @@
         <activity android:name=".SwitchStyleActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".TouchResponderActivity"/>
-        <activity android:name=".CustomStylesheetActivity"/>
+        <activity android:name=".CustomStylesheetActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

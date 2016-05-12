@@ -36,4 +36,8 @@
     <string name="on_rotate">Rotate</string>
     <string name="custom_style_map_demo_label">Custom Stylesheet</string>
     <string name="custom_style_map_demo_description">Demonstrates setting a custom scene file on the map</string>
+    <string-array name="custom_style_array">
+        <item>Zinc</item>
+        <item>Tron</item>
+    </string-array>
 </resources>
