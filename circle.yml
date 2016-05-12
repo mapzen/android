@@ -5,7 +5,7 @@ checkout:
 
 dependencies:
   pre:
-    - echo y | android update sdk --all --no-ui --force --filter "build-tools-23.0.3"
+    - echo y | android update sdk --all --no-ui --force --filter "build-tools-23.0.3,extra-android-m2repository"
 
 test:
   override:
