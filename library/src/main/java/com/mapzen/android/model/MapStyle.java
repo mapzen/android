@@ -1,11 +1,23 @@
 package com.mapzen.android.model;
 
 /**
- * Enumerated map styles for scene file stylesheets.
+ * Map style given a scene file.
  */
-public enum MapStyle {
-    BUBBLE_WRAP,
-    CINNABAR,
-    REFILL,
-    OUTDOOR
+public class MapStyle {
+
+    private final String sceneFile;
+
+    /**
+     * Creates a new instance.
+     */
+    public MapStyle(String sceneFile) {
+        this.sceneFile = sceneFile;
+    }
+
+    /**
+     * Get the underlying scene filename.
+     */
+    public String getSceneFile() {
+        return sceneFile;
+    }
 }

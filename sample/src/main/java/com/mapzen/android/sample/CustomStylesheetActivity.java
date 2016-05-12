@@ -3,10 +3,7 @@ package com.mapzen.android.sample;
 import com.mapzen.android.MapFragment;
 import com.mapzen.android.MapzenMap;
 import com.mapzen.android.OnMapReadyCallback;
-import com.mapzen.android.model.BubbleWrapStyle;
-import com.mapzen.android.model.CinnabarStyle;
 import com.mapzen.android.model.MapStyle;
-import com.mapzen.android.model.RefillStyle;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,13 +14,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 /**
- * Demonstrates switching the map's style.
+ * Demonstrates how to set a custom stylesheet.
  */
-public class SwitchStyleActivity extends AppCompatActivity implements
+public class CustomStylesheetActivity extends AppCompatActivity implements
         AdapterView.OnItemSelectedListener {
 
-    private MapFragment mapFragment;
-    private MapzenMap mapzenMap;
+    MapzenMap map;
+
+    MapStyle zincStyle = new MapStyle("styles/zinc/zinc.yaml");
+    MapStyle tronStyle = new MapStyle("styles/tron/tron.yaml");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,43 +35,39 @@ public class SwitchStyleActivity extends AppCompatActivity implements
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.style_array, R.layout.simple_spinner_item);
+                R.array.custom_style_array, R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 
-        mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
-        mapFragment.getMapAsync(new BubbleWrapStyle(), new OnMapReadyCallback() {
-            @Override public void onMapReady(MapzenMap mapzenMap) {
-                SwitchStyleActivity.this.mapzenMap = mapzenMap;
+        final MapFragment mapFragment =
+                (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
+
+        mapFragment.getMapAsync(zincStyle, new OnMapReadyCallback() {
+            @Override public void onMapReady(MapzenMap map) {
+                CustomStylesheetActivity.this.map = map;
             }
         });
     }
 
-    private void changeMapStyle(MapStyle style) {
-        if (mapzenMap != null) {
-            mapzenMap.setStyle(style);
-        }
-    }
-
     @Override public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if (map == null) {
+            return;
+        }
         switch (position) {
             case 0:
-                changeMapStyle(new BubbleWrapStyle());
+                map.setStyle(zincStyle);
                 break;
             case 1:
-                changeMapStyle(new CinnabarStyle());
-                break;
-            case 2:
-                changeMapStyle(new RefillStyle());
+                map.setStyle(tronStyle);
                 break;
             default:
-                changeMapStyle(new BubbleWrapStyle());
+                map.setStyle(zincStyle);
                 break;
         }
     }
 
     @Override public void onNothingSelected(AdapterView<?> parent) {
-        // Do nothing.
+
     }
 }

@@ -68,7 +68,7 @@ public class MapzenMap {
      * @param mapStyle
      */
     public void setStyle(MapStyle mapStyle) {
-        mapController.loadSceneFile(MapStyleToSceneFile.MAP_STYLE_TO_SCENE_FILE.get(mapStyle));
+        mapController.loadSceneFile(mapStyle.getSceneFile());
     }
 
     /**
