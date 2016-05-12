@@ -3,13 +3,9 @@ package com.mapzen.android.sample;
 import com.mapzen.android.MapFragment;
 import com.mapzen.android.MapzenMap;
 import com.mapzen.android.OnMapReadyCallback;
-import com.mapzen.android.model.BubbleWrapStyle;
-import com.mapzen.android.model.CinnabarStyle;
 import com.mapzen.android.model.MapStyle;
-import com.mapzen.android.model.RefillStyle;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
