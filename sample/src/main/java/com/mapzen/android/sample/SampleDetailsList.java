@@ -29,6 +29,19 @@ public final class SampleDetailsList {
                     CustomStylesheetActivity.class),
             new SampleDetails(R.string.touch_responder_map_demo_label,
                     R.string.touch_responder_map_demo_description,
-                    TouchResponderActivity.class)
+                    TouchResponderActivity.class),
+            new SampleDetails(R.string.route_pins_map_demo_label,
+                    R.string.route_pins_map_demo_description,
+                    RoutePinsActivity.class),
+            new SampleDetails(R.string.dropped_pin_map_demo_label,
+                    R.string.dropped_pin_map_demo_description,
+                    DroppedPinActivity.class),
+            new SampleDetails(R.string.route_line_map_demo_label,
+                    R.string.route_line_map_demo_description,
+                    RouteLineActivity.class),
+            new SampleDetails(R.string.search_results_map_demo_label,
+                    R.string.search_results_map_demo_description,
+                    SearchResultsActivity.class)
+
     };
 }

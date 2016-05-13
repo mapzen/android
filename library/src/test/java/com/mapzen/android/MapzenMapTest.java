@@ -14,8 +14,12 @@ import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.SuppressStaticInitializationFor;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -264,6 +268,93 @@ public class MapzenMapTest {
                 TouchInput.Gestures.LONG_PRESS);
         verify(mapController).isSimultaneousGestureAllowed(TouchInput.Gestures.DOUBLE_TAP,
                 TouchInput.Gestures.LONG_PRESS);
+    }
+
+    @Test public void drawRoutePins_shouldInvokeOverlayManager() {
+        LngLat start = new LngLat(-123, -70);
+        LngLat end = new LngLat(-123.1, -70.1);
+        map.drawRoutePins(start, end);
+        verify(overlayManager).drawRoutePins(start, end);
+    }
+
+    @Test public void clearRoutePins_shouldInvokeOverlayManager() {
+        map.clearRoutePins();
+        verify(overlayManager).clearRoutePins();
+    }
+
+    @Test public void drawDroppedPin_shouldInvokeOverlayManager() {
+        LngLat point = new LngLat(-123, -70);
+        map.drawDroppedPin(point);
+        verify(overlayManager).drawDroppedPin(point);
+    }
+
+    @Test public void clearDroppedPin_shouldInvokeOverlayManager() {
+        map.clearDroppedPins();
+        verify(overlayManager).clearDroppedPin();
+    }
+
+    @Test public void drawSearchResult_shouldInvokeOverlayManager() {
+        LngLat point = new LngLat(-123, -70);
+        map.drawSearchResult(point);
+        verify(overlayManager).drawSearchResult(point, true);
+        map.drawSearchResult(point, false);
+        verify(overlayManager).drawSearchResult(point, false);
+    }
+
+    @Test public void drawSearchResults_shouldInvokeOverlayManager() {
+        LngLat point1 = new LngLat(-123, -70.0);
+        LngLat point2 = new LngLat(-123, -70.1);
+        LngLat point3 = new LngLat(-123, -70.2);
+        List<LngLat> points = new ArrayList<>();
+        points.add(point1);
+        points.add(point2);
+        points.add(point3);
+        map.drawSearchResults(points);
+        verify(overlayManager).drawSearchResult(point1, true, 0);
+        verify(overlayManager).drawSearchResult(point2, true, 1);
+        verify(overlayManager).drawSearchResult(point3, true, 2);
+        map.drawSearchResults(points, 1);
+        verify(overlayManager).drawSearchResult(point1, false, 0);
+        verify(overlayManager, times(2)).drawSearchResult(point2, true, 1);
+        verify(overlayManager).drawSearchResult(point3, false, 2);
+    }
+
+    @Test public void clearSearchResult_shouldInvokeOverlayManager() {
+        map.clearSearchResults();
+        verify(overlayManager).clearSearchResult();
+    }
+
+    @Test public void clearSearchResults_shouldInvokeOverlayManager() {
+        map.clearSearchResults();
+        verify(overlayManager).clearSearchResult();
+    }
+
+    @Test public void drawRoutePin_shouldInvokeOverlayManager() {
+        LngLat point = new LngLat(-123, -70.0);
+        map.drawRouteLocationMarker(point);
+        verify(overlayManager).drawRouteLocationMarker(point);
+    }
+
+    @Test public void clearRoutePin_shouldInvokeOverlayManager() {
+        map.clearRouteLocationMarker();
+        verify(overlayManager).clearRouteLocationMarker();
+    }
+
+    @Test public void drawRouteLine_shouldInvokeOverlayManager() {
+        LngLat point1 = new LngLat(-123, -70.0);
+        LngLat point2 = new LngLat(-123, -70.1);
+        LngLat point3 = new LngLat(-123, -70.2);
+        List<LngLat> points = new ArrayList<>();
+        points.add(point1);
+        points.add(point2);
+        points.add(point3);
+        map.drawRouteLine(points);
+        verify(overlayManager).drawRouteLine(points);
+    }
+
+    @Test public void clearRouteLine_shouldInvokeOverlayManager() {
+        map.clearRouteLine();
+        verify(overlayManager).clearRouteLine();
     }
 
 }

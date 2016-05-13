@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -26,12 +27,30 @@ public class OverlayManager {
     private static final int LOCATION_REQUEST_INTERVAL_MILLIS = 5000;
     private static final int LOCATION_REQUEST_DISPLACEMENT_MILLIS = 5000;
     private static final int ANIMATION_DURATION_MILLIS = 300;
+
     private static final String NAME_CURRENT_LOCATION = "mz_current_location";
     private static final String NAME_POLYLINE = "mz_default_line";
     private static final String NAME_POLYGON = "mz_default_polygon";
     private static final String NAME_MARKER = "mz_default_point";
+    private static final String NAME_START_PIN = "mz_route_start";
+    private static final String NAME_END_PIN = "mz_route_stop";
+    private static final String NAME_DROPPED_PIN = "mz_dropped_pin";
+    private static final String NAME_SEARCH_RESULT_PIN = "mz_search_result";
+    private static final String NAME_ROUTE_PIN = "mz_route_location";
+    private static final String NAME_ROUTE_LINE = "mz_route_line";
+
+    private static final String PROP_STATE = "state";
+    private static final String PROP_STATE_ACTIVE = "active";
+    private static final String PROP_STATE_INACTIVE = "inactive";
+    private static final String PROP_SEARCH_INDEX = "searchIndex";
+    private static final String PROP_TYPE = "type";
+    private static final String PROP_POINT = "point";
+    private static final String PROP_LINE = "line";
+
     private static final int MIN_COORDINATES_POLYGON = 2;
     private static final int MIN_COORDINATES_POLYLINE = 2;
+
+    private static final int INDEX_NONE = -1;
 
     /**
      * For interaction with the map.
@@ -69,10 +88,15 @@ public class OverlayManager {
     };
 
     private MapData polylineMapData;
-
     private MapData polygonMapData;
-
     private MapData markerMapData;
+    private MapData startPinData;
+    private MapData endPinData;
+    private MapData droppedPinData;
+    private MapData searchResultPinData;
+    private MapData routePinData;
+    private MapData routeLineData;
+
     /**
      * Create a new {@link OverlayManager} object for handling functionality between map and
      * location services using the {@link LocationFactory}'s shared {@link LostApiClient}.
@@ -181,6 +205,146 @@ public class OverlayManager {
             initMarkerMapData();
         }
         return addPointToMarkerMapData(marker);
+    }
+
+    /**
+     * Draws two pins on the map. The start pin is active and the end pin is inactive.
+     * @param start
+     * @param end
+     */
+    public void drawRoutePins(LngLat start, LngLat end) {
+        if (startPinData == null) {
+            startPinData = mapController.addDataLayer(NAME_START_PIN);
+        }
+        if (endPinData == null) {
+            endPinData = mapController.addDataLayer(NAME_END_PIN);
+        }
+        startPinData.addPoint(start, null);
+        endPinData.addPoint(end, null);
+        mapController.requestRender();
+    }
+
+    /**
+     * Clears the start and end pins from the map.
+     */
+    public void clearRoutePins() {
+        if (startPinData != null) {
+            startPinData.clear();
+        }
+        if (endPinData != null) {
+            endPinData.clear();
+        }
+    }
+
+    /**
+     * Draws a dropped pin on the map at the point supplied.
+     * @param point
+     */
+    public void drawDroppedPin(LngLat point) {
+        if (droppedPinData == null) {
+            droppedPinData = mapController.addDataLayer(NAME_DROPPED_PIN);
+        }
+        HashMap<String, String> properties = new HashMap<>();
+        properties.put(PROP_STATE, PROP_STATE_ACTIVE);
+        droppedPinData.addPoint(point, properties);
+        mapController.requestRender();
+    }
+
+    /**
+     * Clears the dropped pin from the map.
+     */
+    public void clearDroppedPin() {
+        if (droppedPinData != null) {
+            droppedPinData.clear();
+        }
+    }
+
+    /**
+     * Draws a search result on the map at the point supplied.
+     * @param point
+     * @param active
+     */
+    public void drawSearchResult(LngLat point, boolean active) {
+        drawSearchResult(point, active, INDEX_NONE);
+    }
+
+    /**
+     * Draws a search result at the point supplied and displays it as active/inactive. If an index
+     * is supplied, it adds property {@code PROP_SEARCH_INDEX} when adding it to the map.
+     * @param point
+     * @param active
+     * @param index
+     */
+    public void drawSearchResult(LngLat point, boolean active, int index) {
+        if (searchResultPinData == null) {
+            searchResultPinData = mapController.addDataLayer(NAME_SEARCH_RESULT_PIN);
+        }
+        HashMap<String, String> properties = new HashMap<>();
+        if (index != INDEX_NONE) {
+            properties.put(PROP_SEARCH_INDEX, String.valueOf(index));
+        }
+        if (active) {
+            properties.put(PROP_STATE, PROP_STATE_ACTIVE);
+        } else {
+            properties.put(PROP_STATE, PROP_STATE_INACTIVE);
+        }
+        searchResultPinData.addPoint(point, properties);
+        mapController.requestRender();
+    }
+
+    /**
+     * Clears search result from the map.
+     */
+    public void clearSearchResult() {
+        if (searchResultPinData != null) {
+            searchResultPinData.clear();
+        }
+    }
+
+    /**
+     * Draws route pin at the point supplied.
+     * @param point
+     */
+    public void drawRouteLocationMarker(LngLat point) {
+        if (routePinData == null) {
+            routePinData = mapController.addDataLayer(NAME_ROUTE_PIN);
+        }
+        HashMap<String, String> properties = new HashMap<>();
+        properties.put(PROP_TYPE, PROP_POINT);
+        routePinData.addPoint(point, properties);
+        mapController.requestRender();
+    }
+
+    /**
+     * Clears route pin from the map.
+     */
+    public void clearRouteLocationMarker() {
+        if (routePinData != null) {
+            routePinData.clear();
+        }
+    }
+
+    /**
+     * Draws route line on the map for the points supplied.
+     * @param points
+     */
+    public void drawRouteLine(List<LngLat> points) {
+        if (routeLineData == null) {
+            routeLineData = mapController.addDataLayer(NAME_ROUTE_LINE);
+        }
+        HashMap<String, String> properties = new HashMap<>();
+        properties.put(PROP_TYPE, PROP_LINE);
+        routeLineData.addPolyline(points, properties);
+        mapController.requestRender();
+    }
+
+    /**
+     * Clears route line from the map.
+     */
+    public void clearRouteLine() {
+        if (routeLineData != null) {
+            routeLineData.clear();
+        }
     }
 
     private void initCurrentLocationMapData() {

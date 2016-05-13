@@ -21,6 +21,10 @@
         <activity android:name=".TouchResponderActivity"/>
         <activity android:name=".CustomStylesheetActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".RoutePinsActivity" />
+        <activity android:name=".DroppedPinActivity" />
+        <activity android:name=".RouteLineActivity" />
+        <activity android:name=".SearchResultsActivity" />
     </application>
 
 </manifest>
