@@ -286,7 +286,7 @@ public class OverlayManagerTest {
         PowerMockito.doCallRealMethod().when(mapController).addDataLayer(anyString());
 
         LngLat point = new LngLat(-123, -70);
-        overlayManager.drawRoutePin(point);
+        overlayManager.drawRouteLocationMarker(point);
         verify(mapController).addDataLayer("mz_route_location");
     }
 
@@ -295,8 +295,8 @@ public class OverlayManagerTest {
         PowerMockito.doCallRealMethod().when(mapController).addDataLayer(anyString());
 
         LngLat point = new LngLat(-123, -70);
-        overlayManager.drawRoutePin(point);
-        overlayManager.drawRoutePin(point);
+        overlayManager.drawRouteLocationMarker(point);
+        overlayManager.drawRouteLocationMarker(point);
         verify(mapController, times(1)).addDataLayer("mz_route_location");
     }
 
@@ -306,7 +306,7 @@ public class OverlayManagerTest {
         PowerMockito.doCallRealMethod().when(mapController).requestRender();
 
         LngLat point = new LngLat(-123, -70);
-        overlayManager.drawRoutePin(point);
+        overlayManager.drawRouteLocationMarker(point);
         verify(mapController).requestRender();
     }
 

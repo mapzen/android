@@ -423,7 +423,7 @@ public class MapzenMap {
     /**
      * Clears the dropped pin from the map.
      */
-    public void clearDroppedPin() {
+    public void clearDroppedPins() {
         overlayManager.clearDroppedPin();
     }
 
@@ -478,13 +478,6 @@ public class MapzenMap {
     }
 
     /**
-     * Clears search result from the map.
-     */
-    public void clearSearchResult() {
-        overlayManager.clearSearchResult();
-    }
-
-    /**
      * Clears search results from the map.
      */
     public void clearSearchResults() {
@@ -495,15 +488,15 @@ public class MapzenMap {
      * Draws route pin at the point supplied.
      * @param point
      */
-    public void drawRoutePin(LngLat point) {
-        overlayManager.drawRoutePin(point);
+    public void drawRouteLocationMarker(LngLat point) {
+        overlayManager.drawRouteLocationMarker(point);
     }
 
     /**
      * Clears route pin from the map.
      */
-    public void clearRoutePin() {
-        overlayManager.clearRoutePin();
+    public void clearRouteLocationMarker() {
+        overlayManager.clearRouteLocationMarker();
     }
 
     /**

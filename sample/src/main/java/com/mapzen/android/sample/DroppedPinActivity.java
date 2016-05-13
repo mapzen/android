@@ -27,7 +27,7 @@ public class DroppedPinActivity extends AppCompatActivity {
         Button clearPinBtn = (Button) findViewById(R.id.clear_btn);
         clearPinBtn.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                map.clearDroppedPin();
+                map.clearDroppedPins();
             }
         });
 
@@ -56,6 +56,6 @@ public class DroppedPinActivity extends AppCompatActivity {
 
     @Override protected void onDestroy() {
         super.onDestroy();
-        map.clearDroppedPin();
+        map.clearDroppedPins();
     }
 }

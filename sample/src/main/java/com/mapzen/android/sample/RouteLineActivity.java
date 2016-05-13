@@ -33,7 +33,7 @@ public class RouteLineActivity extends AppCompatActivity {
         clearPinBtn.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 map.clearRouteLine();
-                map.clearRoutePin();
+                map.clearRouteLocationMarker();
                 points.clear();
             }
         });
@@ -66,12 +66,12 @@ public class RouteLineActivity extends AppCompatActivity {
         points.add(point);
         map.drawRouteLine(points);
 
-        map.drawRoutePin(points.get(0));
+        map.drawRouteLocationMarker(points.get(0));
     }
 
     @Override protected void onDestroy() {
         super.onDestroy();
         map.clearRouteLine();
-        map.clearRoutePin();
+        map.clearRouteLocationMarker();
     }
 }

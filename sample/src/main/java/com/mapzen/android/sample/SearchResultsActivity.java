@@ -35,7 +35,7 @@ public class SearchResultsActivity extends AppCompatActivity {
         Button clearPinsBtn = (Button) findViewById(R.id.clear_pins_btn);
         clearPinsBtn.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                map.clearSearchResult();
+                map.clearSearchResults();
             }
         });
 
@@ -69,6 +69,6 @@ public class SearchResultsActivity extends AppCompatActivity {
 
     @Override protected void onDestroy() {
         super.onDestroy();
-        map.clearSearchResult();
+        map.clearSearchResults();
     }
 }

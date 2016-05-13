@@ -289,7 +289,7 @@ public class MapzenMapTest {
     }
 
     @Test public void clearDroppedPin_shouldInvokeOverlayManager() {
-        map.clearDroppedPin();
+        map.clearDroppedPins();
         verify(overlayManager).clearDroppedPin();
     }
 
@@ -320,7 +320,7 @@ public class MapzenMapTest {
     }
 
     @Test public void clearSearchResult_shouldInvokeOverlayManager() {
-        map.clearSearchResult();
+        map.clearSearchResults();
         verify(overlayManager).clearSearchResult();
     }
 
@@ -331,13 +331,13 @@ public class MapzenMapTest {
 
     @Test public void drawRoutePin_shouldInvokeOverlayManager() {
         LngLat point = new LngLat(-123, -70.0);
-        map.drawRoutePin(point);
-        verify(overlayManager).drawRoutePin(point);
+        map.drawRouteLocationMarker(point);
+        verify(overlayManager).drawRouteLocationMarker(point);
     }
 
     @Test public void clearRoutePin_shouldInvokeOverlayManager() {
-        map.clearRoutePin();
-        verify(overlayManager).clearRoutePin();
+        map.clearRouteLocationMarker();
+        verify(overlayManager).clearRouteLocationMarker();
     }
 
     @Test public void drawRouteLine_shouldInvokeOverlayManager() {

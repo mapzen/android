@@ -305,7 +305,7 @@ public class OverlayManager {
      * Draws route pin at the point supplied.
      * @param point
      */
-    public void drawRoutePin(LngLat point) {
+    public void drawRouteLocationMarker(LngLat point) {
         if (routePinData == null) {
             routePinData = mapController.addDataLayer(NAME_ROUTE_PIN);
         }
@@ -318,7 +318,7 @@ public class OverlayManager {
     /**
      * Clears route pin from the map.
      */
-    public void clearRoutePin() {
+    public void clearRouteLocationMarker() {
         if (routePinData != null) {
             routePinData.clear();
         }
