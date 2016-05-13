@@ -460,12 +460,18 @@ public class MapzenMap {
      * Draws search results on the map. All pins will be inactive except for the one at the active
      * index supplied.
      * @param points
-     * @param active
+     * @param activeIndexes
      */
-    public void drawSearchResults(List<LngLat> points, int active) {
+    public void drawSearchResults(List<LngLat> points, int... activeIndexes) {
         int index = 0;
         for (LngLat point : points) {
-            boolean status = active == index;
+            boolean status = false;
+            for (int i = 0; i < activeIndexes.length; i++) {
+                if (activeIndexes[i] == index) {
+                    status = true;
+                    break;
+                }
+            }
             overlayManager.drawSearchResult(point, status, index);
             index++;
         }

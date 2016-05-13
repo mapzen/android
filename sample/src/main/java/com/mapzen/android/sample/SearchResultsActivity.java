@@ -52,19 +52,19 @@ public class SearchResultsActivity extends AppCompatActivity {
     }
 
     private void showSearchResults() {
-        LngLat start = new LngLat(-122.392158, 37.791171);
-        LngLat end = new LngLat(-122.395720, 37.788365);
-        map.drawSearchResult(start);
-        map.drawSearchResult(end, false);
+        LngLat result1 = new LngLat(-122.392158, 37.791171);
+        LngLat result2 = new LngLat(-122.395720, 37.788365);
+        map.drawSearchResult(result1);
+        map.drawSearchResult(result2, false);
 
-        LngLat result1 = new LngLat(-122.392799, 37.782511);
-        LngLat result2 = new LngLat(-122.397477, 37.788243);
-        LngLat result3 = new LngLat(-122.393528, 37.789227);
+        LngLat result3 = new LngLat(-122.392799, 37.782511);
+        LngLat result4 = new LngLat(-122.397477, 37.788243);
+        LngLat result5 = new LngLat(-122.393528, 37.789227);
         List<LngLat> results = new ArrayList();
-        results.add(result1);
-        results.add(result2);
         results.add(result3);
-        map.drawSearchResults(results, 1);
+        results.add(result4);
+        results.add(result5);
+        map.drawSearchResults(results, 1, 2);
     }
 
     @Override protected void onDestroy() {
