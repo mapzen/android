@@ -87,6 +87,8 @@ public class OverlayManager {
         }
     };
 
+    View.OnClickListener findMeExternalClickListener;
+
     private MapData polylineMapData;
     private MapData polygonMapData;
     private MapData markerMapData;
@@ -126,9 +128,12 @@ public class OverlayManager {
      */
     public void setMyLocationEnabled(boolean enabled) {
         myLocationEnabled = enabled;
-        if (currentLocationMapData == null) {
-            initCurrentLocationMapData();
+        if (enabled) {
+            addCurrentLocationMapData();
+        } else {
+            removeCurrentLocationMapData();
         }
+
         handleMyLocationEnabledChanged();
     }
 
@@ -138,6 +143,14 @@ public class OverlayManager {
      */
     public boolean isMyLocationEnabled() {
         return myLocationEnabled;
+    }
+
+    /**
+     * Set an external click listener to be invoked after the internal listener.
+     * @param listener
+     */
+    public void setFindMeOnClickListener(View.OnClickListener listener) {
+        findMeExternalClickListener = listener;
     }
 
     /**
@@ -347,8 +360,18 @@ public class OverlayManager {
         }
     }
 
-    private void initCurrentLocationMapData() {
-        currentLocationMapData = mapController.addDataLayer(NAME_CURRENT_LOCATION);
+    private void addCurrentLocationMapData() {
+        if (currentLocationMapData == null) {
+            currentLocationMapData = mapController.addDataLayer(NAME_CURRENT_LOCATION);
+        }
+    }
+
+    private void removeCurrentLocationMapData() {
+        if (currentLocationMapData != null) {
+            currentLocationMapData.clear();
+            currentLocationMapData.remove();
+            currentLocationMapData = null;
+        }
     }
 
     private void handleMyLocationEnabledChanged() {
@@ -368,6 +391,9 @@ public class OverlayManager {
         button.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 centerMap();
+                if (findMeExternalClickListener != null) {
+                    findMeExternalClickListener.onClick(v);
+                }
             }
         });
     }

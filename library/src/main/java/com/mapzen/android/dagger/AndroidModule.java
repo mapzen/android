@@ -4,6 +4,7 @@ import com.mapzen.android.TileHttpHandler;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.util.Log;
 
 import javax.inject.Singleton;
 
@@ -15,6 +16,7 @@ import dagger.Provides;
  */
 @Module
 public class AndroidModule {
+    private static final String TAG = AndroidModule.class.getSimpleName();
     private static final String API_KEY_RES_NAME = "vector_tiles_key";
     private static final String API_KEY_RES_TYPE = "string";
 
@@ -49,8 +51,13 @@ public class AndroidModule {
      */
     @Provides @Singleton public TileHttpHandler provideTileHttpHandler(Resources res) {
         final String packageName = context.getPackageName();
-        final int apiKeyId = res.getIdentifier(API_KEY_RES_NAME, API_KEY_RES_TYPE, packageName);
-        final String apiKey = res.getString(apiKeyId);
-        return new TileHttpHandler(apiKey);
+        try {
+            final int apiKeyId = res.getIdentifier(API_KEY_RES_NAME, API_KEY_RES_TYPE, packageName);
+            final String apiKey = res.getString(apiKeyId);
+            return new TileHttpHandler(apiKey);
+        } catch (Resources.NotFoundException e) {
+            Log.e(TAG, e.getLocalizedMessage());
+        }
+        return new TileHttpHandler(null);
     }
 }
