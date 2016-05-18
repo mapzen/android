@@ -1,9 +1,12 @@
 package com.mapzen.android;
 
+import com.mapzen.android.model.DebugFlag;
 import com.mapzen.android.model.EaseType;
+import com.mapzen.android.model.FeaturePickListener;
 import com.mapzen.android.model.Marker;
 import com.mapzen.android.model.Polygon;
 import com.mapzen.android.model.Polyline;
+import com.mapzen.android.model.ViewCompleteListener;
 import com.mapzen.tangram.LngLat;
 import com.mapzen.android.model.MapStyle;
 import com.mapzen.tangram.MapController;
@@ -14,6 +17,7 @@ import android.view.View;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This is the main class of the Mapzen Android API and is the entry point for all methods related
@@ -37,11 +41,29 @@ public class MapzenMap {
     private static final HashMap<EaseType, MapController.EaseType>
             EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE = new HashMap();
 
+    private static final HashMap<DebugFlag, MapController.DebugFlag>
+            DEBUG_FLAG_TO_TANGRAM_DEBUG_FLAG = new HashMap<>();
+
     static {
         EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.put(EaseType.LINEAR, MapController.EaseType.LINEAR);
         EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.put(EaseType.CUBIC, MapController.EaseType.CUBIC);
         EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.put(EaseType.QUINT, MapController.EaseType.QUINT);
         EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.put(EaseType.SINE, MapController.EaseType.SINE);
+
+        DEBUG_FLAG_TO_TANGRAM_DEBUG_FLAG.put(DebugFlag.FREEZE_TILES,
+                MapController.DebugFlag.FREEZE_TILES);
+        DEBUG_FLAG_TO_TANGRAM_DEBUG_FLAG.put(DebugFlag.PROXY_COLORS,
+                MapController.DebugFlag.PROXY_COLORS);
+        DEBUG_FLAG_TO_TANGRAM_DEBUG_FLAG.put(DebugFlag.TILE_BOUNDS,
+                MapController.DebugFlag.TILE_BOUNDS);
+        DEBUG_FLAG_TO_TANGRAM_DEBUG_FLAG.put(DebugFlag.TILE_INFOS,
+                MapController.DebugFlag.TILE_INFOS);
+        DEBUG_FLAG_TO_TANGRAM_DEBUG_FLAG.put(DebugFlag.LABELS,
+                MapController.DebugFlag.LABELS);
+        DEBUG_FLAG_TO_TANGRAM_DEBUG_FLAG.put(DebugFlag.TANGRAM_INFOS,
+                MapController.DebugFlag.TANGRAM_INFOS);
+        DEBUG_FLAG_TO_TANGRAM_DEBUG_FLAG.put(DebugFlag.ALL_LABELS,
+                MapController.DebugFlag.ALL_LABELS);
     }
 
     /**
@@ -404,6 +426,73 @@ public class MapzenMap {
     public boolean isSimultaneousGestureAllowed(TouchInput.Gestures first,
             TouchInput.Gestures second) {
         return mapController.isSimultaneousGestureAllowed(first, second);
+    }
+
+    /**
+     * Set a listener for feature pick events.
+     * @param listener Listener to call
+     */
+    public void setFeaturePickListener(final FeaturePickListener listener) {
+        mapController.setFeaturePickListener(new MapController.FeaturePickListener() {
+            @Override public void onFeaturePick(Map<String, String> properties, float positionX,
+                    float positionY) {
+                listener.onFeaturePick(properties, positionX, positionY);
+            }
+        });
+    }
+
+    /**
+     * Query the map for labeled features at the given screen coordinates; results will be returned
+     * in a callback to the object set by {@link #setFeaturePickListener(FeaturePickListener)}.
+     * @param posX The horizontal screen coordinate
+     * @param posY The vertical screen coordinate
+     */
+    public void pickFeature(float posX, float posY) {
+        mapController.pickFeature(posX, posY);
+    }
+
+    /**
+     * Set a listener for when view is fully loaded and no ease or label animations running.
+     */
+    public void setViewCompleteListener(final ViewCompleteListener listener) {
+        mapController.setViewCompleteListener(new MapController.ViewCompleteListener() {
+            @Override public void onViewComplete() {
+                listener.onViewComplete();
+            }
+        });
+    }
+
+    /**
+     * Enqueue a Runnable to be executed synchronously on the rendering thread.
+     * @param r Runnable to run
+     */
+    public void queueEvent(Runnable r) {
+        mapController.queueEvent(r);
+    }
+
+    /**
+     * Make a debugging feature active or inactive.
+     * @param flag The feature to set
+     * @param on True to activate the feature, false to deactivate
+     */
+    public void setDebugFlag(DebugFlag flag, boolean on) {
+        mapController.setDebugFlag(DEBUG_FLAG_TO_TANGRAM_DEBUG_FLAG.get(flag), on);
+    }
+
+    /**
+     * Enqueue a scene component update with its corresponding YAML node value.
+     * @param componentPath The YAML component path delimited by a '.' (example "scene.animated")
+     * @param value A YAML valid string (example "{ property: true }" or "true")
+     */
+    public void queueSceneUpdate(String componentPath, String value) {
+        mapController.queueSceneUpdate(componentPath, value);
+    }
+
+    /**
+     * Apply updates queued by queueSceneUpdate; this empties the current queue of updates.
+     */
+    public void applySceneUpdates() {
+        mapController.applySceneUpdates();
     }
 
     /**
