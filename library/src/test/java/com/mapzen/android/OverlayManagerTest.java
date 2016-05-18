@@ -1,6 +1,8 @@
 package com.mapzen.android;
 
+import com.mapzen.android.lost.api.LocationServices;
 import com.mapzen.android.lost.api.LostApiClient;
+import com.mapzen.android.lost.internal.FusedLocationProviderApiImpl;
 import com.mapzen.android.model.Marker;
 import com.mapzen.android.model.Polygon;
 import com.mapzen.android.model.Polyline;
@@ -18,7 +20,10 @@ import org.powermock.core.classloader.annotations.SuppressStaticInitializationFo
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
+import android.content.Context;
 import android.location.Location;
+import android.view.View;
+import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,12 +49,15 @@ public class OverlayManagerTest {
 
     private MapController mapController;
     private OverlayManager overlayManager;
+    private MapView mapView;
+    private LostApiClient lostApiClient;
 
     @Before
     public void setup() throws Exception {
         mapController = mock(TestMapController.class);
-        LostApiClient lostApiClient = mock(LostApiClient.class);
-        MapView mapView = mock(MapView.class);
+        lostApiClient = mock(LostApiClient.class);
+        mapView = mock(MapView.class);
+        LocationServices.FusedLocationApi = Mockito.mock(FusedLocationProviderApiImpl.class);
         overlayManager = spy(new OverlayManager(mapView, mapController, lostApiClient));
         doNothing().when(overlayManager, "addCurrentLocationMapData");
         doNothing().when(overlayManager, "handleMyLocationEnabledChanged");
@@ -355,6 +363,46 @@ public class OverlayManagerTest {
         points.add(point3);
         overlayManager.drawRouteLine(points);
         verify(mapController).requestRender();
+    }
+
+    @Test
+    public void setFindMeOnClickListener_shouldInvokeListenerOnButtonClick() throws Exception {
+        TestOnClickListener listener = new TestOnClickListener();
+        TestButton testFindMeButton = new TestButton(null);
+        OverlayManager overlayManager = new OverlayManager(mapView, mapController, lostApiClient);
+
+        when(mapView.showFindMe()).thenReturn(testFindMeButton);
+        overlayManager.setFindMeOnClickListener(listener);
+        overlayManager.setMyLocationEnabled(true);
+        testFindMeButton.performClick();
+        assertThat(listener.click).isTrue();
+    }
+
+    private class TestOnClickListener implements View.OnClickListener {
+        private boolean click = false;
+
+        @Override public void onClick(View v) {
+            click = true;
+        }
+    }
+
+    private class TestButton extends ImageButton {
+        private OnClickListener listener;
+
+        public TestButton(Context context) {
+            super(context);
+        }
+
+        @Override
+        public void setOnClickListener(OnClickListener l) {
+            listener = l;
+        }
+
+        @Override
+        public boolean performClick() {
+            listener.onClick(this);
+            return true;
+        }
     }
 
 }
