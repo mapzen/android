@@ -53,4 +53,9 @@
     <string name="clear">Clear</string>
     <string name="search_results_map_demo_label">Search Results</string>
     <string name="search_results_map_demo_description">Displays search results on map</string>
+    <string-array name="enabled_disabled_array">
+        <item>Enabled</item>
+        <item>Disabled</item>
+    </string-array>
+    <string name="custom_listener">Custom listener invoked</string>
 </resources>

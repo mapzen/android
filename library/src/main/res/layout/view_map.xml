@@ -4,12 +4,12 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <com.mapzen.android.TangramMapView
-        android:id="@+id/map"
+        android:id="@+id/mz_tangram_map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
     <ImageButton
-        android:id="@+id/find_me"
+        android:id="@+id/mz_find_me"
         android:layout_width="44dp"
         android:layout_height="44dp"
         android:layout_alignParentRight="true"
@@ -22,7 +22,7 @@
         tools:ignore="RtlHardcoded" />
 
     <TextView
-        android:id="@+id/attribution"
+        android:id="@+id/mz_attribution"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#444444"

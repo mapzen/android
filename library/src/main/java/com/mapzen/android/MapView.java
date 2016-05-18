@@ -27,6 +27,7 @@ public class MapView extends RelativeLayout {
 
     TangramMapView tangramMapView;
     ImageButton findMe;
+    TextView attribution;
 
     /**
      * Create new instance.
@@ -61,9 +62,10 @@ public class MapView extends RelativeLayout {
 
     @Override protected void onFinishInflate() {
         super.onFinishInflate();
-        tangramMapView = (TangramMapView) findViewById(R.id.map);
-        findMe = (ImageButton) findViewById(R.id.find_me);
-        final TextView attribution = (TextView) findViewById(R.id.attribution);
+        tangramMapView = (TangramMapView) findViewById(R.id.mz_tangram_map);
+        findMe = (ImageButton) findViewById(R.id.mz_find_me);
+        attribution = (TextView) findViewById(R.id.mz_attribution);
+        final TextView attribution = (TextView) findViewById(R.id.mz_attribution);
         attribution.setOnClickListener(new OnClickListener() {
             @Override public void onClick(View v) {
                 Intent intent = new Intent();
@@ -126,6 +128,14 @@ public class MapView extends RelativeLayout {
     }
 
     /**
+     * Get the find me button.
+     * @return
+     */
+    public ImageButton getFindMe() {
+        return findMe;
+    }
+
+    /**
      * Show button for finding user's location on map.
      * @return
      */
@@ -139,6 +149,14 @@ public class MapView extends RelativeLayout {
      */
     public void hideFindMe() {
         findMe.setVisibility(View.GONE);
+    }
+
+    /**
+     * Return the attribution text view.
+     * @return
+     */
+    public TextView getAttribution() {
+        return attribution;
     }
 
     /**

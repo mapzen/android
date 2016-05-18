@@ -10,6 +10,8 @@ import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.MapData;
 import com.mapzen.tangram.TouchInput;
 
+import android.view.View;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -233,6 +235,14 @@ public class MapzenMap {
      */
     public boolean isMyLocationEnabled() {
         return overlayManager.isMyLocationEnabled();
+    }
+
+    /**
+     * Set an external click listener to be invoked after the internal listener.
+     * @param listener
+     */
+    public void setFindMeOnClickListener(View.OnClickListener listener) {
+        overlayManager.setFindMeOnClickListener(listener);
     }
 
     /**
@@ -513,4 +523,5 @@ public class MapzenMap {
     public void clearRouteLine() {
         overlayManager.clearRouteLine();
     }
+
 }

@@ -12,7 +12,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BasicMapzenActivity"/>
+        <activity android:name=".BasicMapzenActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".MarkerMapzenActivity"/>
         <activity android:name=".PolylineMapzenActivity"/>
         <activity android:name=".PolygonMapzenActivity"/>
