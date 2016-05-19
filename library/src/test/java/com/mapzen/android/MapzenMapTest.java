@@ -1,9 +1,12 @@
 package com.mapzen.android;
 
+import com.mapzen.android.model.DebugFlag;
 import com.mapzen.android.model.EaseType;
+import com.mapzen.android.model.FeaturePickListener;
 import com.mapzen.android.model.Marker;
 import com.mapzen.android.model.Polygon;
 import com.mapzen.android.model.Polyline;
+import com.mapzen.android.model.ViewCompleteListener;
 import com.mapzen.tangram.LngLat;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.TouchInput;
@@ -16,6 +19,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -172,16 +176,10 @@ public class MapzenMapTest {
         verify(mapController).coordinatesAtScreenPosition(4, 3);
     }
 
-    @Test public void setTapResponder_shouldInvokeMapController() {
-        TestTapResponder tapResponder = new TestTapResponder();
-        map.setTapResponder(tapResponder);
-        verify(mapController).setTapResponder(tapResponder);
-    }
-
     @Test public void getTapResponder_shouldNotBeNull() {
         TestTapResponder tapResponder = new TestTapResponder();
-        map.setTapResponder(tapResponder);
-        assertThat(map.getTapResponder()).isNotNull();
+        map.addTapResponder(tapResponder);
+        assertThat(map.getTapResponders().get(0)).isNotNull();
     }
 
     @Test public void setDoubleTapResponder_shouldInvokeMapController() {
@@ -355,6 +353,64 @@ public class MapzenMapTest {
     @Test public void clearRouteLine_shouldInvokeOverlayManager() {
         map.clearRouteLine();
         verify(overlayManager).clearRouteLine();
+    }
+
+    @Test public void setFeaturePickListener_shouldInvokeFeatureListener() {
+        TestFeaturePickListener listener = new TestFeaturePickListener();
+        map.setFeaturePickListener(listener);
+        listener.onFeaturePick(null, 0, 0);
+        assertThat(listener.picked).isTrue();
+    }
+
+    private class TestFeaturePickListener implements FeaturePickListener {
+
+        boolean picked = false;
+
+        @Override public void onFeaturePick(Map<String, String> properties, float positionX,
+                float positionY) {
+            picked = true;
+        }
+    }
+
+    @Test public void setViewCompleteListener_shouldInvokeViewCompleteListener() {
+        TestViewCompleteListener listener = new TestViewCompleteListener();
+        map.setViewCompleteListener(listener);
+        listener.onViewComplete();
+        assertThat(listener.viewComplete).isTrue();
+    }
+
+    private class TestViewCompleteListener implements ViewCompleteListener {
+
+        boolean viewComplete = false;
+
+        @Override public void onViewComplete() {
+            viewComplete = true;
+        }
+    }
+
+    @Test public void queueEvent_shouldInvokeMapController() {
+        Runnable r = new Runnable() {
+            @Override public void run() {
+
+            }
+        };
+        map.queueEvent(r);
+        verify(mapController).queueEvent(r);
+    }
+
+    @Test public void setDebugFlag_shouldInvokeMapController() {
+        map.setDebugFlag(DebugFlag.ALL_LABELS, true);
+        verify(mapController).setDebugFlag(MapController.DebugFlag.ALL_LABELS, true);
+    }
+
+    @Test public void queueSceneUpdate_shouldInvokeMapController() {
+        map.queueSceneUpdate("test", "true");
+        verify(mapController).queueSceneUpdate("test", "true");
+    }
+
+    @Test public void applySceneUpdates_shouldInvokeMapController() {
+        map.applySceneUpdates();
+        verify(mapController).applySceneUpdates();
     }
 
 }

@@ -26,6 +26,8 @@
         <activity android:name=".DroppedPinActivity" />
         <activity android:name=".RouteLineActivity" />
         <activity android:name=".SearchResultsActivity" />
+        <activity android:name="FeaturePickListenerActivity" />
+        <activity android:name=".QueueEventActivity" />
     </application>
 
 </manifest>

@@ -3,18 +3,21 @@ package com.mapzen.android;
 import com.mapzen.android.model.DebugFlag;
 import com.mapzen.android.model.EaseType;
 import com.mapzen.android.model.FeaturePickListener;
+import com.mapzen.android.model.MapStyle;
 import com.mapzen.android.model.Marker;
 import com.mapzen.android.model.Polygon;
 import com.mapzen.android.model.Polyline;
 import com.mapzen.android.model.ViewCompleteListener;
 import com.mapzen.tangram.LngLat;
-import com.mapzen.android.model.MapStyle;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.MapData;
 import com.mapzen.tangram.TouchInput;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +33,7 @@ public class MapzenMap {
     private final MapController mapController;
     private final OverlayManager overlayManager;
 
-    private TouchInput.TapResponder tapResponder;
+    private List<TouchInput.TapResponder> tapResponders = new ArrayList<>();
     private TouchInput.DoubleTapResponder doubleTapResponder;
     private TouchInput.LongPressResponder longPressResponder;
     private TouchInput.PanResponder panResponder;
@@ -246,13 +249,17 @@ public class MapzenMap {
      * When enabled, shows icon on map to allow centering map on current location. While
      * enabled, the user's current location will be updated in the background. When disabled, the
      * icon is hidden from the map.
+     *
+     * To use this function, your app must request permission for
+     * {@code Manifest.permission.ACCESS_FINE_LOCATION} and
+     * {@code Manifest.permission.ACCESS_COARSE_LOCATION}
      */
     public void setMyLocationEnabled(boolean enabled) {
         overlayManager.setMyLocationEnabled(enabled);
     }
 
     /**
-     * Are we tracking the user's current location.
+     * Are we displaying the current location and find me icon.
      * @return
      */
     public boolean isMyLocationEnabled() {
@@ -302,16 +309,30 @@ public class MapzenMap {
     /**
      * Set tap responder for tap gestures on map.
      */
-    public void setTapResponder(final TouchInput.TapResponder tapResponder) {
-        this.tapResponder = tapResponder;
-        mapController.setTapResponder(this.tapResponder);
+    public void addTapResponder(final TouchInput.TapResponder tapResponder) {
+        tapResponders.add(tapResponder);
+        mapController.setTapResponder(new TouchInput.TapResponder() {
+            @Override public boolean onSingleTapUp(float x, float y) {
+                for (TouchInput.TapResponder responder: tapResponders) {
+                    responder.onSingleTapUp(x, y);
+                }
+                return false;
+            }
+
+            @Override public boolean onSingleTapConfirmed(float x, float y) {
+                for (TouchInput.TapResponder responder : tapResponders) {
+                    responder.onSingleTapConfirmed(x, y);
+                }
+                return false;
+            }
+        });
     }
 
     /**
      * Get the map's tap responder.
      */
-    public TouchInput.TapResponder getTapResponder() {
-        return tapResponder;
+    public List<TouchInput.TapResponder> getTapResponders() {
+        return tapResponders;
     }
 
     /**
@@ -439,16 +460,16 @@ public class MapzenMap {
                 listener.onFeaturePick(properties, positionX, positionY);
             }
         });
-    }
+        addTapResponder(new TouchInput.TapResponder() {
+            @Override public boolean onSingleTapUp(float x, float y) {
+                return false;
+            }
 
-    /**
-     * Query the map for labeled features at the given screen coordinates; results will be returned
-     * in a callback to the object set by {@link #setFeaturePickListener(FeaturePickListener)}.
-     * @param posX The horizontal screen coordinate
-     * @param posY The vertical screen coordinate
-     */
-    public void pickFeature(float posX, float posY) {
-        mapController.pickFeature(posX, posY);
+            @Override public boolean onSingleTapConfirmed(float x, float y) {
+                mapController.pickFeature(x, y);
+                return false;
+            }
+        });
     }
 
     /**
@@ -457,7 +478,11 @@ public class MapzenMap {
     public void setViewCompleteListener(final ViewCompleteListener listener) {
         mapController.setViewCompleteListener(new MapController.ViewCompleteListener() {
             @Override public void onViewComplete() {
-                listener.onViewComplete();
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override public void run() {
+                        listener.onViewComplete();
+                    }
+                });
             }
         });
     }
