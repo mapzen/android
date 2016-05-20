@@ -1,6 +1,5 @@
 package com.mapzen.android;
 
-import com.mapzen.android.model.DebugFlag;
 import com.mapzen.android.model.EaseType;
 import com.mapzen.android.model.FeaturePickListener;
 import com.mapzen.android.model.MapStyle;
@@ -64,29 +63,11 @@ public class MapzenMap {
     private static final HashMap<EaseType, MapController.EaseType>
             EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE = new HashMap();
 
-    private static final HashMap<DebugFlag, MapController.DebugFlag>
-            DEBUG_FLAG_TO_TANGRAM_DEBUG_FLAG = new HashMap<>();
-
     static {
         EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.put(EaseType.LINEAR, MapController.EaseType.LINEAR);
         EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.put(EaseType.CUBIC, MapController.EaseType.CUBIC);
         EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.put(EaseType.QUINT, MapController.EaseType.QUINT);
         EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.put(EaseType.SINE, MapController.EaseType.SINE);
-
-        DEBUG_FLAG_TO_TANGRAM_DEBUG_FLAG.put(DebugFlag.FREEZE_TILES,
-                MapController.DebugFlag.FREEZE_TILES);
-        DEBUG_FLAG_TO_TANGRAM_DEBUG_FLAG.put(DebugFlag.PROXY_COLORS,
-                MapController.DebugFlag.PROXY_COLORS);
-        DEBUG_FLAG_TO_TANGRAM_DEBUG_FLAG.put(DebugFlag.TILE_BOUNDS,
-                MapController.DebugFlag.TILE_BOUNDS);
-        DEBUG_FLAG_TO_TANGRAM_DEBUG_FLAG.put(DebugFlag.TILE_INFOS,
-                MapController.DebugFlag.TILE_INFOS);
-        DEBUG_FLAG_TO_TANGRAM_DEBUG_FLAG.put(DebugFlag.LABELS,
-                MapController.DebugFlag.LABELS);
-        DEBUG_FLAG_TO_TANGRAM_DEBUG_FLAG.put(DebugFlag.TANGRAM_INFOS,
-                MapController.DebugFlag.TANGRAM_INFOS);
-        DEBUG_FLAG_TO_TANGRAM_DEBUG_FLAG.put(DebugFlag.ALL_LABELS,
-                MapController.DebugFlag.ALL_LABELS);
     }
 
     /**
@@ -491,15 +472,6 @@ public class MapzenMap {
      */
     public void queueEvent(Runnable r) {
         mapController.queueEvent(r);
-    }
-
-    /**
-     * Make a debugging feature active or inactive.
-     * @param flag The feature to set
-     * @param on True to activate the feature, false to deactivate
-     */
-    public void setDebugFlag(DebugFlag flag, boolean on) {
-        mapController.setDebugFlag(DEBUG_FLAG_TO_TANGRAM_DEBUG_FLAG.get(flag), on);
     }
 
     /**

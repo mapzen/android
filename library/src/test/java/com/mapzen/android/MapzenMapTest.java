@@ -1,6 +1,5 @@
 package com.mapzen.android;
 
-import com.mapzen.android.model.DebugFlag;
 import com.mapzen.android.model.EaseType;
 import com.mapzen.android.model.FeaturePickListener;
 import com.mapzen.android.model.Marker;
@@ -413,11 +412,6 @@ public class MapzenMapTest {
         };
         map.queueEvent(r);
         verify(mapController).queueEvent(r);
-    }
-
-    @Test public void setDebugFlag_shouldInvokeMapController() {
-        map.setDebugFlag(DebugFlag.ALL_LABELS, true);
-        verify(mapController).setDebugFlag(MapController.DebugFlag.ALL_LABELS, true);
     }
 
     @Test public void queueSceneUpdate_shouldInvokeMapController() {
