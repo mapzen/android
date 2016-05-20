@@ -52,6 +52,6 @@ public class PolygonMapzenActivity extends AppCompatActivity {
     }
 
     private void cleanupMap() {
-        polygonData.remove();
+        polygonData.clear();
     }
 }

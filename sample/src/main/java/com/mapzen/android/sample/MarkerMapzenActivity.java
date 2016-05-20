@@ -49,6 +49,6 @@ public class MarkerMapzenActivity extends AppCompatActivity {
     }
 
     private void cleanupMap() {
-        markers.remove();
+        markers.clear();
     }
 }

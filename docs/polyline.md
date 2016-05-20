@@ -31,6 +31,6 @@ private void configureMap(MapzenMap map) {
 
 @Override protected void onDestroy() {
     super.onDestroy();
-    polylineData.remove();
+    polylineData.clear();
 }
 ```

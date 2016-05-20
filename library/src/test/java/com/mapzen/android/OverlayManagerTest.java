@@ -211,6 +211,7 @@ public class OverlayManagerTest {
     @Test
     public void drawRoutePins_shouldNotAddStartPin() {
         when(mapController.addDataLayer(anyString())).thenCallRealMethod();
+        Whitebox.setInternalState(OverlayManager.class, "startPinData", (Object[]) null);
 
         LngLat start = new LngLat(-123, -70);
         LngLat end = new LngLat(-123.1, -70.1);
@@ -222,6 +223,7 @@ public class OverlayManagerTest {
     @Test
     public void drawRoutePins_shouldAddEndPin() {
         when(mapController.addDataLayer(anyString())).thenCallRealMethod();
+        Whitebox.setInternalState(OverlayManager.class, "endPinData", (Object[]) null);
 
         LngLat start = new LngLat(-123, -70);
         LngLat end = new LngLat(-123.1, -70.1);
@@ -232,6 +234,7 @@ public class OverlayManagerTest {
     @Test
     public void drawRoutePins_shouldNotAddEndPin() {
         when(mapController.addDataLayer(anyString())).thenCallRealMethod();
+        Whitebox.setInternalState(OverlayManager.class, "endPinData", (Object[]) null);
 
         LngLat start = new LngLat(-123, -70);
         LngLat end = new LngLat(-123.1, -70.1);
@@ -254,6 +257,7 @@ public class OverlayManagerTest {
     @Test
     public void drawDroppedPin_shouldAddDataLayer() {
         PowerMockito.doCallRealMethod().when(mapController).addDataLayer(anyString());
+        Whitebox.setInternalState(OverlayManager.class, "droppedPinData", (Object[]) null);
 
         LngLat point = new LngLat(-123, -70);
         overlayManager.drawDroppedPin(point);
@@ -301,6 +305,7 @@ public class OverlayManagerTest {
     @Test
     public void drawRoutePin_shouldAddDataLayerOnce() {
         PowerMockito.doCallRealMethod().when(mapController).addDataLayer(anyString());
+        Whitebox.setInternalState(OverlayManager.class, "routePinData", (Object[]) null);
 
         LngLat point = new LngLat(-123, -70);
         overlayManager.drawRouteLocationMarker(point);
@@ -336,6 +341,7 @@ public class OverlayManagerTest {
     @Test
     public void drawRouteLine_shouldAddDataLayerOnce() {
         PowerMockito.doCallRealMethod().when(mapController).addDataLayer(anyString());
+        Whitebox.setInternalState(OverlayManager.class, "routeLineData", (Object[]) null);
 
         LngLat point1 = new LngLat(-123, -70.0);
         LngLat point2 = new LngLat(-123, -70.1);
