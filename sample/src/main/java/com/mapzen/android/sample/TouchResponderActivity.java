@@ -69,7 +69,7 @@ public class TouchResponderActivity extends AppCompatActivity {
     }
 
     private void configureMap() {
-        map.addTapResponder(new TouchInput.TapResponder() {
+        map.setTapResponder(new TouchInput.TapResponder() {
             @Override public boolean onSingleTapUp(float x, float y) {
                 String extra = "x:" + x + " y:" + y;
                 addEventToList(R.string.on_single_tap_up, extra);

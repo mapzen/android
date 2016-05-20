@@ -16,6 +16,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.SuppressStaticInitializationFor;
 import org.powermock.modules.junit4.PowerMockRunner;
+import org.powermock.reflect.Whitebox;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -176,10 +177,26 @@ public class MapzenMapTest {
         verify(mapController).coordinatesAtScreenPosition(4, 3);
     }
 
+    @Test public void setTapResponder_shouldInvokeMapController() {
+        TestTapResponder tapResponder = new TestTapResponder();
+        map.setTapResponder(tapResponder);
+        TouchInput.TapResponder
+                internalTapResponder = Whitebox.getInternalState(map, "internalTapResponder");
+        verify(mapController).setTapResponder(internalTapResponder);
+
+        assertThat(tapResponder.singleTapUp).isFalse();
+        internalTapResponder.onSingleTapUp(0, 0);
+        assertThat(tapResponder.singleTapUp).isTrue();
+
+        assertThat(tapResponder.singleTapConfirmed).isFalse();
+        internalTapResponder.onSingleTapConfirmed(0, 0);
+        assertThat(tapResponder.singleTapConfirmed).isTrue();
+    }
+
     @Test public void getTapResponder_shouldNotBeNull() {
         TestTapResponder tapResponder = new TestTapResponder();
-        map.addTapResponder(tapResponder);
-        assertThat(map.getTapResponders().get(0)).isNotNull();
+        map.setTapResponder(tapResponder);
+        assertThat(map.getTapResponder()).isNotNull();
     }
 
     @Test public void setDoubleTapResponder_shouldInvokeMapController() {

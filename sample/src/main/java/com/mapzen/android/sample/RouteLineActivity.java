@@ -45,7 +45,7 @@ public class RouteLineActivity extends AppCompatActivity {
                 RouteLineActivity.this.map = map;
                 map.setZoom(15f);
                 map.setPosition(new LngLat(-122.394046, 37.789747));
-                map.addTapResponder(new TouchInput.TapResponder() {
+                map.setTapResponder(new TouchInput.TapResponder() {
                     @Override public boolean onSingleTapUp(float x, float y) {
                         addLineSegmentToRoute(x, y);
                         return false;

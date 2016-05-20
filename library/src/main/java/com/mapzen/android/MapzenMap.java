@@ -17,7 +17,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +32,28 @@ public class MapzenMap {
     private final MapController mapController;
     private final OverlayManager overlayManager;
 
-    private List<TouchInput.TapResponder> tapResponders = new ArrayList<>();
+    boolean pickFeatureOnSingleTapConfirmed = false;
+
+    private TouchInput.TapResponder internalTapResponder = new TouchInput.TapResponder() {
+        @Override public boolean onSingleTapUp(float x, float y) {
+            if (tapResponder != null) {
+                tapResponder.onSingleTapUp(x, y);
+            }
+            return false;
+        }
+
+        @Override public boolean onSingleTapConfirmed(float x, float y) {
+            if (tapResponder != null) {
+                tapResponder.onSingleTapConfirmed(x, y);
+            }
+            if (pickFeatureOnSingleTapConfirmed) {
+                mapController.pickFeature(x, y);
+            }
+            return false;
+        }
+    };
+
+    private TouchInput.TapResponder tapResponder;
     private TouchInput.DoubleTapResponder doubleTapResponder;
     private TouchInput.LongPressResponder longPressResponder;
     private TouchInput.PanResponder panResponder;
@@ -309,30 +329,16 @@ public class MapzenMap {
     /**
      * Set tap responder for tap gestures on map.
      */
-    public void addTapResponder(final TouchInput.TapResponder tapResponder) {
-        tapResponders.add(tapResponder);
-        mapController.setTapResponder(new TouchInput.TapResponder() {
-            @Override public boolean onSingleTapUp(float x, float y) {
-                for (TouchInput.TapResponder responder: tapResponders) {
-                    responder.onSingleTapUp(x, y);
-                }
-                return false;
-            }
-
-            @Override public boolean onSingleTapConfirmed(float x, float y) {
-                for (TouchInput.TapResponder responder : tapResponders) {
-                    responder.onSingleTapConfirmed(x, y);
-                }
-                return false;
-            }
-        });
+    public void setTapResponder(final TouchInput.TapResponder tapResponder) {
+        this.tapResponder = tapResponder;
+        mapController.setTapResponder(internalTapResponder);
     }
 
     /**
      * Get the map's tap responder.
      */
-    public List<TouchInput.TapResponder> getTapResponders() {
-        return tapResponders;
+    public TouchInput.TapResponder getTapResponder() {
+        return tapResponder;
     }
 
     /**
@@ -460,16 +466,8 @@ public class MapzenMap {
                 listener.onFeaturePick(properties, positionX, positionY);
             }
         });
-        addTapResponder(new TouchInput.TapResponder() {
-            @Override public boolean onSingleTapUp(float x, float y) {
-                return false;
-            }
-
-            @Override public boolean onSingleTapConfirmed(float x, float y) {
-                mapController.pickFeature(x, y);
-                return false;
-            }
-        });
+        pickFeatureOnSingleTapConfirmed = (listener != null);
+        mapController.setTapResponder(internalTapResponder);
     }
 
     /**
