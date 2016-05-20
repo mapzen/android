@@ -58,4 +58,10 @@
         <item>Disabled</item>
     </string-array>
     <string name="custom_listener">Custom listener invoked</string>
+    <string name="feature">Feature</string>
+    <string name="feature_listener_map_demo_label">Feature Listener</string>
+    <string name="feature_listener_map_demo_description">Adds a feature listener to the map</string>
+    <string name="view_complete">Animations complete</string>
+    <string name="queue_event_map_demo_label">Queue Event</string>
+    <string name="queue_event_map_demo_description">Queues a runnable to execute animations on map</string>
 </resources>

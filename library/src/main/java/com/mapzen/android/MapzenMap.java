@@ -1,19 +1,24 @@
 package com.mapzen.android;
 
 import com.mapzen.android.model.EaseType;
+import com.mapzen.android.model.FeaturePickListener;
+import com.mapzen.android.model.MapStyle;
 import com.mapzen.android.model.Marker;
 import com.mapzen.android.model.Polygon;
 import com.mapzen.android.model.Polyline;
+import com.mapzen.android.model.ViewCompleteListener;
 import com.mapzen.tangram.LngLat;
-import com.mapzen.android.model.MapStyle;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.MapData;
 import com.mapzen.tangram.TouchInput;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This is the main class of the Mapzen Android API and is the entry point for all methods related
@@ -25,6 +30,27 @@ public class MapzenMap {
 
     private final MapController mapController;
     private final OverlayManager overlayManager;
+
+    boolean pickFeatureOnSingleTapConfirmed = false;
+
+    private TouchInput.TapResponder internalTapResponder = new TouchInput.TapResponder() {
+        @Override public boolean onSingleTapUp(float x, float y) {
+            if (tapResponder != null) {
+                tapResponder.onSingleTapUp(x, y);
+            }
+            return false;
+        }
+
+        @Override public boolean onSingleTapConfirmed(float x, float y) {
+            if (tapResponder != null) {
+                tapResponder.onSingleTapConfirmed(x, y);
+            }
+            if (pickFeatureOnSingleTapConfirmed) {
+                mapController.pickFeature(x, y);
+            }
+            return false;
+        }
+    };
 
     private TouchInput.TapResponder tapResponder;
     private TouchInput.DoubleTapResponder doubleTapResponder;
@@ -224,13 +250,17 @@ public class MapzenMap {
      * When enabled, shows icon on map to allow centering map on current location. While
      * enabled, the user's current location will be updated in the background. When disabled, the
      * icon is hidden from the map.
+     *
+     * To use this function, your app must request permission for
+     * {@code Manifest.permission.ACCESS_FINE_LOCATION} and
+     * {@code Manifest.permission.ACCESS_COARSE_LOCATION}
      */
     public void setMyLocationEnabled(boolean enabled) {
         overlayManager.setMyLocationEnabled(enabled);
     }
 
     /**
-     * Are we tracking the user's current location.
+     * Are we displaying the current location and find me icon.
      * @return
      */
     public boolean isMyLocationEnabled() {
@@ -282,7 +312,7 @@ public class MapzenMap {
      */
     public void setTapResponder(final TouchInput.TapResponder tapResponder) {
         this.tapResponder = tapResponder;
-        mapController.setTapResponder(this.tapResponder);
+        mapController.setTapResponder(internalTapResponder);
     }
 
     /**
@@ -404,6 +434,60 @@ public class MapzenMap {
     public boolean isSimultaneousGestureAllowed(TouchInput.Gestures first,
             TouchInput.Gestures second) {
         return mapController.isSimultaneousGestureAllowed(first, second);
+    }
+
+    /**
+     * Set a listener for feature pick events.
+     * @param listener Listener to call
+     */
+    public void setFeaturePickListener(final FeaturePickListener listener) {
+        mapController.setFeaturePickListener(new MapController.FeaturePickListener() {
+            @Override public void onFeaturePick(Map<String, String> properties, float positionX,
+                    float positionY) {
+                listener.onFeaturePick(properties, positionX, positionY);
+            }
+        });
+        pickFeatureOnSingleTapConfirmed = (listener != null);
+        mapController.setTapResponder(internalTapResponder);
+    }
+
+    /**
+     * Set a listener for when view is fully loaded and no ease or label animations running.
+     */
+    public void setViewCompleteListener(final ViewCompleteListener listener) {
+        mapController.setViewCompleteListener(new MapController.ViewCompleteListener() {
+            @Override public void onViewComplete() {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override public void run() {
+                        listener.onViewComplete();
+                    }
+                });
+            }
+        });
+    }
+
+    /**
+     * Enqueue a Runnable to be executed synchronously on the rendering thread.
+     * @param r Runnable to run
+     */
+    public void queueEvent(Runnable r) {
+        mapController.queueEvent(r);
+    }
+
+    /**
+     * Enqueue a scene component update with its corresponding YAML node value.
+     * @param componentPath The YAML component path delimited by a '.' (example "scene.animated")
+     * @param value A YAML valid string (example "{ property: true }" or "true")
+     */
+    public void queueSceneUpdate(String componentPath, String value) {
+        mapController.queueSceneUpdate(componentPath, value);
+    }
+
+    /**
+     * Apply updates queued by queueSceneUpdate; this empties the current queue of updates.
+     */
+    public void applySceneUpdates() {
+        mapController.applySceneUpdates();
     }
 
     /**

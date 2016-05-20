@@ -69,7 +69,7 @@ public class OverlayManager {
      */
     private MapData currentLocationMapData;
     /**
-     * Should we track the user's current location on the map.
+     * Should we show the current location icon and find me icon.
      */
     private boolean myLocationEnabled;
 

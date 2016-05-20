@@ -41,7 +41,13 @@ public final class SampleDetailsList {
                     RouteLineActivity.class),
             new SampleDetails(R.string.search_results_map_demo_label,
                     R.string.search_results_map_demo_description,
-                    SearchResultsActivity.class)
+                    SearchResultsActivity.class),
+            new SampleDetails(R.string.feature_listener_map_demo_label,
+                    R.string.feature_listener_map_demo_description,
+                    FeaturePickListenerActivity.class),
+            new SampleDetails(R.string.queue_event_map_demo_label,
+                    R.string.queue_event_map_demo_description,
+                    QueueEventActivity.class)
 
     };
 }
