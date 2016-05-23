@@ -16,7 +16,7 @@ Include dependency using Maven.
 <dependency>
   <groupId>com.mapzen</groupId>
   <artifactId>mapzen-android-sdk</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.3</version>
   <type>aar</type>
 </dependency>
 ```
@@ -31,7 +31,7 @@ repositories {
 }
 
 dependencies {
-  compile 'com.mapzen:mapzen-android-sdk:1.0.0'
+  compile 'com.mapzen:mapzen-android-sdk:1.0.3'
   ...
 }
 ```
