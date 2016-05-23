@@ -28,6 +28,6 @@ private void configureMap(MapzenMap map) {
 
 @Override protected void onDestroy() {
     super.onDestroy();
-    markers.remove();
+    markers.clear();
 }
 ```

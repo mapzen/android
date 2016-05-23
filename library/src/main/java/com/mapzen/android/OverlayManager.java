@@ -89,15 +89,15 @@ public class OverlayManager {
 
     View.OnClickListener findMeExternalClickListener;
 
-    private MapData polylineMapData;
-    private MapData polygonMapData;
-    private MapData markerMapData;
-    private MapData startPinData;
-    private MapData endPinData;
-    private MapData droppedPinData;
-    private MapData searchResultPinData;
-    private MapData routePinData;
-    private MapData routeLineData;
+    private static MapData polylineMapData;
+    private static MapData polygonMapData;
+    private static MapData markerMapData;
+    private static MapData startPinData;
+    private static MapData endPinData;
+    private static MapData droppedPinData;
+    private static MapData searchResultPinData;
+    private static MapData routePinData;
+    private static MapData routeLineData;
 
     /**
      * Create a new {@link OverlayManager} object for handling functionality between map and

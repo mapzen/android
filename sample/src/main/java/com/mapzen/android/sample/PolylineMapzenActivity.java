@@ -52,6 +52,6 @@ public class PolylineMapzenActivity extends AppCompatActivity {
     }
 
     private void cleanupMap() {
-        polylineData.remove();
+        polylineData.clear();
     }
 }
