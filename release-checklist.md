@@ -38,4 +38,5 @@ VERSION_NAME=1.0.2-SNAPSHOT
 
 ## 6. Documentation
 
-Add release name and notes to GitHub [releases page](https://github.com/mapzen/android/releases). Attach and upload AAR.
+Add release name and notes to GitHub [releases page](https://github.com/mapzen/android/releases). Attach and upload AAR. Update
+[installations page](https://github.com/mapzen/android/blob/master/docs/installation.md) to point to the new artifact.
