@@ -16,9 +16,9 @@
         android:layout_alignParentBottom="true"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/bg_white_gray_border"
+        android:background="@drawable/mz_bg_white_gray_border"
         android:visibility="gone"
-        android:src="@drawable/ic_find_me"
+        android:src="@drawable/mz_find_me"
         tools:ignore="RtlHardcoded" />
 
     <TextView
