@@ -426,9 +426,6 @@ public class OverlayManager {
     }
 
     private void removeLocationUpdates() {
-        if (LocationServices.FusedLocationApi != null) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(locationListener);
-        }
         lostApiClient.disconnect();
     }
 
