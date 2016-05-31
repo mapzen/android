@@ -13,5 +13,5 @@
 
         </shape>
     </item>
-    <item android:drawable="@drawable/bg_white_gray_border"/>
+    <item android:drawable="@drawable/bg_ripple"/>
 </layer-list>
