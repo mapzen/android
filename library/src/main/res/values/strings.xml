@@ -1,4 +1,4 @@
 <resources>
-    <string name="mz_app_name">Mapzen Android SDK</string>
-    <string name="mz_attribution">Powered by Mapzen</string>
+  <string name="mz_app_name">Mapzen Android SDK</string>
+  <string name="mz_attribution">Powered by Mapzen</string>
 </resources>

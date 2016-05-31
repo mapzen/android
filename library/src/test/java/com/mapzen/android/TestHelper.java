@@ -9,10 +9,10 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public final class TestHelper {
-    public static Context getMockContext() {
-        final Context context = PowerMockito.mock(Context.class);
-        when(context.getApplicationContext()).thenReturn(context);
-        when(context.getResources()).thenReturn(mock(Resources.class));
-        return context;
-    }
+  public static Context getMockContext() {
+    final Context context = PowerMockito.mock(Context.class);
+    when(context.getApplicationContext()).thenReturn(context);
+    when(context.getResources()).thenReturn(mock(Resources.class));
+    return context;
+  }
 }

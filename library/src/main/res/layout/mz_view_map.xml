@@ -1,35 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
 
-    <com.mapzen.android.TangramMapView
-        android:id="@+id/mz_tangram_map"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+  <com.mapzen.android.TangramMapView
+      android:id="@+id/mz_tangram_map"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      />
 
-    <ImageButton
-        android:id="@+id/mz_find_me"
-        android:layout_width="44dp"
-        android:layout_height="44dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/mz_bg_white_gray_border"
-        android:visibility="gone"
-        android:src="@drawable/mz_find_me"
-        tools:ignore="RtlHardcoded" />
+  <ImageButton
+      android:id="@+id/mz_find_me"
+      android:layout_width="44dp"
+      android:layout_height="44dp"
+      android:layout_alignParentRight="true"
+      android:layout_alignParentBottom="true"
+      android:layout_marginRight="8dp"
+      android:layout_marginBottom="8dp"
+      android:background="@drawable/mz_bg_white_gray_border"
+      android:visibility="gone"
+      android:src="@drawable/mz_find_me"
+      tools:ignore="RtlHardcoded"
+      />
 
-    <TextView
-        android:id="@+id/mz_attribution"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#444444"
-        android:textSize="10dp"
-        android:text="@string/mz_attribution"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_margin="8dp"/>
+  <TextView
+      android:id="@+id/mz_attribution"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textColor="#444444"
+      android:textSize="10dp"
+      android:text="@string/mz_attribution"
+      android:layout_alignParentBottom="true"
+      android:layout_alignParentLeft="true"
+      android:layout_margin="8dp"
+      />
 
 </merge>

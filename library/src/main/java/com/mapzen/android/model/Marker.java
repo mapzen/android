@@ -7,39 +7,36 @@ import com.mapzen.tangram.LngLat;
  */
 public class Marker {
 
-    private final LngLat latLng;
+  private final LngLat latLng;
 
-    /**
-     * Constructs a new object.
-     * @param latitude
-     * @param longitude
-     */
-    public Marker(double longitude, double latitude) {
-        this.latLng = new LngLat(longitude, latitude);
+  /**
+   * Constructs a new object.
+   */
+  public Marker(double longitude, double latitude) {
+    this.latLng = new LngLat(longitude, latitude);
+  }
+
+  /**
+   * Return the marker's coordinate location.
+   */
+  public LngLat getLocation() {
+    return latLng;
+  }
+
+  @Override public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
 
-    /**
-     * Return the marker's coordinate location.
-     * @return
-     */
-    public LngLat getLocation() {
-        return latLng;
-    }
+    Marker marker = (Marker) o;
 
-    @Override public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+    return !(latLng != null ? !latLng.equals(marker.latLng) : marker.latLng != null);
+  }
 
-        Marker marker = (Marker) o;
-
-        return !(latLng != null ? !latLng.equals(marker.latLng) : marker.latLng != null);
-    }
-
-    @Override public int hashCode() {
-        return latLng != null ? latLng.hashCode() : 0;
-    }
+  @Override public int hashCode() {
+    return latLng != null ? latLng.hashCode() : 0;
+  }
 }

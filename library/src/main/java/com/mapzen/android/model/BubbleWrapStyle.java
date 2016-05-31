@@ -5,10 +5,10 @@ package com.mapzen.android.model;
  */
 public class BubbleWrapStyle extends MapStyle {
 
-    /**
-     * Creates a new instance.
-     */
-    public BubbleWrapStyle() {
-        super("styles/bubble-wrap/bubble-wrap.yaml");
-    }
+  /**
+   * Creates a new instance.
+   */
+  public BubbleWrapStyle() {
+    super("styles/bubble-wrap/bubble-wrap.yaml");
+  }
 }

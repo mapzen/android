@@ -8,24 +8,23 @@ import java.util.Map;
  */
 public class TestMapData extends MapData {
 
-    public TestMapData(String name) {
-        super(name, 0, null);
-    }
+  public TestMapData(String name) {
+    super(name, 0, null);
+  }
 
-    @Override public MapData addPolyline(List<LngLat> polyline, Map<String, String> properties) {
-        return this;
-    }
+  @Override public MapData addPolyline(List<LngLat> polyline, Map<String, String> properties) {
+    return this;
+  }
 
-    @Override public MapData addPoint(LngLat point, Map<String, String> properties) {
-        return this;
-    }
+  @Override public MapData addPoint(LngLat point, Map<String, String> properties) {
+    return this;
+  }
 
-    @Override public MapData addPolygon(List<List<LngLat>> polygon,
-            Map<String, String> properties) {
-        return this;
-    }
+  @Override public MapData addPolygon(List<List<LngLat>> polygon, Map<String, String> properties) {
+    return this;
+  }
 
-    @Override public MapData clear() {
-        return this;
-    }
+  @Override public MapData clear() {
+    return this;
+  }
 }

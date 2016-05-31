@@ -1,15 +1,16 @@
-<ripple xmlns:android="http://schemas.android.com/apk/res/android" android:color="?android:colorControlHighlight">
-    <item>
-        <shape
-            android:shape="rectangle">
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="?android:colorControlHighlight">
+  <item>
+    <shape
+        android:shape="rectangle">
 
-            <solid
-                android:color="@color/mz_white" />
+      <solid
+          android:color="@color/mz_white"/>
 
-            <stroke
-                android:width="1dp"
-                android:color="@color/mz_gray" />
+      <stroke
+          android:width="1dp"
+          android:color="@color/mz_gray"/>
 
-        </shape>
-    </item>
+    </shape>
+  </item>
 </ripple>

@@ -10,70 +10,67 @@ import java.util.List;
  */
 public class Polyline {
 
-    private final List<LngLat> coordinates;
+  private final List<LngLat> coordinates;
+
+  /**
+   * Constructs a new {@link Polyline} object.
+   */
+  public Polyline(List<LngLat> coordinates) {
+    this.coordinates = coordinates;
+  }
+
+  /**
+   * {@link Polyline} builder class.
+   */
+  public static class Builder {
+    private List<LngLat> coordinates = new ArrayList<>();
 
     /**
-     * Constructs a new {@link Polyline} object.
-     * @param coordinates
+     * Constructs a new {@link Builder}.
      */
-    public Polyline(List<LngLat> coordinates) {
-        this.coordinates = coordinates;
-    }
-
-    /**
-     * {@link Polyline} builder class.
-     */
-    public static class Builder {
-        private List<LngLat> coordinates = new ArrayList<>();
-
-        /**
-         * Constructs a new {@link Builder}.
-         */
-        public Builder() {
-        }
-
-        /**
-         * Add a coordinate pair to the {@link Polyline}.
-         * @param c
-         * @return
-         */
-        public Builder add(LngLat c) {
-            coordinates.add(c);
-            return this;
-        }
-
-        /**
-         * Build the {@link Polyline} and configure it's values.
-         * @return the newly created {@link Polyline}
-         */
-        public Polyline build() {
-            return new Polyline(coordinates);
-        }
+    public Builder() {
     }
 
     /**
-     * The {@link Polyline}'s coordinates.
-     * @return
+     * Add a coordinate pair to the {@link Polyline}.
      */
-    public List<LngLat> getCoordinates() {
-        return coordinates;
+    public Builder add(LngLat c) {
+      coordinates.add(c);
+      return this;
     }
 
-    @Override public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+    /**
+     * Build the {@link Polyline} and configure it's values.
+     *
+     * @return the newly created {@link Polyline}
+     */
+    public Polyline build() {
+      return new Polyline(coordinates);
+    }
+  }
 
-        Polyline polyline = (Polyline) o;
+  /**
+   * The {@link Polyline}'s coordinates.
+   */
+  public List<LngLat> getCoordinates() {
+    return coordinates;
+  }
 
-        return !(coordinates != null ? !coordinates.equals(polyline.coordinates)
-                : polyline.coordinates != null);
+  @Override public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
     }
 
-    @Override public int hashCode() {
-        return coordinates != null ? coordinates.hashCode() : 0;
-    }
+    Polyline polyline = (Polyline) o;
+
+    return !(coordinates != null ? !coordinates.equals(polyline.coordinates)
+        : polyline.coordinates != null);
+  }
+
+  @Override public int hashCode() {
+    return coordinates != null ? coordinates.hashCode() : 0;
+  }
 }
