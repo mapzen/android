@@ -33,14 +33,12 @@ task checkstyle(type: Checkstyle) {
   classpath = files()
 }
 
-task verify(dependsOn: [
-    'test',
-    'checkstyle',
-    'lint'
-])
+task verify(dependsOn: ['test',
+                        'checkstyle',
+                        'lint'])
 
 dependencies {
-  compile (project(':library')) {
+  compile(project(':library')) {
     transitive = true;
   }
   compile 'com.android.support:appcompat-v7:23.2.1'

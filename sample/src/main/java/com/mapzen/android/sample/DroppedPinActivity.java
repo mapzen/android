@@ -17,45 +17,44 @@ import android.widget.Toast;
  */
 public class DroppedPinActivity extends AppCompatActivity {
 
-    MapzenMap map;
+  MapzenMap map;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_clear_btn);
+  @Override protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_clear_btn);
 
-        Button clearPinBtn = (Button) findViewById(R.id.clear_btn);
-        clearPinBtn.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                map.clearDroppedPins();
-            }
-        });
-
-        final MapFragment mapFragment =
-                (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
-        mapFragment.getMapAsync(new OnMapReadyCallback() {
-            @Override public void onMapReady(MapzenMap map) {
-                DroppedPinActivity.this.map = map;
-                map.setZoom(15f);
-                map.setPosition(new LngLat(-122.394046, 37.789747));
-                map.setLongPressResponder(new TouchInput.LongPressResponder() {
-                    @Override public void onLongPress(float x, float y) {
-                        drawDroppedPin(x, y);
-                    }
-                });
-            }
-        });
-
-        Toast.makeText(this, R.string.drop_pin_instruction, Toast.LENGTH_LONG).show();
-    }
-
-    private void drawDroppedPin(float x, float y) {
-        LngLat point = map.coordinatesAtScreenPosition(x, y);
-        map.drawDroppedPin(point);
-    }
-
-    @Override protected void onDestroy() {
-        super.onDestroy();
+    Button clearPinBtn = (Button) findViewById(R.id.clear_btn);
+    clearPinBtn.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
         map.clearDroppedPins();
-    }
+      }
+    });
+
+    final MapFragment mapFragment =
+        (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
+    mapFragment.getMapAsync(new OnMapReadyCallback() {
+      @Override public void onMapReady(MapzenMap map) {
+        DroppedPinActivity.this.map = map;
+        map.setZoom(15f);
+        map.setPosition(new LngLat(-122.394046, 37.789747));
+        map.setLongPressResponder(new TouchInput.LongPressResponder() {
+          @Override public void onLongPress(float x, float y) {
+            drawDroppedPin(x, y);
+          }
+        });
+      }
+    });
+
+    Toast.makeText(this, R.string.drop_pin_instruction, Toast.LENGTH_LONG).show();
+  }
+
+  private void drawDroppedPin(float x, float y) {
+    LngLat point = map.coordinatesAtScreenPosition(x, y);
+    map.drawDroppedPin(point);
+  }
+
+  @Override protected void onDestroy() {
+    super.onDestroy();
+    map.clearDroppedPins();
+  }
 }
