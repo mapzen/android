@@ -201,6 +201,7 @@ public class OverlayManagerTest {
     @Test
     public void drawRoutePins_shouldAddStartPin() {
         when(mapController.addDataLayer(anyString())).thenCallRealMethod();
+        Whitebox.setInternalState(OverlayManager.class, "startPinData", (Object[]) null);
 
         LngLat start = new LngLat(-123, -70);
         LngLat end = new LngLat(-123.1, -70.1);
