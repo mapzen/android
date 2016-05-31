@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:textColor="#444444"
         android:textSize="10dp"
-        android:text="@string/attribution"
+        android:text="@string/mz_attribution"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_margin="8dp"/>

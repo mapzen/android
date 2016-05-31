@@ -5,4 +5,4 @@
     android:layout_width="match_parent"
     android:layout_height="44dp"
     android:ellipsize="marquee"
-    android:textColor="@color/white"/>
+    android:textColor="@color/mz_white"/>
