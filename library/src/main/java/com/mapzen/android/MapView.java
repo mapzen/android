@@ -56,7 +56,7 @@ public class MapView extends RelativeLayout {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(
                 Context.LAYOUT_INFLATER_SERVICE);
         if (inflater != null) {
-            inflater.inflate(R.layout.view_map, this);
+            inflater.inflate(R.layout.mz_view_map, this);
         }
     }
 
