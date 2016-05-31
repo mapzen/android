@@ -13,4 +13,5 @@
 
         </shape>
     </item>
+    <item android:drawable="@drawable/bg_ripple"/>
 </layer-list>
