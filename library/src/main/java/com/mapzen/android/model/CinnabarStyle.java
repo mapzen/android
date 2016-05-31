@@ -5,10 +5,10 @@ package com.mapzen.android.model;
  */
 public class CinnabarStyle extends MapStyle {
 
-    /**
-     * Creates a new instance.
-     */
-    public CinnabarStyle() {
-        super("styles/cinnabar/cinnabar-style.yaml");
-    }
+  /**
+   * Creates a new instance.
+   */
+  public CinnabarStyle() {
+    super("styles/cinnabar/cinnabar-style.yaml");
+  }
 }

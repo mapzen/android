@@ -16,42 +16,37 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.when;
 
-@RunWith(PowerMockRunner.class)
-@SuppressStaticInitializationFor("com.mapzen.tangram.MapController")
+@RunWith(PowerMockRunner.class) @SuppressStaticInitializationFor("com.mapzen.tangram.MapController")
 public class MapFragmentTest {
 
-    private MapFragment mapFragment;
+  private MapFragment mapFragment;
 
-    @Before
-    public void setUp() throws Exception {
-        final Resources resources = mock(Resources.class);
-        when(resources.getIdentifier((String) any(), (String) any(), (String) any())).thenReturn(0);
+  @Before public void setUp() throws Exception {
+    final Resources resources = mock(Resources.class);
+    when(resources.getIdentifier((String) any(), (String) any(), (String) any())).thenReturn(0);
 
-        final Activity activity = mock(Activity.class);
-        when(activity.getResources()).thenReturn(resources);
-        when(activity.getPackageName()).thenReturn("");
+    final Activity activity = mock(Activity.class);
+    when(activity.getResources()).thenReturn(resources);
+    when(activity.getPackageName()).thenReturn("");
 
-        mapFragment = new MapFragment();
-        mapFragment.mapView = new TestMapView();
-        mapFragment.onAttach(activity);
-    }
+    mapFragment = new MapFragment();
+    mapFragment.mapView = new TestMapView();
+    mapFragment.onAttach(activity);
+  }
 
-    @Test
-    public void shouldNotBeNull() throws Exception {
-        assertThat(mapFragment).isNotNull();
-    }
+  @Test public void shouldNotBeNull() throws Exception {
+    assertThat(mapFragment).isNotNull();
+  }
 
-    @Test
-    public void getMap_shouldReturnMapzenMap() throws Exception {
-        TestCallback callback = new TestCallback();
-        mapFragment.getMapAsync(callback);
-        assertThat(callback.map).isInstanceOf(MapzenMap.class);
-    }
+  @Test public void getMap_shouldReturnMapzenMap() throws Exception {
+    TestCallback callback = new TestCallback();
+    mapFragment.getMapAsync(callback);
+    assertThat(callback.map).isInstanceOf(MapzenMap.class);
+  }
 
-    @Test
-    public void getMap_shouldSetHttpHandler() throws Exception {
-        TestCallback callback = new TestCallback();
-        mapFragment.getMapAsync(callback);
-        verify(callback.map.getMapController(), times(1)).setHttpHandler((TileHttpHandler) any());
-    }
+  @Test public void getMap_shouldSetHttpHandler() throws Exception {
+    TestCallback callback = new TestCallback();
+    mapFragment.getMapAsync(callback);
+    verify(callback.map.getMapController(), times(1)).setHttpHandler((TileHttpHandler) any());
+  }
 }

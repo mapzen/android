@@ -5,10 +5,10 @@ package com.mapzen.android.model;
  */
 public class RefillStyle extends MapStyle {
 
-    /**
-     * Creates a new instance.
-     */
-    public RefillStyle() {
-        super("styles/refill/refill-style.yaml");
-    }
+  /**
+   * Creates a new instance.
+   */
+  public RefillStyle() {
+    super("styles/refill/refill-style.yaml");
+  }
 }

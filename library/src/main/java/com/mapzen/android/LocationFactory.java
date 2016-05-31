@@ -9,27 +9,22 @@ import android.content.Context;
  */
 public class LocationFactory {
 
-    private static LostApiClient shared;
+  private static LostApiClient shared;
 
-    /**
-     * Returns shared {@link LostApiClient}.
-     * @param context
-     * @return
-     */
-    public static LostApiClient sharedClient(Context context) {
-        if (shared == null) {
-            shared = new LostApiClient.Builder(context).build();
-        }
-        return shared;
+  /**
+   * Returns shared {@link LostApiClient}.
+   */
+  public static LostApiClient sharedClient(Context context) {
+    if (shared == null) {
+      shared = new LostApiClient.Builder(context).build();
     }
+    return shared;
+  }
 
-    /**
-     * Returns a new instance of {@link LostApiClient}.
-     * @param context
-     * @return
-     */
-    public LostApiClient getApiClient(Context context) {
-        return new LostApiClient.Builder(context).build();
-    }
+  /**
+   * Returns a new instance of {@link LostApiClient}.
+   */
+  public LostApiClient getApiClient(Context context) {
+    return new LostApiClient.Builder(context).build();
+  }
 }
-

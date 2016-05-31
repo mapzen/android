@@ -5,19 +5,19 @@ package com.mapzen.android.model;
  */
 public class MapStyle {
 
-    private final String sceneFile;
+  private final String sceneFile;
 
-    /**
-     * Creates a new instance.
-     */
-    public MapStyle(String sceneFile) {
-        this.sceneFile = sceneFile;
-    }
+  /**
+   * Creates a new instance.
+   */
+  public MapStyle(String sceneFile) {
+    this.sceneFile = sceneFile;
+  }
 
-    /**
-     * Get the underlying scene filename.
-     */
-    public String getSceneFile() {
-        return sceneFile;
-    }
+  /**
+   * Get the underlying scene filename.
+   */
+  public String getSceneFile() {
+    return sceneFile;
+  }
 }

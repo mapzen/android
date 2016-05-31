@@ -15,35 +15,33 @@ import android.widget.Toast;
  */
 public class QueueEventActivity extends AppCompatActivity {
 
-    private MapzenMap map;
+  private MapzenMap map;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sample_mapzen);
+  @Override protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_sample_mapzen);
 
-        final MapFragment mapFragment =
-                (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
-        mapFragment.getMapAsync(new OnMapReadyCallback() {
-            @Override public void onMapReady(MapzenMap map) {
-                QueueEventActivity.this.map = map;
-                configureMap();
-            }
-        });
-    }
+    final MapFragment mapFragment =
+        (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
+    mapFragment.getMapAsync(new OnMapReadyCallback() {
+      @Override public void onMapReady(MapzenMap map) {
+        QueueEventActivity.this.map = map;
+        configureMap();
+      }
+    });
+  }
 
-    private void configureMap() {
-        map.setViewCompleteListener(new ViewCompleteListener() {
-            @Override public void onViewComplete() {
-                Toast.makeText(QueueEventActivity.this, R.string.view_complete,
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-        map.queueEvent(new Runnable() {
-            @Override public void run() {
-                map.setZoom(17, 600);
-                map.setPosition(new LngLat(-73.9918, 40.73633), 600);
-            }
-        });
-    }
+  private void configureMap() {
+    map.setViewCompleteListener(new ViewCompleteListener() {
+      @Override public void onViewComplete() {
+        Toast.makeText(QueueEventActivity.this, R.string.view_complete, Toast.LENGTH_SHORT).show();
+      }
+    });
+    map.queueEvent(new Runnable() {
+      @Override public void run() {
+        map.setZoom(17, 600);
+        map.setPosition(new LngLat(-73.9918, 40.73633), 600);
+      }
+    });
+  }
 }

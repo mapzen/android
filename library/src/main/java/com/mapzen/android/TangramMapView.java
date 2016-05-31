@@ -9,19 +9,17 @@ import android.util.AttributeSet;
  */
 public class TangramMapView extends com.mapzen.tangram.MapView {
 
-    /**
-     * Creates a new {@link TangramMapView}.
-     * @param context
-     */
-    public TangramMapView(Context context) {
-        super(context);
-    }
+  /**
+   * Creates a new {@link TangramMapView}.
+   */
+  public TangramMapView(Context context) {
+    super(context);
+  }
 
-    /**
-     * Creates a new {@link TangramMapView}.
-     * @param context
-     */
-    public TangramMapView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
+  /**
+   * Creates a new {@link TangramMapView}.
+   */
+  public TangramMapView(Context context, AttributeSet attrs) {
+    super(context, attrs);
+  }
 }

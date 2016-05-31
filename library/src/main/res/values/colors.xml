@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="mz_white">#FFF</color>
-    <color name="mz_border_gray">#999</color>
-    <color name="mz_gray">#A3ABAD</color>
+  <color name="mz_white">#FFF</color>
+  <color name="mz_border_gray">#999</color>
+  <color name="mz_gray">#A3ABAD</color>
 </resources>

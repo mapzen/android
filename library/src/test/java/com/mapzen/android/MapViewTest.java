@@ -12,37 +12,36 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class MapViewTest {
-    private MapView mapView;
+  private MapView mapView;
 
-    @Before public void setup() throws Exception {
-        mapView = PowerMockito.spy(new MapView(getMockContext()));
-        when(mapView.getTangramMapView()).thenReturn(mock(TangramMapView.class));
-    }
+  @Before public void setup() throws Exception {
+    mapView = PowerMockito.spy(new MapView(getMockContext()));
+    when(mapView.getTangramMapView()).thenReturn(mock(TangramMapView.class));
+  }
 
-    @Test public void shouldNotBeNull() throws Exception {
-        assertThat(mapView).isNotNull();
-    }
+  @Test public void shouldNotBeNull() throws Exception {
+    assertThat(mapView).isNotNull();
+  }
 
-    @Test public void getMapAsync_shouldInjectMapInitializer() throws Exception {
-        mapView.getMapAsync(new TestCallback());
-        assertThat(mapView.mapInitializer).isNotNull();
-    }
+  @Test public void getMapAsync_shouldInjectMapInitializer() throws Exception {
+    mapView.getMapAsync(new TestCallback());
+    assertThat(mapView.mapInitializer).isNotNull();
+  }
 
-    @Test public void getMapAsync_shouldInvokeMapInitializer() throws Exception {
-        final MapInitializer mapInitializer = mock(MapInitializer.class);
-        final OnMapReadyCallback callback = new TestCallback();
-        mapView.mapInitializer = mapInitializer;
-        mapView.getMapAsync(callback);
-        verify(mapInitializer, times(1)).init(mapView, callback);
-    }
+  @Test public void getMapAsync_shouldInvokeMapInitializer() throws Exception {
+    final MapInitializer mapInitializer = mock(MapInitializer.class);
+    final OnMapReadyCallback callback = new TestCallback();
+    mapView.mapInitializer = mapInitializer;
+    mapView.getMapAsync(callback);
+    verify(mapInitializer, times(1)).init(mapView, callback);
+  }
 
-    @Test public void getMapAsync_shouldInvokeMapInitializerWithApiKey() throws Exception {
-        final MapInitializer mapInitializer = mock(MapInitializer.class);
-        final OnMapReadyCallback callback = new TestCallback();
-        final String key = "vector-tiles-test-key";
-        mapView.mapInitializer = mapInitializer;
-        mapView.getMapAsync(key, callback);
-        verify(mapInitializer, times(1)).init(mapView, key, callback);
-    }
-
+  @Test public void getMapAsync_shouldInvokeMapInitializerWithApiKey() throws Exception {
+    final MapInitializer mapInitializer = mock(MapInitializer.class);
+    final OnMapReadyCallback callback = new TestCallback();
+    final String key = "vector-tiles-test-key";
+    mapView.mapInitializer = mapInitializer;
+    mapView.getMapAsync(key, callback);
+    verify(mapInitializer, times(1)).init(mapView, key, callback);
+  }
 }
