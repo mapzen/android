@@ -26,7 +26,8 @@ public class OverlayManager {
 
   private static final int LOCATION_REQUEST_INTERVAL_MILLIS = 5000;
   private static final int LOCATION_REQUEST_DISPLACEMENT_MILLIS = 5000;
-  private static final int ANIMATION_DURATION_MILLIS = 300;
+  private static final int ANIMATION_DURATION_MILLIS = 500;
+  private static final float DEFAULT_ZOOM = 16f;
 
   static final String NAME_CURRENT_LOCATION = "mz_current_location";
   private static final String NAME_POLYLINE = "mz_default_line";
@@ -432,6 +433,7 @@ public class OverlayManager {
     }
 
     final LngLat lngLat = new LngLat(location.getLongitude(), location.getLatitude());
+    mapController.setZoomEased(DEFAULT_ZOOM, ANIMATION_DURATION_MILLIS);
     mapController.setPositionEased(lngLat, ANIMATION_DURATION_MILLIS);
     mapController.requestRender();
   }

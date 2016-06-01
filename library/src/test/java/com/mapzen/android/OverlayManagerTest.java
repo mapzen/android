@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static com.mapzen.android.OverlayManager.NAME_CURRENT_LOCATION;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyFloat;
@@ -357,7 +358,7 @@ import static org.powermock.api.mockito.PowerMockito.spy;
     TestButton testFindMeButton = new TestButton(null);
     OverlayManager overlayManager = new OverlayManager(mapView, mapController, lostApiClient);
     MapData mapData = mock(MapData.class);
-    when(mapController.addDataLayer(OverlayManager.NAME_CURRENT_LOCATION)).thenReturn(mapData);
+    when(mapController.addDataLayer(NAME_CURRENT_LOCATION)).thenReturn(mapData);
     when(mapView.showFindMe()).thenReturn(testFindMeButton);
     when(LocationServices.FusedLocationApi.getLastLocation()).thenReturn(new Location("test"));
     overlayManager.setMyLocationEnabled(true);
@@ -370,12 +371,25 @@ import static org.powermock.api.mockito.PowerMockito.spy;
     TestButton testFindMeButton = new TestButton(null);
     OverlayManager overlayManager = new OverlayManager(mapView, mapController, lostApiClient);
     MapData mapData = mock(MapData.class);
-    when(mapController.addDataLayer(OverlayManager.NAME_CURRENT_LOCATION)).thenReturn(mapData);
+    when(mapController.addDataLayer(NAME_CURRENT_LOCATION)).thenReturn(mapData);
     when(mapView.showFindMe()).thenReturn(testFindMeButton);
     when(LocationServices.FusedLocationApi.getLastLocation()).thenReturn(new Location("test"));
     overlayManager.setMyLocationEnabled(true);
     testFindMeButton.performClick();
     verify(mapController, times(1)).setPositionEased(any(LngLat.class), anyInt());
+    verify(mapController, times(1)).requestRender();
+  }
+
+  @Test public void onClickFindMe_shouldZoomMap() throws Exception {
+    TestButton testFindMeButton = new TestButton(null);
+    OverlayManager overlayManager = new OverlayManager(mapView, mapController, lostApiClient);
+    MapData mapData = mock(MapData.class);
+    when(mapController.addDataLayer(NAME_CURRENT_LOCATION)).thenReturn(mapData);
+    when(mapView.showFindMe()).thenReturn(testFindMeButton);
+    when(LocationServices.FusedLocationApi.getLastLocation()).thenReturn(new Location("test"));
+    overlayManager.setMyLocationEnabled(true);
+    testFindMeButton.performClick();
+    verify(mapController, times(1)).setZoomEased(anyFloat(), anyInt());
     verify(mapController, times(1)).requestRender();
   }
 
