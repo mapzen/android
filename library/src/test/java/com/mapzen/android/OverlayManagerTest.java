@@ -27,7 +27,9 @@ import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import static com.mapzen.android.OverlayManager.NAME_CURRENT_LOCATION;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyFloat;
@@ -49,15 +51,21 @@ import static org.powermock.api.mockito.PowerMockito.spy;
   private OverlayManager overlayManager;
   private MapView mapView;
   private LostApiClient lostApiClient;
+  private TestButton findMeButton;
+  private MapData mapData;
 
   @Before public void setup() throws Exception {
     mapController = mock(TestMapController.class);
     lostApiClient = mock(LostApiClient.class);
     mapView = mock(MapView.class);
+    mapData = mock(MapData.class);
     LocationServices.FusedLocationApi = Mockito.mock(FusedLocationProviderApiImpl.class);
     overlayManager = spy(new OverlayManager(mapView, mapController, lostApiClient));
     doNothing().when(overlayManager, "addCurrentLocationMapData");
     doNothing().when(overlayManager, "handleMyLocationEnabledChanged");
+    findMeButton = new TestButton(null);
+    when(mapController.addDataLayer(NAME_CURRENT_LOCATION)).thenReturn(mapData);
+    when(mapView.showFindMe()).thenReturn(findMeButton);
   }
 
   @Test public void setMyLocationEnabled_shouldCenterMapOnCurrentLocation() throws Exception {
@@ -342,14 +350,40 @@ import static org.powermock.api.mockito.PowerMockito.spy;
 
   @Test public void setFindMeOnClickListener_shouldInvokeListenerOnButtonClick() throws Exception {
     TestOnClickListener listener = new TestOnClickListener();
-    TestButton testFindMeButton = new TestButton(null);
     OverlayManager overlayManager = new OverlayManager(mapView, mapController, lostApiClient);
 
-    when(mapView.showFindMe()).thenReturn(testFindMeButton);
+    when(mapView.showFindMe()).thenReturn(findMeButton);
     overlayManager.setFindMeOnClickListener(listener);
     overlayManager.setMyLocationEnabled(true);
-    testFindMeButton.performClick();
+    findMeButton.performClick();
     assertThat(listener.click).isTrue();
+  }
+
+  @Test public void onClickFindMe_shouldUpdateCurrentLocationMarker() throws Exception {
+    OverlayManager overlayManager = new OverlayManager(mapView, mapController, lostApiClient);
+    when(LocationServices.FusedLocationApi.getLastLocation()).thenReturn(new Location("test"));
+    overlayManager.setMyLocationEnabled(true);
+    findMeButton.performClick();
+    verify(mapData, times(2)).clear();
+    verify(mapData, times(2)).addPoint(any(LngLat.class), any(Map.class));
+  }
+
+  @Test public void onClickFindMe_shouldUpdateMapPosition() throws Exception {
+    OverlayManager overlayManager = new OverlayManager(mapView, mapController, lostApiClient);
+    when(LocationServices.FusedLocationApi.getLastLocation()).thenReturn(new Location("test"));
+    overlayManager.setMyLocationEnabled(true);
+    findMeButton.performClick();
+    verify(mapController, times(1)).setPositionEased(any(LngLat.class), anyInt());
+    verify(mapController, times(1)).requestRender();
+  }
+
+  @Test public void onClickFindMe_shouldZoomMap() throws Exception {
+    OverlayManager overlayManager = new OverlayManager(mapView, mapController, lostApiClient);
+    when(LocationServices.FusedLocationApi.getLastLocation()).thenReturn(new Location("test"));
+    overlayManager.setMyLocationEnabled(true);
+    findMeButton.performClick();
+    verify(mapController, times(1)).setZoomEased(anyFloat(), anyInt());
+    verify(mapController, times(1)).requestRender();
   }
 
   private class TestOnClickListener implements View.OnClickListener {
