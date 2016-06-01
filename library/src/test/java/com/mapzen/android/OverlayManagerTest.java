@@ -27,6 +27,7 @@ import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
@@ -350,6 +351,32 @@ import static org.powermock.api.mockito.PowerMockito.spy;
     overlayManager.setMyLocationEnabled(true);
     testFindMeButton.performClick();
     assertThat(listener.click).isTrue();
+  }
+
+  @Test public void onClickFindMe_shouldUpdateCurrentLocationMarker() throws Exception {
+    TestButton testFindMeButton = new TestButton(null);
+    OverlayManager overlayManager = new OverlayManager(mapView, mapController, lostApiClient);
+    MapData mapData = mock(MapData.class);
+    when(mapController.addDataLayer(OverlayManager.NAME_CURRENT_LOCATION)).thenReturn(mapData);
+    when(mapView.showFindMe()).thenReturn(testFindMeButton);
+    when(LocationServices.FusedLocationApi.getLastLocation()).thenReturn(new Location("test"));
+    overlayManager.setMyLocationEnabled(true);
+    testFindMeButton.performClick();
+    verify(mapData, times(2)).clear();
+    verify(mapData, times(2)).addPoint(any(LngLat.class), any(Map.class));
+  }
+
+  @Test public void onClickFindMe_shouldUpdateMapPosition() throws Exception {
+    TestButton testFindMeButton = new TestButton(null);
+    OverlayManager overlayManager = new OverlayManager(mapView, mapController, lostApiClient);
+    MapData mapData = mock(MapData.class);
+    when(mapController.addDataLayer(OverlayManager.NAME_CURRENT_LOCATION)).thenReturn(mapData);
+    when(mapView.showFindMe()).thenReturn(testFindMeButton);
+    when(LocationServices.FusedLocationApi.getLastLocation()).thenReturn(new Location("test"));
+    overlayManager.setMyLocationEnabled(true);
+    testFindMeButton.performClick();
+    verify(mapController, times(1)).setPositionEased(any(LngLat.class), anyInt());
+    verify(mapController, times(1)).requestRender();
   }
 
   private class TestOnClickListener implements View.OnClickListener {

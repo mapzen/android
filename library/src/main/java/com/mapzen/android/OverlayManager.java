@@ -28,7 +28,7 @@ public class OverlayManager {
   private static final int LOCATION_REQUEST_DISPLACEMENT_MILLIS = 5000;
   private static final int ANIMATION_DURATION_MILLIS = 300;
 
-  private static final String NAME_CURRENT_LOCATION = "mz_current_location";
+  static final String NAME_CURRENT_LOCATION = "mz_current_location";
   private static final String NAME_POLYLINE = "mz_default_line";
   private static final String NAME_POLYGON = "mz_default_polygon";
   private static final String NAME_MARKER = "mz_default_point";
@@ -383,12 +383,19 @@ public class OverlayManager {
   private void centerMap() {
     locationRequested = true;
     showLastKnownLocation();
+    centerMapOnLastKnownLocation();
   }
 
   private void showLastKnownLocation() {
     final Location current = LocationServices.FusedLocationApi.getLastLocation();
     if (current != null) {
       updateCurrentLocationMapData(current);
+    }
+  }
+
+  private void centerMapOnLastKnownLocation() {
+    final Location current = LocationServices.FusedLocationApi.getLastLocation();
+    if (current != null) {
       updateMapPosition(current);
     }
   }
