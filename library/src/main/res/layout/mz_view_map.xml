@@ -13,15 +13,16 @@
 
   <ImageButton
       android:id="@+id/mz_find_me"
-      android:layout_width="44dp"
-      android:layout_height="44dp"
+      android:layout_width="@dimen/mz_find_me_button_width"
+      android:layout_height="@dimen/mz_find_me_button_height"
       android:layout_alignParentRight="true"
       android:layout_alignParentBottom="true"
-      android:layout_marginRight="8dp"
-      android:layout_marginBottom="8dp"
+      android:layout_marginRight="@dimen/mz_find_me_button_margin_right"
+      android:layout_marginBottom="@dimen/mz_find_me_button_margin_bottom"
       android:background="@drawable/mz_bg_white_gray_border"
       android:visibility="gone"
       android:src="@drawable/mz_find_me"
+      android:contentDescription="@string/mz_find_me"
       tools:ignore="RtlHardcoded"
       />
 
@@ -30,11 +31,13 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:textColor="#444444"
-      android:textSize="10dp"
+      android:textSize="@dimen/mz_attribution_font_size"
       android:text="@string/mz_attribution"
       android:layout_alignParentBottom="true"
       android:layout_alignParentLeft="true"
-      android:layout_margin="8dp"
+      android:layout_marginLeft="@dimen/mz_attribution_margin_left"
+      android:layout_marginBottom="@dimen/mz_attribution_margin_bottom"
+      tools:ignore="RtlHardcoded"
       />
 
 </merge>
