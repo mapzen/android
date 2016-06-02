@@ -31,11 +31,13 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:textColor="#444444"
-      android:textSize="10dp"
+      android:textSize="@dimen/mz_attribution_font_size"
       android:text="@string/mz_attribution"
       android:layout_alignParentBottom="true"
       android:layout_alignParentLeft="true"
-      android:layout_margin="8dp"
+      android:layout_marginLeft="@dimen/mz_attribution_margin_left"
+      android:layout_marginBottom="@dimen/mz_attribution_margin_bottom"
+      tools:ignore="RtlHardcoded"
       />
 
 </merge>
