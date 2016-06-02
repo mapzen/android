@@ -47,6 +47,9 @@ public final class SampleDetailsList {
           FeaturePickListenerActivity.class),
       new SampleDetails(R.string.queue_event_map_demo_label,
           R.string.queue_event_map_demo_description,
-          QueueEventActivity.class)
+          QueueEventActivity.class),
+      new SampleDetails(R.string.router_map_demo_label,
+          R.string.router_map_demo_description,
+          RouterActivity.class)
   };
 }

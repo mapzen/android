@@ -37,6 +37,7 @@
     <activity android:name=".SearchResultsActivity"/>
     <activity android:name="FeaturePickListenerActivity"/>
     <activity android:name=".QueueEventActivity"/>
+    <activity android:name=".RouterActivity" />
   </application>
 
 </manifest>

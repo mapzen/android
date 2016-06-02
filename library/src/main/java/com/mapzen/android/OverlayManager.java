@@ -455,14 +455,20 @@ public class OverlayManager {
   }
 
   private MapData addPolylineToPolylineMapData(List<LngLat> coordinates) {
-    return polylineMapData.addPolyline(coordinates, null);
+    MapData mapData = polylineMapData.addPolyline(coordinates, null);
+    mapController.requestRender();
+    return mapData;
   }
 
   private MapData addPolygonToPolygonMapData(List<List<LngLat>> coordinates) {
-    return polygonMapData.addPolygon(coordinates, null);
+    MapData mapData = polygonMapData.addPolygon(coordinates, null);
+    mapController.requestRender();
+    return mapData;
   }
 
   private MapData addPointToMarkerMapData(Marker marker) {
-    return markerMapData.addPoint(marker.getLocation(), null);
+    MapData mapData = markerMapData.addPoint(marker.getLocation(), null);
+    mapController.requestRender();
+    return mapData;
   }
 }

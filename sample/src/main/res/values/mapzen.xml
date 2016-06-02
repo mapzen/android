@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="vector_tiles_key">[YOUR_VECTOR_TILES_KEY]</string>
+  <string name="turn_by_turn_key">[YOUR_TURN_BY_TURN_KEY]</string>
 </resources>
