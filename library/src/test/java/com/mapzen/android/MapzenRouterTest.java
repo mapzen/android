@@ -1,5 +1,6 @@
 package com.mapzen.android;
 
+import com.mapzen.valhalla.HttpHandler;
 import com.mapzen.valhalla.Route;
 import com.mapzen.valhalla.RouteCallback;
 import com.mapzen.valhalla.Router;
@@ -33,22 +34,20 @@ public class MapzenRouterTest {
 
   @Test
   public void routerShouldHaveEndpoint() {
-    assertThat(router.getRouter().getEndpoint()).isEqualTo(ValhallaRouter.DEFAULT_URL);
+    ValhallaRouter valhallaRouter = (ValhallaRouter) router.getRouter();
+    HttpHandler httpHandler = (HttpHandler) Whitebox.getInternalState(valhallaRouter,
+        "httpHandler");
+    String endpoint = (String) Whitebox.getInternalState(httpHandler, "endpoint");
+    assertThat(endpoint).isEqualTo("https://valhalla.mapzen.com/");
   }
 
   @Test
   public void routerShouldHaveApiKey() {
     ValhallaRouter valhallaRouter = (ValhallaRouter) router.getRouter();
-    String apiKey = (String) Whitebox.getInternalState(valhallaRouter, "API_KEY");
+    HttpHandler httpHandler = (HttpHandler) Whitebox.getInternalState(valhallaRouter,
+        "httpHandler");
+    String apiKey = (String) Whitebox.getInternalState(httpHandler, "apiKey");
     assertThat(apiKey).isEqualTo("TEST_KEY");
-  }
-
-  @Test
-  public void setApiKey_shouldSetKey() {
-    router.setApiKey("test");
-    ValhallaRouter valhallaRouter = (ValhallaRouter) router.getRouter();
-    String apiKey = (String) Whitebox.getInternalState(valhallaRouter, "API_KEY");
-    assertThat(apiKey).isEqualTo("test");
   }
 
   @Test

@@ -1,5 +1,6 @@
 package com.mapzen.android;
 
+import com.mapzen.valhalla.HttpHandler;
 import com.mapzen.valhalla.RouteCallback;
 import com.mapzen.valhalla.Router;
 import com.mapzen.valhalla.ValhallaRouter;
@@ -8,7 +9,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.util.Log;
 
-import java.util.HashMap;
+import static com.mapzen.android.model.Converter.UNITS_TO_ROUTER_UNITS;
 
 /**
  * Main class for interaction with Mapzen's turn-by-turn service.
@@ -20,50 +21,34 @@ public class MapzenRouter {
   private static final String TAG = MapzenRouter.class.getSimpleName();
 
   private Router internalRouter = new ValhallaRouter();
-  private Context context;
 
-  private static final HashMap<DistanceUnits, Router.DistanceUnits> UNITS_TO_ROUTER_UNITS =
-      new HashMap<>();
-  static {
-    UNITS_TO_ROUTER_UNITS.put(DistanceUnits.MILES, Router.DistanceUnits.MILES);
-    UNITS_TO_ROUTER_UNITS.put(DistanceUnits.KILOMETERS, Router.DistanceUnits.KILOMETERS);
+  /**
+   * Creates a new {@link MapzenRouter} with api key set from mapzen.xml.
+   */
+  public MapzenRouter(Context context) {
+    String key = initializeRouterKey(context);
+    internalRouter.setHttpHandler(new HttpHandler(key));
   }
 
   /**
-   * Creates a new {@link MapzenRouter}.
-   * @param context
+   * Creates a new {@link MapzenRouter} with api key set in code.
    */
-  public MapzenRouter(Context context) {
-    this.context = context;
-    initializeRouterKey();
-    initializeRouterUrl();
+  public MapzenRouter(String apiKey) {
+    internalRouter.setHttpHandler(new HttpHandler(apiKey));
   }
 
-  private void initializeRouterKey() {
+  private String initializeRouterKey(Context context) {
     final String packageName = context.getPackageName();
     Resources res = context.getResources();
     try {
       final int apiKeyId = res.getIdentifier(API_KEY_RES_NAME, API_KEY_RES_TYPE, packageName);
       final String apiKey = res.getString(apiKeyId);
-      internalRouter.setApiKey(apiKey);
+      return apiKey;
     } catch (Resources.NotFoundException e) {
       Log.e(TAG, e.getLocalizedMessage());
     }
+    return null;
   }
-
-  private void initializeRouterUrl() {
-    internalRouter.setEndpoint(ValhallaRouter.DEFAULT_URL);
-  }
-
-  /**
-   * Set's the turn-by-turn api key.
-   * @param key
-   */
-  public MapzenRouter setApiKey(String key) {
-    internalRouter.setApiKey(key);
-    return this;
-  }
-
 
   /**
    * Fetch a route for the given configuration.
