@@ -64,4 +64,7 @@
   <string name="view_complete">Animations complete</string>
   <string name="queue_event_map_demo_label">Queue Event</string>
   <string name="queue_event_map_demo_description">Queues a runnable to execute animations on map</string>
+  <string name="route">Get Route</string>
+  <string name="router_map_demo_label">Router</string>
+  <string name="router_map_demo_description">Demonstrates how to use MapzenRouter</string>
 </resources>
