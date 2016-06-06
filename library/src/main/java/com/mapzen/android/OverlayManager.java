@@ -10,6 +10,7 @@ import com.mapzen.android.model.Polyline;
 import com.mapzen.tangram.LngLat;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.MapData;
+import com.mapzen.tangram.TouchInput;
 
 import android.location.Location;
 import android.view.View;
@@ -22,14 +23,14 @@ import java.util.List;
 /**
  * Adds functionality to {@link MapController} map by way of {@link LostApiClient}.
  */
-public class OverlayManager {
+public class OverlayManager implements TouchInput.PanResponder {
 
   private static final int LOCATION_REQUEST_INTERVAL_MILLIS = 5000;
   private static final int LOCATION_REQUEST_DISPLACEMENT_MILLIS = 5000;
   private static final int ANIMATION_DURATION_MILLIS = 500;
   private static final float DEFAULT_ZOOM = 16f;
 
-  static final String NAME_CURRENT_LOCATION = "mz_current_location";
+  private static final String NAME_CURRENT_LOCATION = "mz_current_location";
   private static final String NAME_POLYLINE = "mz_default_line";
   private static final String NAME_POLYGON = "mz_default_polygon";
   private static final String NAME_MARKER = "mz_default_point";
@@ -74,16 +75,11 @@ public class OverlayManager {
    */
   private boolean myLocationEnabled;
 
-  private boolean locationRequested = false;
-
   /**
    * Receives location updates for {@link LostApiClient}.
    */
   LocationListener locationListener = new LocationListener() {
     @Override public void onLocationChanged(Location location) {
-      if (!locationRequested) {
-        return;
-      }
       handleLocationChange(location);
     }
   };
@@ -365,9 +361,10 @@ public class OverlayManager {
   }
 
   private void showFindMe() {
-    ImageButton button = mapView.showFindMe();
+    final ImageButton button = mapView.showFindMe();
     button.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
+        toggleActivation(button);
         centerMap();
         if (findMeExternalClickListener != null) {
           findMeExternalClickListener.onClick(v);
@@ -376,13 +373,15 @@ public class OverlayManager {
     });
   }
 
+  private void toggleActivation(ImageButton button) {
+    button.setActivated(!button.isActivated());
+  }
+
   private void hideFindMe() {
     mapView.hideFindMe();
-    locationRequested = false;
   }
 
   private void centerMap() {
-    locationRequested = true;
     showLastKnownLocation();
     centerMapOnLastKnownLocation();
   }
@@ -414,12 +413,22 @@ public class OverlayManager {
   }
 
   private void handleLocationChange(Location location) {
-    if (!myLocationEnabled || !locationRequested) {
+    if (!myLocationEnabled) {
       return;
     }
-    locationRequested = false;
+
     updateCurrentLocationMapData(location);
-    updateMapPosition(location);
+    checkFindMeAndCenterMap(location);
+  }
+
+  /**
+   * Center map on location only if find me button is activated.
+   */
+  private void checkFindMeAndCenterMap(Location location) {
+    final ImageButton button = mapView.showFindMe();
+    if (button.isActivated()) {
+      updateMapPosition(location);
+    }
   }
 
   private void updateCurrentLocationMapData(final Location location) {
@@ -470,5 +479,17 @@ public class OverlayManager {
     MapData mapData = markerMapData.addPoint(marker.getLocation(), null);
     mapController.requestRender();
     return mapData;
+  }
+
+  @Override public boolean onPan(float startX, float startY, float endX, float endY) {
+    final View findMe = mapView.findViewById(R.id.mz_find_me);
+    findMe.setActivated(false);
+    return false;
+  }
+
+  @Override public boolean onFling(float posX, float posY, float velocityX, float velocityY) {
+    final View findMe = mapView.findViewById(R.id.mz_find_me);
+    findMe.setActivated(false);
+    return false;
   }
 }

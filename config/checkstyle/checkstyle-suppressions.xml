@@ -11,4 +11,5 @@
     <suppress checks="JavadocMethod" files="DependencyInjector.java" />
     <suppress checks="JavadocType" files=".*src/test/java/*" />
     <suppress checks="JavadocStyle" files=".*src/test/java/*" />
+    <suppress checks="VisibilityModifier" files=".*src/test/java/*" />
 </suppressions>
