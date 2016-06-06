@@ -9,6 +9,7 @@ import com.mapzen.android.model.Polyline;
 import com.mapzen.tangram.LngLat;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.MapData;
+import com.mapzen.tangram.TestMapData;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -27,22 +28,17 @@ import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import static com.mapzen.android.OverlayManager.NAME_CURRENT_LOCATION;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyFloat;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.powermock.api.mockito.PowerMockito.doNothing;
 import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.spy;
 
 @RunWith(PowerMockRunner.class) @SuppressStaticInitializationFor("com.mapzen.tangram.MapController")
 @PrepareForTest(OverlayManager.class) public class OverlayManagerTest {
@@ -52,33 +48,47 @@ import static org.powermock.api.mockito.PowerMockito.spy;
   private MapView mapView;
   private LostApiClient lostApiClient;
   private TestButton findMeButton;
-  private MapData mapData;
+  private TestMapData mapData;
 
   @Before public void setup() throws Exception {
     mapController = mock(TestMapController.class);
     lostApiClient = mock(LostApiClient.class);
     mapView = mock(MapView.class);
-    mapData = mock(MapData.class);
+    mapData = new TestMapData("test");
     LocationServices.FusedLocationApi = Mockito.mock(FusedLocationProviderApiImpl.class);
-    overlayManager = spy(new OverlayManager(mapView, mapController, lostApiClient));
-    doNothing().when(overlayManager, "addCurrentLocationMapData");
-    doNothing().when(overlayManager, "handleMyLocationEnabledChanged");
+    overlayManager = new OverlayManager(mapView, mapController, lostApiClient);
+    when(LocationServices.FusedLocationApi.getLastLocation()).thenReturn(new Location("test"));
     findMeButton = new TestButton(null);
-    when(mapController.addDataLayer(NAME_CURRENT_LOCATION)).thenReturn(mapData);
+    when(mapController.addDataLayer(any(String.class))).thenReturn(mapData);
     when(mapView.showFindMe()).thenReturn(findMeButton);
+    when(mapView.findViewById(R.id.mz_find_me)).thenReturn(findMeButton);
   }
 
-  @Test public void setMyLocationEnabled_shouldCenterMapOnCurrentLocation() throws Exception {
+  @Test public void setMyLocationEnabled_shouldCenterMapIfFindMeIsActive() throws Exception {
     doCallRealMethod().when(mapController).setPositionEased(any(LngLat.class), anyInt());
     when(mapController.getPosition()).thenCallRealMethod();
 
     overlayManager.setMyLocationEnabled(true);
-    Location location = new Location("test");
-    location.setLongitude(-40.0);
-    location.setLatitude(-70.0);
-    Whitebox.invokeMethod(overlayManager.locationListener, "onLocationChanged", location);
-    assertThat(mapController.getPosition().latitude).isEqualTo(location.getLatitude());
-    assertThat(mapController.getPosition().longitude).isEqualTo(location.getLongitude());
+    findMeButton.performClick();
+    Location location = mock(Location.class);
+    when(location.getLatitude()).thenReturn(-70.0);
+    when(location.getLongitude()).thenReturn(-40.0);
+    overlayManager.locationListener.onLocationChanged(location);
+    assertThat(mapController.getPosition().latitude).isEqualTo(-70.0);
+    assertThat(mapController.getPosition().longitude).isEqualTo(-40.0);
+  }
+
+  @Test public void setMyLocationEnabled_shouldNotCenterMapIfFindMeIsInactive() throws Exception {
+    doCallRealMethod().when(mapController).setPositionEased(any(LngLat.class), anyInt());
+    when(mapController.getPosition()).thenCallRealMethod();
+
+    overlayManager.setMyLocationEnabled(true);
+    Location location = mock(Location.class);
+    when(location.getLatitude()).thenReturn(-70.0);
+    when(location.getLongitude()).thenReturn(-40.0);
+    overlayManager.locationListener.onLocationChanged(location);
+    assertThat(mapController.getPosition().latitude).isEqualTo(0.0);
+    assertThat(mapController.getPosition().longitude).isEqualTo(0.0);
   }
 
   @Test public void setMyLocationEnabled_shouldNotChangeZoomLevel() throws Exception {
@@ -128,11 +138,6 @@ import static org.powermock.api.mockito.PowerMockito.spy;
   }
 
   @Test public void addPolyline_shouldReturnMapData() throws Exception {
-    PowerMockito.doReturn(Mockito.mock(MapData.class))
-        .when(mapController, "addDataLayer", anyString());
-    PowerMockito.doReturn(Mockito.mock(MapData.class))
-        .when(overlayManager, "addPolylineToPolylineMapData", anyList());
-
     Polyline polyline = new Polyline.Builder().add(new LngLat(-73.9903, 40.74433))
         .add(new LngLat(-73.984770, 40.734807))
         .add(new LngLat(-73.998674, 40.732172))
@@ -150,11 +155,6 @@ import static org.powermock.api.mockito.PowerMockito.spy;
   }
 
   @Test public void addPolygon_shouldReturnMapData() throws Exception {
-    PowerMockito.doReturn(Mockito.mock(MapData.class))
-        .when(mapController, "addDataLayer", anyString());
-    PowerMockito.doReturn(Mockito.mock(MapData.class))
-        .when(overlayManager, "addPolygonToPolygonMapData", anyList());
-
     Polygon polygon = new Polygon.Builder().add(new LngLat(-73.9903, 40.74433))
         .add(new LngLat(-73.984770, 40.734807))
         .add(new LngLat(-73.998674, 40.732172))
@@ -171,11 +171,6 @@ import static org.powermock.api.mockito.PowerMockito.spy;
   }
 
   @Test public void addMarker_shouldReturnMapData() throws Exception {
-    PowerMockito.doReturn(Mockito.mock(MapData.class))
-        .when(mapController, "addDataLayer", anyString());
-    PowerMockito.doReturn(Mockito.mock(MapData.class))
-        .when(overlayManager, "addPointToMarkerMapData", any(Marker.class));
-
     Marker marker = new Marker(-73.9903, 40.74433);
     MapData markerMapData = overlayManager.addMarker(marker);
     assertThat(markerMapData).isNotNull();
@@ -350,8 +345,6 @@ import static org.powermock.api.mockito.PowerMockito.spy;
 
   @Test public void setFindMeOnClickListener_shouldInvokeListenerOnButtonClick() throws Exception {
     TestOnClickListener listener = new TestOnClickListener();
-    OverlayManager overlayManager = new OverlayManager(mapView, mapController, lostApiClient);
-
     when(mapView.showFindMe()).thenReturn(findMeButton);
     overlayManager.setFindMeOnClickListener(listener);
     overlayManager.setMyLocationEnabled(true);
@@ -360,17 +353,13 @@ import static org.powermock.api.mockito.PowerMockito.spy;
   }
 
   @Test public void onClickFindMe_shouldUpdateCurrentLocationMarker() throws Exception {
-    OverlayManager overlayManager = new OverlayManager(mapView, mapController, lostApiClient);
-    when(LocationServices.FusedLocationApi.getLastLocation()).thenReturn(new Location("test"));
     overlayManager.setMyLocationEnabled(true);
+    mapData.clear();
     findMeButton.performClick();
-    verify(mapData, times(2)).clear();
-    verify(mapData, times(2)).addPoint(any(LngLat.class), any(Map.class));
+    assertThat(mapData.point).isNotNull();
   }
 
   @Test public void onClickFindMe_shouldUpdateMapPosition() throws Exception {
-    OverlayManager overlayManager = new OverlayManager(mapView, mapController, lostApiClient);
-    when(LocationServices.FusedLocationApi.getLastLocation()).thenReturn(new Location("test"));
     overlayManager.setMyLocationEnabled(true);
     findMeButton.performClick();
     verify(mapController, times(1)).setPositionEased(any(LngLat.class), anyInt());
@@ -378,12 +367,32 @@ import static org.powermock.api.mockito.PowerMockito.spy;
   }
 
   @Test public void onClickFindMe_shouldZoomMap() throws Exception {
-    OverlayManager overlayManager = new OverlayManager(mapView, mapController, lostApiClient);
-    when(LocationServices.FusedLocationApi.getLastLocation()).thenReturn(new Location("test"));
     overlayManager.setMyLocationEnabled(true);
     findMeButton.performClick();
     verify(mapController, times(1)).setZoomEased(anyFloat(), anyInt());
     verify(mapController, times(1)).requestRender();
+  }
+
+  @Test public void onClickFindMe_shouldToggleViewStateActivated() throws Exception {
+    overlayManager.setMyLocationEnabled(true);
+
+    findMeButton.performClick();
+    assertThat(findMeButton.isActivated()).isTrue();
+
+    findMeButton.performClick();
+    assertThat(findMeButton.isActivated()).isFalse();
+  }
+
+  @Test public void onPan_shouldDeactivateFindMe() throws Exception {
+    findMeButton.setActivated(true);
+    overlayManager.onPan(1f, 2f, 3f, 4f);
+    assertThat(findMeButton.isActivated()).isFalse();
+  }
+
+  @Test public void onFling_shouldDeactivateFindMe() throws Exception {
+    findMeButton.setActivated(true);
+    overlayManager.onFling(1f, 2f, 3f, 4f);
+    assertThat(findMeButton.isActivated()).isFalse();
   }
 
   private class TestOnClickListener implements View.OnClickListener {
@@ -396,6 +405,7 @@ import static org.powermock.api.mockito.PowerMockito.spy;
 
   private class TestButton extends ImageButton {
     private OnClickListener listener;
+    private boolean activated;
 
     public TestButton(Context context) {
       super(context);
@@ -406,8 +416,19 @@ import static org.powermock.api.mockito.PowerMockito.spy;
     }
 
     @Override public boolean performClick() {
-      listener.onClick(this);
+      if (listener != null) {
+        listener.onClick(this);
+      }
+
       return true;
+    }
+
+    @Override public void setActivated(boolean activated) {
+      this.activated = activated;
+    }
+
+    @Override public boolean isActivated() {
+      return activated;
     }
   }
 }

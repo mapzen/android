@@ -71,11 +71,28 @@ public class MapzenMap {
   }
 
   /**
+   * Internal map pan gesture listener that forwards events to both external listener and the
+   * {@link OverlayManager}.
+   */
+  TouchInput.PanResponder internalPanResponder = new TouchInput.PanResponder() {
+    @Override public boolean onPan(float startX, float startY, float endX, float endY) {
+      overlayManager.onPan(startX, startY, endX, endY);
+      return panResponder != null && panResponder.onPan(startX, startY, endX, endY);
+    }
+
+    @Override public boolean onFling(float posX, float posY, float velocityX, float velocityY) {
+      overlayManager.onFling(posX, posY, velocityX, velocityY);
+      return panResponder != null && panResponder.onFling(posX, posY, velocityX, velocityY);
+    }
+  };
+
+  /**
    * Creates a new map based on the given {@link MapView} and {@link MapController}.
    */
   MapzenMap(MapController mapController, OverlayManager overlayManager) {
     this.mapController = mapController;
     this.overlayManager = overlayManager;
+    mapController.setPanResponder(internalPanResponder);
   }
 
   /**
@@ -353,7 +370,6 @@ public class MapzenMap {
    */
   public void setPanResponder(TouchInput.PanResponder panResponder) {
     this.panResponder = panResponder;
-    mapController.setPanResponder(this.panResponder);
   }
 
   /**

@@ -23,6 +23,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -220,16 +221,46 @@ public class MapzenMapTest {
     assertThat(map.getLongPressResponder()).isNotNull();
   }
 
-  @Test public void setPanResponder_shouldInvokeMapController() {
+  @Test public void setPanResponder_shouldNotInvokeMapController() {
     TestPanResponder panResponder = new TestPanResponder();
     map.setPanResponder(panResponder);
-    verify(mapController).setPanResponder(panResponder);
+    verify(mapController, never()).setPanResponder(panResponder);
   }
 
   @Test public void getPanResponder_shouldNotBeNull() {
     TestPanResponder panResponder = new TestPanResponder();
     map.setPanResponder(panResponder);
     assertThat(map.getPanResponder()).isNotNull();
+  }
+
+  @Test public void onPan_shouldInvokeExternalPanResponder() throws Exception {
+    TestPanResponder panResponder = new TestPanResponder();
+    map.setPanResponder(panResponder);
+    map.internalPanResponder.onPan(1f, 2f, 3f, 4f);
+    assertThat(panResponder.startX).isEqualTo(1f);
+    assertThat(panResponder.startY).isEqualTo(2f);
+    assertThat(panResponder.endX).isEqualTo(3f);
+    assertThat(panResponder.endY).isEqualTo(4f);
+  }
+
+  @Test public void onFling_shouldInvokeExternalPanResponder() throws Exception {
+    TestPanResponder panResponder = new TestPanResponder();
+    map.setPanResponder(panResponder);
+    map.internalPanResponder.onFling(1f, 2f, 3f, 4f);
+    assertThat(panResponder.posX).isEqualTo(1f);
+    assertThat(panResponder.posY).isEqualTo(2f);
+    assertThat(panResponder.velocityX).isEqualTo(3f);
+    assertThat(panResponder.velocityY).isEqualTo(4f);
+  }
+
+  @Test public void onPan_shouldInvokeOverlayManager() throws Exception {
+    map.internalPanResponder.onPan(1f, 2f, 3f, 4f);
+    verify(overlayManager).onPan(1f, 2f, 3f, 4f);
+  }
+
+  @Test public void onFling_shouldInvokeOverlayManager() throws Exception {
+    map.internalPanResponder.onFling(1f, 2f, 3f, 4f);
+    verify(overlayManager).onFling(1f, 2f, 3f, 4f);
   }
 
   @Test public void setRotateResponder_shouldInvokeMapController() {
@@ -376,30 +407,11 @@ public class MapzenMapTest {
     assertThat(listener.picked).isTrue();
   }
 
-  private class TestFeaturePickListener implements FeaturePickListener {
-
-    boolean picked = false;
-
-    @Override
-    public void onFeaturePick(Map<String, String> properties, float positionX, float positionY) {
-      picked = true;
-    }
-  }
-
   @Test public void setViewCompleteListener_shouldInvokeViewCompleteListener() {
     TestViewCompleteListener listener = new TestViewCompleteListener();
     map.setViewCompleteListener(listener);
     listener.onViewComplete();
     assertThat(listener.viewComplete).isTrue();
-  }
-
-  private class TestViewCompleteListener implements ViewCompleteListener {
-
-    boolean viewComplete = false;
-
-    @Override public void onViewComplete() {
-      viewComplete = true;
-    }
   }
 
   @Test public void queueEvent_shouldInvokeMapController() {
@@ -420,5 +432,24 @@ public class MapzenMapTest {
   @Test public void applySceneUpdates_shouldInvokeMapController() {
     map.applySceneUpdates();
     verify(mapController).applySceneUpdates();
+  }
+
+  private class TestFeaturePickListener implements FeaturePickListener {
+
+    boolean picked = false;
+
+    @Override
+    public void onFeaturePick(Map<String, String> properties, float positionX, float positionY) {
+      picked = true;
+    }
+  }
+
+  private class TestViewCompleteListener implements ViewCompleteListener {
+
+    boolean viewComplete = false;
+
+    @Override public void onViewComplete() {
+      viewComplete = true;
+    }
   }
 }
