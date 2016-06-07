@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,7 @@ public class RouterActivity extends AppCompatActivity {
   MapzenRouter router;
   MapData markerMapData;
   MapData lineMapData;
+  int points = 0;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -78,13 +80,18 @@ public class RouterActivity extends AppCompatActivity {
         if (markerMapData != null) {
           markerMapData.clear();
         }
+        points = 0;
       }
     });
 
     Button routeBtn = (Button) findViewById(R.id.route_btn);
     routeBtn.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        router.fetch();
+        if (points >= 2) {
+          router.fetch();
+        } else {
+          Toast.makeText(RouterActivity.this, R.string.min_two_points, Toast.LENGTH_SHORT).show();
+        }
       }
     });
 
@@ -113,6 +120,7 @@ public class RouterActivity extends AppCompatActivity {
     router.setLocation(point);
     Marker marker = new Marker(lngLat.longitude, lngLat.latitude);
     markerMapData = map.addMarker(marker);
+    points++;
   }
 
   @Override protected void onDestroy() {
