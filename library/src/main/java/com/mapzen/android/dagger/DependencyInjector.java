@@ -2,6 +2,7 @@ package com.mapzen.android.dagger;
 
 import com.mapzen.android.MapInitializer;
 import com.mapzen.android.MapView;
+import com.mapzen.android.MapzenRouter;
 
 import android.content.Context;
 
@@ -21,6 +22,7 @@ class DependencyInjector {
     void inject(MapView mapView);
 
     void inject(MapInitializer mapInitializer);
+    void inject(MapzenRouter router);
   }
 
   private LibraryComponent component;

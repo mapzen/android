@@ -1,12 +1,14 @@
 package com.mapzen.android;
 
+import com.mapzen.android.dagger.DI;
 import com.mapzen.valhalla.RouteCallback;
 import com.mapzen.valhalla.Router;
 import com.mapzen.valhalla.ValhallaRouter;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.util.Log;
+import android.support.annotation.VisibleForTesting;
+
+import javax.inject.Inject;
 
 import static com.mapzen.android.model.Converter.UNITS_TO_ROUTER_UNITS;
 
@@ -15,42 +17,30 @@ import static com.mapzen.android.model.Converter.UNITS_TO_ROUTER_UNITS;
  */
 public class MapzenRouter {
 
-  private static final String API_KEY_RES_NAME = "turn_by_turn_key";
-  private static final String API_KEY_RES_TYPE = "string";
-  private static final String TAG = MapzenRouter.class.getSimpleName();
-
   private Router internalRouter = new ValhallaRouter();
+
+  @Inject TurnByTurnHttpHandler httpHandler;
 
   /**
    * Creates a new {@link MapzenRouter} with api key set from mapzen.xml.
    */
   public MapzenRouter(Context context) {
-    String apiKey = initializeRouterKey(context);
-    TurnByTurnHttpHandler httpHandler = new TurnByTurnHttpHandler();
-    httpHandler.setApiKey(apiKey);
+    initDI(context);
     internalRouter.setHttpHandler(httpHandler);
   }
 
   /**
    * Creates a new {@link MapzenRouter} with api key set in code.
    */
-  public MapzenRouter(String apiKey) {
-    TurnByTurnHttpHandler httpHandler = new TurnByTurnHttpHandler();
+  public MapzenRouter(Context context, String apiKey) {
+    initDI(context);
     httpHandler.setApiKey(apiKey);
     internalRouter.setHttpHandler(httpHandler);
   }
 
-  private String initializeRouterKey(Context context) {
-    final String packageName = context.getPackageName();
-    Resources res = context.getResources();
-    try {
-      final int apiKeyId = res.getIdentifier(API_KEY_RES_NAME, API_KEY_RES_TYPE, packageName);
-      final String apiKey = res.getString(apiKeyId);
-      return apiKey;
-    } catch (Resources.NotFoundException e) {
-      Log.e(TAG, e.getLocalizedMessage());
-    }
-    return null;
+  private void initDI(Context context) {
+    DI.init(context);
+    DI.component().inject(this);
   }
 
   /**
@@ -159,4 +149,8 @@ public class MapzenRouter {
     KILOMETERS
   }
 
+  @VisibleForTesting
+  public void setValhallaRouter(Router router) {
+    internalRouter = router;
+  }
 }
