@@ -1,6 +1,5 @@
 package com.mapzen.android;
 
-import com.mapzen.valhalla.HttpHandler;
 import com.mapzen.valhalla.RouteCallback;
 import com.mapzen.valhalla.Router;
 import com.mapzen.valhalla.ValhallaRouter;
@@ -26,15 +25,19 @@ public class MapzenRouter {
    * Creates a new {@link MapzenRouter} with api key set from mapzen.xml.
    */
   public MapzenRouter(Context context) {
-    String key = initializeRouterKey(context);
-    internalRouter.setHttpHandler(new HttpHandler(key));
+    String apiKey = initializeRouterKey(context);
+    TurnByTurnHttpHandler httpHandler = new TurnByTurnHttpHandler();
+    httpHandler.setApiKey(apiKey);
+    internalRouter.setHttpHandler(httpHandler);
   }
 
   /**
    * Creates a new {@link MapzenRouter} with api key set in code.
    */
   public MapzenRouter(String apiKey) {
-    internalRouter.setHttpHandler(new HttpHandler(apiKey));
+    TurnByTurnHttpHandler httpHandler = new TurnByTurnHttpHandler();
+    httpHandler.setApiKey(apiKey);
+    internalRouter.setHttpHandler(httpHandler);
   }
 
   private String initializeRouterKey(Context context) {
