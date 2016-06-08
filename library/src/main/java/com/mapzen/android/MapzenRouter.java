@@ -1,69 +1,47 @@
 package com.mapzen.android;
 
+import com.mapzen.android.dagger.DI;
 import com.mapzen.valhalla.RouteCallback;
 import com.mapzen.valhalla.Router;
 import com.mapzen.valhalla.ValhallaRouter;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.util.Log;
+import android.support.annotation.VisibleForTesting;
 
-import java.util.HashMap;
+import javax.inject.Inject;
+
+import static com.mapzen.android.model.Converter.UNITS_TO_ROUTER_UNITS;
 
 /**
  * Main class for interaction with Mapzen's turn-by-turn service.
  */
 public class MapzenRouter {
 
-  private static final String API_KEY_RES_NAME = "turn_by_turn_key";
-  private static final String API_KEY_RES_TYPE = "string";
-  private static final String TAG = MapzenRouter.class.getSimpleName();
-
   private Router internalRouter = new ValhallaRouter();
-  private Context context;
 
-  private static final HashMap<DistanceUnits, Router.DistanceUnits> UNITS_TO_ROUTER_UNITS =
-      new HashMap<>();
-  static {
-    UNITS_TO_ROUTER_UNITS.put(DistanceUnits.MILES, Router.DistanceUnits.MILES);
-    UNITS_TO_ROUTER_UNITS.put(DistanceUnits.KILOMETERS, Router.DistanceUnits.KILOMETERS);
-  }
+  @Inject TurnByTurnHttpHandler httpHandler;
 
   /**
-   * Creates a new {@link MapzenRouter}.
-   * @param context
+   * Creates a new {@link MapzenRouter} with api key set from mapzen.xml.
    */
   public MapzenRouter(Context context) {
-    this.context = context;
-    initializeRouterKey();
-    initializeRouterUrl();
-  }
-
-  private void initializeRouterKey() {
-    final String packageName = context.getPackageName();
-    Resources res = context.getResources();
-    try {
-      final int apiKeyId = res.getIdentifier(API_KEY_RES_NAME, API_KEY_RES_TYPE, packageName);
-      final String apiKey = res.getString(apiKeyId);
-      internalRouter.setApiKey(apiKey);
-    } catch (Resources.NotFoundException e) {
-      Log.e(TAG, e.getLocalizedMessage());
-    }
-  }
-
-  private void initializeRouterUrl() {
-    internalRouter.setEndpoint(ValhallaRouter.DEFAULT_URL);
+    initDI(context);
+    internalRouter.setHttpHandler(httpHandler);
   }
 
   /**
-   * Set's the turn-by-turn api key.
-   * @param key
+   * Creates a new {@link MapzenRouter} with api key set in code.
    */
-  public MapzenRouter setApiKey(String key) {
-    internalRouter.setApiKey(key);
-    return this;
+  public MapzenRouter(Context context, String apiKey) {
+    initDI(context);
+    httpHandler.setApiKey(apiKey);
+    internalRouter.setHttpHandler(httpHandler);
   }
 
+  private void initDI(Context context) {
+    DI.init(context);
+    DI.component().inject(this);
+  }
 
   /**
    * Fetch a route for the given configuration.
@@ -171,4 +149,8 @@ public class MapzenRouter {
     KILOMETERS
   }
 
+  @VisibleForTesting
+  public void setValhallaRouter(Router router) {
+    internalRouter = router;
+  }
 }

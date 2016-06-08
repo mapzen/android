@@ -7,14 +7,10 @@ import com.mapzen.valhalla.ValhallaRouter;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
-import org.mockito.internal.util.reflection.Whitebox;
 
 import android.content.Context;
-import android.content.res.Resources;
 
 import static com.mapzen.android.TestHelper.getMockContext;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -25,42 +21,18 @@ public class MapzenRouterTest {
   @Before
   public void setup() {
     Context context = getMockContext();
-    Resources resources = context.getResources();
-    Mockito.when(resources.getIdentifier("turn_by_turn_key", "string", null)).thenReturn(101);
-    Mockito.when(resources.getString(101)).thenReturn("TEST_KEY");
     router = new MapzenRouter(context);
-  }
-
-  @Test
-  public void routerShouldHaveEndpoint() {
-    assertThat(router.getRouter().getEndpoint()).isEqualTo(ValhallaRouter.DEFAULT_URL);
-  }
-
-  @Test
-  public void routerShouldHaveApiKey() {
-    ValhallaRouter valhallaRouter = (ValhallaRouter) router.getRouter();
-    String apiKey = (String) Whitebox.getInternalState(valhallaRouter, "API_KEY");
-    assertThat(apiKey).isEqualTo("TEST_KEY");
-  }
-
-  @Test
-  public void setApiKey_shouldSetKey() {
-    router.setApiKey("test");
-    ValhallaRouter valhallaRouter = (ValhallaRouter) router.getRouter();
-    String apiKey = (String) Whitebox.getInternalState(valhallaRouter, "API_KEY");
-    assertThat(apiKey).isEqualTo("test");
+    router.setValhallaRouter(mock(ValhallaRouter.class));
   }
 
   @Test
   public void fetch_shouldInvokeInternalRouter() {
-    Whitebox.setInternalState(router, "internalRouter", mock(ValhallaRouter.class));
     router.fetch();
     verify(router.getRouter()).fetch();
   }
 
   @Test
   public void setCallback_shouldInvokeInternalRouter() {
-    Whitebox.setInternalState(router, "internalRouter", mock(ValhallaRouter.class));
     TestRouteCallback callback = new TestRouteCallback();
     router.setCallback(callback);
     verify(router.getRouter()).setCallback(callback);
@@ -68,35 +40,30 @@ public class MapzenRouterTest {
 
   @Test
   public void setDistanceUnits_shouldInvokeInternalRouter() {
-    Whitebox.setInternalState(router, "internalRouter", mock(ValhallaRouter.class));
     router.setDistanceUnits(MapzenRouter.DistanceUnits.MILES);
     verify(router.getRouter()).setDistanceUnits(Router.DistanceUnits.MILES);
   }
 
   @Test
   public void setBiking_shouldInvokeInternalRouter() {
-    Whitebox.setInternalState(router, "internalRouter", mock(ValhallaRouter.class));
     router.setBiking();
     verify(router.getRouter()).setBiking();
   }
 
   @Test
   public void setDriving_shouldInvokeInternalRouter() {
-    Whitebox.setInternalState(router, "internalRouter", mock(ValhallaRouter.class));
     router.setDriving();
     verify(router.getRouter()).setDriving();
   }
 
   @Test
   public void setWalking_shouldInvokeInternalRouter() {
-    Whitebox.setInternalState(router, "internalRouter", mock(ValhallaRouter.class));
     router.setBiking();
     verify(router.getRouter()).setBiking();
   }
 
   @Test
   public void setLocation_shouldInvokeInternalRouter() {
-    Whitebox.setInternalState(router, "internalRouter", mock(ValhallaRouter.class));
     double[] point = {70.0, 30.0};
     router.setLocation(point);
     verify(router.getRouter()).setLocation(point);
