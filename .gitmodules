@@ -1,9 +1,9 @@
 [submodule "library/src/main/assets/styles/bubble-wrap"]
 	path = library/src/main/assets/styles/bubble-wrap
-	url = git@github.com:tangrams/bubble-wrap.git
+	url = https://github.com/tangrams/bubble-wrap.git
 [submodule "library/src/main/assets/styles/cinnabar"]
 	path = library/src/main/assets/styles/cinnabar
-	url = git@github.com:tangrams/cinnabar-style.git
+	url = https://github.com/tangrams/cinnabar-style.git
 [submodule "library/src/main/assets/styles/refill"]
 	path = library/src/main/assets/styles/refill
-	url = git@github.com:tangrams/refill-style.git
+	url = https://github.com/tangrams/refill-style.git
