@@ -56,6 +56,11 @@ public class MapzenRouterTest {
     verify(router.getRouter()).setBiking();
   }
 
+  @Test public void setMultimodal_shouldInvokeInternalRouter() {
+    router.setMultimodal();
+    verify(router.getRouter()).setMultimodal();
+  }
+
   @Test public void setLocation_shouldInvokeInternalRouter() {
     double[] point = {70.0, 30.0};
     router.setLocation(point);

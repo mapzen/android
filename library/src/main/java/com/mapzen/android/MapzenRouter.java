@@ -98,6 +98,15 @@ public class MapzenRouter {
   }
 
   /**
+   * The router can fetch different types of directions. Set the type to be multimodal.
+   * @return
+   */
+  public MapzenRouter setMultimodal() {
+    internalRouter.setMultimodal();
+    return this;
+  }
+
+  /**
    * Adds a location to the route.
    * @param point
    * @return
