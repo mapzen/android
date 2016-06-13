@@ -145,8 +145,24 @@ public class MapzenRouter {
    * Units of distance.
    */
   public enum DistanceUnits {
-    MILES,
-    KILOMETERS
+    MILES ("miles"),
+    KILOMETERS ("kilometers");
+
+    private final String name;
+
+    /**
+     * Construct {@code DistanceUnits} with given string value.
+     */
+    DistanceUnits(String s) {
+      name = s;
+    }
+
+    /**
+     * Returns string value.
+     */
+    public String toString() {
+      return name;
+    }
   }
 
   @VisibleForTesting
