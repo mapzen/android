@@ -1,6 +1,9 @@
 apply plugin: 'com.android.application'
 apply plugin: 'checkstyle'
 
+def VECTOR_TILES_KEY = hasProperty('vectorTilesKey') ? '"' + vectorTilesKey + '"' : "null";
+def TURN_BY_TURN_KEY = hasProperty('turnByTurnKey') ? '"' + turnByTurnKey + '"' : "null";
+
 android {
   compileSdkVersion 23
   buildToolsVersion "23.0.1"
@@ -11,6 +14,8 @@ android {
     targetSdkVersion 23
     versionCode 1
     versionName "1.0"
+    buildConfigField "String", "VECTOR_TILES_KEY", VECTOR_TILES_KEY
+    buildConfigField "String", "TURN_BY_TURN_KEY", TURN_BY_TURN_KEY
   }
   buildTypes {
     release {

@@ -38,7 +38,12 @@ public class RouterActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_route);
 
-    router = new MapzenRouter(this);
+    final String turnByturnKey = BuildConfig.TURN_BY_TURN_KEY;
+    if (turnByturnKey != null) {
+      router = new MapzenRouter(this, turnByturnKey);
+    } else {
+      router = new MapzenRouter(this);
+    }
 
     final MapFragment mapFragment =
         (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
