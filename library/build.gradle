@@ -67,6 +67,19 @@ task verify(dependsOn: ['compileDebugSources',
                         'checkstyle',
                         'lint'])
 
+task submodules {
+  def folder = new File( 'library/src/main/assets/styles/bubble-wrap/bubble-wrap.yaml' )
+  if(!folder.exists()) {
+    throw new GradleException("Submodules aren't present, please run:\n`git submodule init`, " +
+        "\n`git submodule update`\nfrom your root directory")
+
+  }
+}
+
+assemble.doFirst {
+  submodules
+}
+
 dependencies {
   compile 'com.android.support:appcompat-v7:23.4.0'
   compile "com.mapzen.tangram:tangram:$tangram_version"
