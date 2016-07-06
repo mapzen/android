@@ -35,11 +35,13 @@ public class OverlayManager implements TouchInput.PanResponder {
   private static final String NAME_POLYGON = "mz_default_polygon";
   private static final String NAME_MARKER = "mz_default_point";
   private static final String NAME_START_PIN = "mz_route_start";
-  private static final String NAME_END_PIN = "mz_route_stop";
+  private static final String NAME_END_PIN = "mz_route_destination";
   private static final String NAME_DROPPED_PIN = "mz_dropped_pin";
   private static final String NAME_SEARCH_RESULT_PIN = "mz_search_result";
   private static final String NAME_ROUTE_PIN = "mz_route_location";
   private static final String NAME_ROUTE_LINE = "mz_route_line";
+  private static final String NAME_TRANSIT_ROUTE_LINE = "mz_route_line_transit";
+  private static final String NAME_STATION_ICON = "mz_route_transit_stop";
 
   private static final String PROP_STATE = "state";
   private static final String PROP_STATE_ACTIVE = "active";
@@ -95,6 +97,8 @@ public class OverlayManager implements TouchInput.PanResponder {
   private static MapData searchResultPinData;
   private static MapData routePinData;
   private static MapData routeLineData;
+  private static MapData transitRouteLineData;
+  private static MapData stationIconData;
 
   /**
    * Create a new {@link OverlayManager} object for handling functionality between map and
@@ -331,6 +335,36 @@ public class OverlayManager implements TouchInput.PanResponder {
   public void clearRouteLine() {
     if (routeLineData != null) {
       routeLineData.clear();
+    }
+  }
+
+  /**
+   * Draws route line on the map for the points supplied.
+   */
+  public void drawTransitRouteLine(List<LngLat> points, String colorHex) {
+    if (transitRouteLineData == null) {
+      transitRouteLineData = mapController.addDataLayer(NAME_TRANSIT_ROUTE_LINE);
+    }
+    HashMap<String, String> properties = new HashMap<>();
+    properties.put(PROP_TYPE, PROP_LINE);
+
+    mapController.queueSceneUpdate("layers.mz_route_line_transit.draw.ux-transit-line-overlay.color",
+        "'"+colorHex+"'");
+    mapController.applySceneUpdates();
+    transitRouteLineData.addPolyline(points, properties);
+    mapController.requestRender();
+
+    if (stationIconData == null) {
+      stationIconData = mapController.addDataLayer(NAME_STATION_ICON);
+    }
+    for (LngLat point : points) {
+      stationIconData.addPoint(point, null);
+    }
+  }
+
+  public void clearTransitRouteLine() {
+    if (transitRouteLineData != null) {
+      transitRouteLineData.clear();
     }
   }
 

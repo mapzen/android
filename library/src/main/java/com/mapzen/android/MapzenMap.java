@@ -606,6 +606,13 @@ public class MapzenMap {
   }
 
   /**
+   * Draws transit route line on the map for the points supplied.
+   */
+  public void drawTransitRouteLine(List<LngLat> points, String hexColor) {
+    overlayManager.drawTransitRouteLine(points, hexColor);
+  }
+
+  /**
    * Clears route line from the map.
    */
   public void clearRouteLine() {
