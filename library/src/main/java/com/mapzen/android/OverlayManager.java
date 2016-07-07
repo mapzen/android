@@ -50,6 +50,7 @@ public class OverlayManager implements TouchInput.PanResponder {
   private static final String PROP_TYPE = "type";
   private static final String PROP_POINT = "point";
   private static final String PROP_LINE = "line";
+  private static final String PROP_COLOR = "color";
 
   private static final int MIN_COORDINATES_POLYGON = 2;
   private static final int MIN_COORDINATES_POLYLINE = 2;
@@ -347,10 +348,8 @@ public class OverlayManager implements TouchInput.PanResponder {
     }
     HashMap<String, String> properties = new HashMap<>();
     properties.put(PROP_TYPE, PROP_LINE);
+    properties.put(PROP_COLOR, colorHex);
 
-    mapController.queueSceneUpdate("layers.mz_route_line_transit.draw.ux-transit-line-overlay.color",
-        "'"+colorHex+"'");
-    mapController.applySceneUpdates();
     transitRouteLineData.addPolyline(points, properties);
     mapController.requestRender();
 

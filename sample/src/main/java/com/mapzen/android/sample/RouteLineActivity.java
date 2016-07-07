@@ -58,6 +58,11 @@ public class RouteLineActivity extends AppCompatActivity {
         testPoints.add(new LngLat(-122.39353246246766, 37.78662344689961));
         testPoints.add(new LngLat(-122.39309926415683, 37.791273135641994));
         map.drawTransitRouteLine(testPoints, "#ff0000");
+
+        ArrayList<LngLat> testPoints1 = new ArrayList();
+        testPoints1.add(new LngLat(-122.39640718175411, 37.790520669937905));
+        testPoints1.add(new LngLat(-122.39704839732877, 37.794982361752574));
+        map.drawTransitRouteLine(testPoints1, "#D4645C");
       }
     });
 
