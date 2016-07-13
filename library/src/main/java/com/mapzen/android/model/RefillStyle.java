@@ -9,6 +9,6 @@ public class RefillStyle extends MapStyle {
    * Creates a new instance.
    */
   public RefillStyle() {
-    super("styles/refill/refill-style-more-labels.yaml");
+    super("styles/refill-more-labels/refill-style-more-labels.yaml");
   }
 }

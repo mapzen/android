@@ -9,6 +9,6 @@ public class CinnabarStyle extends MapStyle {
    * Creates a new instance.
    */
   public CinnabarStyle() {
-    super("styles/cinnabar/cinnabar-style-more-labels.yaml");
+    super("styles/cinnabar-more-labels/cinnabar-style-more-labels.yaml");
   }
 }
