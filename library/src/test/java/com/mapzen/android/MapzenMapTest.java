@@ -400,6 +400,20 @@ public class MapzenMapTest {
     verify(overlayManager).clearRouteLine();
   }
 
+  @Test public void drawTransitRouteLine_shouldInvokeOverlayManager() {
+    ArrayList<LngLat> points = new ArrayList();
+    points.add(new LngLat(-122.39353246246766, 37.78662344689961));
+    points.add(new LngLat(-122.39309926415683, 37.791273135641994));
+    String hex = "#ff0000";
+    map.drawTransitRouteLine(points, points, hex);
+    verify(overlayManager).drawTransitRouteLine(points, points, hex);
+  }
+
+  @Test public void clearTransitRouteLine_shouldInvokeOverlayManager() {
+    map.clearTransitRouteLine();
+    verify(overlayManager).clearTransitRouteLine();
+  }
+
   @Test public void setFeaturePickListener_shouldInvokeFeatureListener() {
     TestFeaturePickListener listener = new TestFeaturePickListener();
     map.setFeaturePickListener(listener);

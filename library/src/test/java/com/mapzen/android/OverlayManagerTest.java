@@ -209,7 +209,7 @@ import static org.powermock.api.mockito.PowerMockito.mock;
     LngLat start = new LngLat(-123, -70);
     LngLat end = new LngLat(-123.1, -70.1);
     overlayManager.drawRoutePins(start, end);
-    verify(mapController).addDataLayer("mz_route_stop");
+    verify(mapController).addDataLayer("mz_route_destination");
   }
 
   @Test public void drawRoutePins_shouldNotAddEndPin() {
@@ -220,7 +220,7 @@ import static org.powermock.api.mockito.PowerMockito.mock;
     LngLat end = new LngLat(-123.1, -70.1);
     overlayManager.drawRoutePins(start, end);
     overlayManager.drawRoutePins(start, end);
-    verify(mapController).addDataLayer("mz_route_stop");
+    verify(mapController).addDataLayer("mz_route_destination");
   }
 
   @Test public void drawRoutePins_shouldRender() {
@@ -340,6 +340,44 @@ import static org.powermock.api.mockito.PowerMockito.mock;
     points.add(point2);
     points.add(point3);
     overlayManager.drawRouteLine(points);
+    verify(mapController).requestRender();
+  }
+
+  @Test public void drawTransitRouteLine_shouldAddDataSourceOnce() {
+    PowerMockito.doCallRealMethod().when(mapController).addDataLayer(anyString());
+    Whitebox.setInternalState(OverlayManager.class, "transitRouteLineData", (Object[]) null);
+
+    ArrayList<LngLat> points = new ArrayList();
+    points.add(new LngLat(-122.39353246246766, 37.78662344689961));
+    points.add(new LngLat(-122.39309926415683, 37.791273135641994));
+    String hex = "#ff0000";
+    overlayManager.drawTransitRouteLine(points, points, hex);
+    overlayManager.drawTransitRouteLine(points, points, hex);
+    verify(mapController, times(1)).addDataLayer("mz_route_line_transit");
+  }
+
+  @Test public void drawTransitRouteLine_shouldAddStationDataSourceOnce() {
+    PowerMockito.doCallRealMethod().when(mapController).addDataLayer(anyString());
+    Whitebox.setInternalState(OverlayManager.class, "stationIconData", (Object[]) null);
+
+    ArrayList<LngLat> points = new ArrayList();
+    points.add(new LngLat(-122.39353246246766, 37.78662344689961));
+    points.add(new LngLat(-122.39309926415683, 37.791273135641994));
+    String hex = "#ff0000";
+    overlayManager.drawTransitRouteLine(points, points, hex);
+    overlayManager.drawTransitRouteLine(points, points, hex);
+    verify(mapController, times(1)).addDataLayer("mz_route_transit_stop");
+  }
+
+  @Test public void drawTransitRouteLine_shouldRequestRender() {
+    PowerMockito.doCallRealMethod().when(mapController).addDataLayer(anyString());
+    PowerMockito.doCallRealMethod().when(mapController).requestRender();
+
+    ArrayList<LngLat> points = new ArrayList();
+    points.add(new LngLat(-122.39353246246766, 37.78662344689961));
+    points.add(new LngLat(-122.39309926415683, 37.791273135641994));
+    String hex = "#ff0000";
+    overlayManager.drawTransitRouteLine(points, points, hex);
     verify(mapController).requestRender();
   }
 
