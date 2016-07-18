@@ -50,6 +50,9 @@ public final class SampleDetailsList {
           QueueEventActivity.class),
       new SampleDetails(R.string.router_map_demo_label,
           R.string.router_map_demo_description,
-          RouterActivity.class)
+          RouterActivity.class),
+      new SampleDetails(R.string.pelias_search_demo_label,
+          R.string.pelias_search_demo_description,
+          MapzenSearchViewActivity.class)
   };
 }

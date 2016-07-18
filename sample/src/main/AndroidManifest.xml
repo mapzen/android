@@ -38,6 +38,7 @@
     <activity android:name="FeaturePickListenerActivity"/>
     <activity android:name=".QueueEventActivity"/>
     <activity android:name=".RouterActivity" />
+    <activity android:name=".MapzenSearchViewActivity"/>
   </application>
 
 </manifest>

@@ -68,4 +68,7 @@
   <string name="router_map_demo_label">Router</string>
   <string name="router_map_demo_description">Demonstrates how to use MapzenRouter</string>
   <string name="min_two_points">You must add at least two points</string>
+  <string name="pelias_search_demo_label">Search</string>
+  <string name="pelias_search_demo_description">Demonstrates how to use Pelias</string>
+  <string name="search_hint">Search</string>
 </resources>
