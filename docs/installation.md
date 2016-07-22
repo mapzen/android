@@ -6,7 +6,7 @@ If you would like to add search or routing components check out the [Pelias Andr
 
 ## Download
 
-Download the [latest AAR](http://search.maven.org/remotecontent?filepath=com/mapzen/mapzen-android-sdk/1.0.0/mapzen-android-sdk-1.0.0.aar).
+Download the [latest AAR](http://search.maven.org/remotecontent?filepath=com/mapzen/mapzen-android-sdk/1.0.6/mapzen-android-sdk-1.0.6.aar).
 
 ## Maven
 
@@ -16,7 +16,7 @@ Include dependency using Maven.
 <dependency>
   <groupId>com.mapzen</groupId>
   <artifactId>mapzen-android-sdk</artifactId>
-  <version>1.0.5</version>
+  <version>1.0.6</version>
   <type>aar</type>
 </dependency>
 ```
@@ -31,7 +31,7 @@ repositories {
 }
 
 dependencies {
-  compile 'com.mapzen:mapzen-android-sdk:1.0.5'
+  compile 'com.mapzen:mapzen-android-sdk:1.0.6'
   ...
 }
 ```
