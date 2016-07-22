@@ -22,7 +22,7 @@ public class TestMapController extends MapController {
   private float mapTilt = 0;
 
   public TestMapController() {
-    super(new GLSurfaceView(getMockContext()), "");
+    super(new GLSurfaceView(getMockContext()));
   }
 
   @Override public void setPositionEased(LngLat lngLat, int duration) {

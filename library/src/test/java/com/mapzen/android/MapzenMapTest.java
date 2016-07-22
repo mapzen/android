@@ -1,5 +1,6 @@
 package com.mapzen.android;
 
+import com.mapzen.android.model.CameraType;
 import com.mapzen.android.model.EaseType;
 import com.mapzen.android.model.FeaturePickListener;
 import com.mapzen.android.model.Marker;
@@ -16,6 +17,8 @@ import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.SuppressStaticInitializationFor;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
+
+import android.graphics.PointF;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -140,6 +143,16 @@ public class MapzenMapTest {
     assertThat(map.getTilt()).isEqualTo(3.14f);
   }
 
+  @Test public void setCameraType_shouldInvokeMapController() {
+    map.setCameraType(CameraType.FLAT);
+    verify(mapController).setCameraType(MapController.CameraType.FLAT);
+  }
+
+  @Test public void getCameraType_shouldInvokeMapController() {
+    map.getCameraType();
+    verify(mapController).getCameraType();
+  }
+
   @Test public void setMyLocationEnabled_shouldInvokeOverlayManager() throws Exception {
     map.setMyLocationEnabled(true);
     verify(overlayManager).setMyLocationEnabled(true);
@@ -170,9 +183,16 @@ public class MapzenMapTest {
     verify(overlayManager).addPolygon(polygon);
   }
 
-  @Test public void coordinatesAtScreenPosition_shouldInvokeMapController() throws Exception {
-    map.coordinatesAtScreenPosition(4, 3);
-    verify(mapController).coordinatesAtScreenPosition(4, 3);
+  @Test public void screenPositionToLngLat_shouldInvokeMapController() throws Exception {
+    PointF position = new PointF(4.f, 3.f);
+    map.screenPositionToLngLat(position);
+    verify(mapController).screenPositionToLngLat(position);
+  }
+
+  @Test public void lngLatToScreenPosition_shouldInvokeMapController() {
+    LngLat lngLat = new LngLat(70, 40);
+    map.lngLatToScreenPosition(lngLat);
+    verify(mapController).lngLatToScreenPosition(lngLat);
   }
 
   @Test public void setTapResponder_shouldInvokeMapController() {
