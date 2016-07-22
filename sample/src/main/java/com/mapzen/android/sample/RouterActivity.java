@@ -13,6 +13,7 @@ import com.mapzen.tangram.TouchInput;
 import com.mapzen.valhalla.Route;
 import com.mapzen.valhalla.RouteCallback;
 
+import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -63,7 +64,7 @@ public class RouterActivity extends AppCompatActivity {
     map.setPosition(new LngLat(-73.9918, 40.73633));
     map.setTapResponder(new TouchInput.TapResponder() {
       @Override public boolean onSingleTapUp(float x, float y) {
-        LngLat point = map.coordinatesAtScreenPosition(x, y);
+        LngLat point = map.screenPositionToLngLat(new PointF(x, y));
         addPointToRoute(point);
         return false;
       }

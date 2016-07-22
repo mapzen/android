@@ -1,5 +1,6 @@
 package com.mapzen.android;
 
+import com.mapzen.android.model.CameraType;
 import com.mapzen.android.model.EaseType;
 import com.mapzen.android.model.FeaturePickListener;
 import com.mapzen.android.model.MapStyle;
@@ -14,6 +15,7 @@ import com.mapzen.tangram.TouchInput;
 
 import org.jetbrains.annotations.NotNull;
 
+import android.graphics.PointF;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
@@ -71,6 +73,25 @@ public class MapzenMap {
     EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.put(EaseType.CUBIC, MapController.EaseType.CUBIC);
     EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.put(EaseType.QUINT, MapController.EaseType.QUINT);
     EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.put(EaseType.SINE, MapController.EaseType.SINE);
+  }
+
+  private static final HashMap<CameraType, MapController.CameraType>
+      CAMERA_TYPE_TO_MAP_CONTROLLER_CAMERA_TYPE = new HashMap<>();
+  private static final HashMap<MapController.CameraType, CameraType>
+      MAP_CONTROLLER_CAMERA_TYPE_TO_CAMERA_TYPE = new HashMap<>();
+
+  static {
+    CAMERA_TYPE_TO_MAP_CONTROLLER_CAMERA_TYPE.put(CameraType.PERSPECTIVE,
+        MapController.CameraType.PERSPECTIVE);
+    CAMERA_TYPE_TO_MAP_CONTROLLER_CAMERA_TYPE.put(CameraType.ISOMETRIC,
+        MapController.CameraType.ISOMETRIC);
+    CAMERA_TYPE_TO_MAP_CONTROLLER_CAMERA_TYPE.put(CameraType.FLAT, MapController.CameraType.FLAT);
+
+    MAP_CONTROLLER_CAMERA_TYPE_TO_CAMERA_TYPE.put(MapController.CameraType.PERSPECTIVE,
+        CameraType.PERSPECTIVE);
+    MAP_CONTROLLER_CAMERA_TYPE_TO_CAMERA_TYPE.put(MapController.CameraType.ISOMETRIC,
+        CameraType.ISOMETRIC);
+    MAP_CONTROLLER_CAMERA_TYPE_TO_CAMERA_TYPE.put(MapController.CameraType.FLAT, CameraType.FLAT);
   }
 
   /**
@@ -265,6 +286,22 @@ public class MapzenMap {
   }
 
   /**
+   * Set the camera type for the map view.
+   * @param type A {@code CameraType}
+   */
+  public void setCameraType(CameraType type) {
+    mapController.setCameraType(CAMERA_TYPE_TO_MAP_CONTROLLER_CAMERA_TYPE.get(type));
+  }
+
+  /**
+   * Get the camera type currently in use for the map view.
+   * @return A {@code CameraType}
+   */
+  public CameraType getCameraType() {
+    return MAP_CONTROLLER_CAMERA_TYPE_TO_CAMERA_TYPE.get(mapController.getCameraType());
+  }
+
+  /**
    * When enabled, shows icon on map to allow centering map on current location. While
    * enabled, the user's current location will be updated in the background. When disabled, the
    * icon is hidden from the map.
@@ -315,12 +352,21 @@ public class MapzenMap {
   /**
    * Find the geographic coordinates corresponding to the given position on screen.
    *
-   * @param screenX Pixels from the left edge of the screen
-   * @param screenY Pixels from the top edge of the screen
+   * @param position Pixels from the top-left edge of the screen
    * @return LngLat corresponding to the given point
    */
-  public LngLat coordinatesAtScreenPosition(double screenX, double screenY) {
-    return mapController.coordinatesAtScreenPosition(screenX, screenY);
+  public LngLat screenPositionToLngLat(PointF position) {
+    return mapController.screenPositionToLngLat(position);
+  }
+
+  /**
+   * Find the position on screen corresponding to the given geographic coordinates.
+   * @param lngLat Geographic coordinates
+   * @return Position in pixels from the top-left corner of the map area (the point
+   * may not lie within the viewable screen area)
+   */
+  public PointF lngLatToScreenPosition(LngLat lngLat) {
+    return mapController.lngLatToScreenPosition(lngLat);
   }
 
   /**

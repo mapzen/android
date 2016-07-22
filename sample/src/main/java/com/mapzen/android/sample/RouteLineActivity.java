@@ -6,6 +6,7 @@ import com.mapzen.android.OnMapReadyCallback;
 import com.mapzen.tangram.LngLat;
 import com.mapzen.tangram.TouchInput;
 
+import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -61,7 +62,7 @@ public class RouteLineActivity extends AppCompatActivity {
   }
 
   private void addLineSegmentToRoute(float x, float y) {
-    LngLat point = map.coordinatesAtScreenPosition(x, y);
+    LngLat point = map.screenPositionToLngLat(new PointF(x, y));
     points.add(point);
     map.drawRouteLine(points);
 
