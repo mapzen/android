@@ -3,6 +3,7 @@ package com.mapzen.android.dagger;
 import com.mapzen.android.MapInitializer;
 import com.mapzen.android.MapView;
 import com.mapzen.android.MapzenRouter;
+import com.mapzen.android.MapzenSearch;
 
 import android.content.Context;
 
@@ -23,6 +24,7 @@ class DependencyInjector {
 
     void inject(MapInitializer mapInitializer);
     void inject(MapzenRouter router);
+    void inject(MapzenSearch search);
   }
 
   private LibraryComponent component;

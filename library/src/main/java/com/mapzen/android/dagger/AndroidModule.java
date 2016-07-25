@@ -1,5 +1,7 @@
 package com.mapzen.android.dagger;
 
+import com.mapzen.android.ApiKeyConstants;
+import com.mapzen.android.SearchInitializer;
 import com.mapzen.android.TileHttpHandler;
 import com.mapzen.android.TurnByTurnHttpHandler;
 
@@ -17,9 +19,6 @@ import dagger.Provides;
  */
 @Module public class AndroidModule {
   private static final String TAG = AndroidModule.class.getSimpleName();
-  private static final String API_KEY_TILE_RES_NAME = "vector_tiles_key";
-  private static final String API_KEY_TURN_BY_TURN_RES_NAME = "turn_by_turn_key";
-  private static final String API_KEY_RES_TYPE = "string";
 
   private final Context context;
 
@@ -53,7 +52,8 @@ import dagger.Provides;
   @Provides @Singleton public TileHttpHandler provideTileHttpHandler(Resources res) {
     final String packageName = context.getPackageName();
     try {
-      final int apiKeyId = res.getIdentifier(API_KEY_TILE_RES_NAME, API_KEY_RES_TYPE, packageName);
+      final int apiKeyId = res.getIdentifier(ApiKeyConstants.API_KEY_TILE_RES_NAME,
+          ApiKeyConstants.API_KEY_RES_TYPE, packageName);
       final String apiKey = res.getString(apiKeyId);
       return new TileHttpHandler(apiKey);
     } catch (Resources.NotFoundException e) {
@@ -69,13 +69,21 @@ import dagger.Provides;
     TurnByTurnHttpHandler handler = new TurnByTurnHttpHandler();
     final String packageName = context.getPackageName();
     try {
-      final int apiKeyId = res.getIdentifier(API_KEY_TURN_BY_TURN_RES_NAME, API_KEY_RES_TYPE,
-          packageName);
+      final int apiKeyId = res.getIdentifier(ApiKeyConstants.API_KEY_TURN_BY_TURN_RES_NAME,
+          ApiKeyConstants.API_KEY_RES_TYPE, packageName);
       final String apiKey = res.getString(apiKeyId);
       handler.setApiKey(apiKey);
     } catch (Resources.NotFoundException e) {
       Log.e(TAG, e.getLocalizedMessage());
     }
     return handler;
+  }
+
+  /**
+   * Provide initializer for configuring {@link MapzenSearch} objects.
+   * @return
+   */
+  @Provides @Singleton public SearchInitializer provideSearchInitializer() {
+    return new SearchInitializer();
   }
 }
