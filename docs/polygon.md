@@ -1,10 +1,9 @@
 # Polygons
 
-To add a polygon to the map, create a `Polygon` object and call `MapzenMap#addPolygon(Polygon)`. Keep a reference to the returned `MapData` object and remove the polygon from the map in `Activity#onDestroy()`.
+To add a polygon to the map, create a `Polygon` object and call `MapzenMap#addPolygon(Polygon)`.
 
 ```java
 MapFragment mapFragment;
-MapData polygonData;
 
 @Override
 protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +25,7 @@ private void configureMap(MapzenMap map) {
             .add(new LngLat(-73.998674, 40.732172))
             .add(new LngLat(-73.996142, 40.741050))
             .build();
-    polygonData = map.addPolyline(polygon);
+    map.addPolyline(polygon);
 }
 
-@Override protected void onDestroy() {
-    super.onDestroy();
-    polygonData.clear();
-}
 ```

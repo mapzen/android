@@ -52,9 +52,4 @@ public class RoutePinsActivity extends AppCompatActivity {
     LngLat end = new LngLat(-122.395720, 37.788365);
     map.drawRoutePins(start, end);
   }
-
-  @Override protected void onDestroy() {
-    super.onDestroy();
-    map.clearRoutePins();
-  }
 }

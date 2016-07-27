@@ -1,10 +1,9 @@
 # Polylines
 
-To add a polyline to the map, create a `Polyline` object and call `MapzenMap#addPolyline(Polyline)`. Keep a reference to the returned `MapData` object and remove the polyline from the map in `Activity#onDestroy()`.
+To add a polyline to the map, create a `Polyline` object and call `MapzenMap#addPolyline(Polyline)`.
 
 ```java
 MapFragment mapFragment;
-MapData polylineData;
 
 @Override
 protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +28,4 @@ private void configureMap(MapzenMap map) {
     polylineData = map.addPolyline(polyline);
 }
 
-@Override protected void onDestroy() {
-    super.onDestroy();
-    polylineData.clear();
-}
 ```

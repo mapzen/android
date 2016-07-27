@@ -53,9 +53,4 @@ public class DroppedPinActivity extends AppCompatActivity {
     LngLat point = map.screenPositionToLngLat(new PointF(x, y));
     map.drawDroppedPin(point);
   }
-
-  @Override protected void onDestroy() {
-    super.onDestroy();
-    map.clearDroppedPins();
-  }
 }

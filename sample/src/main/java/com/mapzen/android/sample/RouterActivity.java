@@ -128,14 +128,4 @@ public class RouterActivity extends AppCompatActivity {
     markerMapData = map.addMarker(marker);
     points++;
   }
-
-  @Override protected void onDestroy() {
-    super.onDestroy();
-    if (lineMapData != null) {
-      lineMapData.clear();
-    }
-    if (markerMapData != null) {
-      markerMapData.clear();
-    }
-  }
 }

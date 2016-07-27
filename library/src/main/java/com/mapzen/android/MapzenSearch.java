@@ -1,6 +1,5 @@
 package com.mapzen.android;
 
-import com.mapzen.android.dagger.DI;
 import com.mapzen.pelias.BoundingBox;
 import com.mapzen.pelias.Pelias;
 import com.mapzen.pelias.PeliasLocationProvider;

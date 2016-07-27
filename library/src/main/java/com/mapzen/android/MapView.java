@@ -1,6 +1,5 @@
 package com.mapzen.android;
 
-import com.mapzen.android.dagger.DI;
 import com.mapzen.android.model.MapStyle;
 
 import android.content.Context;

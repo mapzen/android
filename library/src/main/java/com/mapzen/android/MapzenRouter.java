@@ -1,6 +1,5 @@
 package com.mapzen.android;
 
-import com.mapzen.android.dagger.DI;
 import com.mapzen.valhalla.RouteCallback;
 import com.mapzen.valhalla.Router;
 import com.mapzen.valhalla.ValhallaRouter;

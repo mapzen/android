@@ -1,7 +1,5 @@
 package com.mapzen.android;
 
-import com.mapzen.android.dagger.DI;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

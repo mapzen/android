@@ -44,6 +44,7 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 @PrepareForTest(OverlayManager.class) public class OverlayManagerTest {
 
   private MapController mapController;
+  private MapStateManager mapStateManager;
   private OverlayManager overlayManager;
   private MapView mapView;
   private LostApiClient lostApiClient;
@@ -56,7 +57,10 @@ import static org.powermock.api.mockito.PowerMockito.mock;
     mapView = mock(MapView.class);
     mapData = new TestMapData("test");
     LocationServices.FusedLocationApi = Mockito.mock(FusedLocationProviderApiImpl.class);
-    overlayManager = new OverlayManager(mapView, mapController, lostApiClient);
+    MapDataManager mapDataManager = new MapDataManager();
+    mapStateManager = mock(MapStateManager.class);
+    overlayManager = new OverlayManager(mapView, mapController, mapDataManager, mapStateManager,
+        lostApiClient);
     when(LocationServices.FusedLocationApi.getLastLocation()).thenReturn(new Location("test"));
     findMeButton = new TestButton(null);
     when(mapController.addDataLayer(any(String.class))).thenReturn(mapData);
@@ -127,6 +131,15 @@ import static org.powermock.api.mockito.PowerMockito.mock;
     assertThat(mapController.getRotation()).isEqualTo(8);
   }
 
+  @Test public void setMyLocationEnabled_shouldUpdateMapStateManager() {
+    overlayManager.setMyLocationEnabled(true);
+    findMeButton.performClick();
+    verify(mapStateManager).setZoom(16f);
+    Location loc = LocationServices.FusedLocationApi.getLastLocation();
+    LngLat lngLat = new LngLat(loc.getLongitude(), loc.getLatitude());
+    verify(mapStateManager).setPosition(lngLat);
+  }
+
   @Test public void isMyLocationEnabled_shouldReturnTrue() throws Exception {
     overlayManager.setMyLocationEnabled(true);
     assertThat(overlayManager.isMyLocationEnabled()).isTrue();
@@ -183,7 +196,6 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 
   @Test public void drawRoutePins_shouldAddStartPin() {
     when(mapController.addDataLayer(anyString())).thenCallRealMethod();
-    Whitebox.setInternalState(OverlayManager.class, "startPinData", (Object[]) null);
 
     LngLat start = new LngLat(-123, -70);
     LngLat end = new LngLat(-123.1, -70.1);
@@ -193,7 +205,6 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 
   @Test public void drawRoutePins_shouldNotAddStartPin() {
     when(mapController.addDataLayer(anyString())).thenCallRealMethod();
-    Whitebox.setInternalState(OverlayManager.class, "startPinData", (Object[]) null);
 
     LngLat start = new LngLat(-123, -70);
     LngLat end = new LngLat(-123.1, -70.1);
@@ -204,7 +215,6 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 
   @Test public void drawRoutePins_shouldAddEndPin() {
     when(mapController.addDataLayer(anyString())).thenCallRealMethod();
-    Whitebox.setInternalState(OverlayManager.class, "endPinData", (Object[]) null);
 
     LngLat start = new LngLat(-123, -70);
     LngLat end = new LngLat(-123.1, -70.1);
@@ -214,7 +224,6 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 
   @Test public void drawRoutePins_shouldNotAddEndPin() {
     when(mapController.addDataLayer(anyString())).thenCallRealMethod();
-    Whitebox.setInternalState(OverlayManager.class, "endPinData", (Object[]) null);
 
     LngLat start = new LngLat(-123, -70);
     LngLat end = new LngLat(-123.1, -70.1);
@@ -235,7 +244,6 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 
   @Test public void drawDroppedPin_shouldAddDataLayer() {
     PowerMockito.doCallRealMethod().when(mapController).addDataLayer(anyString());
-    Whitebox.setInternalState(OverlayManager.class, "droppedPinData", (Object[]) null);
 
     LngLat point = new LngLat(-123, -70);
     overlayManager.drawDroppedPin(point);
@@ -253,7 +261,6 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 
   @Test public void drawSearchResult_shouldAddDataLayer() {
     PowerMockito.doCallRealMethod().when(mapController).addDataLayer(anyString());
-    Whitebox.setInternalState(OverlayManager.class, "searchResultPinData", (Object[]) null);
 
     LngLat point = new LngLat(-123, -70);
     overlayManager.drawSearchResult(point, true, 0);
@@ -271,7 +278,6 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 
   @Test public void drawRoutePin_shouldAddDataLayer() {
     PowerMockito.doCallRealMethod().when(mapController).addDataLayer(anyString());
-    Whitebox.setInternalState(OverlayManager.class, "routePinData", (Object[]) null);
 
     LngLat point = new LngLat(-123, -70);
     overlayManager.drawRouteLocationMarker(point);
@@ -280,7 +286,6 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 
   @Test public void drawRoutePin_shouldAddDataLayerOnce() {
     PowerMockito.doCallRealMethod().when(mapController).addDataLayer(anyString());
-    Whitebox.setInternalState(OverlayManager.class, "routePinData", (Object[]) null);
 
     LngLat point = new LngLat(-123, -70);
     overlayManager.drawRouteLocationMarker(point);
@@ -299,7 +304,6 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 
   @Test public void drawRouteLine_shouldAddDataLayer() {
     PowerMockito.doCallRealMethod().when(mapController).addDataLayer(anyString());
-    Whitebox.setInternalState(OverlayManager.class, "routeLineData", (Object[]) null);
 
     LngLat point1 = new LngLat(-123, -70.0);
     LngLat point2 = new LngLat(-123, -70.1);
@@ -314,7 +318,6 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 
   @Test public void drawRouteLine_shouldAddDataLayerOnce() {
     PowerMockito.doCallRealMethod().when(mapController).addDataLayer(anyString());
-    Whitebox.setInternalState(OverlayManager.class, "routeLineData", (Object[]) null);
 
     LngLat point1 = new LngLat(-123, -70.0);
     LngLat point2 = new LngLat(-123, -70.1);
@@ -345,7 +348,6 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 
   @Test public void drawTransitRouteLine_shouldAddDataSourceOnce() {
     PowerMockito.doCallRealMethod().when(mapController).addDataLayer(anyString());
-    Whitebox.setInternalState(OverlayManager.class, "transitRouteLineData", (Object[]) null);
 
     ArrayList<LngLat> points = new ArrayList();
     points.add(new LngLat(-122.39353246246766, 37.78662344689961));
@@ -358,7 +360,6 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 
   @Test public void drawTransitRouteLine_shouldAddStationDataSourceOnce() {
     PowerMockito.doCallRealMethod().when(mapController).addDataLayer(anyString());
-    Whitebox.setInternalState(OverlayManager.class, "stationIconData", (Object[]) null);
 
     ArrayList<LngLat> points = new ArrayList();
     points.add(new LngLat(-122.39353246246766, 37.78662344689961));

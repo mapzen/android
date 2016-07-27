@@ -35,6 +35,7 @@ public class MapzenMap {
 
   private final MapController mapController;
   private final OverlayManager overlayManager;
+  private final MapStateManager mapStateManager;
 
   boolean pickFeatureOnSingleTapConfirmed = false;
 
@@ -113,10 +114,14 @@ public class MapzenMap {
   /**
    * Creates a new map based on the given {@link MapView} and {@link MapController}.
    */
-  MapzenMap(MapController mapController, OverlayManager overlayManager) {
+  MapzenMap(MapController mapController, OverlayManager overlayManager,
+      MapStateManager mapStateManager) {
     this.mapController = mapController;
     this.overlayManager = overlayManager;
+    this.mapStateManager = mapStateManager;
     mapController.setPanResponder(internalPanResponder);
+    overlayManager.restoreMapData();
+    restoreMapState();
   }
 
   /**
@@ -137,6 +142,7 @@ public class MapzenMap {
    * Sets the map's underlying stylesheet.
    */
   public void setStyle(MapStyle mapStyle) {
+    mapStateManager.setMapStyle(mapStyle);
     mapController.loadSceneFile(mapStyle.getSceneFile());
   }
 
@@ -144,7 +150,7 @@ public class MapzenMap {
    * Sets map zoom without animation.
    */
   public void setZoom(float zoom) {
-    mapController.setZoom(zoom);
+    setZoom(zoom, 0);
   }
 
   /**
@@ -154,7 +160,7 @@ public class MapzenMap {
    * @param duration animation duration in millis
    */
   public void setZoom(float zoom, int duration) {
-    mapController.setZoomEased(zoom, duration);
+    setZoom(zoom, duration, EaseType.CUBIC);
   }
 
   /**
@@ -165,6 +171,7 @@ public class MapzenMap {
    * @param easeType map ease type
    */
   public void setZoom(float zoom, int duration, EaseType easeType) {
+    mapStateManager.setZoom(zoom);
     mapController.setZoomEased(zoom, duration, EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.get(easeType));
   }
 
@@ -179,7 +186,7 @@ public class MapzenMap {
    * Set map position without animation.
    */
   public void setPosition(LngLat lngLat) {
-    mapController.setPosition(lngLat);
+    setPosition(lngLat, 0);
   }
 
   /**
@@ -189,7 +196,7 @@ public class MapzenMap {
    * @param duration animation duration in millis
    */
   public void setPosition(LngLat lngLat, int duration) {
-    mapController.setPositionEased(lngLat, duration);
+    setPosition(lngLat, duration, EaseType.CUBIC);
   }
 
   /**
@@ -200,6 +207,7 @@ public class MapzenMap {
    * @param easeType map ease type
    */
   public void setPosition(LngLat lngLat, int duration, EaseType easeType) {
+    mapStateManager.setPosition(lngLat);
     mapController.setPositionEased(lngLat, duration,
         EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.get(easeType));
   }
@@ -215,7 +223,7 @@ public class MapzenMap {
    * Set map rotation in radians without animation.
    */
   public void setRotation(float radians) {
-    mapController.setRotation(radians);
+    setRotation(radians, 0);
   }
 
   /**
@@ -225,7 +233,7 @@ public class MapzenMap {
    * @param duration animation duration in millis
    */
   public void setRotation(float radians, int duration) {
-    mapController.setRotationEased(radians, duration);
+    setRotation(radians, duration, EaseType.CUBIC);
   }
 
   /**
@@ -236,6 +244,7 @@ public class MapzenMap {
    * @param easeType map ease type
    */
   public void setRotation(float radians, int duration, EaseType easeType) {
+    mapStateManager.setRotation(radians);
     mapController.setRotationEased(radians, duration,
         EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.get(easeType));
   }
@@ -253,7 +262,7 @@ public class MapzenMap {
    * @param radians tilt in radians
    */
   public void setTilt(float radians) {
-    mapController.setTilt(radians);
+    setTilt(radians, 0);
   }
 
   /**
@@ -263,7 +272,7 @@ public class MapzenMap {
    * @param duration duration in millis
    */
   public void setTilt(float radians, int duration) {
-    mapController.setTiltEased(radians, duration);
+    setTilt(radians, duration, EaseType.CUBIC);
   }
 
   /**
@@ -274,6 +283,7 @@ public class MapzenMap {
    * @param easeType map ease type
    */
   public void setTilt(float radians, int duration, EaseType easeType) {
+    mapStateManager.setTilt(radians);
     mapController.setTiltEased(radians, duration,
         EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.get(easeType));
   }
@@ -290,6 +300,7 @@ public class MapzenMap {
    * @param type A {@code CameraType}
    */
   public void setCameraType(CameraType type) {
+    mapStateManager.setCameraType(type);
     mapController.setCameraType(CAMERA_TYPE_TO_MAP_CONTROLLER_CAMERA_TYPE.get(type));
   }
 
@@ -336,6 +347,13 @@ public class MapzenMap {
   }
 
   /**
+   * Removes marker overlay from map.
+   */
+  public void removeMarker() {
+    overlayManager.removeMarker();
+  }
+
+  /**
    * Adds polyline overlay to map.
    */
   public MapData addPolyline(Polyline polyline) {
@@ -343,10 +361,24 @@ public class MapzenMap {
   }
 
   /**
+   * Removes polyline overlay from map.
+   */
+  public void removePolyline() {
+    overlayManager.removePolyline();
+  }
+
+  /**
    * Adds polygon overlay to map.
    */
   public MapData addPolygon(Polygon polygon) {
     return overlayManager.addPolygon(polygon);
+  }
+
+  /**
+   * Removes polygon overlay from map.
+   */
+  public void removePolygon() {
+    overlayManager.removePolygon();
   }
 
   /**
@@ -675,5 +707,27 @@ public class MapzenMap {
    */
   public void clearTransitRouteLine() {
     overlayManager.clearTransitRouteLine();
+  }
+
+  /**
+   * By default all {@link MapData} objects are removed from the map when it is destroyed. To
+   * persist this data such as in the case of orientation changes, use this method.
+   * @param persistOnRecreation persist {@link MapData} across orientation changes
+   */
+  public void setPersistMapData(boolean persistOnRecreation) {
+    overlayManager.setPersistMapData(persistOnRecreation);
+    mapStateManager.setPersistMapState(persistOnRecreation);
+  }
+
+  private void restoreMapState() {
+    if (!mapStateManager.getPersistMapState()) {
+      return;
+    }
+    setPosition(mapStateManager.getPosition());
+    setStyle(mapStateManager.getMapStyle());
+    setZoom(mapStateManager.getZoom());
+    setRotation(mapStateManager.getRotation());
+    setTilt(mapStateManager.getTilt());
+    setCameraType(mapStateManager.getCameraType());
   }
 }

@@ -1,9 +1,4 @@
-package com.mapzen.android.dagger;
-
-import com.mapzen.android.MapInitializer;
-import com.mapzen.android.MapView;
-import com.mapzen.android.MapzenRouter;
-import com.mapzen.android.MapzenSearch;
+package com.mapzen.android;
 
 import android.content.Context;
 

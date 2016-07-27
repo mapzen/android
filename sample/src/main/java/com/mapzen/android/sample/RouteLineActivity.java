@@ -69,9 +69,4 @@ public class RouteLineActivity extends AppCompatActivity {
     map.drawRouteLocationMarker(points.get(0));
   }
 
-  @Override protected void onDestroy() {
-    super.onDestroy();
-    map.clearRouteLine();
-    map.clearRouteLocationMarker();
-  }
 }

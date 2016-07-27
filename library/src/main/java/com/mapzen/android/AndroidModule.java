@@ -1,9 +1,4 @@
-package com.mapzen.android.dagger;
-
-import com.mapzen.android.ApiKeyConstants;
-import com.mapzen.android.SearchInitializer;
-import com.mapzen.android.TileHttpHandler;
-import com.mapzen.android.TurnByTurnHttpHandler;
+package com.mapzen.android;
 
 import android.content.Context;
 import android.content.res.Resources;

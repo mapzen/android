@@ -33,18 +33,18 @@ public class OverlayManager implements TouchInput.PanResponder {
   private static final int ANIMATION_DURATION_MILLIS = 500;
   private static final float DEFAULT_ZOOM = 16f;
 
-  private static final String NAME_CURRENT_LOCATION = "mz_current_location";
-  private static final String NAME_POLYLINE = "mz_default_line";
-  private static final String NAME_POLYGON = "mz_default_polygon";
-  private static final String NAME_MARKER = "mz_default_point";
-  private static final String NAME_START_PIN = "mz_route_start";
-  private static final String NAME_END_PIN = "mz_route_destination";
-  private static final String NAME_DROPPED_PIN = "mz_dropped_pin";
-  private static final String NAME_SEARCH_RESULT_PIN = "mz_search_result";
-  private static final String NAME_ROUTE_PIN = "mz_route_location";
-  private static final String NAME_ROUTE_LINE = "mz_route_line";
-  private static final String NAME_TRANSIT_ROUTE_LINE = "mz_route_line_transit";
-  private static final String NAME_STATION_ICON = "mz_route_transit_stop";
+  public static final String NAME_CURRENT_LOCATION = "mz_current_location";
+  public static final String NAME_POLYLINE = "mz_default_line";
+  public static final String NAME_POLYGON = "mz_default_polygon";
+  public static final String NAME_MARKER = "mz_default_point";
+  public static final String NAME_START_PIN = "mz_route_start";
+  public static final String NAME_END_PIN = "mz_route_destination";
+  public static final String NAME_DROPPED_PIN = "mz_dropped_pin";
+  public static final String NAME_SEARCH_RESULT_PIN = "mz_search_result";
+  public static final String NAME_ROUTE_PIN = "mz_route_location";
+  public static final String NAME_ROUTE_LINE = "mz_route_line";
+  public static final String NAME_TRANSIT_ROUTE_LINE = "mz_route_line_transit";
+  public static final String NAME_STATION_ICON = "mz_route_transit_stop";
 
   private static final String PROP_STATE = "state";
   private static final String PROP_STATE_ACTIVE = "active";
@@ -92,33 +92,41 @@ public class OverlayManager implements TouchInput.PanResponder {
 
   View.OnClickListener findMeExternalClickListener;
 
-  private static MapData polylineMapData;
-  private static MapData polygonMapData;
-  private static MapData markerMapData;
-  private static MapData startPinData;
-  private static MapData endPinData;
-  private static MapData droppedPinData;
-  private static MapData searchResultPinData;
-  private static MapData routePinData;
-  private static MapData routeLineData;
-  private static MapData transitRouteLineData;
-  private static MapData stationIconData;
+  private MapData polylineMapData;
+  private MapData polygonMapData;
+  private MapData markerMapData;
+  private MapData startPinData;
+  private MapData endPinData;
+  private MapData droppedPinData;
+  private MapData searchResultPinData;
+  private MapData routePinData;
+  private MapData routeLineData;
+  private MapData transitRouteLineData;
+  private MapData stationIconData;
+
+  private MapDataManager mapDataManager;
+  private MapStateManager mapStateManager;
 
   /**
    * Create a new {@link OverlayManager} object for handling functionality between map and
    * location services using the {@link LocationFactory}'s shared {@link LostApiClient}.
    */
-  OverlayManager(MapView mapView, MapController mapController) {
-    this(mapView, mapController, LocationFactory.sharedClient(mapView.getContext()));
+  OverlayManager(MapView mapView, MapController mapController, MapDataManager mapDataManager,
+      MapStateManager mapStateManager) {
+    this(mapView, mapController, mapDataManager, mapStateManager, LocationFactory.sharedClient(
+        mapView.getContext()));
   }
 
   /**
    * Create a new {@link OverlayManager} object for handling functionality between map and
    * location services.
    */
-  OverlayManager(MapView mapView, MapController mapController, LostApiClient lostApiClient) {
+  OverlayManager(MapView mapView, MapController mapController, MapDataManager mapDataManager,
+      MapStateManager mapStateManager, LostApiClient lostApiClient) {
     this.mapView = mapView;
     this.mapController = mapController;
+    this.mapDataManager = mapDataManager;
+    this.mapStateManager = mapStateManager;
     this.lostApiClient = lostApiClient;
   }
 
@@ -126,6 +134,17 @@ public class OverlayManager implements TouchInput.PanResponder {
    * Track the user's current location by displaying an icon on the map and centering the map.
    */
   public void setMyLocationEnabled(boolean enabled) {
+    setMyLocationEnabled(enabled, true);
+  }
+
+  /**
+   * Track the user's current location by displaying an icon on the map and centering the map.
+   * Optionally persists the map data to the {@link MapDataManager}.
+   */
+  public void setMyLocationEnabled(boolean enabled, boolean persistMapData) {
+    if (persistMapData) {
+      mapDataManager.addMapData(new PersistableMapData(enabled));
+    }
     myLocationEnabled = enabled;
     if (enabled) {
       addCurrentLocationMapData();
@@ -154,12 +173,26 @@ public class OverlayManager implements TouchInput.PanResponder {
    * Adds a polyline to the map.
    */
   public MapData addPolyline(Polyline polyline) {
+    return addPolyline(polyline, true);
+  }
+
+  /**
+   * Adds a polyline to the map. Optionally persists the map data to the {@link MapDataManager}.
+   * @param polyline
+   * @param persistMapData
+   * @return
+   */
+  public MapData addPolyline(Polyline polyline, boolean persistMapData) {
     if (polyline == null) {
       throw new IllegalArgumentException(
           "Must provide marker when calling " + "MapData#addPolyline");
     }
     if (polyline.getCoordinates().size() < MIN_COORDINATES_POLYLINE) {
       throw new IllegalArgumentException("Polyine must contain at least 2 points");
+    }
+
+    if (persistMapData) {
+      mapDataManager.addMapData(new PersistableMapData(polyline));
     }
 
     if (polylineMapData == null) {
@@ -169,9 +202,29 @@ public class OverlayManager implements TouchInput.PanResponder {
   }
 
   /**
+   * Removes polyline overlay from map.
+   */
+  public void removePolyline() {
+    mapDataManager.removeMapData(DataLayerType.POLYLINE);
+    if (polylineMapData != null) {
+      polylineMapData.clear();
+    }
+  }
+
+  /**
    * Adds a polygon to the map.
    */
   public MapData addPolygon(Polygon polygon) {
+    return addPolygon(polygon, true);
+  }
+
+  /**
+   * Adds a polygon to the map. Optionally persists the map data to the {@link MapDataManager}.
+   * @param polygon
+   * @param persistMapData
+   * @return
+   */
+  public MapData addPolygon(Polygon polygon, boolean persistMapData) {
     if (polygon == null) {
       throw new IllegalArgumentException(
           "Must provide marker when calling " + "MapData#addPolygon");
@@ -182,6 +235,10 @@ public class OverlayManager implements TouchInput.PanResponder {
 
     if (polygonMapData == null) {
       initPolygonMapData();
+    }
+
+    if (persistMapData) {
+      mapDataManager.addMapData(new PersistableMapData(polygon));
     }
 
     List<LngLat> coords = new ArrayList<>();
@@ -195,15 +252,38 @@ public class OverlayManager implements TouchInput.PanResponder {
     }
     List allCoords = new ArrayList();
     allCoords.add(coords);
+
     return addPolygonToPolygonMapData(allCoords);
+  }
+
+  /**
+   * Removes polygon overlay from map.
+   */
+  public void removePolygon() {
+    mapDataManager.removeMapData(DataLayerType.POLYGON);
+    if (polygonMapData != null) {
+      polygonMapData.clear();
+    }
   }
 
   /**
    * Add a point to the map for the marker.
    */
   public MapData addMarker(Marker marker) {
+    return addMarker(marker, true);
+  }
+
+  /**
+   * Add a point to the map for the marker. Optionally persists the map data to the
+   * {@link MapDataManager}.
+   */
+  public MapData addMarker(Marker marker, boolean persistMapData) {
     if (marker == null) {
       throw new IllegalArgumentException("Must provide marker when calling " + "MapData#addMarker");
+    }
+
+    if (persistMapData) {
+      mapDataManager.addMapData(new PersistableMapData(marker));
     }
 
     if (markerMapData == null) {
@@ -213,14 +293,35 @@ public class OverlayManager implements TouchInput.PanResponder {
   }
 
   /**
+   * Removes marker overlay from map.
+   */
+  public void removeMarker() {
+    mapDataManager.removeMapData(DataLayerType.MARKER);
+    if (markerMapData != null) {
+      markerMapData.clear();
+    }
+  }
+
+  /**
    * Draws two pins on the map. The start pin is active and the end pin is inactive.
    */
   public void drawRoutePins(LngLat start, LngLat end) {
+    drawRoutePins(start, end, true);
+  }
+
+  /**
+   * Draws two pins on the map. The start pin is active and the end pin is inactive. Optionally
+   * persists the map data to the {@link MapDataManager}.
+   */
+  public void drawRoutePins(LngLat start, LngLat end, boolean persistMapData) {
     if (startPinData == null) {
       startPinData = mapController.addDataLayer(NAME_START_PIN);
     }
     if (endPinData == null) {
       endPinData = mapController.addDataLayer(NAME_END_PIN);
+    }
+    if (persistMapData) {
+      mapDataManager.addMapData(new PersistableMapData(start, end));
     }
     startPinData.addPoint(start, null);
     endPinData.addPoint(end, null);
@@ -231,6 +332,8 @@ public class OverlayManager implements TouchInput.PanResponder {
    * Clears the start and end pins from the map.
    */
   public void clearRoutePins() {
+    mapDataManager.removeMapData(DataLayerType.START_END_PIN);
+
     if (startPinData != null) {
       startPinData.clear();
     }
@@ -243,6 +346,17 @@ public class OverlayManager implements TouchInput.PanResponder {
    * Draws a dropped pin on the map at the point supplied.
    */
   public void drawDroppedPin(LngLat point) {
+    drawDroppedPin(point, true);
+  }
+
+  /**
+   * Draws a dropped pin on the map at the point supplied. Optionally persists the map data to
+   * the {@link MapDataManager}.
+   */
+  public void drawDroppedPin(LngLat point, boolean persistMapData) {
+    if (persistMapData) {
+      mapDataManager.addMapData(new PersistableMapData(point, DataLayerType.DROPPED_PIN));
+    }
     if (droppedPinData == null) {
       droppedPinData = mapController.addDataLayer(NAME_DROPPED_PIN);
     }
@@ -256,6 +370,8 @@ public class OverlayManager implements TouchInput.PanResponder {
    * Clears the dropped pin from the map.
    */
   public void clearDroppedPin() {
+    mapDataManager.removeMapData(DataLayerType.DROPPED_PIN);
+
     if (droppedPinData != null) {
       droppedPinData.clear();
     }
@@ -273,6 +389,19 @@ public class OverlayManager implements TouchInput.PanResponder {
    * is supplied, it adds property {@code PROP_SEARCH_INDEX} when adding it to the map.
    */
   public void drawSearchResult(LngLat point, boolean active, int index) {
+    drawSearchResult(point, active, index, true);
+  }
+
+  /**
+   * Draws a search result at the point supplied and displays it as active/inactive. If an index
+   * is supplied, it adds property {@code PROP_SEARCH_INDEX} when adding it to the map. Optionally
+   * persists the map data to the {@link MapDataManager}.
+   */
+  public void drawSearchResult(LngLat point, boolean active, int index, boolean persistMapData) {
+    if (persistMapData) {
+      mapDataManager.addMapData(new PersistableMapData(point, active, index));
+    }
+
     if (searchResultPinData == null) {
       searchResultPinData = mapController.addDataLayer(NAME_SEARCH_RESULT_PIN);
     }
@@ -293,6 +422,8 @@ public class OverlayManager implements TouchInput.PanResponder {
    * Clears search result from the map.
    */
   public void clearSearchResult() {
+    mapDataManager.removeMapData(DataLayerType.SEARCH_RESULT_PIN);
+
     if (searchResultPinData != null) {
       searchResultPinData.clear();
     }
@@ -302,6 +433,17 @@ public class OverlayManager implements TouchInput.PanResponder {
    * Draws route pin at the point supplied.
    */
   public void drawRouteLocationMarker(LngLat point) {
+    drawRouteLocationMarker(point, true);
+  }
+
+  /**
+   * Draws route pin at the point supplied. Optionally persists the map data to the
+   * {@link MapDataManager}.
+   */
+  public void drawRouteLocationMarker(LngLat point, boolean persistMapData) {
+    if (persistMapData) {
+      mapDataManager.addMapData(new PersistableMapData(point, DataLayerType.ROUTE_PIN));
+    }
     if (routePinData == null) {
       routePinData = mapController.addDataLayer(NAME_ROUTE_PIN);
     }
@@ -315,6 +457,8 @@ public class OverlayManager implements TouchInput.PanResponder {
    * Clears route pin from the map.
    */
   public void clearRouteLocationMarker() {
+    mapDataManager.removeMapData(DataLayerType.ROUTE_PIN);
+
     if (routePinData != null) {
       routePinData.clear();
     }
@@ -324,6 +468,18 @@ public class OverlayManager implements TouchInput.PanResponder {
    * Draws route line on the map for the points supplied.
    */
   public void drawRouteLine(List<LngLat> points) {
+    drawRouteLine(points, true);
+  }
+
+  /**
+   * Draws route line on the map for the points supplied. Optionally persists the map data to the
+   * {@link MapDataManager}.
+   */
+  public void drawRouteLine(List<LngLat> points, boolean persistMapData) {
+    if (persistMapData) {
+      mapDataManager.addMapData(new PersistableMapData(points));
+    }
+
     if (routeLineData == null) {
       routeLineData = mapController.addDataLayer(NAME_ROUTE_LINE);
     }
@@ -337,6 +493,8 @@ public class OverlayManager implements TouchInput.PanResponder {
    * Clears route line from the map.
    */
   public void clearRouteLine() {
+    mapDataManager.removeMapData(DataLayerType.ROUTE_LINE);
+
     if (routeLineData != null) {
       routeLineData.clear();
     }
@@ -347,6 +505,18 @@ public class OverlayManager implements TouchInput.PanResponder {
    */
   public void drawTransitRouteLine(@NotNull List<LngLat> points, @Nullable List<LngLat> stations,
       @NotNull String colorHex) {
+    drawTransitRouteLine(points, stations, colorHex, true);
+  }
+
+  /**
+   * Draws route line on the map for the points supplied. Also draws station icons for each point.
+   * Optionally persists the map data to the {@link MapDataManager}.
+   */
+  public void drawTransitRouteLine(@NotNull List<LngLat> points, @Nullable List<LngLat> stations,
+      @NotNull String colorHex, boolean persistMapData) {
+    if (persistMapData) {
+      mapDataManager.addMapData(new PersistableMapData(points, stations, colorHex));
+    }
     if (transitRouteLineData == null) {
       transitRouteLineData = mapController.addDataLayer(NAME_TRANSIT_ROUTE_LINE);
     }
@@ -371,11 +541,68 @@ public class OverlayManager implements TouchInput.PanResponder {
    * Clears transit route line from the map.
    */
   public void clearTransitRouteLine() {
+    mapDataManager.removeMapData(DataLayerType.TRANSIT_ROUTE_LINE_STATION_ICON);
+
     if (transitRouteLineData != null) {
       transitRouteLineData.clear();
     }
     if (stationIconData != null) {
       stationIconData.clear();
+    }
+  }
+
+  /**
+   * By default all {@link MapData} objects are removed from the map when it is destroyed. To
+   * persist this data such as in the case of orientation changes, use this method.
+   * @param persistOnRecreation persist {@link MapData} across orientation changes
+   */
+  public void setPersistMapData(boolean persistOnRecreation) {
+    mapDataManager.setPersistMapData(persistOnRecreation);
+  }
+
+  /**
+   * Restores any {@link MapData} objects that were previously displayed on the map.
+   */
+  public void restoreMapData() {
+    if (!mapDataManager.getPersistMapData()) {
+      return;
+    }
+    for (PersistableMapData persistableMapData : mapDataManager.getMapData()) {
+      switch (persistableMapData.getDataLayerType()) {
+        case POLYLINE:
+          addPolyline(persistableMapData.getPolyline(), false);
+          break;
+        case POLYGON:
+          addPolygon(persistableMapData.getPolygon(), false);
+          break;
+        case MARKER:
+          addMarker(persistableMapData.getMarker(), false);
+          break;
+        case START_END_PIN:
+          drawRoutePins(persistableMapData.getStart(), persistableMapData.getEnd(), false);
+          break;
+        case DROPPED_PIN:
+          drawDroppedPin(persistableMapData.getPoint(), false);
+          break;
+        case SEARCH_RESULT_PIN:
+          drawSearchResult(persistableMapData.getPoint(), persistableMapData.getIsActive(),
+              persistableMapData.getIndex(), false);
+          break;
+        case ROUTE_PIN:
+          drawRouteLocationMarker(persistableMapData.getPoint(), false);
+          break;
+        case ROUTE_LINE:
+          drawRouteLine(persistableMapData.getPoints(), false);
+          break;
+        case TRANSIT_ROUTE_LINE_STATION_ICON:
+          drawTransitRouteLine(persistableMapData.getPoints(), persistableMapData.getStations(),
+              persistableMapData.getHexColor(), false);
+          break;
+        case CURRENT_LOCATION:
+          setMyLocationEnabled(persistableMapData.getLocationEnabled(), false);
+        default:
+          break;
+      }
     }
   }
 
@@ -488,7 +715,9 @@ public class OverlayManager implements TouchInput.PanResponder {
 
     final LngLat lngLat = new LngLat(location.getLongitude(), location.getLatitude());
     mapController.setZoomEased(DEFAULT_ZOOM, ANIMATION_DURATION_MILLIS);
+    mapStateManager.setZoom(DEFAULT_ZOOM);
     mapController.setPositionEased(lngLat, ANIMATION_DURATION_MILLIS);
+    mapStateManager.setPosition(lngLat);
     mapController.requestRender();
   }
 

@@ -1,6 +1,5 @@
 package com.mapzen.android;
 
-import com.mapzen.android.dagger.DI;
 import com.mapzen.android.model.BubbleWrapStyle;
 import com.mapzen.android.model.MapStyle;
 import com.mapzen.tangram.MapController;
@@ -13,6 +12,10 @@ import javax.inject.Inject;
 public class MapInitializer {
 
   @Inject TileHttpHandler httpHandler;
+
+  @Inject MapDataManager mapDataManager;
+
+  @Inject MapStateManager mapStateManager;
 
   /**
    * Creates a new instance.
@@ -69,7 +72,8 @@ public class MapInitializer {
       @Override public void onMapReady(MapController mapController) {
         mapController.setHttpHandler(httpHandler);
         callback.onMapReady(
-            new MapzenMap(mapController, new OverlayManager(mapView, mapController)));
+            new MapzenMap(mapController, new OverlayManager(mapView, mapController, mapDataManager,
+                mapStateManager), mapStateManager));
       }
     }, sceneFile);
   }

@@ -1,4 +1,4 @@
-package com.mapzen.android.dagger;
+package com.mapzen.android;
 
 import android.content.Context;
 
