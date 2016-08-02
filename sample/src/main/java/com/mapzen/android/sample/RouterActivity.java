@@ -128,4 +128,9 @@ public class RouterActivity extends AppCompatActivity {
     markerMapData = map.addMarker(marker);
     points++;
   }
+
+  @Override protected void onDestroy() {
+    map.setMyLocationEnabled(false);
+    super.onDestroy();
+  }
 }

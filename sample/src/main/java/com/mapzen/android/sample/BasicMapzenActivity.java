@@ -99,4 +99,9 @@ public class BasicMapzenActivity extends AppCompatActivity
   @Override public void onNothingSelected(AdapterView<?> parent) {
 
   }
+
+  @Override protected void onDestroy() {
+    map.setMyLocationEnabled(false);
+    super.onDestroy();
+  }
 }
