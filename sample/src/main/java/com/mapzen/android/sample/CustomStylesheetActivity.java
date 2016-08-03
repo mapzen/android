@@ -43,6 +43,9 @@ public class CustomStylesheetActivity extends AppCompatActivity
     final MapFragment mapFragment =
         (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
 
+    if (savedInstanceState == null) {
+      MapzenMap.setPersistMapState(false);
+    }
     mapFragment.getMapAsync(zincStyle, new OnMapReadyCallback() {
       @Override public void onMapReady(MapzenMap map) {
         CustomStylesheetActivity.this.map = map;
@@ -69,5 +72,10 @@ public class CustomStylesheetActivity extends AppCompatActivity
 
   @Override public void onNothingSelected(AdapterView<?> parent) {
 
+  }
+
+  @Override protected void onDestroy() {
+    super.onDestroy();
+    MapzenMap.setPersistMapState(true);
   }
 }

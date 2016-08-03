@@ -712,8 +712,8 @@ public class MapzenMap {
    * persist this data such as in the case of orientation changes, use this method.
    * @param persistOnRecreation persist {@link MapData} across orientation changes
    */
-  public void setPersistMapData(boolean persistOnRecreation) {
-    overlayManager.setPersistMapData(persistOnRecreation);
+  public static void setPersistMapData(boolean persistOnRecreation) {
+    OverlayManager.setPersistMapData(persistOnRecreation);
   }
 
   /**
@@ -722,8 +722,8 @@ public class MapzenMap {
    * @param persistStateOnRecreation persist map position/zoom/rotation etc across orientation
    * changes
    */
-  public void setPersistMapState(boolean persistStateOnRecreation) {
-    mapStateManager.setPersistMapState(persistStateOnRecreation);
+  public static void setPersistMapState(boolean persistStateOnRecreation) {
+    MapStateManager.setPersistMapState(persistStateOnRecreation);
   }
 
   /**

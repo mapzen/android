@@ -11,7 +11,7 @@ import java.util.Set;
 class MapDataManager {
 
   private Set<PersistableMapData> data = new HashSet<>();
-  private boolean persistMapData = false;
+  private static boolean persistMapData = false;
 
   /**
    * Adds a {@link PersistableMapData} to the set of data to be restored.
@@ -43,11 +43,11 @@ class MapDataManager {
     return data;
   }
 
-  public void setPersistMapData(boolean persist) {
-    persistMapData = persist;
+  public static void setPersistMapData(boolean persist) {
+    MapDataManager.persistMapData = persist;
   }
 
-  public boolean getPersistMapData() {
-    return persistMapData;
+  public static boolean getPersistMapData() {
+    return MapDataManager.persistMapData;
   }
 }

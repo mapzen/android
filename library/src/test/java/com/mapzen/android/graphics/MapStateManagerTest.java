@@ -14,12 +14,12 @@ public class MapStateManagerTest {
   MapStateManager stateManager = new MapStateManager();
 
   @Test public void getPersistMapState_shouldDefaultToTrue() {
-    assertThat(stateManager.getPersistMapState()).isTrue();
+    assertThat(MapStateManager.getPersistMapState()).isTrue();
   }
 
   @Test public void setPersistMapState_shouldUpdateMapState() {
-    stateManager.setPersistMapState(true);
-    assertThat(stateManager.getPersistMapState()).isTrue();
+    MapStateManager.setPersistMapState(true);
+    assertThat(MapStateManager.getPersistMapState()).isTrue();
   }
 
   @Test public void getPosition_shouldDefaultToNullIsland() {

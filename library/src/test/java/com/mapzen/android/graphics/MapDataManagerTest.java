@@ -118,12 +118,12 @@ public class MapDataManagerTest {
   }
 
   @Test public void setPersistMapData_shouldDefaultToFalse() {
-    assertThat(dataManager.getPersistMapData()).isFalse();
+    assertThat(MapDataManager.getPersistMapData()).isFalse();
   }
 
   @Test public void setPersistMapData_shouldUpdatePersistMapData() {
-    dataManager.setPersistMapData(true);
-    assertThat(dataManager.getPersistMapData()).isTrue();
+    MapDataManager.setPersistMapData(true);
+    assertThat(MapDataManager.getPersistMapData()).isTrue();
   }
 
 }

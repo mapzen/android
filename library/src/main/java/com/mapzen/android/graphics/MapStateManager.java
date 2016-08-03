@@ -11,7 +11,7 @@ import com.mapzen.tangram.LngLat;
  */
 class MapStateManager {
 
-  private boolean persistMapState = true;
+  private static boolean persistMapState = true;
   private LngLat position = new LngLat(0, 0);
   private MapStyle mapStyle = new BubbleWrapStyle();
   private float zoom = 0;
@@ -19,12 +19,12 @@ class MapStateManager {
   private float tilt = 0;
   private CameraType cameraType = CameraType.ISOMETRIC;
 
-  public void setPersistMapState(boolean persistMapState) {
-    this.persistMapState = persistMapState;
+  public static void setPersistMapState(boolean persistMapState) {
+    MapStateManager.persistMapState = persistMapState;
   }
 
-  public boolean getPersistMapState() {
-    return this.persistMapState;
+  public static boolean getPersistMapState() {
+    return MapStateManager.persistMapState;
   }
 
   public void setPosition(LngLat position) {

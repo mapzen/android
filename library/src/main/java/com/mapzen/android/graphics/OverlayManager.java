@@ -106,7 +106,7 @@ public class OverlayManager implements TouchInput.PanResponder {
   private MapData transitRouteLineData;
   private MapData stationIconData;
 
-  private MapDataManager mapDataManager;
+  private static MapDataManager mapDataManager;
   private MapStateManager mapStateManager;
 
   /**
@@ -560,8 +560,8 @@ public class OverlayManager implements TouchInput.PanResponder {
    * persist this data such as in the case of orientation changes, use this method.
    * @param persistOnRecreation persist {@link MapData} across orientation changes
    */
-  public void setPersistMapData(boolean persistOnRecreation) {
-    mapDataManager.setPersistMapData(persistOnRecreation);
+  public static void setPersistMapData(boolean persistOnRecreation) {
+    MapDataManager.setPersistMapData(persistOnRecreation);
   }
 
   /**
