@@ -35,19 +35,6 @@ public class OverlayManager implements TouchInput.PanResponder {
   private static final int ANIMATION_DURATION_MILLIS = 500;
   private static final float DEFAULT_ZOOM = 16f;
 
-  //public static final String NAME_CURRENT_LOCATION = "mz_current_location";
-  //public static final String NAME_POLYLINE = "mz_default_line";
-  //public static final String NAME_POLYGON = "mz_default_polygon";
-  //public static final String NAME_MARKER = "mz_default_point";
-  //public static final String NAME_START_PIN = "mz_route_start";
-  //public static final String NAME_END_PIN = "mz_route_destination";
-  //public static final String NAME_DROPPED_PIN = "mz_dropped_pin";
-  //public static final String NAME_SEARCH_RESULT_PIN = "mz_search_result";
-  //public static final String NAME_ROUTE_PIN = "mz_route_location";
-  //public static final String NAME_ROUTE_LINE = "mz_route_line";
-  //public static final String NAME_TRANSIT_ROUTE_LINE = "mz_route_line_transit";
-  //public static final String NAME_STATION_ICON = "mz_route_transit_stop";
-
   private static final String PROP_STATE = "state";
   private static final String PROP_STATE_ACTIVE = "active";
   private static final String PROP_STATE_INACTIVE = "inactive";
