@@ -13,8 +13,8 @@ public class MapStateManagerTest {
 
   MapStateManager stateManager = new MapStateManager();
 
-  @Test public void getPersistMapState_shouldDefaultToFalse() {
-    assertThat(stateManager.getPersistMapState()).isFalse();
+  @Test public void getPersistMapState_shouldDefaultToTrue() {
+    assertThat(stateManager.getPersistMapState()).isTrue();
   }
 
   @Test public void setPersistMapState_shouldUpdateMapState() {

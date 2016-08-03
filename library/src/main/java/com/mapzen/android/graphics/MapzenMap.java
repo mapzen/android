@@ -714,7 +714,16 @@ public class MapzenMap {
    */
   public void setPersistMapData(boolean persistOnRecreation) {
     overlayManager.setPersistMapData(persistOnRecreation);
-    mapStateManager.setPersistMapState(persistOnRecreation);
+  }
+
+  /**
+   * By default map state is reset when the map is destroyed. To persist this information such as
+   * in the case of orientation changes, use this method.
+   * @param persistStateOnRecreation persist map position/zoom/rotation etc across orientation
+   * changes
+   */
+  public void setPersistMapState(boolean persistStateOnRecreation) {
+    mapStateManager.setPersistMapState(persistStateOnRecreation);
   }
 
   private void restoreMapState() {

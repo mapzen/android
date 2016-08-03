@@ -11,7 +11,7 @@ import com.mapzen.tangram.LngLat;
  */
 class MapStateManager {
 
-  private boolean persistMapState = false;
+  private boolean persistMapState = true;
   private LngLat position = new LngLat(0, 0);
   private MapStyle mapStyle = new BubbleWrapStyle();
   private float zoom = 0;

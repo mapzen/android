@@ -77,26 +77,26 @@ public class MapzenMapTest {
   }
 
   @Test public void setPosition_shouldInvokeMapController() throws Exception {
-    LngLat lngLat = new LngLat(0, 0);
+    LngLat lngLat = new LngLat(70, 40);
     map.setPosition(lngLat);
     verify(mapController).setPositionEased(lngLat, 0, MapController.EaseType.CUBIC);
   }
 
   @Test public void setPositionAnimated_shouldInvokeMapControllerAnimated() throws Exception {
-    LngLat lngLat = new LngLat(0, 0);
+    LngLat lngLat = new LngLat(70, 40);
     map.setPosition(lngLat, 300);
     verify(mapController).setPositionEased(lngLat, 300, MapController.EaseType.CUBIC);
   }
 
   @Test public void setPositionAnimatedEased_shouldInvokeMapControllerAnimatedEased()
       throws Exception {
-    LngLat lngLat = new LngLat(0, 0);
+    LngLat lngLat = new LngLat(70, 40);
     map.setPosition(lngLat, 300, EaseType.CUBIC);
     verify(mapController).setPositionEased(lngLat, 300, MapController.EaseType.CUBIC);
   }
 
   @Test public void getPosition_shouldInvokeMapController() throws Exception {
-    LngLat lngLat = new LngLat(0, 0);
+    LngLat lngLat = new LngLat(70, 40);
     when(mapController.getPosition()).thenReturn(lngLat);
     assertThat(map.getPosition()).isEqualTo(lngLat);
   }
@@ -169,14 +169,14 @@ public class MapzenMapTest {
   }
 
   @Test public void addPolyline_shouldInvokeOverlayManager() throws Exception {
-    LngLat lngLat = new LngLat(0, 0);
+    LngLat lngLat = new LngLat(70, 40);
     Polyline polyline = new Polyline.Builder().add(lngLat).add(lngLat).build();
     map.addPolyline(polyline);
     verify(overlayManager).addPolyline(polyline);
   }
 
   @Test public void addPolygon_shouldInvokeOverlayManager() throws Exception {
-    LngLat lngLat = new LngLat(0, 0);
+    LngLat lngLat = new LngLat(70, 40);
     Polygon polygon = new Polygon.Builder().add(lngLat).add(lngLat).build();
     map.addPolygon(polygon);
     verify(overlayManager).addPolygon(polygon);
