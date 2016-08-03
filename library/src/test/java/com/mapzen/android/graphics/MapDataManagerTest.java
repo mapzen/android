@@ -68,7 +68,7 @@ public class MapDataManagerTest {
     PersistableMapData mapData = new PersistableMapData(start, end);
     dataManager.addMapData(mapData);
     assertThat(dataManager.getMapData()).contains(mapData);
-    dataManager.removeMapData(DataLayerType.START_END_PIN);
+    dataManager.removeMapData(DataLayerType.ROUTE_START_PIN);
     assertThat(dataManager.getMapData()).isEmpty();
   }
 

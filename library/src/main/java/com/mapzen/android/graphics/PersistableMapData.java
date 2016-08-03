@@ -62,7 +62,7 @@ class PersistableMapData {
   public PersistableMapData(LngLat start, LngLat end) {
     this.start = start;
     this.end = end;
-    this.dataLayerType = DataLayerType.START_END_PIN;
+    this.dataLayerType = DataLayerType.ROUTE_START_PIN;
   }
 
   /**

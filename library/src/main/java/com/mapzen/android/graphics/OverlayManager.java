@@ -35,18 +35,18 @@ public class OverlayManager implements TouchInput.PanResponder {
   private static final int ANIMATION_DURATION_MILLIS = 500;
   private static final float DEFAULT_ZOOM = 16f;
 
-  public static final String NAME_CURRENT_LOCATION = "mz_current_location";
-  public static final String NAME_POLYLINE = "mz_default_line";
-  public static final String NAME_POLYGON = "mz_default_polygon";
-  public static final String NAME_MARKER = "mz_default_point";
-  public static final String NAME_START_PIN = "mz_route_start";
-  public static final String NAME_END_PIN = "mz_route_destination";
-  public static final String NAME_DROPPED_PIN = "mz_dropped_pin";
-  public static final String NAME_SEARCH_RESULT_PIN = "mz_search_result";
-  public static final String NAME_ROUTE_PIN = "mz_route_location";
-  public static final String NAME_ROUTE_LINE = "mz_route_line";
-  public static final String NAME_TRANSIT_ROUTE_LINE = "mz_route_line_transit";
-  public static final String NAME_STATION_ICON = "mz_route_transit_stop";
+  //public static final String NAME_CURRENT_LOCATION = "mz_current_location";
+  //public static final String NAME_POLYLINE = "mz_default_line";
+  //public static final String NAME_POLYGON = "mz_default_polygon";
+  //public static final String NAME_MARKER = "mz_default_point";
+  //public static final String NAME_START_PIN = "mz_route_start";
+  //public static final String NAME_END_PIN = "mz_route_destination";
+  //public static final String NAME_DROPPED_PIN = "mz_dropped_pin";
+  //public static final String NAME_SEARCH_RESULT_PIN = "mz_search_result";
+  //public static final String NAME_ROUTE_PIN = "mz_route_location";
+  //public static final String NAME_ROUTE_LINE = "mz_route_line";
+  //public static final String NAME_TRANSIT_ROUTE_LINE = "mz_route_line_transit";
+  //public static final String NAME_STATION_ICON = "mz_route_transit_stop";
 
   private static final String PROP_STATE = "state";
   private static final String PROP_STATE_ACTIVE = "active";
@@ -317,10 +317,10 @@ public class OverlayManager implements TouchInput.PanResponder {
    */
   public void drawRoutePins(LngLat start, LngLat end, boolean persistMapData) {
     if (startPinData == null) {
-      startPinData = mapController.addDataLayer(NAME_START_PIN);
+      startPinData = mapController.addDataLayer(DataLayerType.ROUTE_START_PIN.toString());
     }
     if (endPinData == null) {
-      endPinData = mapController.addDataLayer(NAME_END_PIN);
+      endPinData = mapController.addDataLayer(DataLayerType.ROUTE_END_PIN.toString());
     }
     if (persistMapData) {
       mapDataManager.addMapData(new PersistableMapData(start, end));
@@ -334,7 +334,7 @@ public class OverlayManager implements TouchInput.PanResponder {
    * Clears the start and end pins from the map.
    */
   public void clearRoutePins() {
-    mapDataManager.removeMapData(DataLayerType.START_END_PIN);
+    mapDataManager.removeMapData(DataLayerType.ROUTE_START_PIN);
 
     if (startPinData != null) {
       startPinData.clear();
@@ -360,7 +360,7 @@ public class OverlayManager implements TouchInput.PanResponder {
       mapDataManager.addMapData(new PersistableMapData(point, DataLayerType.DROPPED_PIN));
     }
     if (droppedPinData == null) {
-      droppedPinData = mapController.addDataLayer(NAME_DROPPED_PIN);
+      droppedPinData = mapController.addDataLayer(DataLayerType.DROPPED_PIN.toString());
     }
     HashMap<String, String> properties = new HashMap<>();
     properties.put(PROP_STATE, PROP_STATE_ACTIVE);
@@ -405,7 +405,7 @@ public class OverlayManager implements TouchInput.PanResponder {
     }
 
     if (searchResultPinData == null) {
-      searchResultPinData = mapController.addDataLayer(NAME_SEARCH_RESULT_PIN);
+      searchResultPinData = mapController.addDataLayer(DataLayerType.SEARCH_RESULT_PIN.toString());
     }
     HashMap<String, String> properties = new HashMap<>();
     if (index != INDEX_NONE) {
@@ -447,7 +447,7 @@ public class OverlayManager implements TouchInput.PanResponder {
       mapDataManager.addMapData(new PersistableMapData(point, DataLayerType.ROUTE_PIN));
     }
     if (routePinData == null) {
-      routePinData = mapController.addDataLayer(NAME_ROUTE_PIN);
+      routePinData = mapController.addDataLayer(DataLayerType.ROUTE_PIN.toString());
     }
     HashMap<String, String> properties = new HashMap<>();
     properties.put(PROP_TYPE, PROP_POINT);
@@ -483,7 +483,7 @@ public class OverlayManager implements TouchInput.PanResponder {
     }
 
     if (routeLineData == null) {
-      routeLineData = mapController.addDataLayer(NAME_ROUTE_LINE);
+      routeLineData = mapController.addDataLayer(DataLayerType.ROUTE_LINE.toString());
     }
     HashMap<String, String> properties = new HashMap<>();
     properties.put(PROP_TYPE, PROP_LINE);
@@ -520,7 +520,8 @@ public class OverlayManager implements TouchInput.PanResponder {
       mapDataManager.addMapData(new PersistableMapData(points, stations, colorHex));
     }
     if (transitRouteLineData == null) {
-      transitRouteLineData = mapController.addDataLayer(NAME_TRANSIT_ROUTE_LINE);
+      transitRouteLineData = mapController.addDataLayer(
+          DataLayerType.TRANSIT_ROUTE_LINE.toString());
     }
     HashMap<String, String> properties = new HashMap<>();
     properties.put(PROP_TYPE, PROP_LINE);
@@ -531,7 +532,8 @@ public class OverlayManager implements TouchInput.PanResponder {
 
     if (stations != null) {
       if (stationIconData == null) {
-        stationIconData = mapController.addDataLayer(NAME_STATION_ICON);
+        stationIconData = mapController.addDataLayer(
+            DataLayerType.TRANSIT_ROUTE_LINE_STATION_ICON.toString());
       }
       for (LngLat station : stations) {
         stationIconData.addPoint(station, null);
@@ -580,7 +582,7 @@ public class OverlayManager implements TouchInput.PanResponder {
         case MARKER:
           addMarker(persistableMapData.getMarker(), false);
           break;
-        case START_END_PIN:
+        case ROUTE_START_PIN:
           drawRoutePins(persistableMapData.getStart(), persistableMapData.getEnd(), false);
           break;
         case DROPPED_PIN:
@@ -610,7 +612,8 @@ public class OverlayManager implements TouchInput.PanResponder {
 
   private void addCurrentLocationMapData() {
     if (currentLocationMapData == null) {
-      currentLocationMapData = mapController.addDataLayer(NAME_CURRENT_LOCATION);
+      currentLocationMapData = mapController.addDataLayer(
+          DataLayerType.CURRENT_LOCATION.toString());
     }
   }
 
@@ -728,15 +731,15 @@ public class OverlayManager implements TouchInput.PanResponder {
   }
 
   private void initPolylineMapData() {
-    polylineMapData = mapController.addDataLayer(NAME_POLYLINE);
+    polylineMapData = mapController.addDataLayer(DataLayerType.POLYLINE.toString());
   }
 
   private void initPolygonMapData() {
-    polygonMapData = mapController.addDataLayer(NAME_POLYGON);
+    polygonMapData = mapController.addDataLayer(DataLayerType.POLYGON.toString());
   }
 
   private void initMarkerMapData() {
-    markerMapData = mapController.addDataLayer(NAME_MARKER);
+    markerMapData = mapController.addDataLayer(DataLayerType.MARKER.toString());
   }
 
   private MapData addPolylineToPolylineMapData(List<LngLat> coordinates) {

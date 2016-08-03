@@ -49,7 +49,7 @@ public class PersistableMapDataTest {
     PersistableMapData mapData = new PersistableMapData(start, end);
     assertThat(mapData.getStart()).isEqualTo(start);
     assertThat(mapData.getEnd()).isEqualTo(end);
-    assertThat(mapData.getDataLayerType()).isEqualTo(DataLayerType.START_END_PIN);
+    assertThat(mapData.getDataLayerType()).isEqualTo(DataLayerType.ROUTE_START_PIN);
   }
 
   @Test public void constructor_shouldSetPointAndDataLayerType() {
