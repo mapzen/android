@@ -726,12 +726,15 @@ public class MapzenMap {
     mapStateManager.setPersistMapState(persistStateOnRecreation);
   }
 
+  /**
+   * Restores all aspects of the map EXCEPT the style, this is restored in the
+   * {@link MapInitializer}.
+   */
   private void restoreMapState() {
     if (!mapStateManager.getPersistMapState()) {
       return;
     }
     setPosition(mapStateManager.getPosition());
-    setStyle(mapStateManager.getMapStyle());
     setZoom(mapStateManager.getZoom());
     setRotation(mapStateManager.getRotation());
     setTilt(mapStateManager.getTilt());

@@ -69,6 +69,10 @@ public class MapInitializer {
   }
 
   private void loadMap(final MapView mapView, String sceneFile, final OnMapReadyCallback callback) {
+    if (mapStateManager.getPersistMapState()) {
+      String restoredSceneFile = mapStateManager.getMapStyle().getSceneFile();
+      sceneFile = restoredSceneFile;
+    }
     getTangramView(mapView).getMapAsync(new com.mapzen.tangram.MapView.OnMapReadyCallback() {
       @Override public void onMapReady(MapController mapController) {
         mapController.setHttpHandler(httpHandler);
