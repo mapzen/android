@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     >
 
-  <com.mapzen.android.TangramMapView
+  <com.mapzen.android.graphics.TangramMapView
       android:id="@+id/mz_tangram_map"
       android:layout_width="match_parent"
       android:layout_height="match_parent"

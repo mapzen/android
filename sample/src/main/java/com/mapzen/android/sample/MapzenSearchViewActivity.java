@@ -1,10 +1,10 @@
 package com.mapzen.android.sample;
 
-import com.mapzen.android.MapView;
-import com.mapzen.android.MapzenMap;
-import com.mapzen.android.MapzenMapPeliasLocationProvider;
-import com.mapzen.android.MapzenSearch;
-import com.mapzen.android.OnMapReadyCallback;
+import com.mapzen.android.graphics.MapView;
+import com.mapzen.android.graphics.MapzenMap;
+import com.mapzen.android.graphics.MapzenMapPeliasLocationProvider;
+import com.mapzen.android.search.MapzenSearch;
+import com.mapzen.android.graphics.OnMapReadyCallback;
 import com.mapzen.pelias.gson.Feature;
 import com.mapzen.pelias.gson.Result;
 import com.mapzen.pelias.widget.AutoCompleteAdapter;

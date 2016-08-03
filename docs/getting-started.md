@@ -7,7 +7,7 @@ A map can be added to a layout using either `MapView` or `MapFragment`.
 ```xml
 <fragment
     android:id="@+id/map_fragment"
-    android:name="com.mapzen.android.MapFragment"
+    android:name="com.mapzen.android.graphics.MapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent" />
 ```

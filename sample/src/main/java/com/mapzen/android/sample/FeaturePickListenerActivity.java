@@ -1,9 +1,9 @@
 package com.mapzen.android.sample;
 
-import com.mapzen.android.MapFragment;
-import com.mapzen.android.MapzenMap;
-import com.mapzen.android.OnMapReadyCallback;
-import com.mapzen.android.model.FeaturePickListener;
+import com.mapzen.android.graphics.MapFragment;
+import com.mapzen.android.graphics.MapzenMap;
+import com.mapzen.android.graphics.OnMapReadyCallback;
+import com.mapzen.android.graphics.FeaturePickListener;
 import com.mapzen.tangram.LngLat;
 
 import android.os.Bundle;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Demonstrates how to use the {@link com.mapzen.android.model.FeaturePickListener}.
+ * Demonstrates how to use the {@link FeaturePickListener}.
  */
 public class FeaturePickListenerActivity extends AppCompatActivity {
 
