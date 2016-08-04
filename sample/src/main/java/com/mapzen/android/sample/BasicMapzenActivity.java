@@ -19,6 +19,8 @@ import android.widget.Toast;
 public class BasicMapzenActivity extends AppCompatActivity
     implements AdapterView.OnItemSelectedListener {
 
+  private static final String KEY_LOCATION_ENABLED = "enabled";
+
   private MapzenMap map;
 
   /**
@@ -43,18 +45,23 @@ public class BasicMapzenActivity extends AppCompatActivity
     spinner.setAdapter(adapter);
     spinner.setOnItemSelectedListener(this);
 
+    final boolean enabled = (savedInstanceState == null ||
+        savedInstanceState.getBoolean(KEY_LOCATION_ENABLED));
+
     final MapFragment mapFragment =
         (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
     mapFragment.getMapAsync(new OnMapReadyCallback() {
       @Override public void onMapReady(MapzenMap map) {
         BasicMapzenActivity.this.map = map;
-        configureMap();
+        configureMap(enabled);
       }
     });
   }
 
-  private void configureMap() {
-    map.setMyLocationEnabled(true);
+  private void configureMap(boolean enabled) {
+    if (enabled) {
+      map.setMyLocationEnabled(true);
+    }
     map.setFindMeOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         Toast.makeText(BasicMapzenActivity.this, R.string.custom_listener, Toast.LENGTH_SHORT)
@@ -65,16 +72,8 @@ public class BasicMapzenActivity extends AppCompatActivity
 
   @Override protected void onPause() {
     super.onPause();
-    if (map.isMyLocationEnabled()) {
+    if (map != null && map.isMyLocationEnabled()) {
       map.setMyLocationEnabled(false);
-      enableLocationOnResume = true;
-    }
-  }
-
-  @Override protected void onResume() {
-    super.onResume();
-    if (enableLocationOnResume) {
-      map.setMyLocationEnabled(true);
     }
   }
 
@@ -85,13 +84,13 @@ public class BasicMapzenActivity extends AppCompatActivity
 
     switch (position) {
       case 0:
-        map.setMyLocationEnabled(true);
+        setMyLocationEnabled(true);
         break;
       case 1:
-        map.setMyLocationEnabled(false);
+        setMyLocationEnabled(false);
         break;
       default:
-        map.setMyLocationEnabled(true);
+        setMyLocationEnabled(true);
         break;
     }
   }
@@ -100,8 +99,13 @@ public class BasicMapzenActivity extends AppCompatActivity
 
   }
 
-  @Override protected void onDestroy() {
-    map.setMyLocationEnabled(false);
-    super.onDestroy();
+  private void setMyLocationEnabled(boolean enabled) {
+    map.setMyLocationEnabled(enabled);
+    enableLocationOnResume = enabled;
+  }
+
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+    outState.putBoolean(KEY_LOCATION_ENABLED, enableLocationOnResume);
   }
 }
