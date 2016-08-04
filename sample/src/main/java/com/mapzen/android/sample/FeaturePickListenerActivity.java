@@ -68,8 +68,4 @@ public class FeaturePickListenerActivity extends AppCompatActivity {
     map.drawSearchResults(results, 1);
   }
 
-  @Override protected void onDestroy() {
-    super.onDestroy();
-    map.clearSearchResults();
-  }
 }

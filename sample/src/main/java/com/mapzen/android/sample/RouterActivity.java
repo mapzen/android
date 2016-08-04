@@ -8,7 +8,6 @@ import com.mapzen.android.graphics.model.Marker;
 import com.mapzen.android.graphics.model.Polyline;
 import com.mapzen.model.ValhallaLocation;
 import com.mapzen.tangram.LngLat;
-import com.mapzen.tangram.MapData;
 import com.mapzen.tangram.TouchInput;
 import com.mapzen.valhalla.Route;
 import com.mapzen.valhalla.RouteCallback;
@@ -31,8 +30,6 @@ public class RouterActivity extends AppCompatActivity {
 
   MapzenMap map;
   MapzenRouter router;
-  MapData markerMapData;
-  MapData lineMapData;
   int points = 0;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +56,7 @@ public class RouterActivity extends AppCompatActivity {
   }
 
   private void configureMap() {
+    map.setPersistMapData(true);
     map.setMyLocationEnabled(true);
     map.setZoom(15f);
     map.setPosition(new LngLat(-73.9918, 40.73633));
@@ -80,12 +78,9 @@ public class RouterActivity extends AppCompatActivity {
     clearBtn.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         router.clearLocations();
-        if (lineMapData != null) {
-          lineMapData.clear();
-        }
-        if (markerMapData != null) {
-          markerMapData.clear();
-        }
+        map.clearRouteLine();
+        map.removePolyline();
+        map.removeMarker();
         points = 0;
       }
     });
@@ -112,7 +107,7 @@ public class RouterActivity extends AppCompatActivity {
             coordinates.add(new LngLat(location.getLongitude(), location.getLatitude()));
         }
         Polyline polyline = new Polyline(coordinates);
-        lineMapData = map.addPolyline(polyline);
+        map.addPolyline(polyline);
       }
 
       @Override public void failure(int i) {
@@ -125,7 +120,7 @@ public class RouterActivity extends AppCompatActivity {
     double[] point = {lngLat.latitude, lngLat.longitude};
     router.setLocation(point);
     Marker marker = new Marker(lngLat.longitude, lngLat.latitude);
-    markerMapData = map.addMarker(marker);
+    map.addMarker(marker);
     points++;
   }
 

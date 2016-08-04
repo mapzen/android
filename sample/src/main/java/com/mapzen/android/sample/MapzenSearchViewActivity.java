@@ -51,6 +51,7 @@ public class MapzenSearchViewActivity extends AppCompatActivity {
     mapView.getMapAsync(new OnMapReadyCallback() {
       @Override public void onMapReady(MapzenMap mapzenMap) {
         MapzenSearchViewActivity.this.mapzenMap = mapzenMap;
+        mapzenMap.setPersistMapData(true);
         configMap();
       }
     });
@@ -94,5 +95,10 @@ public class MapzenSearchViewActivity extends AppCompatActivity {
         mapzenMap.clearSearchResults();
       }
     });
+  }
+
+  @Override protected void onDestroy() {
+    super.onDestroy();
+    mapzenMap.setPersistMapData(false);
   }
 }

@@ -547,8 +547,8 @@ public class OverlayManager implements TouchInput.PanResponder {
    * persist this data such as in the case of orientation changes, use this method.
    * @param persistOnRecreation persist {@link MapData} across orientation changes
    */
-  public static void setPersistMapData(boolean persistOnRecreation) {
-    MapDataManager.setPersistMapData(persistOnRecreation);
+  public void setPersistMapData(boolean persistOnRecreation) {
+    mapDataManager.setPersistMapData(persistOnRecreation);
   }
 
   /**

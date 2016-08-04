@@ -43,6 +43,7 @@ public class RouteLineActivity extends AppCompatActivity {
     mapFragment.getMapAsync(new OnMapReadyCallback() {
       @Override public void onMapReady(MapzenMap map) {
         RouteLineActivity.this.map = map;
+        map.setPersistMapData(true);
         map.setZoom(15f);
         map.setPosition(new LngLat(-122.394046, 37.789747));
         map.setTapResponder(new TouchInput.TapResponder() {
@@ -68,5 +69,4 @@ public class RouteLineActivity extends AppCompatActivity {
 
     map.drawRouteLocationMarker(points.get(0));
   }
-
 }

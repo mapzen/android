@@ -39,4 +39,9 @@ public class MarkerMapzenActivity extends AppCompatActivity {
     map.setZoom(15f);
     map.setPosition(new LngLat(-73.9918, 40.73633));
   }
+
+  @Override protected void onDestroy() {
+    map.removeMarker();
+    super.onDestroy();
+  }
 }

@@ -11,7 +11,7 @@ import java.util.Set;
 class MapDataManager {
 
   private Set<PersistableMapData> data = new HashSet<>();
-  private static boolean persistMapData = false;
+  private boolean persistMapData = false;
 
   /**
    * Adds a {@link PersistableMapData} to the set of data to be restored.
@@ -26,13 +26,13 @@ class MapDataManager {
    * @param dataLayerType
    */
   public void removeMapData(DataLayerType dataLayerType) {
+    Set<PersistableMapData> toRemove = new HashSet<>();
     for (PersistableMapData mapData : data) {
       if (mapData.getDataLayerType() == dataLayerType) {
-        data.remove(mapData);
-        break;
+        toRemove.add(mapData);
       }
     }
-
+    data.removeAll(toRemove);
   }
 
   /**
@@ -43,11 +43,11 @@ class MapDataManager {
     return data;
   }
 
-  public static void setPersistMapData(boolean persist) {
-    MapDataManager.persistMapData = persist;
+  public void setPersistMapData(boolean persist) {
+    this.persistMapData = persist;
   }
 
-  public static boolean getPersistMapData() {
-    return MapDataManager.persistMapData;
+  public boolean getPersistMapData() {
+    return persistMapData;
   }
 }

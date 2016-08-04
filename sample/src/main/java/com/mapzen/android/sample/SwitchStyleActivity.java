@@ -40,13 +40,15 @@ public class SwitchStyleActivity extends AppCompatActivity
     spinner.setAdapter(adapter);
     spinner.setOnItemSelectedListener(this);
 
-    if (savedInstanceState == null) {
-      MapzenMap.setPersistMapState(false);
-    }
+    final Bundle state = savedInstanceState;
     mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
     mapFragment.getMapAsync(new BubbleWrapStyle(), new OnMapReadyCallback() {
       @Override public void onMapReady(MapzenMap mapzenMap) {
         SwitchStyleActivity.this.mapzenMap = mapzenMap;
+        if (state == null) {
+          mapzenMap.setStyle(new BubbleWrapStyle());
+        }
+        mapzenMap.setPersistMapState(true);
       }
     });
   }
@@ -76,10 +78,5 @@ public class SwitchStyleActivity extends AppCompatActivity
 
   @Override public void onNothingSelected(AdapterView<?> parent) {
     // Do nothing.
-  }
-
-  @Override protected void onDestroy() {
-    super.onDestroy();
-    MapzenMap.setPersistMapState(true);
   }
 }

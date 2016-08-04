@@ -14,7 +14,7 @@ import android.support.v7.app.AppCompatActivity;
  */
 public class PolylineMapzenActivity extends AppCompatActivity {
 
-  private MapzenMap map;;
+  private MapzenMap map;
 
   @Override protected void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -40,5 +40,10 @@ public class PolylineMapzenActivity extends AppCompatActivity {
 
     map.setZoom(15f);
     map.setPosition(new LngLat(-73.9918, 40.73633));
+  }
+
+  @Override protected void onDestroy() {
+    map.removePolyline();
+    super.onDestroy();
   }
 }
