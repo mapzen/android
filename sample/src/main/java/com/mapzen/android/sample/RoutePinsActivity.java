@@ -33,6 +33,9 @@ public class RoutePinsActivity extends AppCompatActivity {
     Button clearPinsBtn = (Button) findViewById(R.id.clear_pins_btn);
     clearPinsBtn.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
+        if (map == null) {
+          return;
+        }
         routePinsDrawn = false;
         map.clearRoutePins();
       }

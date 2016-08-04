@@ -32,6 +32,9 @@ public class RouteLineActivity extends AppCompatActivity {
     Button clearPinBtn = (Button) findViewById(R.id.clear_btn);
     clearPinBtn.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
+        if (map == null) {
+          return;
+        }
         map.clearRouteLine();
         map.clearRouteLocationMarker();
         points.clear();

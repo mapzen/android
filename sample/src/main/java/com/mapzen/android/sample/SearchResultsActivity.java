@@ -28,6 +28,9 @@ public class SearchResultsActivity extends AppCompatActivity {
     Button drawPinsBtn = (Button) findViewById(R.id.draw_pins_btn);
     drawPinsBtn.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
+        if (map == null) {
+          return;
+        }
         drawSearchResults = true;
         showSearchResults();
       }
@@ -36,6 +39,9 @@ public class SearchResultsActivity extends AppCompatActivity {
     Button clearPinsBtn = (Button) findViewById(R.id.clear_pins_btn);
     clearPinsBtn.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
+        if (map == null) {
+          return;
+        }
         drawSearchResults = false;
         map.clearSearchResults();
       }
