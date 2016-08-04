@@ -1,12 +1,12 @@
 package com.mapzen.android.sample;
 
-import com.mapzen.android.MapFragment;
-import com.mapzen.android.MapzenMap;
-import com.mapzen.android.OnMapReadyCallback;
-import com.mapzen.android.model.BubbleWrapStyle;
-import com.mapzen.android.model.CinnabarStyle;
-import com.mapzen.android.model.MapStyle;
-import com.mapzen.android.model.RefillStyle;
+import com.mapzen.android.graphics.MapFragment;
+import com.mapzen.android.graphics.MapzenMap;
+import com.mapzen.android.graphics.OnMapReadyCallback;
+import com.mapzen.android.graphics.model.BubbleWrapStyle;
+import com.mapzen.android.graphics.model.CinnabarStyle;
+import com.mapzen.android.graphics.model.MapStyle;
+import com.mapzen.android.graphics.model.RefillStyle;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -40,10 +40,15 @@ public class SwitchStyleActivity extends AppCompatActivity
     spinner.setAdapter(adapter);
     spinner.setOnItemSelectedListener(this);
 
+    final Bundle state = savedInstanceState;
     mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
     mapFragment.getMapAsync(new BubbleWrapStyle(), new OnMapReadyCallback() {
       @Override public void onMapReady(MapzenMap mapzenMap) {
         SwitchStyleActivity.this.mapzenMap = mapzenMap;
+        if (state == null) {
+          mapzenMap.setStyle(new BubbleWrapStyle());
+        }
+        mapzenMap.setPersistMapState(true);
       }
     });
   }

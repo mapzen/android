@@ -1,8 +1,8 @@
 package com.mapzen.android.sample;
 
-import com.mapzen.android.MapView;
-import com.mapzen.android.MapzenMap;
-import com.mapzen.android.OnMapReadyCallback;
+import com.mapzen.android.graphics.MapView;
+import com.mapzen.android.graphics.MapzenMap;
+import com.mapzen.android.graphics.OnMapReadyCallback;
 import com.mapzen.tangram.TouchInput;
 
 import android.os.Bundle;

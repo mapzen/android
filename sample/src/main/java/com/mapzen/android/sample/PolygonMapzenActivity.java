@@ -1,11 +1,10 @@
 package com.mapzen.android.sample;
 
-import com.mapzen.android.MapFragment;
-import com.mapzen.android.MapzenMap;
-import com.mapzen.android.OnMapReadyCallback;
-import com.mapzen.android.model.Polygon;
+import com.mapzen.android.graphics.MapFragment;
+import com.mapzen.android.graphics.MapzenMap;
+import com.mapzen.android.graphics.OnMapReadyCallback;
+import com.mapzen.android.graphics.model.Polygon;
 import com.mapzen.tangram.LngLat;
-import com.mapzen.tangram.MapData;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,9 +15,8 @@ import android.support.v7.app.AppCompatActivity;
 public class PolygonMapzenActivity extends AppCompatActivity {
 
   private MapzenMap map;
-  private MapData polygonData;
 
-  @Override protected void onCreate(Bundle savedInstanceState) {
+  @Override protected void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_sample_mapzen);
 
@@ -38,18 +36,14 @@ public class PolygonMapzenActivity extends AppCompatActivity {
         .add(new LngLat(-73.998674, 40.732172))
         .add(new LngLat(-73.996142, 40.741050))
         .build();
-    polygonData = map.addPolygon(polygon);
+    map.addPolygon(polygon);
 
     map.setZoom(15f);
     map.setPosition(new LngLat(-73.9918, 40.73633));
   }
 
   @Override protected void onDestroy() {
+    map.removePolygon();
     super.onDestroy();
-    cleanupMap();
-  }
-
-  private void cleanupMap() {
-    polygonData.clear();
   }
 }

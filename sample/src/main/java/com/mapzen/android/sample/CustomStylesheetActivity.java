@@ -1,9 +1,9 @@
 package com.mapzen.android.sample;
 
-import com.mapzen.android.MapFragment;
-import com.mapzen.android.MapzenMap;
-import com.mapzen.android.OnMapReadyCallback;
-import com.mapzen.android.model.MapStyle;
+import com.mapzen.android.graphics.MapFragment;
+import com.mapzen.android.graphics.MapzenMap;
+import com.mapzen.android.graphics.OnMapReadyCallback;
+import com.mapzen.android.graphics.model.MapStyle;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -43,9 +43,14 @@ public class CustomStylesheetActivity extends AppCompatActivity
     final MapFragment mapFragment =
         (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
 
+    final Bundle state = savedInstanceState;
     mapFragment.getMapAsync(zincStyle, new OnMapReadyCallback() {
       @Override public void onMapReady(MapzenMap map) {
         CustomStylesheetActivity.this.map = map;
+        if (state == null) {
+          map.setStyle(zincStyle);
+        }
+        map.setPersistMapState(true);
       }
     });
   }
@@ -70,4 +75,5 @@ public class CustomStylesheetActivity extends AppCompatActivity
   @Override public void onNothingSelected(AdapterView<?> parent) {
 
   }
+
 }

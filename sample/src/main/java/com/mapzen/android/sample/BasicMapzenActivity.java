@@ -1,8 +1,8 @@
 package com.mapzen.android.sample;
 
-import com.mapzen.android.MapFragment;
-import com.mapzen.android.MapzenMap;
-import com.mapzen.android.OnMapReadyCallback;
+import com.mapzen.android.graphics.MapFragment;
+import com.mapzen.android.graphics.MapzenMap;
+import com.mapzen.android.graphics.OnMapReadyCallback;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -98,5 +98,10 @@ public class BasicMapzenActivity extends AppCompatActivity
 
   @Override public void onNothingSelected(AdapterView<?> parent) {
 
+  }
+
+  @Override protected void onDestroy() {
+    map.setMyLocationEnabled(false);
+    super.onDestroy();
   }
 }

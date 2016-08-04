@@ -1,8 +1,8 @@
 package com.mapzen.android.sample;
 
-import com.mapzen.android.MapFragment;
-import com.mapzen.android.MapzenMap;
-import com.mapzen.android.OnMapReadyCallback;
+import com.mapzen.android.graphics.MapFragment;
+import com.mapzen.android.graphics.MapzenMap;
+import com.mapzen.android.graphics.OnMapReadyCallback;
 import com.mapzen.tangram.LngLat;
 
 import android.os.Bundle;
@@ -16,14 +16,16 @@ import android.widget.Button;
 public class RoutePinsActivity extends AppCompatActivity {
 
   MapzenMap map;
+  static boolean routePinsDrawn = true;
 
-  @Override protected void onCreate(Bundle savedInstanceState) {
+  @Override protected void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_pins);
 
     Button drawPinsBtn = (Button) findViewById(R.id.draw_pins_btn);
     drawPinsBtn.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
+        routePinsDrawn = true;
         drawRoutePins();
       }
     });
@@ -31,6 +33,7 @@ public class RoutePinsActivity extends AppCompatActivity {
     Button clearPinsBtn = (Button) findViewById(R.id.clear_pins_btn);
     clearPinsBtn.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
+        routePinsDrawn = false;
         map.clearRoutePins();
       }
     });
@@ -42,7 +45,9 @@ public class RoutePinsActivity extends AppCompatActivity {
         RoutePinsActivity.this.map = map;
         map.setZoom(15f);
         map.setPosition(new LngLat(-122.394046, 37.789747));
-        drawRoutePins();
+        if (savedInstanceState == null || routePinsDrawn) {
+          drawRoutePins();
+        }
       }
     });
   }
@@ -54,7 +59,7 @@ public class RoutePinsActivity extends AppCompatActivity {
   }
 
   @Override protected void onDestroy() {
-    super.onDestroy();
     map.clearRoutePins();
+    super.onDestroy();
   }
 }

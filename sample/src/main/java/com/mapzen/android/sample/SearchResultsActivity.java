@@ -1,8 +1,8 @@
 package com.mapzen.android.sample;
 
-import com.mapzen.android.MapFragment;
-import com.mapzen.android.MapzenMap;
-import com.mapzen.android.OnMapReadyCallback;
+import com.mapzen.android.graphics.MapFragment;
+import com.mapzen.android.graphics.MapzenMap;
+import com.mapzen.android.graphics.OnMapReadyCallback;
 import com.mapzen.tangram.LngLat;
 
 import android.os.Bundle;
@@ -19,14 +19,16 @@ import java.util.List;
 public class SearchResultsActivity extends AppCompatActivity {
 
   MapzenMap map;
+  static boolean drawSearchResults = true;
 
-  @Override protected void onCreate(Bundle savedInstanceState) {
+  @Override protected void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_pins);
 
     Button drawPinsBtn = (Button) findViewById(R.id.draw_pins_btn);
     drawPinsBtn.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
+        drawSearchResults = true;
         showSearchResults();
       }
     });
@@ -34,6 +36,7 @@ public class SearchResultsActivity extends AppCompatActivity {
     Button clearPinsBtn = (Button) findViewById(R.id.clear_pins_btn);
     clearPinsBtn.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
+        drawSearchResults = false;
         map.clearSearchResults();
       }
     });
@@ -43,9 +46,12 @@ public class SearchResultsActivity extends AppCompatActivity {
     mapFragment.getMapAsync(new OnMapReadyCallback() {
       @Override public void onMapReady(MapzenMap map) {
         SearchResultsActivity.this.map = map;
+        map.setPersistMapData(true);
         map.setZoom(15f);
         map.setPosition(new LngLat(-122.394046, 37.789747));
-        showSearchResults();
+        if (savedInstanceState == null || drawSearchResults) {
+          showSearchResults();
+        }
       }
     });
   }
@@ -64,10 +70,5 @@ public class SearchResultsActivity extends AppCompatActivity {
     results.add(result4);
     results.add(result5);
     map.drawSearchResults(results, 1, 2);
-  }
-
-  @Override protected void onDestroy() {
-    super.onDestroy();
-    map.clearSearchResults();
   }
 }

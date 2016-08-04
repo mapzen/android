@@ -1,8 +1,8 @@
 package com.mapzen.android.sample;
 
-import com.mapzen.android.MapFragment;
-import com.mapzen.android.MapzenMap;
-import com.mapzen.android.OnMapReadyCallback;
+import com.mapzen.android.graphics.MapFragment;
+import com.mapzen.android.graphics.MapzenMap;
+import com.mapzen.android.graphics.OnMapReadyCallback;
 import com.mapzen.tangram.LngLat;
 import com.mapzen.tangram.TouchInput;
 
@@ -43,6 +43,7 @@ public class RouteLineActivity extends AppCompatActivity {
     mapFragment.getMapAsync(new OnMapReadyCallback() {
       @Override public void onMapReady(MapzenMap map) {
         RouteLineActivity.this.map = map;
+        map.setPersistMapData(true);
         map.setZoom(15f);
         map.setPosition(new LngLat(-122.394046, 37.789747));
         map.setTapResponder(new TouchInput.TapResponder() {
@@ -67,11 +68,5 @@ public class RouteLineActivity extends AppCompatActivity {
     map.drawRouteLine(points);
 
     map.drawRouteLocationMarker(points.get(0));
-  }
-
-  @Override protected void onDestroy() {
-    super.onDestroy();
-    map.clearRouteLine();
-    map.clearRouteLocationMarker();
   }
 }

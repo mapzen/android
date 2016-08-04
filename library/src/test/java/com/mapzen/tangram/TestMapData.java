@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Returned by {@link com.mapzen.android.TestMapController}
+ * Returned by {@link com.mapzen.android.graphics.TestMapController}
  */
 public class TestMapData extends MapData {
   public LngLat point;

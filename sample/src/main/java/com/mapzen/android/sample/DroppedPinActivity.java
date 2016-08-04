@@ -1,8 +1,8 @@
 package com.mapzen.android.sample;
 
-import com.mapzen.android.MapFragment;
-import com.mapzen.android.MapzenMap;
-import com.mapzen.android.OnMapReadyCallback;
+import com.mapzen.android.graphics.MapFragment;
+import com.mapzen.android.graphics.MapzenMap;
+import com.mapzen.android.graphics.OnMapReadyCallback;
 import com.mapzen.tangram.LngLat;
 import com.mapzen.tangram.TouchInput;
 
@@ -20,7 +20,7 @@ public class DroppedPinActivity extends AppCompatActivity {
 
   MapzenMap map;
 
-  @Override protected void onCreate(Bundle savedInstanceState) {
+  @Override protected void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_clear_btn);
 
@@ -36,6 +36,7 @@ public class DroppedPinActivity extends AppCompatActivity {
     mapFragment.getMapAsync(new OnMapReadyCallback() {
       @Override public void onMapReady(MapzenMap map) {
         DroppedPinActivity.this.map = map;
+        map.setPersistMapData(true);
         map.setZoom(15f);
         map.setPosition(new LngLat(-122.394046, 37.789747));
         map.setLongPressResponder(new TouchInput.LongPressResponder() {
@@ -54,8 +55,4 @@ public class DroppedPinActivity extends AppCompatActivity {
     map.drawDroppedPin(point);
   }
 
-  @Override protected void onDestroy() {
-    super.onDestroy();
-    map.clearDroppedPins();
-  }
 }
