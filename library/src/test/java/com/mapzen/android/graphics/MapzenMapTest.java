@@ -57,7 +57,7 @@ public class MapzenMapTest {
 
   @Test public void setZoom_shouldInvokeMapController() throws Exception {
     map.setZoom(15);
-    verify(mapController).setZoomEased(15, 0, MapController.EaseType.CUBIC);
+    verify(mapController).setZoom(15);
   }
 
   @Test public void setZoomAnimated_shouldInvokeMapControllerAnimated() throws Exception {
@@ -79,7 +79,7 @@ public class MapzenMapTest {
   @Test public void setPosition_shouldInvokeMapController() throws Exception {
     LngLat lngLat = new LngLat(70, 40);
     map.setPosition(lngLat);
-    verify(mapController).setPositionEased(lngLat, 0, MapController.EaseType.CUBIC);
+    verify(mapController).setPosition(lngLat);
   }
 
   @Test public void setPositionAnimated_shouldInvokeMapControllerAnimated() throws Exception {
@@ -103,7 +103,7 @@ public class MapzenMapTest {
 
   @Test public void setRotation_shouldInvokeMapController() throws Exception {
     map.setRotation(3.14f);
-    verify(mapController).setRotationEased(3.14f, 0, MapController.EaseType.CUBIC);
+    verify(mapController).setRotation(3.14f);
   }
 
   @Test public void setRotationAnimated_shouldInvokeMapControllerAnimated() throws Exception {
@@ -124,7 +124,7 @@ public class MapzenMapTest {
 
   @Test public void setTilt_shouldInvokeMapController() throws Exception {
     map.setTilt(3.14f);
-    verify(mapController).setTiltEased(3.14f, 0, MapController.EaseType.CUBIC);
+    verify(mapController).setTilt(3.14f);
   }
 
   @Test public void setTiltAnimated_shouldInvokeMapControllerAnimated() throws Exception {

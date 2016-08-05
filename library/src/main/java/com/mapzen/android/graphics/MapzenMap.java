@@ -148,7 +148,8 @@ public class MapzenMap {
    * Sets map zoom without animation.
    */
   public void setZoom(float zoom) {
-    setZoom(zoom, 0);
+    mapStateManager.setZoom(zoom);
+    mapController.setZoom(zoom);
   }
 
   /**
@@ -184,7 +185,8 @@ public class MapzenMap {
    * Set map position without animation.
    */
   public void setPosition(LngLat lngLat) {
-    setPosition(lngLat, 0);
+    mapStateManager.setPosition(lngLat);
+    mapController.setPosition(lngLat);
   }
 
   /**
@@ -221,7 +223,8 @@ public class MapzenMap {
    * Set map rotation in radians without animation.
    */
   public void setRotation(float radians) {
-    setRotation(radians, 0);
+    mapStateManager.setRotation(radians);
+    mapController.setRotation(radians);
   }
 
   /**
@@ -260,7 +263,8 @@ public class MapzenMap {
    * @param radians tilt in radians
    */
   public void setTilt(float radians) {
-    setTilt(radians, 0);
+    mapStateManager.setTilt(radians);
+    mapController.setTilt(radians);
   }
 
   /**
