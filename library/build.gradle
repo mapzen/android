@@ -25,6 +25,7 @@ version = VERSION_NAME
 project.archivesBaseName = POM_ARTIFACT_ID
 
 release {
+  tagTemplate = 'v${version}'
   versionPropertyFile = '../gradle.properties'
   versionProperties = ['VERSION_NAME']
 }
