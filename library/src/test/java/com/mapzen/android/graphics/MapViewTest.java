@@ -1,5 +1,7 @@
 package com.mapzen.android.graphics;
 
+import com.mapzen.android.graphics.model.RefillStyle;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.powermock.api.mockito.PowerMockito;
@@ -43,5 +45,18 @@ public class MapViewTest {
     mapView.mapInitializer = mapInitializer;
     mapView.getMapAsync(key, callback);
     verify(mapInitializer, times(1)).init(mapView, key, callback);
+  }
+
+  @Test public void getMapAsync_shouldSetStyle() {
+    mapView.getMapAsync(new RefillStyle(), new TestCallback());
+    assertThat(mapView.mapInitializer.mapStateManager.getMapStyle()).isInstanceOf(
+        RefillStyle.class);
+  }
+
+  @Test public void getMapAsync_shouldSetStyleAndKey() {
+    mapView.getMapAsync("apikey", new RefillStyle(), new TestCallback());
+    assertThat(mapView.mapInitializer.httpHandler.getApiKey()).isEqualTo("apikey");
+    assertThat(mapView.mapInitializer.mapStateManager.getMapStyle()).isInstanceOf(
+        RefillStyle.class);
   }
 }
