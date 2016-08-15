@@ -29,7 +29,7 @@ public class MapInitializer {
    * Initialize map for the current {@link MapView} and notify via {@link OnMapReadyCallback}.
    */
   public void init(final MapView mapView, final OnMapReadyCallback callback) {
-    init(mapView, new BubbleWrapStyle(), callback);
+    loadMap(mapView, new BubbleWrapStyle(), false, callback);
   }
 
   /**
@@ -37,7 +37,7 @@ public class MapInitializer {
    * {@link OnMapReadyCallback}.
    */
   public void init(final MapView mapView, MapStyle mapStyle, final OnMapReadyCallback callback) {
-    loadMap(mapView, mapStyle, callback);
+    loadMap(mapView, mapStyle, true, callback);
   }
 
   /**
@@ -46,7 +46,7 @@ public class MapInitializer {
    */
   public void init(final MapView mapView, String key, final OnMapReadyCallback callback) {
     httpHandler.setApiKey(key);
-    loadMap(mapView, new BubbleWrapStyle(), callback);
+    loadMap(mapView, new BubbleWrapStyle(), false, callback);
   }
 
   /**
@@ -56,16 +56,16 @@ public class MapInitializer {
   public void init(final MapView mapView, String key, MapStyle mapStyle,
       final OnMapReadyCallback callback) {
     httpHandler.setApiKey(key);
-    loadMap(mapView, mapStyle, callback);
+    loadMap(mapView, mapStyle, true, callback);
   }
 
   private TangramMapView getTangramView(final MapView mapView) {
     return mapView.getTangramMapView();
   }
 
-  private void loadMap(final MapView mapView, MapStyle mapStyle,
+  private void loadMap(final MapView mapView, MapStyle mapStyle, boolean styleExplicitlySet,
       final OnMapReadyCallback callback) {
-    if (mapStateManager.getPersistMapState()) {
+    if (mapStateManager.getPersistMapState() && !styleExplicitlySet) {
       MapStyle restoredMapStyle = mapStateManager.getMapStyle();
       mapStyle = restoredMapStyle;
     }
