@@ -60,7 +60,7 @@ public class BasicMapzenActivity extends AppCompatActivity
 
   private void configureMap(boolean enabled) {
     if (enabled) {
-      map.setMyLocationEnabled(true);
+      setMyLocationEnabled(true);
     }
     map.setFindMeOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
