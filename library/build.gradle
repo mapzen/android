@@ -12,7 +12,7 @@ buildscript {
   }
 }
 
-ext.tangram_version = "0.4.1"
+ext.tangram_version = "0.4.2"
 
 apply plugin: 'com.android.library'
 apply plugin: 'checkstyle'
