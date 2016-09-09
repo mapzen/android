@@ -113,3 +113,13 @@ dependencies {
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
+
+task aarSize {
+  doLast {
+    File aar = file("build/outputs/aar/mapzen-android-sdk-release.aar")
+    println ""
+    println "AAR Size: ${aar.length()} bytes"
+    println ""
+  }
+}
+aarSize.dependsOn(assembleRelease)
