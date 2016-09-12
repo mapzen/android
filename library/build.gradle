@@ -130,3 +130,11 @@ aarSize.dependsOn(assembleRelease)
 //dexcount {
 //  runOnEachAssemble false
 //}
+
+task permissions {
+  File manifest = file("src/main/AndroidManifest.xml")
+  println ""
+  println "Permissions:"
+  println manifest.readLines().findAll { x -> x.contains("uses-permission")}
+  println ""
+}
