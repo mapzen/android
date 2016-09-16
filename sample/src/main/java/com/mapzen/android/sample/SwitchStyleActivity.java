@@ -7,6 +7,7 @@ import com.mapzen.android.graphics.model.BubbleWrapStyle;
 import com.mapzen.android.graphics.model.CinnabarStyle;
 import com.mapzen.android.graphics.model.MapStyle;
 import com.mapzen.android.graphics.model.RefillStyle;
+import com.mapzen.android.graphics.model.WalkaboutStyle;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -69,6 +70,9 @@ public class SwitchStyleActivity extends AppCompatActivity
         break;
       case 2:
         changeMapStyle(new RefillStyle());
+        break;
+      case 3:
+        changeMapStyle(new WalkaboutStyle());
         break;
       default:
         changeMapStyle(new BubbleWrapStyle());
