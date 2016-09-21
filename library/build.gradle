@@ -9,7 +9,7 @@ buildscript {
   dependencies {
     classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
     classpath 'net.researchgate:gradle-release:2.4.0'
-    classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.6.0'
+    classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.6.1'
   }
 }
 
@@ -126,10 +126,9 @@ task aarSize {
 }
 aarSize.dependsOn(assembleRelease)
 
-//TODO: uncomment after merge: https://github.com/KeepSafe/dexcount-gradle-plugin/pull/133
-//dexcount {
-//  runOnEachAssemble false
-//}
+dexcount {
+  runOnEachAssemble false
+}
 
 task permissions {
   File manifest = file("src/main/AndroidManifest.xml")
