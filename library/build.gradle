@@ -82,7 +82,7 @@ task verify(dependsOn: ['compileDebugSources',
                         'lint'])
 
 task submodules {
-  def folder = new File( 'library/src/main/assets/styles/bubble-wrap/bubble-wrap.yaml' )
+  def folder = new File( 'library/src/main/assets/styles/walkabout-style-more-labels/walkabout-style-more-labels.yaml' )
   if(!folder.exists()) {
     throw new GradleException("Submodules aren't present, please run:\n`git submodule init`, " +
         "\n`git submodule update`\nfrom your root directory")
