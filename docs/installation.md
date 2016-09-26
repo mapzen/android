@@ -2,11 +2,9 @@
 
 The Mapzen SDK can be included in any Android app via download, Maven, or Gradle. It includes everything you need to get started. No other mapping or location services dependencies are required (really).
 
-If you would like to add search or routing components check out the [Pelias Android SDK](https://github.com/pelias/pelias-android-sdk) and [On the Road](https://github.com/mapzen/on-the-road) stand-alone libraries.
-
 ## Download
 
-Download the [latest AAR](http://search.maven.org/remotecontent?filepath=com/mapzen/mapzen-android-sdk/1.0.9/mapzen-android-sdk-1.0.9.aar).
+Download the [latest AAR](http://search.maven.org/remotecontent?filepath=com/mapzen/mapzen-android-sdk/1.1.0/mapzen-android-sdk-1.1.0.aar).
 
 ## Maven
 
@@ -16,7 +14,7 @@ Include dependency using Maven.
 <dependency>
   <groupId>com.mapzen</groupId>
   <artifactId>mapzen-android-sdk</artifactId>
-  <version>1.0.9</version>
+  <version>1.1.0</version>
   <type>aar</type>
 </dependency>
 ```
@@ -31,7 +29,7 @@ repositories {
 }
 
 dependencies {
-  compile 'com.mapzen:mapzen-android-sdk:1.0.9'
+  compile 'com.mapzen:mapzen-android-sdk:1.1.0'
   ...
 }
 ```
