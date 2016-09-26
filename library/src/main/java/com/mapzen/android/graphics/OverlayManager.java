@@ -102,14 +102,34 @@ public class OverlayManager implements TouchInput.PanResponder {
   private static MapDataManager mapDataManager;
   private MapStateManager mapStateManager;
 
+  private static class OverlayManagerConnectionCallbacks
+      implements LostApiClient.ConnectionCallbacks {
+    private OverlayManager overlayManager;
+
+    @Override public void onConnected() {
+      if (overlayManager != null) {
+        overlayManager.enableLocationLayer();
+      }
+    }
+
+    @Override public void onConnectionSuspended() {
+    }
+
+    public void setOverlayManager(OverlayManager overlayManager) {
+      this.overlayManager = overlayManager;
+    }
+  };
+
+  private static OverlayManagerConnectionCallbacks connectionCallbacks =
+      new OverlayManagerConnectionCallbacks();
+
   /**
    * Create a new {@link OverlayManager} object for handling functionality between map and
    * location services using the {@link LocationFactory}'s shared {@link LostApiClient}.
    */
   OverlayManager(MapView mapView, MapController mapController, MapDataManager mapDataManager,
       MapStateManager mapStateManager) {
-    this(mapView, mapController, mapDataManager, mapStateManager, LocationFactory.sharedClient(
-        mapView.getContext()));
+    this(mapView, mapController, mapDataManager, mapStateManager, null);
   }
 
   /**
@@ -118,6 +138,10 @@ public class OverlayManager implements TouchInput.PanResponder {
    */
   OverlayManager(MapView mapView, MapController mapController, MapDataManager mapDataManager,
       MapStateManager mapStateManager, LostApiClient lostApiClient) {
+    if (lostApiClient == null) {
+      lostApiClient = LocationFactory.sharedClient(mapView.getContext(), connectionCallbacks);
+    }
+
     this.mapView = mapView;
     this.mapController = mapController;
     this.mapDataManager = mapDataManager;
@@ -620,14 +644,26 @@ public class OverlayManager implements TouchInput.PanResponder {
 
   private void handleMyLocationEnabledChanged() {
     if (myLocationEnabled) {
+      enableLocationLayer();
+    } else {
+      disableLocationLayer();
+    }
+  }
+
+  private void enableLocationLayer() {
+    if (!lostApiClient.isConnected()) {
+      connectionCallbacks.setOverlayManager(this);
       lostApiClient.connect();
+    } else {
       showLastKnownLocation();
       showFindMe();
       requestLocationUpdates();
-    } else {
-      hideFindMe();
-      removeLocationUpdates();
     }
+  }
+
+  private void disableLocationLayer() {
+    hideFindMe();
+    removeLocationUpdates();
   }
 
   private void showFindMe() {
@@ -680,7 +716,9 @@ public class OverlayManager implements TouchInput.PanResponder {
   }
 
   private void removeLocationUpdates() {
-    lostApiClient.disconnect();
+    if (lostApiClient.isConnected()) {
+      lostApiClient.disconnect();
+    }
   }
 
   private void handleLocationChange(Location location) {
@@ -703,8 +741,10 @@ public class OverlayManager implements TouchInput.PanResponder {
   }
 
   private void updateCurrentLocationMapData(final Location location) {
-    currentLocationMapData.clear();
-    currentLocationMapData.addPoint(convertLocation(location), null);
+    if (currentLocationMapData != null) {
+      currentLocationMapData.clear();
+      currentLocationMapData.addPoint(convertLocation(location), null);
+    }
   }
 
   private void updateMapPosition(Location location) {
