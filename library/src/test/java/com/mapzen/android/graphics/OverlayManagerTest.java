@@ -67,6 +67,7 @@ import static org.powermock.api.mockito.PowerMockito.mock;
         lostApiClient);
     when(LocationServices.FusedLocationApi.getLastLocation(lostApiClient))
         .thenReturn(new Location("test"));
+    when(lostApiClient.isConnected()).thenReturn(true);
     findMeButton = new TestButton(null);
     when(mapController.addDataLayer(any(String.class))).thenReturn(mapData);
     when(mapView.showFindMe()).thenReturn(findMeButton);
