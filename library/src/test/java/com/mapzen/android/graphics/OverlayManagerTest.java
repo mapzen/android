@@ -27,6 +27,8 @@ import android.location.Location;
 import android.view.View;
 import android.widget.ImageButton;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,12 +59,14 @@ import static org.powermock.api.mockito.PowerMockito.mock;
     lostApiClient = mock(LostApiClient.class);
     mapView = mock(MapView.class);
     mapData = new TestMapData("test");
-    LocationServices.FusedLocationApi = Mockito.mock(FusedLocationProviderApiImpl.class);
+    setFinalStatic(LocationServices.class.getDeclaredField("FusedLocationApi"),
+        Mockito.mock(FusedLocationProviderApiImpl.class));
     MapDataManager mapDataManager = new MapDataManager();
     mapStateManager = mock(MapStateManager.class);
     overlayManager = new OverlayManager(mapView, mapController, mapDataManager, mapStateManager,
         lostApiClient);
-    when(LocationServices.FusedLocationApi.getLastLocation()).thenReturn(new Location("test"));
+    when(LocationServices.FusedLocationApi.getLastLocation(lostApiClient))
+        .thenReturn(new Location("test"));
     findMeButton = new TestButton(null);
     when(mapController.addDataLayer(any(String.class))).thenReturn(mapData);
     when(mapView.showFindMe()).thenReturn(findMeButton);
@@ -136,7 +140,7 @@ import static org.powermock.api.mockito.PowerMockito.mock;
     overlayManager.setMyLocationEnabled(true);
     findMeButton.performClick();
     verify(mapStateManager).setZoom(16f);
-    Location loc = LocationServices.FusedLocationApi.getLastLocation();
+    Location loc = LocationServices.FusedLocationApi.getLastLocation(lostApiClient);
     LngLat lngLat = new LngLat(loc.getLongitude(), loc.getLatitude());
     verify(mapStateManager).setPosition(lngLat);
   }
@@ -470,5 +474,14 @@ import static org.powermock.api.mockito.PowerMockito.mock;
     @Override public boolean isActivated() {
       return activated;
     }
+  }
+
+  static void setFinalStatic(Field field, Object newValue) throws Exception {
+    field.setAccessible(true);
+    // remove final modifier from field
+    Field modifiersField = Field.class.getDeclaredField("modifiers");
+    modifiersField.setAccessible(true);
+    modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
+    field.set(null, newValue);
   }
 }

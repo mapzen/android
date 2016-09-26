@@ -77,6 +77,12 @@ public class OverlayManager implements TouchInput.PanResponder {
     @Override public void onLocationChanged(Location location) {
       handleLocationChange(location);
     }
+
+    @Override public void onProviderEnabled(String provider) {
+    }
+
+    @Override public void onProviderDisabled(String provider) {
+    }
   };
 
   View.OnClickListener findMeExternalClickListener;
@@ -651,14 +657,14 @@ public class OverlayManager implements TouchInput.PanResponder {
   }
 
   private void showLastKnownLocation() {
-    final Location current = LocationServices.FusedLocationApi.getLastLocation();
+    final Location current = LocationServices.FusedLocationApi.getLastLocation(lostApiClient);
     if (current != null) {
       updateCurrentLocationMapData(current);
     }
   }
 
   private void centerMapOnLastKnownLocation() {
-    final Location current = LocationServices.FusedLocationApi.getLastLocation();
+    final Location current = LocationServices.FusedLocationApi.getLastLocation(lostApiClient);
     if (current != null) {
       updateMapPosition(current);
     }
@@ -669,7 +675,8 @@ public class OverlayManager implements TouchInput.PanResponder {
         .setInterval(LOCATION_REQUEST_INTERVAL_MILLIS)
         .setFastestInterval(LOCATION_REQUEST_DISPLACEMENT_MILLIS)
         .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-    LocationServices.FusedLocationApi.requestLocationUpdates(locationRequest, locationListener);
+    LocationServices.FusedLocationApi.requestLocationUpdates(lostApiClient, locationRequest,
+        locationListener);
   }
 
   private void removeLocationUpdates() {
