@@ -23,13 +23,49 @@ public class MySearchActivity extends Activity {
 ```
 
 ## Search
-This is how you do a search query.
+Find a place by searching for an address or name.
+
+```java
+mapzenSearch.search("coffee", 40.7443, -73.9903, new Callback<Result>() {
+  @Override public void success(Result result, Response response) {
+    // Display search results
+  }
+
+  @Override public void failure(RetrofitError error) {
+    // Oh no
+  }
+});
+```
 
 ## Autocomplete
-This is how you do autocomplete.
+Get real-time result suggestions without having to type the whole location.
+
+```java
+mapzenSearch.suggest("cof", 40.7443, -73.9903, new Callback<Result>() {
+  @Override public void success(Result result, Response response) {
+    // Display autocomplete results
+  }
+
+  @Override public void failure(RetrofitError error) {
+    // Oh no
+  }
+});
+```
 
 ## Reverse
-Yup, we do that too.
+Find what is located at a certain coordinate location.
+
+```java
+mapzenSearch.reverse(40.7443, -73.9903, new Callback<Result>() {
+  @Override public void success(Result result, Response response) {
+    // Display reverse geocode results
+  }
+
+  @Override public void failure(RetrofitError error) {
+    // Oh no
+  }
+});
+```
 
 ## PeliasSearchView
 The Mapzen Android SDK has its own custom extension of `SearchView` that is integrated with autocomplete and search. Just drop an instance of PeliasSearchView into your layout and provide it with an AutoCompleteListView to display the results.
