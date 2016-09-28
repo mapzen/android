@@ -2,7 +2,7 @@
 
 ## Getting Started
 
-To start using Mapzen Search in your apps, you need a Mapzen developer API key. After you sign up for an API key you will need to include it in your application through the Java API or in a mapzen.xml properties file in your app resources folder.
+To start using Mapzen Search in your apps, you need a Mapzen developer API key. After you [sign up for an API key](https://mapzen.com/developers/sign_in) you will need to include it in your application through the Java API or in a `mapzen.xml` properties file in your app resources folder.
 
 **MySearchActivity.java**
 
