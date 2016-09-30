@@ -25,7 +25,7 @@ Everything you need to get going using the Mapzen SDK
 - [Location services](https://github.com/mapzen/android/blob/master/docs/location-services.md)
 
 ## Greater than the sum of its parts
-The Mapzen Android SDK incorporates several stand-along libraries for map rendering, location tracking, routing, and search through the following projects:
+The Mapzen Android SDK incorporates several stand-alone libraries for map rendering, location tracking, routing, and search through the following projects:
 
 - [Tangram ES](https://github.com/tangrams/tangram-es/)- 2D and 3D map renderer using OpenGL ES
 - [Pelias](https://github.com/pelias/pelias-android-sdk)- Mapzen Search client side wrapper and Android UI components
