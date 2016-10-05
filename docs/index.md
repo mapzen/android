@@ -8,7 +8,7 @@ Our SDK includes map rendering, search/geocoding, turn-by-turn directions, and l
 - **[Tangram ES](https://github.com/tangrams/tangram-es/)** Our 2D and 3D map renderer using OpenGL ES
 - **[Pelias Android SDK](https://github.com/pelias/pelias-android-sdk)** Mapzen Search client and custom `SearchView` extension
 - **[On the Road](https://github.com/mapzen/on-the-road)** Mapzen Turn-by-Turn client and navigation utilities
-- **[Lost](https://github.com/mapzen/lost)** Our drop-in replacement for Google Play Services Location APIs
+- **[Lost](https://github.com/mapzen/lost)** Our drop-in replacement for Google Play services Location APIs
 
 ## Find out more
 Check out the rest of the documentation for how to get started or you can cruise around the [source code on GitHub](https://github.com/mapzen/android).
