@@ -1,7 +1,5 @@
 # Mapzen Android SDK
 
-## All things Mapzen
-
 The Mapzen Android SDK is a thin wrapper that packages up everything you need to use Mapzen services in your Android applications. It also simplifies setup, installation, API key management and generally makes your life better.
 
 ## Greater than the sum of its parts
