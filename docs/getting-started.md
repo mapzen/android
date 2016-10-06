@@ -14,11 +14,11 @@ A map can be added to a layout using either `MapView` or `MapFragment`.
 
 ## 2. Sign up for an API key
 
-Sign up for a vector tiles API key from the [Mapzen developer portal](https://mapzen.com/developers). Add your vector tiles API key to your application as an XML string resource.
+Sign up for an API key from the [Mapzen developer portal](https://mapzen.com/developers). Add your API key to your application as an XML string resource.
 
 ```xml
 <resources>
-    <string name="vector_tiles_key">[YOUR_VECTOR_TILES_KEY]</string>
+    <string name="api_key">[YOUR_MAPZEN_API_KEY]</string>
 </resources>
 ```
 

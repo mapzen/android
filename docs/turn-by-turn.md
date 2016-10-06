@@ -6,14 +6,14 @@ To start using Mapzen Turn-by-turn in your apps, you need a Mapzen developer API
 
 **Java API**
 ```java
-MapzenRouter router = new MapzenRouter(this, [YOUR_TURN_BY_TURN_KEY]);
+MapzenRouter router = new MapzenRouter(this, [YOUR_MAPZEN_API_KEY]);
 ```
 
 -or-
 
 **mapzen.xml**
 ```xml
-<string name="turn_by_turn_key">[YOUR_TURN_BY_TURN_KEY]</string>
+<string name="api_key">[YOUR_MAPZEN_API_KEY]</string>
 ```
 
 ```java
