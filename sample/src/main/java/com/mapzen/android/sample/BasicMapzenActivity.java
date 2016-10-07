@@ -50,14 +50,14 @@ public class BasicMapzenActivity extends AppCompatActivity
     final boolean enabled = (savedInstanceState == null ||
         savedInstanceState.getBoolean(KEY_LOCATION_ENABLED));
 
-    final float millis = System.currentTimeMillis();
+    final long millis = System.currentTimeMillis();
 
     final MapFragment mapFragment =
         (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
     mapFragment.getMapAsync(new OnMapReadyCallback() {
       @Override public void onMapReady(MapzenMap map) {
-        float now = System.currentTimeMillis();
-        float elapsedTime = now - millis;
+        long now = System.currentTimeMillis();
+        long elapsedTime = now - millis;
         Log.d(TAG, "onMapReady [" + elapsedTime + "] millis");
         BasicMapzenActivity.this.map = map;
         configureMap(enabled);
