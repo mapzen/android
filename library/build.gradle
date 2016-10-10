@@ -33,7 +33,7 @@ afterReleaseBuild.dependsOn uploadArchives
 
 android {
   compileSdkVersion 23
-  buildToolsVersion "23.0.3"
+  buildToolsVersion "23.0.1"
 
   defaultConfig {
     minSdkVersion 15

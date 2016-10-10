@@ -7,7 +7,7 @@ def TURN_BY_TURN_KEY = hasProperty('turnByTurnKey') ? '"' + turnByTurnKey + '"' 
 
 android {
   compileSdkVersion 23
-  buildToolsVersion "23.0.1"
+  buildToolsVersion "23.0.3"
 
   defaultConfig {
     applicationId "com.mapzen.android.sample"
