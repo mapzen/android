@@ -51,7 +51,7 @@ import dagger.Provides;
   @Provides @Singleton public TileHttpHandler provideTileHttpHandler(Resources res) {
     final String packageName = context.getPackageName();
     try {
-      final int apiKeyId = res.getIdentifier(ApiKeyConstants.API_KEY_TILE_RES_NAME,
+      final int apiKeyId = res.getIdentifier(ApiKeyConstants.API_KEY_RES_NAME,
           ApiKeyConstants.API_KEY_RES_TYPE, packageName);
       final String apiKey = res.getString(apiKeyId);
       return new TileHttpHandler(apiKey);
@@ -68,7 +68,7 @@ import dagger.Provides;
     TurnByTurnHttpHandler handler = new TurnByTurnHttpHandler();
     final String packageName = context.getPackageName();
     try {
-      final int apiKeyId = res.getIdentifier(ApiKeyConstants.API_KEY_TURN_BY_TURN_RES_NAME,
+      final int apiKeyId = res.getIdentifier(ApiKeyConstants.API_KEY_RES_NAME,
           ApiKeyConstants.API_KEY_RES_TYPE, packageName);
       final String apiKey = res.getString(apiKeyId);
       handler.setApiKey(apiKey);

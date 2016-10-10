@@ -18,7 +18,7 @@ public class MySearchActivity extends Activity {
 
 ```xml
 <resources>
-  <string name="search_key">[YOUR_SEARCH_KEY]</string>
+  <string name="api_key">[YOUR_MAPZEN_API_KEY]</string>
 </resources>
 ```
 
