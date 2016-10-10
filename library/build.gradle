@@ -9,6 +9,7 @@ buildscript {
   dependencies {
     classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
     classpath 'net.researchgate:gradle-release:2.4.0'
+    classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.6.1'
   }
 }
 
@@ -19,6 +20,7 @@ apply plugin: 'checkstyle'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'net.researchgate.release'
+apply plugin: 'com.getkeepsafe.dexcount'
 
 group = GROUP
 version = VERSION_NAME
@@ -113,3 +115,46 @@ dependencies {
 }
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
+
+task aarSize {
+  doLast {
+
+    File mapzen = file("build/outputs/aar/mapzen-android-sdk-release.aar")
+    def mapzenSize = mapzen.length() / (1024 * 1024)
+
+    def depsSize = 0
+    configurations._releaseCompile.collect { it.length() / (1024 * 1024) }.each { depsSize += it }
+
+    def totalSize = mapzenSize + depsSize
+    println ""
+    println "TOTAL SIZE (mapzen aar + dependencies): ${Math.round(totalSize * 100) / 100} Mb"
+    println ""
+
+    println "MAPZEN AAR SIZE: ${Math.round(mapzen.length() / (1024) * 100) / 100} kb"
+    println ""
+
+
+    println "ALL DEPENDENCIES: ${Math.round(depsSize * 100) / 100} Mb"
+    println ""
+
+    println "DEPENDENCIES:"
+    configurations
+        ._releaseCompile
+        .sort { -it.length() }
+        .each { println "${it.name} : ${Math.round(it.length() / (1024) * 100) / 100} kb" }
+
+  }
+}
+aarSize.dependsOn(assembleRelease)
+
+dexcount {
+  runOnEachAssemble false
+}
+
+task permissions {
+  File manifest = file("src/main/AndroidManifest.xml")
+  println ""
+  println "Permissions:"
+  println manifest.readLines().findAll { x -> x.contains("uses-permission")}
+  println ""
+}

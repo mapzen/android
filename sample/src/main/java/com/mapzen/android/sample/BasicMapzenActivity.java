@@ -7,6 +7,7 @@ import com.mapzen.android.graphics.OnMapReadyCallback;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,6 +21,7 @@ public class BasicMapzenActivity extends AppCompatActivity
     implements AdapterView.OnItemSelectedListener {
 
   private static final String KEY_LOCATION_ENABLED = "enabled";
+  private static final String TAG = BasicMapzenActivity.class.getSimpleName();
 
   private MapzenMap map;
 
@@ -48,10 +50,15 @@ public class BasicMapzenActivity extends AppCompatActivity
     final boolean enabled = (savedInstanceState == null ||
         savedInstanceState.getBoolean(KEY_LOCATION_ENABLED));
 
+    final long millis = System.currentTimeMillis();
+
     final MapFragment mapFragment =
         (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
     mapFragment.getMapAsync(new OnMapReadyCallback() {
       @Override public void onMapReady(MapzenMap map) {
+        long now = System.currentTimeMillis();
+        long elapsedTime = now - millis;
+        Log.d(TAG, "onMapReady [" + elapsedTime + "] millis");
         BasicMapzenActivity.this.map = map;
         configureMap(enabled);
       }
