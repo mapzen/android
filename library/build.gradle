@@ -143,8 +143,8 @@ task aarSize {
         .each { println "${it.name} : ${Math.round(it.length() / (1024) * 100) / 100} kb" }
 
   }
+  dependsOn 'assembleRelease'
 }
-aarSize.dependsOn(assembleRelease)
 
 dexcount {
   runOnEachAssemble false
