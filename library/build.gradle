@@ -34,12 +34,12 @@ release {
 afterReleaseBuild.dependsOn uploadArchives
 
 android {
-  compileSdkVersion 23
-  buildToolsVersion "23.0.1"
+  compileSdkVersion 24
+  buildToolsVersion "24.0.3"
 
   defaultConfig {
     minSdkVersion 15
-    targetSdkVersion 23
+    targetSdkVersion 24
     versionCode 1
     versionName "1.0"
     resValue "string", "tangram_version", "${tangram_version}"
@@ -96,7 +96,7 @@ assemble.doFirst {
 }
 
 dependencies {
-  compile 'com.android.support:appcompat-v7:23.4.0'
+  compile 'com.android.support:appcompat-v7:24.2.1'
   compile "com.mapzen.tangram:tangram:$tangram_version"
   compile 'com.mapzen.android:lost:2.0.0'
   compile 'com.mapzen:on-the-road:1.0.0'
