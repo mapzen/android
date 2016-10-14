@@ -24,6 +24,7 @@
     <item>Refill</item>
     <item>Walkabout</item>
     <item>Zinc</item>
+    <item>Tron</item>
   </string-array>
   <string name="on_single_tap_up">Single Tap Up</string>
   <string name="on_single_tap_confirmed">Single Tap Confirmed</string>
