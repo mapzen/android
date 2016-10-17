@@ -10,3 +10,9 @@
 [submodule "library/src/main/assets/styles/walkabout-style-more-labels"]
 	path = library/src/main/assets/styles/walkabout-style-more-labels
 	url = https://github.com/tangrams/walkabout-style-more-labels.git
+[submodule "library/src/main/assets/styles/zinc-style-more-labels"]
+	path = library/src/main/assets/styles/zinc-style-more-labels
+	url = https://github.com/tangrams/zinc-style-more-labels.git
+[submodule "library/src/main/assets/styles/tron-style"]
+	path = library/src/main/assets/styles/tron-style
+	url = https://github.com/tangrams/tron-style.git
