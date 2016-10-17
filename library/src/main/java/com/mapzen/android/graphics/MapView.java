@@ -86,7 +86,7 @@ public class MapView extends RelativeLayout {
 
   /**
    * Load map asynchronously using APK key declared in XML resources. For example:
-   * {@code <string name="vector_tiles_key">[YOUR_VECTOR_TILES_KEY]</string>}
+   * {@code <string name="api_key">[YOUR_API_KEY]</string>}
    *
    * @param callback listener to be invoked when map is initialized and ready to use.
    */
@@ -96,7 +96,7 @@ public class MapView extends RelativeLayout {
 
   /**
    * Load map asynchronously using APK key declared in XML resources. For example:
-   * {@code <string name="vector_tiles_key">[YOUR_VECTOR_TILES_KEY]</string>}
+   * {@code <string name="api_key">[YOUR_API_KEY]</string>}
    *
    * @param callback listener to be invoked when map is initialized and ready to use.
    * @param mapStyle mapStyle that should be set

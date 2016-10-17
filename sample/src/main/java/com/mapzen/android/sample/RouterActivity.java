@@ -36,9 +36,9 @@ public class RouterActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_route);
 
-    final String turnByturnKey = BuildConfig.TURN_BY_TURN_KEY;
-    if (turnByturnKey != null) {
-      router = new MapzenRouter(this, turnByturnKey);
+    final String apiKey = BuildConfig.API_KEY;
+    if (apiKey != null) {
+      router = new MapzenRouter(this, apiKey);
     } else {
       router = new MapzenRouter(this);
     }
