@@ -98,8 +98,8 @@ assemble.doFirst {
 dependencies {
   compile 'com.android.support:appcompat-v7:24.2.1'
   compile "com.mapzen.tangram:tangram:$tangram_version"
-  compile 'com.mapzen.android:lost:2.0.1-SNAPSHOT'
-  compile 'com.mapzen:on-the-road:1.0.0'
+  compile 'com.mapzen.android:lost:2.1.0'
+  compile 'com.mapzen:on-the-road:1.1.0'
   compile 'com.mapzen.android:pelias-android-sdk:1.0.0'
   compile 'com.google.dagger:dagger:2.0'
   compile 'javax.annotation:javax.annotation-api:1.2'
