@@ -31,7 +31,7 @@ class PersistableMapData {
    * Creates a new object to represent polyline {@link com.mapzen.tangram.MapData}.
    * @param polyline
    */
-  public PersistableMapData(Polyline polyline) {
+  PersistableMapData(Polyline polyline) {
     this.polyline = polyline;
     this.dataLayerType = DataLayerType.POLYLINE;
   }
@@ -40,7 +40,7 @@ class PersistableMapData {
    * Creates a new object to represent polygon {@link com.mapzen.tangram.MapData}.
    * @param polygon
    */
-  public PersistableMapData(Polygon polygon) {
+  PersistableMapData(Polygon polygon) {
     this.polygon = polygon;
     this.dataLayerType = DataLayerType.POLYGON;
   }
@@ -49,7 +49,7 @@ class PersistableMapData {
    * Creates a new object to represent marker {@link com.mapzen.tangram.MapData}.
    * @param marker
    */
-  public PersistableMapData(Marker marker) {
+  PersistableMapData(Marker marker) {
     this.marker = marker;
     this.dataLayerType = DataLayerType.MARKER;
   }
@@ -59,7 +59,7 @@ class PersistableMapData {
    * @param start
    * @param end
    */
-  public PersistableMapData(LngLat start, LngLat end) {
+  PersistableMapData(LngLat start, LngLat end) {
     this.start = start;
     this.end = end;
     this.dataLayerType = DataLayerType.ROUTE_START_PIN;
@@ -72,7 +72,7 @@ class PersistableMapData {
    * @param point
    * @param layerType
    */
-  public PersistableMapData(LngLat point, DataLayerType layerType) {
+  PersistableMapData(LngLat point, DataLayerType layerType) {
     this.point = point;
     this.dataLayerType = layerType;
   }
@@ -85,7 +85,7 @@ class PersistableMapData {
    * @param active
    * @param index
    */
-  public PersistableMapData(LngLat point, boolean active, int index) {
+  PersistableMapData(LngLat point, boolean active, int index) {
     this.point = point;
     this.isActive = active;
     this.index = index;
@@ -96,7 +96,7 @@ class PersistableMapData {
    * Creates a new object to represent route line {@link com.mapzen.tangram.MapData}.
    * @param points
    */
-  public PersistableMapData(List<LngLat> points) {
+  PersistableMapData(List<LngLat> points) {
     this.points = points;
     this.dataLayerType = DataLayerType.ROUTE_LINE;
   }
@@ -107,7 +107,7 @@ class PersistableMapData {
    * @param stations
    * @param hexColor
    */
-  public PersistableMapData(List<LngLat> points, List<LngLat> stations, String hexColor) {
+  PersistableMapData(List<LngLat> points, List<LngLat> stations, String hexColor) {
     this.points = points;
     this.stations = stations;
     this.hexColor = hexColor;
@@ -118,7 +118,7 @@ class PersistableMapData {
    * Creates a new object to represent current location {@link com.mapzen.tangram.MapData}.
    * @param locationEnabled
    */
-  public PersistableMapData(boolean locationEnabled) {
+  PersistableMapData(boolean locationEnabled) {
     this.locationEnabled = locationEnabled;
     this.dataLayerType = DataLayerType.CURRENT_LOCATION;
   }
