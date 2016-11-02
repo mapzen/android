@@ -36,4 +36,7 @@ public class TestMapData extends MapData {
     polygon = null;
     return this;
   }
+
+  @Override public void remove() {
+  }
 }

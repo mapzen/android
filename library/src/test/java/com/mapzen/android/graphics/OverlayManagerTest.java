@@ -43,10 +43,12 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mock;
 
+@SuppressWarnings("MissingPermission")
 @RunWith(PowerMockRunner.class) @SuppressStaticInitializationFor("com.mapzen.tangram.MapController")
 @PrepareForTest(OverlayManager.class) public class OverlayManagerTest {
 
   private MapController mapController;
+  private MapDataManager mapDataManager;
   private MapStateManager mapStateManager;
   private OverlayManager overlayManager;
   private MapView mapView;
@@ -61,7 +63,7 @@ import static org.powermock.api.mockito.PowerMockito.mock;
     mapData = new TestMapData("test");
     setFinalStatic(LocationServices.class.getDeclaredField("FusedLocationApi"),
         Mockito.mock(FusedLocationProviderApiImpl.class));
-    MapDataManager mapDataManager = new MapDataManager();
+    mapDataManager = new MapDataManager();
     mapStateManager = mock(MapStateManager.class);
     overlayManager = new OverlayManager(mapView, mapController, mapDataManager, mapStateManager,
         lostApiClient);
@@ -144,6 +146,17 @@ import static org.powermock.api.mockito.PowerMockito.mock;
     Location loc = LocationServices.FusedLocationApi.getLastLocation(lostApiClient);
     LngLat lngLat = new LngLat(loc.getLongitude(), loc.getLatitude());
     verify(mapStateManager).setPosition(lngLat);
+  }
+
+  @Test public void setMyLocationEnabled_shouldAddMapDataIfEnabled() throws Exception {
+    overlayManager.setMyLocationEnabled(true);
+    assertThat(mapDataManager.getMapData()).isNotEmpty();
+  }
+
+  @Test public void setMyLocationEnabled_shouldRemoveMapDataIfDisabled() throws Exception {
+    overlayManager.setMyLocationEnabled(true);
+    overlayManager.setMyLocationEnabled(false);
+    assertThat(mapDataManager.getMapData()).isEmpty();
   }
 
   @Test public void isMyLocationEnabled_shouldReturnTrue() throws Exception {
