@@ -29,7 +29,8 @@ class PersistableMapData {
 
   /**
    * Creates a new object to represent polyline {@link com.mapzen.tangram.MapData}.
-   * @param polyline
+   *
+   * @param polyline the polyline overlay to persist on configuration change.
    */
   PersistableMapData(Polyline polyline) {
     this.polyline = polyline;
@@ -38,7 +39,8 @@ class PersistableMapData {
 
   /**
    * Creates a new object to represent polygon {@link com.mapzen.tangram.MapData}.
-   * @param polygon
+   *
+   * @param polygon the polygon overlay to persist on configuration change.
    */
   PersistableMapData(Polygon polygon) {
     this.polygon = polygon;
@@ -47,7 +49,8 @@ class PersistableMapData {
 
   /**
    * Creates a new object to represent marker {@link com.mapzen.tangram.MapData}.
-   * @param marker
+   *
+   * @param marker the marker overlay to persist on configuration change.
    */
   PersistableMapData(Marker marker) {
     this.marker = marker;
@@ -56,8 +59,9 @@ class PersistableMapData {
 
   /**
    * Creates a new object to represent start and end pin {@link com.mapzen.tangram.MapData}.
-   * @param start
-   * @param end
+   *
+   * @param start the route start marker overlay to persist on configuration change.
+   * @param end the route end marker overlay to persist on configuration change.
    */
   PersistableMapData(LngLat start, LngLat end) {
     this.start = start;
@@ -67,10 +71,12 @@ class PersistableMapData {
 
   /**
    * Creates a new object to represent point {@link com.mapzen.tangram.MapData}. Used for
-   * {@link com.mapzen.android.graphics.DataLayerType#DROPPED_PIN}
-   * and ROUTE_PIN
-   * @param point
-   * @param layerType
+   * {@link com.mapzen.android.graphics.DataLayerType#DROPPED_PIN} and
+   * {@link com.mapzen.android.graphics.DataLayerType#ROUTE_PIN}
+   *
+   * @param point the dropped pin or route pin marker overlay to persist on configuration change.
+   * @param layerType {@link com.mapzen.android.graphics.DataLayerType#DROPPED_PIN} or
+   * {@link com.mapzen.android.graphics.DataLayerType#ROUTE_PIN}
    */
   PersistableMapData(LngLat point, DataLayerType layerType) {
     this.point = point;
@@ -81,9 +87,10 @@ class PersistableMapData {
    * Creates a new object to represent {@link com.mapzen.tangram.MapData} where a point, index and
    * active state exist. Used for
    * {@link com.mapzen.android.graphics.DataLayerType#SEARCH_RESULT_PIN}
-   * @param point
-   * @param active
-   * @param index
+   *
+   * @param point coordinates for the search result pin overlay.
+   * @param active `true` if the pin is in the active state. `false` otherwise.
+   * @param index index of the pin in the list of search results.
    */
   PersistableMapData(LngLat point, boolean active, int index) {
     this.point = point;
@@ -94,7 +101,8 @@ class PersistableMapData {
 
   /**
    * Creates a new object to represent route line {@link com.mapzen.tangram.MapData}.
-   * @param points
+   *
+   * @param points list of coordinates that will be used to persist the route line overlay.
    */
   PersistableMapData(List<LngLat> points) {
     this.points = points;
@@ -103,9 +111,10 @@ class PersistableMapData {
 
   /**
    * Creates a new object to represent transit route line {@link com.mapzen.tangram.MapData}.
-   * @param points
-   * @param stations
-   * @param hexColor
+   *
+   * @param points list of coordinates that will be used to persist the transit route line overlay.
+   * @param stations list of coordinates that will be used to represent transit stations.
+   * @param hexColor hexadecimal color value that will be used to represent the transit line.
    */
   PersistableMapData(List<LngLat> points, List<LngLat> stations, String hexColor) {
     this.points = points;
@@ -116,7 +125,8 @@ class PersistableMapData {
 
   /**
    * Creates a new object to represent current location {@link com.mapzen.tangram.MapData}.
-   * @param locationEnabled
+   *
+   * @param locationEnabled boolean flag to indicate whether current location layer is enabled.
    */
   PersistableMapData(boolean locationEnabled) {
     this.locationEnabled = locationEnabled;
