@@ -30,7 +30,7 @@
     <activity android:name=".TouchResponderActivity"/>
     <activity
         android:name=".CustomStylesheetActivity"
-        android:theme="@style/AppTheme.NoActionBar"/>
+        android:label="@string/custom_stylesheet_demo"/>
     <activity android:name=".RoutePinsActivity"/>
     <activity android:name=".DroppedPinActivity"/>
     <activity android:name=".RouteLineActivity"/>
