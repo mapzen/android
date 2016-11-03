@@ -159,6 +159,12 @@ import static org.powermock.api.mockito.PowerMockito.mock;
     assertThat(mapDataManager.getMapData()).isEmpty();
   }
 
+  @Test public void setMyLocationEnabled_shouldNotAddMoreThanOneMapData() throws Exception {
+    overlayManager.setMyLocationEnabled(true);
+    overlayManager.setMyLocationEnabled(true);
+    assertThat(mapDataManager.getMapData()).hasSize(1);
+  }
+
   @Test public void isMyLocationEnabled_shouldReturnTrue() throws Exception {
     overlayManager.setMyLocationEnabled(true);
     assertThat(overlayManager.isMyLocationEnabled()).isTrue();
