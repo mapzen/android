@@ -29,37 +29,41 @@ class PersistableMapData {
 
   /**
    * Creates a new object to represent polyline {@link com.mapzen.tangram.MapData}.
-   * @param polyline
+   *
+   * @param polyline the polyline overlay to persist on configuration change.
    */
-  public PersistableMapData(Polyline polyline) {
+  PersistableMapData(Polyline polyline) {
     this.polyline = polyline;
     this.dataLayerType = DataLayerType.POLYLINE;
   }
 
   /**
    * Creates a new object to represent polygon {@link com.mapzen.tangram.MapData}.
-   * @param polygon
+   *
+   * @param polygon the polygon overlay to persist on configuration change.
    */
-  public PersistableMapData(Polygon polygon) {
+  PersistableMapData(Polygon polygon) {
     this.polygon = polygon;
     this.dataLayerType = DataLayerType.POLYGON;
   }
 
   /**
    * Creates a new object to represent marker {@link com.mapzen.tangram.MapData}.
-   * @param marker
+   *
+   * @param marker the marker overlay to persist on configuration change.
    */
-  public PersistableMapData(Marker marker) {
+  PersistableMapData(Marker marker) {
     this.marker = marker;
     this.dataLayerType = DataLayerType.MARKER;
   }
 
   /**
    * Creates a new object to represent start and end pin {@link com.mapzen.tangram.MapData}.
-   * @param start
-   * @param end
+   *
+   * @param start the route start marker overlay to persist on configuration change.
+   * @param end the route end marker overlay to persist on configuration change.
    */
-  public PersistableMapData(LngLat start, LngLat end) {
+  PersistableMapData(LngLat start, LngLat end) {
     this.start = start;
     this.end = end;
     this.dataLayerType = DataLayerType.ROUTE_START_PIN;
@@ -67,12 +71,14 @@ class PersistableMapData {
 
   /**
    * Creates a new object to represent point {@link com.mapzen.tangram.MapData}. Used for
-   * {@link com.mapzen.android.graphics.DataLayerType#DROPPED_PIN}
-   * and ROUTE_PIN
-   * @param point
-   * @param layerType
+   * {@link com.mapzen.android.graphics.DataLayerType#DROPPED_PIN} and
+   * {@link com.mapzen.android.graphics.DataLayerType#ROUTE_PIN}
+   *
+   * @param point the dropped pin or route pin marker overlay to persist on configuration change.
+   * @param layerType {@link com.mapzen.android.graphics.DataLayerType#DROPPED_PIN} or
+   * {@link com.mapzen.android.graphics.DataLayerType#ROUTE_PIN}
    */
-  public PersistableMapData(LngLat point, DataLayerType layerType) {
+  PersistableMapData(LngLat point, DataLayerType layerType) {
     this.point = point;
     this.dataLayerType = layerType;
   }
@@ -81,11 +87,12 @@ class PersistableMapData {
    * Creates a new object to represent {@link com.mapzen.tangram.MapData} where a point, index and
    * active state exist. Used for
    * {@link com.mapzen.android.graphics.DataLayerType#SEARCH_RESULT_PIN}
-   * @param point
-   * @param active
-   * @param index
+   *
+   * @param point coordinates for the search result pin overlay.
+   * @param active `true` if the pin is in the active state. `false` otherwise.
+   * @param index index of the pin in the list of search results.
    */
-  public PersistableMapData(LngLat point, boolean active, int index) {
+  PersistableMapData(LngLat point, boolean active, int index) {
     this.point = point;
     this.isActive = active;
     this.index = index;
@@ -94,20 +101,22 @@ class PersistableMapData {
 
   /**
    * Creates a new object to represent route line {@link com.mapzen.tangram.MapData}.
-   * @param points
+   *
+   * @param points list of coordinates that will be used to persist the route line overlay.
    */
-  public PersistableMapData(List<LngLat> points) {
+  PersistableMapData(List<LngLat> points) {
     this.points = points;
     this.dataLayerType = DataLayerType.ROUTE_LINE;
   }
 
   /**
    * Creates a new object to represent transit route line {@link com.mapzen.tangram.MapData}.
-   * @param points
-   * @param stations
-   * @param hexColor
+   *
+   * @param points list of coordinates that will be used to persist the transit route line overlay.
+   * @param stations list of coordinates that will be used to represent transit stations.
+   * @param hexColor hexadecimal color value that will be used to represent the transit line.
    */
-  public PersistableMapData(List<LngLat> points, List<LngLat> stations, String hexColor) {
+  PersistableMapData(List<LngLat> points, List<LngLat> stations, String hexColor) {
     this.points = points;
     this.stations = stations;
     this.hexColor = hexColor;
@@ -116,9 +125,10 @@ class PersistableMapData {
 
   /**
    * Creates a new object to represent current location {@link com.mapzen.tangram.MapData}.
-   * @param locationEnabled
+   *
+   * @param locationEnabled boolean flag to indicate whether current location layer is enabled.
    */
-  public PersistableMapData(boolean locationEnabled) {
+  PersistableMapData(boolean locationEnabled) {
     this.locationEnabled = locationEnabled;
     this.dataLayerType = DataLayerType.CURRENT_LOCATION;
   }

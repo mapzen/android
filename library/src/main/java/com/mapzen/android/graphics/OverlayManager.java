@@ -161,17 +161,27 @@ public class OverlayManager implements TouchInput.PanResponder {
    * Optionally persists the map data to the {@link MapDataManager}.
    */
   public void setMyLocationEnabled(boolean enabled, boolean persistMapData) {
-    if (persistMapData) {
-      mapDataManager.addMapData(new PersistableMapData(enabled));
-    }
     myLocationEnabled = enabled;
+    handleTangramMapDataChanges(enabled);
+    updateCurrentLocationPersistableMapData(enabled, persistMapData);
+    handleMyLocationEnabledChanged();
+  }
+
+  private void handleTangramMapDataChanges(boolean enabled) {
     if (enabled) {
       addCurrentLocationMapData();
     } else {
       removeCurrentLocationMapData();
     }
+  }
 
-    handleMyLocationEnabledChanged();
+  private void updateCurrentLocationPersistableMapData(boolean enabled, boolean persistMapData) {
+    if (persistMapData) {
+      mapDataManager.removeMapData(DataLayerType.CURRENT_LOCATION);
+      if (enabled) {
+        mapDataManager.addMapData(new PersistableMapData(true));
+      }
+    }
   }
 
   /**
