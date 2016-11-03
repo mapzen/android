@@ -13,7 +13,7 @@ import android.support.v7.app.AppCompatActivity;
  */
 public class CustomStylesheetActivity extends AppCompatActivity {
 
-  public static final MapStyle tronStyle = new MapStyle("styles/tron/tron.yaml");
+  public static final MapStyle TRON_STYLE = new MapStyle("styles/tron/tron.yaml");
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -23,10 +23,10 @@ public class CustomStylesheetActivity extends AppCompatActivity {
         (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
 
     final Bundle state = savedInstanceState;
-    mapFragment.getMapAsync(tronStyle, new OnMapReadyCallback() {
+    mapFragment.getMapAsync(TRON_STYLE, new OnMapReadyCallback() {
       @Override public void onMapReady(MapzenMap map) {
         if (state == null) {
-          map.setStyle(tronStyle);
+          map.setStyle(TRON_STYLE);
         }
         map.setPersistMapState(true);
       }
