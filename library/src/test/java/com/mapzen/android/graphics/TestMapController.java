@@ -20,6 +20,7 @@ public class TestMapController extends MapController {
   private float mapZoom = 0;
   private float mapRotation = 0;
   private float mapTilt = 0;
+  private FeaturePickListener featurePickListener;
 
   public TestMapController() {
     super(new GLSurfaceView(getMockContext()));
@@ -63,7 +64,14 @@ public class TestMapController extends MapController {
   }
 
   @Override public void requestRender() {
+  }
 
+  @Override public void setFeaturePickListener(FeaturePickListener listener) {
+    featurePickListener = listener;
+  }
+
+  @Override public void pickFeature(float posX, float posY) {
+    featurePickListener.onFeaturePick(null, posX, posY);
   }
 
   private static Context getMockContext() {

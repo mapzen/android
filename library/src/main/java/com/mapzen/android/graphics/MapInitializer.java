@@ -78,8 +78,8 @@ public class MapInitializer {
       @Override public void onMapReady(MapController mapController) {
         mapController.setHttpHandler(httpHandler);
         callback.onMapReady(
-            new MapzenMap(mapController, new OverlayManager(mapView, mapController, mapDataManager,
-                mapStateManager), mapStateManager));
+            new MapzenMap(mapView, mapController, new OverlayManager(mapView, mapController,
+                mapDataManager, mapStateManager), mapStateManager));
       }
     }, sceneFile);
   }

@@ -31,6 +31,7 @@ import java.util.Map;
  */
 public class MapzenMap {
 
+  private final MapView mapView;
   private final MapController mapController;
   private final OverlayManager overlayManager;
   private final MapStateManager mapStateManager;
@@ -112,8 +113,9 @@ public class MapzenMap {
   /**
    * Creates a new map based on the given {@link MapView} and {@link MapController}.
    */
-  MapzenMap(MapController mapController, OverlayManager overlayManager,
+  MapzenMap(MapView mapView, MapController mapController, OverlayManager overlayManager,
       MapStateManager mapStateManager) {
+    this.mapView = mapView;
     this.mapController = mapController;
     this.overlayManager = overlayManager;
     this.mapStateManager = mapStateManager;
@@ -538,13 +540,22 @@ public class MapzenMap {
    */
   public void setFeaturePickListener(final FeaturePickListener listener) {
     mapController.setFeaturePickListener(new MapController.FeaturePickListener() {
-      @Override
-      public void onFeaturePick(Map<String, String> properties, float positionX, float positionY) {
-        listener.onFeaturePick(properties, positionX, positionY);
+      @Override public void onFeaturePick(final Map<String, String> properties,
+          final float positionX, final float positionY) {
+        postFeaturePickRunnable(properties, positionX, positionY, listener);
       }
     });
     pickFeatureOnSingleTapConfirmed = (listener != null);
     mapController.setTapResponder(internalTapResponder);
+  }
+
+  private void postFeaturePickRunnable(final Map<String, String> properties, final float positionX,
+      final float positionY, final FeaturePickListener listener) {
+    mapView.post(new Runnable() {
+      @Override public void run() {
+        listener.onFeaturePick(properties, positionX, positionY);
+      }
+    });
   }
 
   /**
