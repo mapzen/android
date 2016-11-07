@@ -12,6 +12,7 @@ import com.mapzen.tangram.TouchInput;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.powermock.core.classloader.annotations.SuppressStaticInitializationFor;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
@@ -23,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyFloat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -32,15 +35,20 @@ import static org.mockito.Mockito.when;
 @RunWith(PowerMockRunner.class) @SuppressStaticInitializationFor("com.mapzen.tangram.MapController")
 public class MapzenMapTest {
 
+  private TestMapView mapView;
   private MapzenMap map;
   private MapController mapController;
   private OverlayManager overlayManager;
 
   @Before public void setUp() throws Exception {
-    mapController = mock(MapController.class);
+    mapView = new TestMapView();
+    mapController = Mockito.mock(TestMapController.class);
+    Mockito.doCallRealMethod().when(mapController)
+        .setFeaturePickListener(any(MapController.FeaturePickListener.class));
+    Mockito.doCallRealMethod().when(mapController).pickFeature(anyFloat(), anyFloat());
     overlayManager = mock(OverlayManager.class);
     MapStateManager mapStateManager = new MapStateManager();
-    map = new MapzenMap(mapController, overlayManager, mapStateManager);
+    map = new MapzenMap(mapView, mapController, overlayManager, mapStateManager);
   }
 
   @Test public void shouldNotBeNull() throws Exception {
@@ -436,8 +444,15 @@ public class MapzenMapTest {
   @Test public void setFeaturePickListener_shouldInvokeFeatureListener() {
     TestFeaturePickListener listener = new TestFeaturePickListener();
     map.setFeaturePickListener(listener);
-    listener.onFeaturePick(null, 0, 0);
+    mapController.pickFeature(0, 0);
     assertThat(listener.picked).isTrue();
+  }
+
+  @Test public void setFeaturePickListener_shouldInvokeCallbackOnMainThread() throws Exception {
+    TestFeaturePickListener listener = new TestFeaturePickListener();
+    map.setFeaturePickListener(listener);
+    mapController.pickFeature(0, 0);
+    assertThat(mapView.getAction()).isNotNull();
   }
 
   @Test public void setViewCompleteListener_shouldInvokeViewCompleteListener() {
