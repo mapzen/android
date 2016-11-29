@@ -6,6 +6,7 @@ import com.mapzen.android.graphics.model.MapStyle;
 import com.mapzen.android.graphics.model.Marker;
 import com.mapzen.android.graphics.model.Polygon;
 import com.mapzen.android.graphics.model.Polyline;
+import com.mapzen.tangram.LabelPickResult;
 import com.mapzen.tangram.LngLat;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.MapData;
@@ -37,6 +38,7 @@ public class MapzenMap {
   private final MapStateManager mapStateManager;
 
   boolean pickFeatureOnSingleTapConfirmed = false;
+  boolean pickLabelOnSingleTapConfirmed = false;
 
   private TouchInput.TapResponder internalTapResponder = new TouchInput.TapResponder() {
     @Override public boolean onSingleTapUp(float x, float y) {
@@ -52,6 +54,9 @@ public class MapzenMap {
       }
       if (pickFeatureOnSingleTapConfirmed) {
         mapController.pickFeature(x, y);
+      }
+      if (pickLabelOnSingleTapConfirmed) {
+        mapController.pickLabel(x, y);
       }
       return false;
     }
@@ -549,11 +554,31 @@ public class MapzenMap {
     mapController.setTapResponder(internalTapResponder);
   }
 
+  public void setLabelPickListener(final LabelPickListener listener) {
+    mapController.setLabelPickListener(new MapController.LabelPickListener() {
+      @Override
+      public void onLabelPick(LabelPickResult labelPickResult, float positionX, float positionY) {
+        postLabelPickRunnable(labelPickResult, positionX, positionY, listener);
+      }
+    });
+    pickLabelOnSingleTapConfirmed = (listener != null);
+    mapController.setTapResponder(internalTapResponder);
+  }
+
   private void postFeaturePickRunnable(final Map<String, String> properties, final float positionX,
       final float positionY, final FeaturePickListener listener) {
     mapView.post(new Runnable() {
       @Override public void run() {
         listener.onFeaturePick(properties, positionX, positionY);
+      }
+    });
+  }
+
+  private void postLabelPickRunnable(final LabelPickResult result, final float positionX,
+                                       final float positionY, final LabelPickListener listener) {
+    mapView.post(new Runnable() {
+      @Override public void run() {
+        listener.onLabelPicked(result, positionX, positionY);
       }
     });
   }
