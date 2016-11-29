@@ -36,6 +36,7 @@ public class MapzenMap {
   private final MapController mapController;
   private final OverlayManager overlayManager;
   private final MapStateManager mapStateManager;
+  private final LabelPickHandler labelPickHandler;
 
   boolean pickFeatureOnSingleTapConfirmed = false;
   boolean pickLabelOnSingleTapConfirmed = false;
@@ -119,11 +120,12 @@ public class MapzenMap {
    * Creates a new map based on the given {@link MapView} and {@link MapController}.
    */
   MapzenMap(MapView mapView, MapController mapController, OverlayManager overlayManager,
-      MapStateManager mapStateManager) {
+      MapStateManager mapStateManager, LabelPickHandler labelPickHandler) {
     this.mapView = mapView;
     this.mapController = mapController;
     this.overlayManager = overlayManager;
     this.mapStateManager = mapStateManager;
+    this.labelPickHandler = labelPickHandler;
     mapController.setPanResponder(internalPanResponder);
     overlayManager.restoreMapData();
     restoreMapState();
@@ -560,14 +562,8 @@ public class MapzenMap {
    * @param listener Listener to receive callback when labels are selected.
    */
   public void setLabelPickListener(final LabelPickListener listener) {
-    mapController.setLabelPickListener(new MapController.LabelPickListener() {
-      @Override
-      public void onLabelPick(LabelPickResult labelPickResult, float positionX, float positionY) {
-        if (labelPickResult != null) {
-          postLabelPickRunnable(labelPickResult, positionX, positionY, listener);
-        }
-      }
-    });
+    labelPickHandler.setListener(listener);
+    mapController.setLabelPickListener(labelPickHandler);
     pickLabelOnSingleTapConfirmed = (listener != null);
     mapController.setTapResponder(internalTapResponder);
   }
@@ -577,15 +573,6 @@ public class MapzenMap {
     mapView.post(new Runnable() {
       @Override public void run() {
         listener.onFeaturePick(properties, positionX, positionY);
-      }
-    });
-  }
-
-  private void postLabelPickRunnable(final LabelPickResult result, final float positionX,
-                                       final float positionY, final LabelPickListener listener) {
-    mapView.post(new Runnable() {
-      @Override public void run() {
-        listener.onLabelPicked(result, positionX, positionY);
       }
     });
   }
