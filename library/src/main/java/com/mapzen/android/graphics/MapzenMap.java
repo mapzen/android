@@ -563,7 +563,9 @@ public class MapzenMap {
     mapController.setLabelPickListener(new MapController.LabelPickListener() {
       @Override
       public void onLabelPick(LabelPickResult labelPickResult, float positionX, float positionY) {
-        postLabelPickRunnable(labelPickResult, positionX, positionY, listener);
+        if (labelPickResult != null) {
+          postLabelPickRunnable(labelPickResult, positionX, positionY, listener);
+        }
       }
     });
     pickLabelOnSingleTapConfirmed = (listener != null);
