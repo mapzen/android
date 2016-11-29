@@ -74,4 +74,6 @@
   <string name="pelias_search_demo_label">Search</string>
   <string name="pelias_search_demo_description">Demonstrates how to use Pelias</string>
   <string name="search_hint">Search</string>
+  <string name="label_listener_map_demo_label">Label Listener</string>
+  <string name="label_listener_map_demo_description">Adds a label pick listener to the map</string>
 </resources>

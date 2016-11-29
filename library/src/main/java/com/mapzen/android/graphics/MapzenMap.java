@@ -554,6 +554,11 @@ public class MapzenMap {
     mapController.setTapResponder(internalTapResponder);
   }
 
+  /**
+   * Set a listener for label pick events.
+   *
+   * @param listener Listener to receive callback when labels are selected.
+   */
   public void setLabelPickListener(final LabelPickListener listener) {
     mapController.setLabelPickListener(new MapController.LabelPickListener() {
       @Override
