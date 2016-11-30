@@ -3,13 +3,20 @@ package com.mapzen.android.graphics;
 import com.mapzen.tangram.LabelPickResult;
 import com.mapzen.tangram.MapController;
 
-
+/**
+ * Takes care of calling an external label listener for a
+ * {@link com.mapzen.android.graphics.MapzenMap}.
+ */
 public class LabelPickHandler implements MapController.LabelPickListener {
 
     private final MapView mapView;
     private LabelPickListener labelPickListener;
 
-    public LabelPickHandler(MapView mapView) {
+  /**
+   * Construct a new handler and set it's {@link MapView}.
+   * @param mapView
+   */
+  public LabelPickHandler(MapView mapView) {
         this.mapView = mapView;
     }
 
