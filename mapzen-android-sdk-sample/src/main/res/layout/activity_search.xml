@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+  <com.mapzen.android.graphics.MapView
+      android:id="@+id/map_view"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      />
+
+  <com.mapzen.pelias.widget.AutoCompleteListView
+      android:id="@+id/list_view"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="@color/mz_white"
+      android:visibility="gone"
+      />
+
+</FrameLayout>
