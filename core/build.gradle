@@ -82,6 +82,5 @@ task verify(dependsOn: ['compileDebugSources',
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
 
 dependencies {
-  compile 'com.android.support:appcompat-v7:24.2.1'
-  testCompile 'junit:junit:4.12'
+  
 }
