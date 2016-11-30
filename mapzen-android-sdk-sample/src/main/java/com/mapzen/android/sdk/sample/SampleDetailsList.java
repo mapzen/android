@@ -1,4 +1,4 @@
-package com.mapzen.android.sample;
+package com.mapzen.android.sdk.sample;
 
 /**
  * List of all available SDK demos.

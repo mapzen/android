@@ -1,4 +1,4 @@
-package com.mapzen.android.sample;
+package com.mapzen.android.sdk.sample;
 
 import com.mapzen.android.graphics.MapView;
 import com.mapzen.android.graphics.MapzenMap;

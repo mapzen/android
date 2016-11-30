@@ -1,4 +1,4 @@
-package com.mapzen.android.sample;
+package com.mapzen.android.sdk.sample;
 
 import android.support.v7.app.AppCompatActivity;
 

@@ -1,4 +1,4 @@
-package com.mapzen.android.sample;
+package com.mapzen.android.sdk.sample;
 
 import com.mapzen.android.graphics.MapFragment;
 import com.mapzen.android.graphics.MapzenMap;
@@ -13,19 +13,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * Demonstrates drawing a routing line on the map.
+ * Demonstrates droppoing a pin on the map.
  */
-public class RouteLineActivity extends AppCompatActivity {
+public class DroppedPinActivity extends AppCompatActivity {
 
   MapzenMap map;
 
-  List<LngLat> points = new ArrayList();
-
-  @Override protected void onCreate(Bundle savedInstanceState) {
+  @Override protected void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_clear_btn);
 
@@ -35,9 +30,7 @@ public class RouteLineActivity extends AppCompatActivity {
         if (map == null) {
           return;
         }
-        map.clearRouteLine();
-        map.clearRouteLocationMarker();
-        points.clear();
+        map.clearDroppedPins();
       }
     });
 
@@ -45,31 +38,24 @@ public class RouteLineActivity extends AppCompatActivity {
         (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
     mapFragment.getMapAsync(new OnMapReadyCallback() {
       @Override public void onMapReady(MapzenMap map) {
-        RouteLineActivity.this.map = map;
+        DroppedPinActivity.this.map = map;
         map.setPersistMapData(true);
         map.setZoom(15f);
         map.setPosition(new LngLat(-122.394046, 37.789747));
-        map.setTapResponder(new TouchInput.TapResponder() {
-          @Override public boolean onSingleTapUp(float x, float y) {
-            addLineSegmentToRoute(x, y);
-            return false;
-          }
-
-          @Override public boolean onSingleTapConfirmed(float x, float y) {
-            return false;
+        map.setLongPressResponder(new TouchInput.LongPressResponder() {
+          @Override public void onLongPress(float x, float y) {
+            drawDroppedPin(x, y);
           }
         });
       }
     });
 
-    Toast.makeText(this, R.string.route_line_instruction, Toast.LENGTH_LONG).show();
+    Toast.makeText(this, R.string.drop_pin_instruction, Toast.LENGTH_LONG).show();
   }
 
-  private void addLineSegmentToRoute(float x, float y) {
+  private void drawDroppedPin(float x, float y) {
     LngLat point = map.screenPositionToLngLat(new PointF(x, y));
-    points.add(point);
-    map.drawRouteLine(points);
-
-    map.drawRouteLocationMarker(points.get(0));
+    map.drawDroppedPin(point);
   }
+
 }

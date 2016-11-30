@@ -33,4 +33,4 @@ The Mapzen Android SDK incorporates several stand-alone libraries for map render
 - [Lost](https://github.com/mapzen/lost)- Drop-in replacement for Google Play services Location APIs
 
 ## Sample
-For a working example please refer to the SDK [sample app](https://github.com/mapzen/android/tree/master/sample).
+For a working example please refer to the SDK [sample app](https://github.com/mapzen/android/tree/master/mapzen-android-sdk-sample).
