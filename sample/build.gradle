@@ -41,7 +41,7 @@ task verify(dependsOn: ['test',
                         'lint'])
 
 dependencies {
-  compile(project(':library')) {
+  compile(project(':mapzen-android-sdk')) {
     transitive = true;
   }
   compile 'com.android.support:appcompat-v7:24.2.1'
