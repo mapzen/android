@@ -1,10 +1,5 @@
 package com.mapzen.android.sample;
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
-
-import com.mapzen.android.graphics.FeaturePickListener;
 import com.mapzen.android.graphics.LabelPickListener;
 import com.mapzen.android.graphics.MapFragment;
 import com.mapzen.android.graphics.MapzenMap;
@@ -12,6 +7,10 @@ import com.mapzen.android.graphics.OnMapReadyCallback;
 import com.mapzen.android.graphics.model.Marker;
 import com.mapzen.tangram.LabelPickResult;
 import com.mapzen.tangram.LngLat;
+
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import java.util.Map;
 
@@ -22,22 +21,21 @@ public class LabelPickListenerActivity extends AppCompatActivity {
 
   MapzenMap map;
 
-  LabelPickListener listener = new LabelPickListener() {
+  LabelPickListener labelPickListener = new LabelPickListener() {
     @Override public void onLabelPicked(LabelPickResult result, float positionX, float positionY) {
       if (result == null) {
         return;
       }
       double longitude = result.getCoordinates().longitude;
       double latitude = result.getCoordinates().latitude;
+      map.removeMarker();
       map.addMarker(new Marker(longitude, latitude));
-    }
-  };
 
-  FeaturePickListener featurePickListener = new FeaturePickListener() {
-    @Override
-    public void onFeaturePick(Map<String, String> properties, float positionX, float positionY) {
-      Toast.makeText(LabelPickListenerActivity.this, "Feature picked", Toast.LENGTH_SHORT).
-          show();
+      Map<String, String> properties = result.getProperties();
+      String name = properties.get("name");
+      if (!name.isEmpty()) {
+        Toast.makeText(LabelPickListenerActivity.this, name, Toast.LENGTH_SHORT).show();
+      }
     }
   };
 
@@ -52,8 +50,7 @@ public class LabelPickListenerActivity extends AppCompatActivity {
         LabelPickListenerActivity.this.map = map;
         map.setZoom(15f);
         map.setPosition(new LngLat(-122.394046, 37.789747));
-        map.setLabelPickListener(listener);
-        map.setFeaturePickListener(featurePickListener);
+        map.setLabelPickListener(labelPickListener);
       }
     });
   }
