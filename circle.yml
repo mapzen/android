@@ -30,6 +30,7 @@ deployment:
       - ./gradlew aarSize countReleaseDexMethods permissions library:dependencies --configuration compile
   docs_pipeline:
     branch: "migurski/add-to-docs-pipeline"
+    commands:
       - pip install 'Circle-Tickler == 1.0.1'
       - tickle-circle mapzen mapzen-docs-generator master $CIRCLE_TOKEN
 
