@@ -1,1 +1,1 @@
-include ':mapzen-android-sdk', ':mapzen-android-sdk-sample'
+include ':mapzen-android-sdk', ':mapzen-android-sdk-sample', ':core'
