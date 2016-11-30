@@ -31,7 +31,6 @@ release {
 
 afterReleaseBuild.dependsOn uploadArchives
 
-
 android {
   compileSdkVersion 24
   buildToolsVersion "24.0.3"
@@ -69,5 +68,5 @@ dependencies {
   testCompile 'org.assertj:assertj-core:1.7.1'
 }
 
-
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
+
