@@ -26,9 +26,10 @@ version = VERSION_NAME
 project.archivesBaseName = POM_ARTIFACT_ID
 
 release {
-  tagTemplate = 'v${version}'
-  versionPropertyFile = '../gradle.properties'
+  tagTemplate = 'mapzen-android-sdk${version}'
+  versionPropertyFile = 'gradle.properties'
   versionProperties = ['VERSION_NAME']
+  newVersionCommitMessage = '[Gradle Release Plugin] - mapzen-android-sdk new version commit:'
 }
 
 afterReleaseBuild.dependsOn uploadArchives

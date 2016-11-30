@@ -1,4 +1,36 @@
+buildscript {
+  repositories {
+    mavenCentral()
+    mavenLocal()
+    maven {
+      url 'https://plugins.gradle.org/m2/'
+    }
+  }
+  dependencies {
+    classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+    classpath 'net.researchgate:gradle-release:2.4.0'
+    classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.6.1'
+  }
+}
+
 apply plugin: 'com.android.library'
+apply plugin: 'checkstyle'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'net.researchgate.release'
+
+group = GROUP
+version = VERSION_NAME
+project.archivesBaseName = POM_ARTIFACT_ID
+
+release {
+  tagTemplate = 'mapzen-places-api-${version}'
+  versionPropertyFile = 'gradle.properties'
+  versionProperties = ['VERSION_NAME']
+  newVersionCommitMessage = '[Gradle Release Plugin] - mapzen-places-api new version commit:'
+}
+
+afterReleaseBuild.dependsOn uploadArchives
+
 
 android {
   compileSdkVersion 24
@@ -16,9 +48,25 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }
+  testOptions {
+    unitTests.returnDefaultValues = true
+  }
+}
+
+tasks.withType(Test) {
+  testLogging {
+    exceptionFormat "full"
+    events "started", "skipped", "passed", "failed"
+    showStandardStreams true
+  }
 }
 
 dependencies {
   compile 'com.android.support:appcompat-v7:24.2.1'
+
   testCompile 'junit:junit:4.12'
+  testCompile 'org.assertj:assertj-core:1.7.1'
 }
+
+
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
