@@ -35,8 +35,10 @@ public class MapzenMap {
   private final MapController mapController;
   private final OverlayManager overlayManager;
   private final MapStateManager mapStateManager;
+  private final LabelPickHandler labelPickHandler;
 
   boolean pickFeatureOnSingleTapConfirmed = false;
+  boolean pickLabelOnSingleTapConfirmed = false;
 
   private TouchInput.TapResponder internalTapResponder = new TouchInput.TapResponder() {
     @Override public boolean onSingleTapUp(float x, float y) {
@@ -52,6 +54,9 @@ public class MapzenMap {
       }
       if (pickFeatureOnSingleTapConfirmed) {
         mapController.pickFeature(x, y);
+      }
+      if (pickLabelOnSingleTapConfirmed) {
+        mapController.pickLabel(x, y);
       }
       return false;
     }
@@ -114,11 +119,12 @@ public class MapzenMap {
    * Creates a new map based on the given {@link MapView} and {@link MapController}.
    */
   MapzenMap(MapView mapView, MapController mapController, OverlayManager overlayManager,
-      MapStateManager mapStateManager) {
+      MapStateManager mapStateManager, LabelPickHandler labelPickHandler) {
     this.mapView = mapView;
     this.mapController = mapController;
     this.overlayManager = overlayManager;
     this.mapStateManager = mapStateManager;
+    this.labelPickHandler = labelPickHandler;
     mapController.setPanResponder(internalPanResponder);
     overlayManager.restoreMapData();
     restoreMapState();
@@ -546,6 +552,18 @@ public class MapzenMap {
       }
     });
     pickFeatureOnSingleTapConfirmed = (listener != null);
+    mapController.setTapResponder(internalTapResponder);
+  }
+
+  /**
+   * Set a listener for label pick events.
+   *
+   * @param listener Listener to receive callback when labels are selected.
+   */
+  public void setLabelPickListener(final LabelPickListener listener) {
+    labelPickHandler.setListener(listener);
+    mapController.setLabelPickListener(labelPickHandler);
+    pickLabelOnSingleTapConfirmed = (listener != null);
     mapController.setTapResponder(internalTapResponder);
   }
 

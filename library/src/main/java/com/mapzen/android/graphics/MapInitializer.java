@@ -79,7 +79,7 @@ public class MapInitializer {
         mapController.setHttpHandler(httpHandler);
         callback.onMapReady(
             new MapzenMap(mapView, mapController, new OverlayManager(mapView, mapController,
-                mapDataManager, mapStateManager), mapStateManager));
+                mapDataManager, mapStateManager), mapStateManager, new LabelPickHandler(mapView)));
       }
     }, sceneFile);
   }

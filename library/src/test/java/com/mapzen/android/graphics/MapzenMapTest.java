@@ -5,6 +5,7 @@ import com.mapzen.android.graphics.model.EaseType;
 import com.mapzen.android.graphics.model.Marker;
 import com.mapzen.android.graphics.model.Polygon;
 import com.mapzen.android.graphics.model.Polyline;
+import com.mapzen.tangram.LabelPickResult;
 import com.mapzen.tangram.LngLat;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.TouchInput;
@@ -39,6 +40,7 @@ public class MapzenMapTest {
   private MapzenMap map;
   private MapController mapController;
   private OverlayManager overlayManager;
+  private LabelPickHandler labelPickHandler;
 
   @Before public void setUp() throws Exception {
     mapView = new TestMapView();
@@ -48,7 +50,8 @@ public class MapzenMapTest {
     Mockito.doCallRealMethod().when(mapController).pickFeature(anyFloat(), anyFloat());
     overlayManager = mock(OverlayManager.class);
     MapStateManager mapStateManager = new MapStateManager();
-    map = new MapzenMap(mapView, mapController, overlayManager, mapStateManager);
+    labelPickHandler = new LabelPickHandler(mapView);
+    map = new MapzenMap(mapView, mapController, overlayManager, mapStateManager, labelPickHandler);
   }
 
   @Test public void shouldNotBeNull() throws Exception {
@@ -455,6 +458,27 @@ public class MapzenMapTest {
     assertThat(mapView.getAction()).isNotNull();
   }
 
+  @Test public void setLabelPickListener_shouldInvokeLabelListener() {
+    TestLabelPickListener listener = new TestLabelPickListener();
+    map.setLabelPickListener(listener);
+    labelPickHandler.onLabelPick(mock(LabelPickResult.class), 0, 0);
+    assertThat(listener.picked).isTrue();
+  }
+
+  @Test public void setLabelPickListener_shouldInvokeCallbackOnMainThread() throws Exception {
+    TestLabelPickListener listener = new TestLabelPickListener();
+    map.setLabelPickListener(listener);
+    labelPickHandler.onLabelPick(mock(LabelPickResult.class), 0, 0);
+    assertThat(mapView.getAction()).isNotNull();
+  }
+
+  @Test public void setLabelPickListener_shouldDoNothingForNullLabelResult() {
+    TestLabelPickListener listener = new TestLabelPickListener();
+    map.setLabelPickListener(listener);
+    labelPickHandler.onLabelPick(null, 0, 0);
+    assertThat(listener.picked).isFalse();
+  }
+
   @Test public void setViewCompleteListener_shouldInvokeViewCompleteListener() {
     TestViewCompleteListener listener = new TestViewCompleteListener();
     map.setViewCompleteListener(listener);
@@ -488,6 +512,16 @@ public class MapzenMapTest {
 
     @Override
     public void onFeaturePick(Map<String, String> properties, float positionX, float positionY) {
+      picked = true;
+    }
+  }
+
+  private class TestLabelPickListener implements LabelPickListener {
+
+    boolean picked = false;
+
+    @Override
+    public void onLabelPicked(LabelPickResult result, float positionX, float positionY) {
       picked = true;
     }
   }

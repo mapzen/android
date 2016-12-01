@@ -36,6 +36,7 @@
     <activity android:name=".RouteLineActivity"/>
     <activity android:name=".SearchResultsActivity"/>
     <activity android:name="FeaturePickListenerActivity"/>
+    <activity android:name=".LabelPickListenerActivity"/>
     <activity android:name=".QueueEventActivity"/>
     <activity android:name=".RouterActivity" />
     <activity android:name=".MapzenSearchViewActivity"/>
