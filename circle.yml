@@ -1,6 +1,8 @@
 machine:
   java:
     version: oraclejdk8
+  python:
+    version: 2.7.10
 
 checkout:
   post:
@@ -26,3 +28,6 @@ deployment:
       - ./gradlew uploadArchives -PsonatypeUsername=$SONATYPE_NEXUS_SNAPSHOTS_USERNAME -PsonatypePassword=$SONATYPE_NEXUS_SNAPSHOTS_PASSWORD
       - scripts/deploy-sample-app.sh
       - ./gradlew aarSize countReleaseDexMethods permissions library:dependencies --configuration compile
+      - pip install 'Circle-Tickler == 1.0.1'
+      - tickle-circle mapzen mapzen-docs-generator master $CIRCLE_TOKEN
+
