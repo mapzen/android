@@ -63,7 +63,7 @@ tasks.withType(Test) {
 
 dependencies {
   compile 'com.android.support:appcompat-v7:24.2.1'
-  compile project(':core')
+  compile 'com.mapzen:mapzen-core:0.0.1-SNAPSHOT'
 
   testCompile 'junit:junit:4.12'
   testCompile 'org.assertj:assertj-core:1.7.1'
