@@ -82,5 +82,5 @@ task verify(dependsOn: ['compileDebugSources',
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
 
 dependencies {
-  
+  compile 'com.mapzen.android:lost:2.1.2'
 }

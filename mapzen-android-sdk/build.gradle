@@ -101,7 +101,6 @@ dependencies {
   compile 'com.mapzen:mapzen-core:0.0.1-SNAPSHOT'
 
   compile "com.mapzen.tangram:tangram:$tangram_version"
-  compile 'com.mapzen.android:lost:2.1.2'
   compile 'com.mapzen:on-the-road:1.1.1'
   compile 'com.mapzen.android:pelias-android-sdk:1.0.0'
   compile 'com.google.dagger:dagger:2.0'
