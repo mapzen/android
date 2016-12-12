@@ -1,1 +1,10 @@
-include ':library', ':sample'
+include ':mapzen-android-sdk'
+include ':core'
+include ':mapzen-places-api'
+include ':samples_mapzen-android-sdk-sample'
+include ':samples_mapzen-places-api-sample'
+
+project(':samples_mapzen-android-sdk-sample').projectDir =
+    new File('samples/mapzen-android-sdk-sample')
+project(':samples_mapzen-places-api-sample').projectDir =
+    new File('samples/mapzen-places-api-sample')

@@ -1,0 +1,86 @@
+buildscript {
+  repositories {
+    mavenCentral()
+    mavenLocal()
+    maven {
+      url 'https://plugins.gradle.org/m2/'
+    }
+  }
+  dependencies {
+    classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+    classpath 'net.researchgate:gradle-release:2.4.0'
+  }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'checkstyle'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'net.researchgate.release'
+
+group = GROUP
+version = VERSION_NAME
+project.archivesBaseName = POM_ARTIFACT_ID
+
+release {
+  tagTemplate = 'mapzen-core${version}'
+  versionPropertyFile = 'gradle.properties'
+  versionProperties = ['VERSION_NAME']
+  newVersionCommitMessage = '[Gradle Release Plugin] - core new version commit:'
+}
+
+afterReleaseBuild.dependsOn uploadArchives
+
+android {
+  compileSdkVersion 24
+  buildToolsVersion "24.0.3"
+
+  defaultConfig {
+    minSdkVersion 15
+    targetSdkVersion 24
+    versionCode 1
+    versionName "1.0"
+  }
+
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    }
+  }
+
+  testOptions {
+    unitTests.returnDefaultValues = true
+  }
+
+  lintOptions {
+    abortOnError false
+  }
+}
+
+tasks.withType(Test) {
+  testLogging {
+    exceptionFormat "full"
+    events "started", "skipped", "passed", "failed"
+    showStandardStreams true
+  }
+}
+
+task checkstyle(type: Checkstyle) {
+  configFile file("${project.rootDir}/config/checkstyle/checkstyle.xml")
+  source 'src'
+  include '**/*.java'
+  exclude '**/gen/**'
+
+  classpath = files()
+}
+
+task verify(dependsOn: ['compileDebugSources',
+                        'test',
+                        'checkstyle',
+                        'lint'])
+
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
+
+dependencies {
+  
+}

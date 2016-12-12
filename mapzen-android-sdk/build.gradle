@@ -1,0 +1,162 @@
+buildscript {
+  repositories {
+    mavenCentral()
+    mavenLocal()
+    maven {
+      url 'https://plugins.gradle.org/m2/'
+    }
+  }
+  dependencies {
+    classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+    classpath 'net.researchgate:gradle-release:2.4.0'
+    classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.6.1'
+  }
+}
+
+ext.tangram_version = "0.4.6"
+
+apply plugin: 'com.android.library'
+apply plugin: 'checkstyle'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'net.researchgate.release'
+apply plugin: 'com.getkeepsafe.dexcount'
+
+group = GROUP
+version = VERSION_NAME
+project.archivesBaseName = POM_ARTIFACT_ID
+
+release {
+  tagTemplate = 'mapzen-android-sdk${version}'
+  versionPropertyFile = 'gradle.properties'
+  versionProperties = ['VERSION_NAME']
+  newVersionCommitMessage = '[Gradle Release Plugin] - mapzen-android-sdk new version commit:'
+}
+
+afterReleaseBuild.dependsOn uploadArchives
+
+android {
+  compileSdkVersion 24
+  buildToolsVersion "24.0.3"
+
+  defaultConfig {
+    minSdkVersion 15
+    targetSdkVersion 24
+    versionCode 1
+    versionName "1.0"
+    resValue "string", "tangram_version", "${tangram_version}"
+  }
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    }
+  }
+
+  testOptions {
+    unitTests.returnDefaultValues = true
+  }
+
+  lintOptions {
+    abortOnError false
+  }
+}
+
+tasks.withType(Test) {
+  testLogging {
+    exceptionFormat "full"
+    events "started", "skipped", "passed", "failed"
+    showStandardStreams true
+  }
+}
+
+task checkstyle(type: Checkstyle) {
+  configFile file("${project.rootDir}/config/checkstyle/checkstyle.xml")
+  source 'src'
+  include '**/*.java'
+  exclude '**/gen/**'
+
+  classpath = files()
+}
+
+task verify(dependsOn: ['compileDebugSources',
+                        'test',
+                        'checkstyle',
+                        'lint'])
+
+task submodules {
+  def folder = new File( 'mapzen-android-sdk/src/main/assets/styles/walkabout-style-more-labels/walkabout-style-more-labels.yaml' )
+  if(!folder.exists()) {
+    throw new GradleException("Submodules aren't present, please run:\n`git submodule init`, " +
+        "\n`git submodule update`\nfrom your root directory")
+
+  }
+}
+
+assemble.doFirst {
+  submodules
+}
+
+dependencies {
+  compile 'com.android.support:appcompat-v7:24.2.1'
+  compile 'com.mapzen:mapzen-core:0.0.1-SNAPSHOT'
+
+  compile "com.mapzen.tangram:tangram:$tangram_version"
+  compile 'com.mapzen.android:lost:2.1.2'
+  compile 'com.mapzen:on-the-road:1.1.1'
+  compile 'com.mapzen.android:pelias-android-sdk:1.0.0'
+  compile 'com.google.dagger:dagger:2.0'
+  compile 'javax.annotation:javax.annotation-api:1.2'
+
+  annotationProcessor 'com.google.dagger:dagger-compiler:2.0'
+
+  testCompile 'junit:junit:4.12'
+  testCompile 'org.assertj:assertj-core:1.7.1'
+  testCompile 'org.powermock:powermock:1.6.4'
+  testCompile 'org.powermock:powermock-module-junit4:1.6.4'
+  testCompile 'org.powermock:powermock-api-mockito:1.6.4'
+}
+
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
+
+task aarSize {
+  doLast {
+
+    File mapzen = file("build/outputs/aar/mapzen-android-sdk-release.aar")
+    def mapzenSize = mapzen.length() / (1024 * 1024)
+
+    def depsSize = 0
+    configurations._releaseCompile.collect { it.length() / (1024 * 1024) }.each { depsSize += it }
+
+    def totalSize = mapzenSize + depsSize
+    println ""
+    println "TOTAL SIZE (mapzen aar + dependencies): ${Math.round(totalSize * 100) / 100} Mb"
+    println ""
+
+    println "MAPZEN AAR SIZE: ${Math.round(mapzen.length() / (1024) * 100) / 100} kb"
+    println ""
+
+
+    println "ALL DEPENDENCIES: ${Math.round(depsSize * 100) / 100} Mb"
+    println ""
+
+    println "DEPENDENCIES:"
+    configurations
+        ._releaseCompile
+        .sort { -it.length() }
+        .each { println "${it.name} : ${Math.round(it.length() / (1024) * 100) / 100} kb" }
+
+  }
+  dependsOn 'assembleRelease'
+}
+
+dexcount {
+  runOnEachAssemble false
+}
+
+task permissions {
+  File manifest = file("src/main/AndroidManifest.xml")
+  println ""
+  println "Permissions:"
+  println manifest.readLines().findAll { x -> x.contains("uses-permission")}
+  println ""
+}
