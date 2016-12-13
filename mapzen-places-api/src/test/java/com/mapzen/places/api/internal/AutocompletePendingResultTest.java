@@ -3,6 +3,7 @@ package com.mapzen.places.api.internal;
 import com.mapzen.android.lost.api.ResultCallback;
 import com.mapzen.android.lost.api.Status;
 import com.mapzen.pelias.Pelias;
+import com.mapzen.pelias.gson.Result;
 import com.mapzen.places.api.AutocompletePredictionBuffer;
 import com.mapzen.places.api.LatLng;
 import com.mapzen.places.api.LatLngBounds;
@@ -73,7 +74,8 @@ public class AutocompletePendingResultTest {
       public Object answer(InvocationOnMock invocation) {
         Object[] args = invocation.getArguments();
         Callback callback = (Callback) args[3];
-        callback.success(null, null);
+        final Result result = new Result();
+        callback.success(result, null);
         return null;
       }
     }).when(pelias).suggest(anyString(), anyDouble(), anyDouble(), any(Callback.class));
