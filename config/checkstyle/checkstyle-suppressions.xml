@@ -12,4 +12,5 @@
     <suppress checks="JavadocType" files=".*src/test/java/*" />
     <suppress checks="JavadocStyle" files=".*src/test/java/*" />
     <suppress checks="VisibilityModifier" files=".*src/test/java/*" />
+    <suppress checks="ConstantName" files="src/main/java/com/mapzen/places/api/Places.java"/>
 </suppressions>

@@ -31,7 +31,6 @@ release {
 
 afterReleaseBuild.dependsOn uploadArchives
 
-
 android {
   compileSdkVersion 24
   buildToolsVersion "24.0.3"
@@ -61,13 +60,24 @@ tasks.withType(Test) {
   }
 }
 
+task checkstyle(type: Checkstyle) {
+  configFile file("${project.rootDir}/config/checkstyle/checkstyle.xml")
+  source 'src'
+  include '**/*.java'
+  exclude '**/gen/**'
+
+  classpath = files()
+}
+
 dependencies {
   compile 'com.android.support:appcompat-v7:24.2.1'
   compile 'com.mapzen:mapzen-core:0.0.1-SNAPSHOT'
 
   testCompile 'junit:junit:4.12'
   testCompile 'org.assertj:assertj-core:1.7.1'
+  testCompile 'org.powermock:powermock:1.6.4'
+  testCompile 'org.powermock:powermock-module-junit4:1.6.4'
+  testCompile 'org.powermock:powermock-api-mockito:1.6.4'
 }
-
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
