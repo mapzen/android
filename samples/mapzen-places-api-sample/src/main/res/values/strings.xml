@@ -1,3 +1,5 @@
 <resources>
-  <string name="app_name">mapzen-places-api-sample</string>
+  <string name="app_name">Mapzen Places API</string>
+  <string name="geodata_demo_label">GeoDataApi</string>
+  <string name="geodata_demo_description">Places.GeoDataApi example usage</string>
 </resources>
