@@ -9,25 +9,18 @@ public class LatLng {
   private final double LAT_MAX = 90;
   private final double LNG_MIN = -180;
   private final double LNG_MAX = 180;
+  private final double ALL_LNGS = 360;
 
   private final double latitude;
   private final double longitude;
 
   public LatLng(double lat, double lng) {
-    if (lat < LAT_MIN) {
-      lat = LAT_MIN;
+    if(LNG_MIN <= lng && lng < LNG_MAX) {
+      this.longitude = lng;
+    } else {
+      this.longitude = ((lng - LNG_MAX) % ALL_LNGS + ALL_LNGS) % ALL_LNGS - LNG_MAX;
     }
-    if (lat > LAT_MAX) {
-      lat = LAT_MAX;
-    }
-    if (lng < LNG_MIN) {
-      lng = LNG_MIN;
-    }
-    if (lng > LNG_MAX) {
-      lng = LNG_MAX;
-    }
-    latitude = lat;
-    longitude = lng;
+    this.latitude = Math.max(LAT_MIN, Math.min(LAT_MAX, lat));
   }
 
   /**

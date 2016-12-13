@@ -26,13 +26,13 @@ public class LatLngTest {
     assertThat(maxLat.getLatitude()).isEqualTo(90);
   }
 
-  @Test public void shouldSetMinLng() {
+  @Test public void shouldSetLng_160() {
     LatLng minLng = new LatLng(40, -200);
-    assertThat(minLng.getLongitude()).isEqualTo(-180);
+    assertThat(minLng.getLongitude()).isEqualTo(160);
   }
 
-  @Test public void shouldSetMaxLng() {
+  @Test public void shouldSetLng_neg160() {
     LatLng maxLng = new LatLng(40, 200);
-    assertThat(maxLng.getLongitude()).isEqualTo(180);
+    assertThat(maxLng.getLongitude()).isEqualTo(-160);
   }
 }
