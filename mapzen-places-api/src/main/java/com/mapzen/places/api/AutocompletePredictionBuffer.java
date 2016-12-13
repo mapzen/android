@@ -8,7 +8,13 @@ import com.mapzen.android.lost.api.Status;
  */
 public class AutocompletePredictionBuffer implements Result {
 
+  private final Status status;
+
+  public AutocompletePredictionBuffer(Status status) {
+    this.status = status;
+  }
+
   @Override public Status getStatus() {
-    return null;
+    return status;
   }
 }
