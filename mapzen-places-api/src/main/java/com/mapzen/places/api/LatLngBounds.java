@@ -1,12 +1,18 @@
 package com.mapzen.places.api;
 
 /**
- * Represents a rectangular area
+ * Represents a rectangular area.
  */
 public class LatLngBounds {
+
   private final LatLng northeast;
   private final LatLng southwest;
 
+  /**
+   * Constructs a new object given southwest and northwest points.
+   * @param southwest
+   * @param northeast
+   */
   public LatLngBounds(LatLng southwest, LatLng northeast) {
     this.southwest = southwest;
     this.northeast = northeast;
@@ -20,18 +26,28 @@ public class LatLngBounds {
     return northeast;
   }
 
+  /**
+   * Determines whether the given point is contained within the lat/lng's bounds.
+   * @param point
+   * @return
+   */
   public boolean contains(LatLng point) {
     return this.includesLat(point.getLatitude()) && this.includesLng(point.getLongitude());
   }
 
+  /**
+   * Returns a new object which includes the given point.
+   * @param point
+   * @return
+   */
   public LatLngBounds including(LatLng point) {
     double swLat = Math.min(this.southwest.getLatitude(), point.getLatitude());
     double neLat = Math.max(this.northeast.getLatitude(), point.getLatitude());
     double neLng = this.northeast.getLongitude();
     double swLng = this.southwest.getLongitude();
     double ptLng = point.getLongitude();
-    if(!this.includesLng(ptLng)) {
-      if(swLngMod(swLng, ptLng) < neLngMod(neLng, ptLng)) {
+    if (!this.includesLng(ptLng)) {
+      if (swLngMod(swLng, ptLng) < neLngMod(neLng, ptLng)) {
         swLng = ptLng;
       } else {
         neLng = ptLng;
@@ -41,12 +57,16 @@ public class LatLngBounds {
     return new LatLngBounds(new LatLng(swLat, swLng), new LatLng(neLat, neLng));
   }
 
+  /**
+   * Returns the center of the lat/lng bounds.
+   * @return
+   */
   public LatLng getCenter() {
     double midLat = (this.southwest.getLatitude() + this.northeast.getLatitude()) / 2.0D;
     double neLng = this.northeast.getLongitude();
     double swLng = this.southwest.getLongitude();
     double midLng;
-    if(swLng <= neLng) {
+    if (swLng <= neLng) {
       midLng = (neLng + swLng) / 2.0D;
     } else {
       midLng = (neLng + 360.0D + swLng) / 2.0D;
@@ -68,11 +88,14 @@ public class LatLngBounds {
   }
 
   private boolean includesLng(double lng) {
-    return this.southwest.getLongitude() <= this.northeast.getLongitude()?
-        this.southwest.getLongitude()<= lng && lng <= this.northeast.getLongitude():
+    return this.southwest.getLongitude() <= this.northeast.getLongitude() ?
+        this.southwest.getLongitude() <= lng && lng <= this.northeast.getLongitude() :
         this.southwest.getLongitude() <= lng || lng <= this.northeast.getLongitude();
   }
 
+  /**
+   * Builder class for {@link LatLngBounds}.
+   */
   public static class Builder {
 
     private double northeastLat = 0;

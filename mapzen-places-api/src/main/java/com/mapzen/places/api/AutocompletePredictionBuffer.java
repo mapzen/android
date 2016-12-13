@@ -6,13 +6,18 @@ import com.mapzen.android.lost.api.Status;
 import java.util.List;
 
 /**
- * Represents a list of autocomplete results
+ * Represents a list of autocomplete results.
  */
 public class AutocompletePredictionBuffer implements Result, DataBuffer<AutocompletePrediction> {
 
   private final Status status;
   private final List<AutocompletePrediction> predictions;
 
+  /**
+   * Constructs a new buffer given a status and list of autocomplete results.
+   * @param status
+   * @param predictions
+   */
   public AutocompletePredictionBuffer(Status status, List<AutocompletePrediction> predictions) {
     this.status = status;
     this.predictions = predictions;

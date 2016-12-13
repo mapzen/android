@@ -5,17 +5,22 @@ package com.mapzen.places.api;
  */
 public class LatLng {
 
-  private final double LAT_MIN = -90;
-  private final double LAT_MAX = 90;
-  private final double LNG_MIN = -180;
-  private final double LNG_MAX = 180;
-  private final double ALL_LNGS = 360;
+  private static final double LAT_MIN = -90;
+  private static final double LAT_MAX = 90;
+  private static final double LNG_MIN = -180;
+  private static final double LNG_MAX = 180;
+  private static final double ALL_LNGS = 360;
 
   private final double latitude;
   private final double longitude;
 
+  /**
+   * Constructs a new object given a latitude and longitude in degrees.
+   * @param lat
+   * @param lng
+   */
   public LatLng(double lat, double lng) {
-    if(LNG_MIN <= lng && lng < LNG_MAX) {
+    if (LNG_MIN <= lng && lng < LNG_MAX) {
       this.longitude = lng;
     } else {
       this.longitude = ((lng - LNG_MAX) % ALL_LNGS + ALL_LNGS) % ALL_LNGS - LNG_MAX;

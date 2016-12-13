@@ -22,6 +22,10 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
+/**
+ * Object returned by {@link GeoDataApiImpl#getAutocompletePredictions(
+ * com.mapzen.android.lost.api.LostApiClient, String, LatLngBounds, AutocompleteFilter)}.
+ */
 public class AutocompletePendingResult extends PendingResult<AutocompletePredictionBuffer> {
 
   private final Pelias pelias;
@@ -29,6 +33,14 @@ public class AutocompletePendingResult extends PendingResult<AutocompletePredict
   private final LatLngBounds bounds;
   private final AutocompleteFilter filter;
 
+  /**
+   * Constructs a new object given a pelias instance, a query, a lat/lng bounds, and an autocomplete
+   * filter.
+   * @param pelias
+   * @param query
+   * @param bounds
+   * @param filter
+   */
   public AutocompletePendingResult(Pelias pelias, String query, LatLngBounds bounds,
       AutocompleteFilter filter) {
     this.pelias = pelias;
@@ -60,6 +72,7 @@ public class AutocompletePendingResult extends PendingResult<AutocompletePredict
     pelias.suggest(query, center.getLatitude(), center.getLongitude(), new Callback<Result>() {
       @Override public void success(Result result, Response response) {
         Status status = new Status(Status.SUCCESS);
+
         final ArrayList<AutocompletePrediction> predictions = new ArrayList<>();
         final List<Feature> features = result.getFeatures();
         for (Feature feature : features) {
@@ -67,6 +80,7 @@ public class AutocompletePendingResult extends PendingResult<AutocompletePredict
               feature.properties.name);
           predictions.add(prediction);
         }
+
         AutocompletePredictionBuffer buffer = new AutocompletePredictionBuffer(status, predictions);
         callback.onResult(buffer);
       }
