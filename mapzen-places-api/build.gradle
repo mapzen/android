@@ -60,6 +60,15 @@ tasks.withType(Test) {
   }
 }
 
+task checkstyle(type: Checkstyle) {
+  configFile file("${project.rootDir}/config/checkstyle/checkstyle.xml")
+  source 'src'
+  include '**/*.java'
+  exclude '**/gen/**'
+
+  classpath = files()
+}
+
 dependencies {
   compile 'com.android.support:appcompat-v7:24.2.1'
   compile 'com.mapzen:mapzen-core:0.0.1-SNAPSHOT'
