@@ -56,13 +56,13 @@ public class AutocompletePendingResult extends PendingResult<AutocompletePredict
     pelias.suggest(query, center.getLatitude(), center.getLongitude(), new Callback<Result>() {
       @Override public void success(Result result, Response response) {
         Status status = new Status(Status.SUCCESS);
-        AutocompletePredictionBuffer buffer = new AutocompletePredictionBuffer(status);
+        AutocompletePredictionBuffer buffer = new AutocompletePredictionBuffer(status, null);
         callback.onResult(buffer);
       }
 
       @Override public void failure(RetrofitError error) {
         Status status = new Status(Status.INTERNAL_ERROR);
-        AutocompletePredictionBuffer buffer = new AutocompletePredictionBuffer(status);
+        AutocompletePredictionBuffer buffer = new AutocompletePredictionBuffer(status, null);
         callback.onResult(buffer);
       }
     });
