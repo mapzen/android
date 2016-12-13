@@ -69,6 +69,11 @@ task checkstyle(type: Checkstyle) {
   classpath = files()
 }
 
+task verify(dependsOn: ['compileDebugSources',
+                        'test',
+                        'checkstyle',
+                        'lint'])
+
 dependencies {
   compile 'com.android.support:appcompat-v7:24.2.1'
   compile 'com.mapzen:mapzen-core:0.0.1-SNAPSHOT'
