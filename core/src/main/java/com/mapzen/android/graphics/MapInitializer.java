@@ -1,6 +1,6 @@
 package com.mapzen.android.graphics;
 
-import com.mapzen.android.core.DI;
+import com.mapzen.android.core.CoreDI;
 import com.mapzen.android.graphics.model.BubbleWrapStyle;
 import com.mapzen.android.graphics.model.MapStyle;
 import com.mapzen.tangram.MapController;
@@ -22,7 +22,7 @@ public class MapInitializer {
    * Creates a new instance.
    */
   @Inject MapInitializer() {
-    DI.component().inject(this);
+    CoreDI.component().inject(this);
   }
 
   /**

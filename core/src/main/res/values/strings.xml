@@ -1,3 +1,5 @@
 <resources>
   <string name="app_name">core</string>
+  <string name="mz_attribution">Powered by Mapzen</string>
+  <string name="mz_find_me">Find Me</string>
 </resources>

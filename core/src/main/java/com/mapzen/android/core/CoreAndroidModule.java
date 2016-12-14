@@ -1,7 +1,6 @@
 package com.mapzen.android.core;
 
-import com.mapzen.android.routing.TurnByTurnHttpHandler;
-import com.mapzen.android.search.SearchInitializer;
+import com.mapzen.android.graphics.TileHttpHandler;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -15,8 +14,8 @@ import dagger.Provides;
 /**
  * Dependency injection module for components that depend on an Android {@link Context}.
  */
-@Module public class AndroidModule {
-  private static final String TAG = AndroidModule.class.getSimpleName();
+@Module public class CoreAndroidModule {
+  private static final String TAG = CoreAndroidModule.class.getSimpleName();
 
   private final Context context;
 
@@ -26,7 +25,7 @@ import dagger.Provides;
    *
    * @param context The context that should be used to inject Android-specific components.
    */
-  AndroidModule(Context context) {
+  CoreAndroidModule(Context context) {
     this.context = context.getApplicationContext();
   }
 
@@ -45,27 +44,18 @@ import dagger.Provides;
   }
 
   /**
-   * Provides HTTP handler to append API key to outgoing turn-by-turn requests.
+   * Provides HTTP handler to append API key to outgoing vector tile requests.
    */
-  @Provides @Singleton public TurnByTurnHttpHandler provideTurnByTurnHttpHandler(Resources res) {
-    TurnByTurnHttpHandler handler = new TurnByTurnHttpHandler();
+  @Provides @Singleton public TileHttpHandler provideTileHttpHandler(Resources res) {
     final String packageName = context.getPackageName();
     try {
       final int apiKeyId = res.getIdentifier(ApiKeyConstants.API_KEY_RES_NAME,
           ApiKeyConstants.API_KEY_RES_TYPE, packageName);
       final String apiKey = res.getString(apiKeyId);
-      handler.setApiKey(apiKey);
+      return new TileHttpHandler(apiKey);
     } catch (Resources.NotFoundException e) {
       Log.e(TAG, e.getLocalizedMessage());
     }
-    return handler;
-  }
-
-  /**
-   * Provide initializer for configuring {@link com.mapzen.android.search.MapzenSearch} objects.
-   * @return
-   */
-  @Provides @Singleton public SearchInitializer provideSearchInitializer() {
-    return new SearchInitializer();
+    return new TileHttpHandler(null);
   }
 }

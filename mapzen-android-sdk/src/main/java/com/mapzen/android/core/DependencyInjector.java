@@ -1,8 +1,5 @@
 package com.mapzen.android.core;
 
-import com.mapzen.android.graphics.GraphicsModule;
-import com.mapzen.android.graphics.MapInitializer;
-import com.mapzen.android.graphics.MapView;
 import com.mapzen.android.routing.MapzenRouter;
 import com.mapzen.android.search.MapzenSearch;
 
@@ -19,11 +16,8 @@ class DependencyInjector {
   /**
    * Library component interface.
    */
-  @Singleton @Component(modules = { AndroidModule.class, CommonModule.class, GraphicsModule.class })
+  @Singleton @Component(modules = { AndroidModule.class, CommonModule.class })
   public interface LibraryComponent {
-    void inject(MapView mapView);
-
-    void inject(MapInitializer mapInitializer);
     void inject(MapzenRouter router);
     void inject(MapzenSearch search);
   }
