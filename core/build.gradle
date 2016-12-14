@@ -21,6 +21,8 @@ group = GROUP
 version = VERSION_NAME
 project.archivesBaseName = POM_ARTIFACT_ID
 
+ext.tangram_version = "0.4.6"
+
 release {
   tagTemplate = 'mapzen-core${version}'
   versionPropertyFile = 'gradle.properties'
@@ -39,6 +41,7 @@ android {
     targetSdkVersion 24
     versionCode 1
     versionName "1.0"
+    resValue "string", "tangram_version", "${tangram_version}"
   }
 
   buildTypes {
@@ -84,6 +87,7 @@ apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
 dependencies {
   compile 'com.mapzen.android:lost:2.1.2'
   compile 'com.mapzen.android:pelias-android-sdk:1.0.0'
+  compile "com.mapzen.tangram:tangram:$tangram_version"
 
   testCompile 'junit:junit:4.12'
   testCompile 'org.assertj:assertj-core:1.7.1'

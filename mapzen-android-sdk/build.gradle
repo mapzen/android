@@ -13,8 +13,6 @@ buildscript {
   }
 }
 
-ext.tangram_version = "0.4.6"
-
 apply plugin: 'com.android.library'
 apply plugin: 'checkstyle'
 apply plugin: 'com.github.dcendents.android-maven'
@@ -43,7 +41,6 @@ android {
     targetSdkVersion 24
     versionCode 1
     versionName "1.0"
-    resValue "string", "tangram_version", "${tangram_version}"
   }
   buildTypes {
     release {
@@ -100,7 +97,6 @@ dependencies {
   compile 'com.android.support:appcompat-v7:24.2.1'
   compile 'com.mapzen:mapzen-core:0.0.1-SNAPSHOT'
 
-  compile "com.mapzen.tangram:tangram:$tangram_version"
   compile 'com.mapzen:on-the-road:1.1.1'
 
   compile 'com.google.dagger:dagger:2.0'
