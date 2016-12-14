@@ -84,6 +84,19 @@ task verify(dependsOn: ['compileDebugSources',
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
 
+task submodules {
+  def folder = new File( 'core/src/main/assets/styles/walkabout-style-more-labels/walkabout-style-more-labels.yaml' )
+  if(!folder.exists()) {
+    throw new GradleException("Submodules aren't present, please run:\n`git submodule init`, " +
+        "\n`git submodule update`\nfrom your root directory")
+
+  }
+}
+
+assemble.doFirst {
+  submodules
+}
+
 dependencies {
   compile 'com.android.support:appcompat-v7:24.2.1'
 

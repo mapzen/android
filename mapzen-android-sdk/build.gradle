@@ -80,19 +80,6 @@ task verify(dependsOn: ['compileDebugSources',
                         'checkstyle',
                         'lint'])
 
-task submodules {
-  def folder = new File( 'mapzen-android-sdk/src/main/assets/styles/walkabout-style-more-labels/walkabout-style-more-labels.yaml' )
-  if(!folder.exists()) {
-    throw new GradleException("Submodules aren't present, please run:\n`git submodule init`, " +
-        "\n`git submodule update`\nfrom your root directory")
-
-  }
-}
-
-assemble.doFirst {
-  submodules
-}
-
 dependencies {
   compile 'com.mapzen:mapzen-core:0.0.1-SNAPSHOT'
   compile 'com.mapzen:on-the-road:1.1.1'
