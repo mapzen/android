@@ -1,6 +1,6 @@
 package com.mapzen.android.graphics;
 
-import com.mapzen.android.core.DI;
+import com.mapzen.android.core.CoreDI;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.SuppressStaticInitializationFor;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import static com.mapzen.android.TestHelper.getMockContext;
+import static com.mapzen.TestHelper.getMockContext;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
@@ -20,7 +20,7 @@ public class MapInitializerTest {
   private MapInitializer mapInitializer;
 
   @Before public void setUp() throws Exception {
-    DI.init(getMockContext());
+    CoreDI.init(getMockContext());
     mapInitializer = new MapInitializer();
   }
 

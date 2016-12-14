@@ -15,6 +15,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+/**
+ * Activity which displays a map and a dialog when the user selects a place on the map.
+ */
 public class PlacePickerActivity extends Activity implements
     PlacePickerViewController, OnMapReadyCallback, LabelPickListener,
     DialogInterface.OnClickListener {

@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.powermock.api.mockito.PowerMockito;
 
-import static com.mapzen.android.TestHelper.getMockContext;
+import static com.mapzen.TestHelper.getMockContext;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;

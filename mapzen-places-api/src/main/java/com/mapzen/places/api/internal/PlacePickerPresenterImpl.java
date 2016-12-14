@@ -2,6 +2,9 @@ package com.mapzen.places.api.internal;
 
 import java.util.Map;
 
+/**
+ * Implementation of {@link PlacePickerPresenter}.
+ */
 public class PlacePickerPresenterImpl implements PlacePickerPresenter {
 
   private static final String PROPERTY_NAME = "name";

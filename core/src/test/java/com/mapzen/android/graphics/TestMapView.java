@@ -5,7 +5,7 @@ import com.mapzen.tangram.MapController;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import static com.mapzen.android.TestHelper.getMockContext;
+import static com.mapzen.TestHelper.getMockContext;
 import static org.mockito.Mockito.mock;
 
 public class TestMapView extends MapView {
