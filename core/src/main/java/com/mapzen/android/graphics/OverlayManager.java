@@ -1,6 +1,6 @@
 package com.mapzen.android.graphics;
 
-import com.mapzen.android.R;
+import com.mapzen.R;
 import com.mapzen.android.graphics.model.Marker;
 import com.mapzen.android.graphics.model.Polygon;
 import com.mapzen.android.graphics.model.Polyline;
@@ -14,9 +14,8 @@ import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.MapData;
 import com.mapzen.tangram.TouchInput;
 
-import org.jetbrains.annotations.NotNull;
-
 import android.location.Location;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageButton;
@@ -532,8 +531,8 @@ public class OverlayManager implements TouchInput.PanResponder {
   /**
    * Draws route line on the map for the points supplied. Also draws station icons for each point.
    */
-  public void drawTransitRouteLine(@NotNull List<LngLat> points, @Nullable List<LngLat> stations,
-      @NotNull String colorHex) {
+  public void drawTransitRouteLine(@NonNull List<LngLat> points, @Nullable List<LngLat> stations,
+      @NonNull String colorHex) {
     drawTransitRouteLine(points, stations, colorHex, true);
   }
 
@@ -541,8 +540,8 @@ public class OverlayManager implements TouchInput.PanResponder {
    * Draws route line on the map for the points supplied. Also draws station icons for each point.
    * Optionally persists the map data to the {@link MapDataManager}.
    */
-  public void drawTransitRouteLine(@NotNull List<LngLat> points, @Nullable List<LngLat> stations,
-      @NotNull String colorHex, boolean persistMapData) {
+  public void drawTransitRouteLine(@NonNull List<LngLat> points, @Nullable List<LngLat> stations,
+      @NonNull String colorHex, boolean persistMapData) {
     if (persistMapData) {
       mapDataManager.addMapData(new PersistableMapData(points, stations, colorHex));
     }

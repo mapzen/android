@@ -1,4 +1,4 @@
-package com.mapzen.android;
+package com.mapzen;
 
 import org.powermock.api.mockito.PowerMockito;
 
@@ -8,7 +8,7 @@ import android.content.res.Resources;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class TestHelper {
+public final class TestHelper {
   public static Context getMockContext() {
     final Context context = PowerMockito.mock(Context.class);
     when(context.getApplicationContext()).thenReturn(context);

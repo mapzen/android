@@ -1,6 +1,6 @@
 package com.mapzen.android.graphics;
 
-import com.mapzen.android.R;
+import com.mapzen.R;
 import com.mapzen.android.lost.api.LocationServices;
 import com.mapzen.android.lost.api.LostApiClient;
 import com.mapzen.android.lost.internal.FusedLocationProviderApiImpl;

@@ -1,15 +1,15 @@
-[submodule "mapzen-android-sdk/src/main/assets/styles/bubble-wrap"]
-	path = mapzen-android-sdk/src/main/assets/styles/bubble-wrap
+[submodule "core/src/main/assets/styles/bubble-wrap"]
+	path = core/src/main/assets/styles/bubble-wrap
 	url = https://github.com/tangrams/bubble-wrap.git
-[submodule "mapzen-android-sdk/src/main/assets/styles/refill-more-labels"]
-	path = mapzen-android-sdk/src/main/assets/styles/refill-more-labels
+[submodule "core/src/main/assets/styles/refill-more-labels"]
+	path = core/src/main/assets/styles/refill-more-labels
 	url = https://github.com/tangrams/refill-style-more-labels.git
-[submodule "mapzen-android-sdk/src/main/assets/styles/cinnabar-more-labels"]
-	path = mapzen-android-sdk/src/main/assets/styles/cinnabar-more-labels
+[submodule "core/src/main/assets/styles/cinnabar-more-labels"]
+	path = core/src/main/assets/styles/cinnabar-more-labels
 	url = https://github.com/tangrams/cinnabar-style-more-labels.git
-[submodule "mapzen-android-sdk/src/main/assets/styles/walkabout-style-more-labels"]
-	path = mapzen-android-sdk/src/main/assets/styles/walkabout-style-more-labels
+[submodule "core/src/main/assets/styles/walkabout-style-more-labels"]
+	path = core/src/main/assets/styles/walkabout-style-more-labels
 	url = https://github.com/tangrams/walkabout-style-more-labels.git
-[submodule "mapzen-android-sdk/src/main/assets/styles/zinc-style-more-labels"]
-	path = mapzen-android-sdk/src/main/assets/styles/zinc-style-more-labels
+[submodule "core/src/main/assets/styles/zinc-style-more-labels"]
+	path = core/src/main/assets/styles/zinc-style-more-labels
 	url = https://github.com/tangrams/zinc-style-more-labels.git

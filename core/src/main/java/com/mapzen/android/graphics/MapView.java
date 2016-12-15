@@ -1,7 +1,7 @@
 package com.mapzen.android.graphics;
 
-import com.mapzen.android.core.DI;
-import com.mapzen.android.R;
+import com.mapzen.R;
+import com.mapzen.android.core.CoreDI;
 import com.mapzen.android.graphics.model.MapStyle;
 
 import android.content.Context;
@@ -49,8 +49,8 @@ public class MapView extends RelativeLayout {
   }
 
   private void initDI(Context context) {
-    DI.init(context);
-    DI.component().inject(this);
+    CoreDI.init(context.getApplicationContext());
+    CoreDI.component().inject(this);
   }
 
   private void initViews(Context context) {

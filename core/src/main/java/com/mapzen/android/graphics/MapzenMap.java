@@ -11,11 +11,10 @@ import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.MapData;
 import com.mapzen.tangram.TouchInput;
 
-import org.jetbrains.annotations.NotNull;
-
 import android.graphics.PointF;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
@@ -728,8 +727,8 @@ public class MapzenMap {
    * Draws transit route line on the map for the points supplied. Also draws station icons for each
    * point.
    */
-  public void drawTransitRouteLine(@NotNull List<LngLat> points, @Nullable List<LngLat> stations,
-      @NotNull String hexColor) {
+  public void drawTransitRouteLine(@NonNull List<LngLat> points, @Nullable List<LngLat> stations,
+      @NonNull String hexColor) {
     overlayManager.drawTransitRouteLine(points, stations, hexColor);
   }
 

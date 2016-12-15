@@ -2,4 +2,5 @@
   <string name="app_name">Mapzen Places API</string>
   <string name="geodata_demo_label">GeoDataApi</string>
   <string name="geodata_demo_description">Places.GeoDataApi example usage</string>
+  <string name="need_permissions">This app needs location permissions to work properly.</string>
 </resources>

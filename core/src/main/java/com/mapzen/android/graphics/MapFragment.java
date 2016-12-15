@@ -1,6 +1,6 @@
 package com.mapzen.android.graphics;
 
-import com.mapzen.android.R;
+import com.mapzen.R;
 import com.mapzen.android.graphics.model.MapStyle;
 
 import android.os.Bundle;
