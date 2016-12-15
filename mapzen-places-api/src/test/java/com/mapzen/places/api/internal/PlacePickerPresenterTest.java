@@ -27,7 +27,7 @@ public class PlacePickerPresenterTest {
   }
 
   @Test public void onPlaceSelected_shouldFinishActivity() {
-    presenter.onPlaceSelected();
+    presenter.onPlaceConfirmed();
     assertThat(controller.finished).isTrue();
   }
 }

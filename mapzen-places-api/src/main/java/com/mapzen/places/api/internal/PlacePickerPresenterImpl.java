@@ -21,7 +21,7 @@ public class PlacePickerPresenterImpl implements PlacePickerPresenter {
     controller.showDialog(title);
   }
 
-  @Override public void onPlaceSelected() {
+  @Override public void onPlaceConfirmed() {
     //TODO pass info so controller can create intent
     controller.finishWithPlace();
   }

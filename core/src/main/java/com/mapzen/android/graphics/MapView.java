@@ -49,7 +49,7 @@ public class MapView extends RelativeLayout {
   }
 
   private void initDI(Context context) {
-    CoreDI.init(context);
+    CoreDI.init(context.getApplicationContext());
     CoreDI.component().inject(this);
   }
 

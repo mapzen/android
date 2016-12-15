@@ -23,5 +23,5 @@ public interface PlacePickerPresenter {
    * Called when a user confirms their selection in the alert dialog that is displayed after
    * a POI has been picked.
    */
-  void onPlaceSelected();
+  void onPlaceConfirmed();
 }

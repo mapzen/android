@@ -61,7 +61,7 @@ public class PlacePickerActivity extends Activity implements
   }
 
   @Override public void onClick(DialogInterface dialogInterface, int i) {
-    presenter.onPlaceSelected();
+    presenter.onPlaceConfirmed();
   }
 
   @Override public void finishWithPlace() {
