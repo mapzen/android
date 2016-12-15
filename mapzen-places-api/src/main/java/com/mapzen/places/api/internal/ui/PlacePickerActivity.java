@@ -25,6 +25,8 @@ public class PlacePickerActivity extends Activity implements
   PlacePickerPresenter presenter;
   MapView mapView;
   MapzenMap map;
+  AlertDialog dialog;
+  String dialogPlaceId;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -47,21 +49,31 @@ public class PlacePickerActivity extends Activity implements
     if (result == null) {
       return;
     }
-    presenter.onLabelPicked(result.getProperties());
+    presenter.onLabelPicked(result.getCoordinates(), result.getProperties());
   }
 
-  @Override public void showDialog(String title) {
-    AlertDialog dialog = new AlertDialog.Builder(this)
+  @Override public void showDialog(String id, String title) {
+    dialog = new AlertDialog.Builder(this)
         .setTitle(R.string.use_this_place)
         .setMessage(title)
-        .setNegativeButton(R.string.change_location, null)
+        .setNegativeButton(R.string.change_location, this)
         .setPositiveButton(R.string.select, this)
         .create();
     dialog.show();
+    dialogPlaceId = id;
+  }
+
+  @Override public void updateDialog(String id, String detail) {
+    if (dialogPlaceId != null && dialogPlaceId.equals(id)) {
+      dialog.setMessage(detail);
+    }
   }
 
   @Override public void onClick(DialogInterface dialogInterface, int i) {
-    presenter.onPlaceConfirmed();
+    if (i == R.string.select) {
+      presenter.onPlaceConfirmed();
+    }
+    dialogPlaceId = null;
   }
 
   @Override public void finishWithPlace() {
