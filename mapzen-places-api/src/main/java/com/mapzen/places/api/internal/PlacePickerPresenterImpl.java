@@ -1,5 +1,6 @@
 package com.mapzen.places.api.internal;
 
+import com.mapzen.places.api.Place;
 import com.mapzen.tangram.LngLat;
 
 import java.util.Map;
@@ -15,6 +16,9 @@ public class PlacePickerPresenterImpl implements PlacePickerPresenter {
   PlacePickerViewController controller;
   PlaceDetailFetcher detailFetcher;
 
+  /**
+   * Construct a new object.
+   */
   public PlacePickerPresenterImpl() {
     detailFetcher = new PeliasPlaceDetailFetcher();
   }
@@ -39,7 +43,7 @@ public class PlacePickerPresenterImpl implements PlacePickerPresenter {
   }
 
   @Override public void onPlaceConfirmed() {
-    //TODO pass info so controller can create intent
-    controller.finishWithPlace();
+    Place place = detailFetcher.getFetchedPlace();
+    controller.finishWithPlace(place);
   }
 }

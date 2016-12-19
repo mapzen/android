@@ -1,5 +1,7 @@
 package com.mapzen.places.api.internal;
 
+import com.mapzen.places.api.Place;
+
 /**
  * Interface for use with the {@link PlacePickerPresenter} and
  * {@link com.mapzen.places.api.internal.ui.PlacePickerActivity}.
@@ -24,5 +26,5 @@ public interface PlacePickerViewController {
    * constructing an intent to pass back to the activity that started the
    * {@link com.mapzen.places.api.internal.ui.PlacePickerActivity}.
    */
-  void finishWithPlace();
+  void finishWithPlace(Place place);
 }

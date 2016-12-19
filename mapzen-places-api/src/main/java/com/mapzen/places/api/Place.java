@@ -1,6 +1,9 @@
 package com.mapzen.places.api;
 
 import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.text.TextUtils;
 
 import java.util.List;
 import java.util.Locale;
@@ -8,7 +11,7 @@ import java.util.Locale;
 /**
  * Represents a physical place selected from a {@link com.mapzen.android.graphics.MapzenMap}.
  */
-public class Place {
+public class Place implements Parcelable {
 
   private final CharSequence address;
   private final CharSequence attributions;
@@ -150,5 +153,51 @@ public class Place {
   public Uri getWebsiteUri() {
     return websiteUri;
   }
+
+  public static final Parcelable.Creator<Place> CREATOR
+      = new Parcelable.Creator<Place>() {
+    public Place createFromParcel(Parcel in) {
+      return new Place(in);
+    }
+
+    public Place[] newArray(int size) {
+      return new Place[size];
+    }
+  };
+
+  private Place(Parcel in) {
+    this.address = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(in);
+    this.attributions = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(in);
+    this.id = in.readString();
+    this.latLng = in.readParcelable(LatLng.class.getClassLoader());
+    this.locale = (Locale) in.readSerializable();
+    this.name = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(in);
+    this.phoneNumber = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(in);
+    this.placeTypes = in.readArrayList(Integer.class.getClassLoader());
+    this.priceLevel = in.readInt();
+    this.rating = in.readFloat();
+    this.viewport = in.readParcelable(LatLngBounds.class.getClassLoader());
+    this.websiteUri = in.readParcelable(Uri.class.getClassLoader());
+  }
+
+  @Override public int describeContents() {
+    return 0;
+  }
+
+  @Override public void writeToParcel(Parcel parcel, int i) {
+    TextUtils.writeToParcel(this.address, parcel, i);
+    TextUtils.writeToParcel(this.attributions, parcel, i);
+    parcel.writeString(this.id);
+    parcel.writeParcelable(this.latLng, i);
+    parcel.writeSerializable(this.locale);
+    TextUtils.writeToParcel(this.name, parcel, i);
+    TextUtils.writeToParcel(this.phoneNumber, parcel, i);
+    parcel.writeList(this.placeTypes);
+    parcel.writeInt(this.priceLevel);
+    parcel.writeFloat(this.rating);
+    parcel.writeParcelable(this.viewport, i);
+    parcel.writeParcelable(this.websiteUri, i);
+  }
+
 
 }

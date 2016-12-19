@@ -14,13 +14,19 @@ import android.content.Intent;
  */
 public class PlacePicker {
 
+  public static final String EXTRA_PLACE = "extra_place";
+
   /**
    * Returns the place's attributions.
    * @param intent intent returned in {@link Activity#onActivityResult(int, int, Intent)}
    * @return
    */
   public static String getAttributions(Intent intent) {
-    throw new RuntimeException("Not implemented yet");
+    Place place = intent.getParcelableExtra(EXTRA_PLACE);
+    if (place.getAttributions() == null) {
+      return null;
+    }
+    return place.getAttributions().toString();
   }
 
   /**
@@ -29,7 +35,8 @@ public class PlacePicker {
    * @return
    */
   public static LatLngBounds getLatLngBounds(Intent intent) {
-    throw new RuntimeException("Not implemented yet");
+    Place place = intent.getParcelableExtra(EXTRA_PLACE);
+    return place.getViewport();
   }
 
   /**
@@ -39,7 +46,7 @@ public class PlacePicker {
    * @return
    */
   public static Place getPlace(Context context, Intent intent) {
-    throw new RuntimeException("Not implemented yet");
+    return intent.getParcelableExtra(EXTRA_PLACE);
   }
 
   /**

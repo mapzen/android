@@ -1,5 +1,7 @@
 package com.mapzen.places.api.sample;
 
+import com.mapzen.places.api.LatLngBounds;
+import com.mapzen.places.api.Place;
 import com.mapzen.places.api.ui.PlacePicker;
 
 import android.Manifest;
@@ -10,6 +12,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 public class PlacePickerDemoActivity extends AppCompatActivity {
@@ -48,7 +51,15 @@ public class PlacePickerDemoActivity extends AppCompatActivity {
 
   @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-    //TODO check result code and use PlacePicker static methods to get info about selected place
+
+    if (requestCode == PLACE_PICKER_REQUEST) {
+      //TODO: display info on screen
+      CharSequence attributions = PlacePicker.getAttributions(data);
+
+      LatLngBounds bounds = PlacePicker.getLatLngBounds(data);
+
+      Place place = PlacePicker.getPlace(this, data);
+    }
   }
 
   private boolean permissionNotGranted() {

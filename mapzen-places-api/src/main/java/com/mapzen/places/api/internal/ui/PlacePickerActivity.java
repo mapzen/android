@@ -4,15 +4,18 @@ import com.mapzen.android.graphics.LabelPickListener;
 import com.mapzen.android.graphics.MapView;
 import com.mapzen.android.graphics.MapzenMap;
 import com.mapzen.android.graphics.OnMapReadyCallback;
+import com.mapzen.places.api.Place;
 import com.mapzen.places.api.R;
 import com.mapzen.places.api.internal.PlacePickerPresenter;
 import com.mapzen.places.api.internal.PlacePickerPresenterImpl;
 import com.mapzen.places.api.internal.PlacePickerViewController;
+import com.mapzen.places.api.ui.PlacePicker;
 import com.mapzen.tangram.LabelPickResult;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 /**
@@ -70,14 +73,16 @@ public class PlacePickerActivity extends Activity implements
   }
 
   @Override public void onClick(DialogInterface dialogInterface, int i) {
-    if (i == R.string.select) {
+    if (i == DialogInterface.BUTTON_POSITIVE) {
       presenter.onPlaceConfirmed();
     }
     dialogPlaceId = null;
   }
 
-  @Override public void finishWithPlace() {
-    setResult(RESULT_OK);
+  @Override public void finishWithPlace(Place place) {
+    Intent intent = new Intent();
+    intent.putExtra(PlacePicker.EXTRA_PLACE, place);
+    setResult(RESULT_OK, intent);
     finish();
   }
 
