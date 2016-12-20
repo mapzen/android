@@ -15,6 +15,7 @@ import android.content.Intent;
 public class PlacePicker {
 
   public static final String EXTRA_PLACE = "extra_place";
+  public static final String EXTRA_BOUNDS = "extra_bounds";
 
   /**
    * Returns the place's attributions.
@@ -22,6 +23,9 @@ public class PlacePicker {
    * @return
    */
   public static String getAttributions(Intent intent) {
+    if (intent == null) {
+      return null;
+    }
     Place place = intent.getParcelableExtra(EXTRA_PLACE);
     if (place.getAttributions() == null) {
       return null;
@@ -35,6 +39,9 @@ public class PlacePicker {
    * @return
    */
   public static LatLngBounds getLatLngBounds(Intent intent) {
+    if (intent == null) {
+      return null;
+    }
     Place place = intent.getParcelableExtra(EXTRA_PLACE);
     return place.getViewport();
   }
@@ -46,6 +53,9 @@ public class PlacePicker {
    * @return
    */
   public static Place getPlace(Context context, Intent intent) {
+    if (intent == null) {
+      return null;
+    }
     return intent.getParcelableExtra(EXTRA_PLACE);
   }
 
@@ -63,7 +73,7 @@ public class PlacePicker {
      */
     public Intent build(Activity activity) {
       Intent intent = new Intent(activity, PlacePickerActivity.class);
-      //TODO: add bounds if not null
+      intent.putExtra(EXTRA_BOUNDS, bounds);
       return intent;
     }
 

@@ -1,5 +1,6 @@
 package com.mapzen.places.api.sample;
 
+import com.mapzen.places.api.LatLng;
 import com.mapzen.places.api.LatLngBounds;
 import com.mapzen.places.api.Place;
 import com.mapzen.places.api.ui.PlacePicker;
@@ -83,7 +84,11 @@ public class PlacePickerDemoActivity extends AppCompatActivity {
   }
 
   private void launchPlacePicker() {
-    Intent intent = new PlacePicker.IntentBuilder().build(this);
+    LatLng southwest = new LatLng(42.80749, -73.14697);
+    LatLng northeast = new LatLng(44.98423, -71.58691);
+    Intent intent = new PlacePicker.IntentBuilder()
+        .setLatLngBounds(new LatLngBounds(southwest, northeast))
+        .build(this);
     startActivityForResult(intent, PLACE_PICKER_REQUEST);
   }
 
