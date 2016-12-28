@@ -18,9 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Object returned by {@link GeoDataApiImpl#getAutocompletePredictions(
@@ -70,11 +70,11 @@ public class AutocompletePendingResult extends PendingResult<AutocompletePredict
       @NonNull final ResultCallback<? super AutocompletePredictionBuffer> callback) {
     LatLng center = bounds.getCenter();
     pelias.suggest(query, center.getLatitude(), center.getLongitude(), new Callback<Result>() {
-      @Override public void success(Result result, Response response) {
+      @Override public void onResponse(Call<Result> call, Response<Result> response) {
         Status status = new Status(Status.SUCCESS);
 
         final ArrayList<AutocompletePrediction> predictions = new ArrayList<>();
-        final List<Feature> features = result.getFeatures();
+        final List<Feature> features = response.body().getFeatures();
         for (Feature feature : features) {
           AutocompletePrediction prediction = new AutocompletePrediction(feature.properties.gid,
               feature.properties.name);
@@ -85,7 +85,7 @@ public class AutocompletePendingResult extends PendingResult<AutocompletePredict
         callback.onResult(buffer);
       }
 
-      @Override public void failure(RetrofitError error) {
+      @Override public void onFailure(Call<Result> call, Throwable t) {
         Status status = new Status(Status.INTERNAL_ERROR);
         AutocompletePredictionBuffer buffer = new AutocompletePredictionBuffer(status, null);
         callback.onResult(buffer);
