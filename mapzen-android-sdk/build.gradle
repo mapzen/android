@@ -82,7 +82,7 @@ task verify(dependsOn: ['compileDebugSources',
 
 dependencies {
   compile 'com.mapzen:mapzen-core:0.0.1-SNAPSHOT'
-  compile 'com.mapzen:on-the-road:1.1.1'
+  compile 'com.mapzen:on-the-road:1.2.0-SNAPSHOT'
 
   annotationProcessor 'com.google.dagger:dagger-compiler:2.0'
 
