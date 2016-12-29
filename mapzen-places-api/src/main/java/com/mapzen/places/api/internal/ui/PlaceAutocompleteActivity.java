@@ -17,6 +17,9 @@ import android.support.v7.app.AppCompatActivity;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Activity that provides auto-completion for places.
+ */
 public class PlaceAutocompleteActivity extends AppCompatActivity {
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -36,7 +39,7 @@ public class PlaceAutocompleteActivity extends AppCompatActivity {
 
     Pelias pelias = new Pelias();
     pelias.setDebug(true);
-    pelias.setRequestHandler( new PeliasRequestHandler() {
+    pelias.setRequestHandler(new PeliasRequestHandler() {
       @Override public Map<String, String> headersForRequest() {
         return null;
       }
