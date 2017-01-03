@@ -19,8 +19,8 @@ public class PlacePickerPresenterImpl implements PlacePickerPresenter {
   /**
    * Construct a new object.
    */
-  public PlacePickerPresenterImpl() {
-    detailFetcher = new PeliasPlaceDetailFetcher();
+  public PlacePickerPresenterImpl(PlaceDetailFetcher fetcher) {
+    detailFetcher = fetcher;
   }
 
   @Override public void setController(PlacePickerViewController controller) {

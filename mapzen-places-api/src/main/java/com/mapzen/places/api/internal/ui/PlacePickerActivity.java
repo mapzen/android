@@ -8,6 +8,7 @@ import com.mapzen.places.api.LatLng;
 import com.mapzen.places.api.LatLngBounds;
 import com.mapzen.places.api.Place;
 import com.mapzen.places.api.R;
+import com.mapzen.places.api.internal.PeliasPlaceDetailFetcher;
 import com.mapzen.places.api.internal.PlacePickerPresenter;
 import com.mapzen.places.api.internal.PlacePickerPresenterImpl;
 import com.mapzen.places.api.internal.PlacePickerViewController;
@@ -41,7 +42,7 @@ public class PlacePickerActivity extends Activity implements
     setContentView(R.layout.mz_fragment_map);
 
     //TODO inject
-    presenter = new PlacePickerPresenterImpl();
+    presenter = new PlacePickerPresenterImpl(new PeliasPlaceDetailFetcher());
     presenter.setController(this);
 
     mapView = (MapView) findViewById(R.id.mz_map_view);
