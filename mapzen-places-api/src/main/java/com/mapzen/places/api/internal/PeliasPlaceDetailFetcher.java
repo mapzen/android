@@ -16,7 +16,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import static com.mapzen.places.api.internal.PlacePickerPresenterImpl.PROPERTY_NAME;
-import retrofit.RetrofitError;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

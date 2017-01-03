@@ -14,7 +14,6 @@ import com.mapzen.places.api.internal.PlacePickerViewController;
 import com.mapzen.places.api.ui.PlacePicker;
 import com.mapzen.tangram.LabelPickResult;
 import com.mapzen.tangram.LngLat;
-import com.mapzen.tangram.MapController;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -23,8 +22,6 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.util.Log;
 
 /**
  * Activity which displays a map and a dialog when the user selects a place on the map.
