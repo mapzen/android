@@ -16,9 +16,10 @@ import java.util.Locale;
 import java.util.Map;
 
 import static com.mapzen.places.api.internal.PlacePickerPresenterImpl.PROPERTY_NAME;
-import retrofit.Callback;
 import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Detail fetcher which uses pelias as the backing data source.
@@ -42,21 +43,23 @@ public class PeliasPlaceDetailFetcher implements PlaceDetailFetcher {
     this.coordinates = coordinates;
     this.properties = properties;
     pelias.reverse(coordinates.latitude, coordinates.longitude, new Callback<Result>() {
-      @Override public void success(Result result, Response response) {
-        String title = properties.get(PROPERTY_NAME);
-        for (Feature feature :result.getFeatures()) {
-          if (feature.properties.name.equals(title)) {
-            PeliasPlaceDetailFetcher.this.feature = feature;
-            String label = feature.properties.label;
-            label = label.replace(title + ",", "").trim();
-            listener.onPlaceDetailsFetched(title + "\n" + label);
+          @Override public void onResponse(Call<Result> call, Response<Result> response) {
+            String title = properties.get(PROPERTY_NAME);
+            for (Feature feature : response.body().getFeatures()) {
+              if (feature.properties.name.equals(title)) {
+                PeliasPlaceDetailFetcher.this.feature = feature;
+                String label = feature.properties.label;
+                label = label.replace(title + ",", "").trim();
+                listener.onPlaceDetailsFetched(title + "\n" + label);
+              }
+            }
+          }
+
+          @Override public void onFailure(Call<Result> call, Throwable t) {
+
           }
         }
-      }
-
-      @Override public void failure(RetrofitError error) {
-      }
-    });
+    );
   }
 
   //TODO: fill in missing values
