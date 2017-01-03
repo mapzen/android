@@ -13,9 +13,9 @@ import static com.mapzen.android.TestHelper.getMockContext;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MapzenSearchTest {
 
@@ -69,18 +69,15 @@ public class MapzenSearchTest {
     verify(search.getPelias()).setLocationProvider(provider);
   }
 
-  class TestCallback implements Callback<Result> {
-
-    @Override public void success(Result result, Response response) {
-
+  private class TestCallback implements Callback<Result> {
+    @Override public void onResponse(Call<Result> call, Response<Result> response) {
     }
 
-    @Override public void failure(RetrofitError error) {
-
+    @Override public void onFailure(Call<Result> call, Throwable t) {
     }
   }
 
-  class TestPeliasLocationProvider implements PeliasLocationProvider {
+  private class TestPeliasLocationProvider implements PeliasLocationProvider {
 
     @Override public double getLat() {
       return 0;

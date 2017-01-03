@@ -10,7 +10,7 @@ import android.content.Context;
 
 import javax.inject.Inject;
 
-import retrofit.Callback;
+import retrofit2.Callback;
 
 /**
  * This class is the main class for interaction with the Mapzen search api.

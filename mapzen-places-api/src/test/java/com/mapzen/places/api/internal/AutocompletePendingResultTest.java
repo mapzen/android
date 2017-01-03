@@ -25,7 +25,8 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
-import retrofit.Callback;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AutocompletePendingResultTest {
 
@@ -75,7 +76,7 @@ public class AutocompletePendingResultTest {
         Object[] args = invocation.getArguments();
         Callback callback = (Callback) args[3];
         final Result result = new Result();
-        callback.success(result, null);
+        callback.onResponse(null, Response.success(result));
         return null;
       }
     }).when(pelias).suggest(anyString(), anyDouble(), anyDouble(), any(Callback.class));
@@ -90,7 +91,7 @@ public class AutocompletePendingResultTest {
       public Object answer(InvocationOnMock invocation) {
         Object[] args = invocation.getArguments();
         Callback callback = (Callback) args[3];
-        callback.failure(null);
+        callback.onFailure(null, null);
         return null;
       }
     }).when(pelias).suggest(anyString(), anyDouble(), anyDouble(), any(Callback.class));

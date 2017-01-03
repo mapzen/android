@@ -3,8 +3,8 @@ package com.mapzen.android.sdk.sample;
 import com.mapzen.android.graphics.MapView;
 import com.mapzen.android.graphics.MapzenMap;
 import com.mapzen.android.graphics.MapzenMapPeliasLocationProvider;
-import com.mapzen.android.search.MapzenSearch;
 import com.mapzen.android.graphics.OnMapReadyCallback;
+import com.mapzen.android.search.MapzenSearch;
 import com.mapzen.pelias.gson.Feature;
 import com.mapzen.pelias.gson.Result;
 import com.mapzen.pelias.widget.AutoCompleteAdapter;
@@ -18,9 +18,9 @@ import android.support.v7.app.AppCompatActivity;
 
 import java.util.List;
 
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Demonstrates use of {@link MapzenSearch} with a {@link PeliasSearchView} and {@link MapzenMap}.
@@ -77,16 +77,16 @@ public class MapzenSearchViewActivity extends AppCompatActivity {
     searchView.setAutoCompleteListView(listView);
     searchView.setPelias(mapzenSearch.getPelias());
     searchView.setCallback(new Callback<Result>() {
-      @Override public void success(Result result, Response response) {
+      @Override public void onResponse(Call<Result> call, Response<Result> response) {
         mapzenMap.clearSearchResults();
-        for (Feature feature : result.getFeatures()) {
+        for (Feature feature : response.body().getFeatures()) {
           List<Double> coordinates = feature.geometry.coordinates;
           LngLat point = new LngLat(coordinates.get(0), coordinates.get(1));
           mapzenMap.drawSearchResult(point);
         }
       }
 
-      @Override public void failure(RetrofitError error) {
+      @Override public void onFailure(Call<Result> call, Throwable t) {
       }
     });
     searchView.setIconifiedByDefault(false);
