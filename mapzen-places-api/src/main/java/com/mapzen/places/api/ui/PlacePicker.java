@@ -2,7 +2,7 @@ package com.mapzen.places.api.ui;
 
 import com.mapzen.places.api.LatLngBounds;
 import com.mapzen.places.api.Place;
-import com.mapzen.places.api.internal.ui.PlacePickerActivity;
+import com.mapzen.places.api.internal.PlacePickerActivity;
 
 import android.app.Activity;
 import android.content.Context;

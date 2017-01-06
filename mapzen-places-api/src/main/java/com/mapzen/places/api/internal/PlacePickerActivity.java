@@ -1,4 +1,4 @@
-package com.mapzen.places.api.internal.ui;
+package com.mapzen.places.api.internal;
 
 import com.mapzen.android.graphics.LabelPickListener;
 import com.mapzen.android.graphics.MapView;
@@ -8,10 +8,6 @@ import com.mapzen.places.api.LatLng;
 import com.mapzen.places.api.LatLngBounds;
 import com.mapzen.places.api.Place;
 import com.mapzen.places.api.R;
-import com.mapzen.places.api.internal.PeliasPlaceDetailFetcher;
-import com.mapzen.places.api.internal.PlacePickerPresenter;
-import com.mapzen.places.api.internal.PlacePickerPresenterImpl;
-import com.mapzen.places.api.internal.PlacePickerViewController;
 import com.mapzen.places.api.ui.PlacePicker;
 import com.mapzen.tangram.LabelPickResult;
 import com.mapzen.tangram.LngLat;
@@ -86,9 +82,12 @@ public class PlacePickerActivity extends Activity implements
   }
 
   @Override public void finishWithPlace(Place place) {
-    Intent intent = new Intent();
-    intent.putExtra(PlacePicker.EXTRA_PLACE, place);
-    setResult(RESULT_OK, intent);
+    if (place instanceof PlaceImpl) {
+      PlaceImpl placeImpl = (PlaceImpl) place;
+      Intent intent = new Intent();
+      intent.putExtra(PlacePicker.EXTRA_PLACE, placeImpl);
+      setResult(RESULT_OK, intent);
+    }
     finish();
   }
 

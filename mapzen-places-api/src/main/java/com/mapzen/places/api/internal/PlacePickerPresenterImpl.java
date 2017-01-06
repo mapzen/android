@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Implementation of {@link PlacePickerPresenter}.
  */
-public class PlacePickerPresenterImpl implements PlacePickerPresenter {
+class PlacePickerPresenterImpl implements PlacePickerPresenter {
 
   public static final String PROPERTY_ID = "id";
   public static final String PROPERTY_NAME = "name";

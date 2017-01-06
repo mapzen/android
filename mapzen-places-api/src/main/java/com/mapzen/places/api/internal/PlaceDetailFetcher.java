@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Interface for fetching details about a place.
  */
-public interface PlaceDetailFetcher {
+interface PlaceDetailFetcher {
 
   /**
    * Called when details for a place should be retrieved. Currently, Pelias is used as the

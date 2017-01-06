@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * Interface for managing state associated with the {@link PlacePickerViewController}.
  */
-public interface PlacePickerPresenter {
+interface PlacePickerPresenter {
   /**
    * Sets the presenter's controller. Must be called before any other methods in the interface
    * can be called.

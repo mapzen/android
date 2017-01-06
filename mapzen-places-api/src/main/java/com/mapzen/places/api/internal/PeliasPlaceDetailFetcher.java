@@ -23,12 +23,12 @@ import retrofit2.Response;
 /**
  * Detail fetcher which uses pelias as the backing data source.
  */
-public class PeliasPlaceDetailFetcher implements PlaceDetailFetcher {
+class PeliasPlaceDetailFetcher implements PlaceDetailFetcher {
 
-  Pelias pelias;
-  Feature feature;
-  LngLat coordinates;
-  Map<String, String> properties;
+  private Pelias pelias;
+  private Feature feature;
+  private LngLat coordinates;
+  private Map<String, String> properties;
 
   /**
    * Constructs a new object.
@@ -75,7 +75,19 @@ public class PeliasPlaceDetailFetcher implements PlaceDetailFetcher {
     final float rating = 0;
     final LatLngBounds viewport = new LatLngBounds(latLng, latLng);
     final Uri websiteUri = new Uri.Builder().build();
-    return new Place(address, attributions, id, latLng, locale, name, phoneNumber, placeTypes,
-        priceLevel, rating, viewport, websiteUri);
+    return new PlaceImpl.Builder()
+        .setAddress(address)
+        .setAttributions(attributions)
+        .setId(id)
+        .setLatLng(latLng)
+        .setLocale(locale)
+        .setName(name)
+        .setPhoneNumber(phoneNumber)
+        .setPlaceTypes(placeTypes)
+        .setPriceLevel(priceLevel)
+        .setRating(rating)
+        .setViewPort(viewport)
+        .setWebsiteUri(websiteUri)
+        .build();
   }
 }

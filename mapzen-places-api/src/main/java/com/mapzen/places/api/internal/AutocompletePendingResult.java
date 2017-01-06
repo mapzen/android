@@ -26,7 +26,7 @@ import retrofit2.Response;
  * Object returned by {@link GeoDataApiImpl#getAutocompletePredictions(
  * com.mapzen.android.lost.api.LostApiClient, String, LatLngBounds, AutocompleteFilter)}.
  */
-public class AutocompletePendingResult extends PendingResult<AutocompletePredictionBuffer> {
+class AutocompletePendingResult extends PendingResult<AutocompletePredictionBuffer> {
 
   private final Pelias pelias;
   private final String query;
