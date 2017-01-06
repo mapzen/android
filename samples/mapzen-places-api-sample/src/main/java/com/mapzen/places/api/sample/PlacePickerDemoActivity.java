@@ -13,7 +13,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class PlacePickerDemoActivity extends AppCompatActivity {
@@ -23,14 +23,16 @@ public class PlacePickerDemoActivity extends AppCompatActivity {
 
   private static final int PLACE_PICKER_REQUEST = 1;
 
+  TextView placeName;
+  TextView placeAddress;
+  TextView placeAttribution;
+  TextView placeBounds;
+
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-      checkRuntimePermissions();
-    } else {
-      launchPlacePicker();
-    }
+    setContentView(R.layout.place_picker_demo);
+    setupTextViews();
+    safeLaunchPicker();
   }
 
   @Override public void onRequestPermissionsResult(int requestCode, String[] permissions,
@@ -54,12 +56,32 @@ public class PlacePickerDemoActivity extends AppCompatActivity {
     super.onActivityResult(requestCode, resultCode, data);
 
     if (requestCode == PLACE_PICKER_REQUEST) {
-      //TODO: display info on screen
+      Place place = PlacePicker.getPlace(this, data);
+      placeName.setText(place.getName());
+      placeAddress.setText(place.getAddress());
+
       CharSequence attributions = PlacePicker.getAttributions(data);
+      placeAttribution.setText(attributions);
 
       LatLngBounds bounds = PlacePicker.getLatLngBounds(data);
+      placeBounds.setText("SW lat:" + bounds.getSouthwest().getLatitude() + "\nSW lng:" +
+          bounds.getSouthwest().getLongitude() + "\nNE lat:" + bounds.getNortheast().getLatitude() +
+          "\nNE lng:" + bounds.getNortheast().getLongitude());
+    }
+  }
 
-      Place place = PlacePicker.getPlace(this, data);
+  private void setupTextViews() {
+    placeName = (TextView) findViewById(R.id.place_name_val);
+    placeAddress = (TextView) findViewById(R.id.place_address_val);
+    placeAttribution = (TextView) findViewById(R.id.place_attribution_val);
+    placeBounds = (TextView) findViewById(R.id.place_bounds_val);
+  }
+
+  private void safeLaunchPicker() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+      checkRuntimePermissions();
+    } else {
+      launchPlacePicker();
     }
   }
 
