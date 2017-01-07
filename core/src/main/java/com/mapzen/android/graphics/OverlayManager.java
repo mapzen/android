@@ -15,6 +15,7 @@ import com.mapzen.tangram.MapData;
 import com.mapzen.tangram.TouchInput;
 
 import android.location.Location;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -28,6 +29,9 @@ import java.util.List;
  * Adds functionality to {@link MapController} map by way of {@link LostApiClient}.
  */
 public class OverlayManager implements TouchInput.PanResponder {
+
+  public static final int ZOOM_BUTTON_ANIMATION_DURATION_MILLIS = 300;
+  public static final float ZOOM_BUTTON_CHANGE = 1f;
 
   private static final int LOCATION_REQUEST_INTERVAL_MILLIS = 5000;
   private static final int LOCATION_REQUEST_DISPLACEMENT_MILLIS = 5000;
@@ -68,6 +72,10 @@ public class OverlayManager implements TouchInput.PanResponder {
    * Should we show the current location icon and find me icon.
    */
   private boolean myLocationEnabled;
+  /**
+   * Should we show the zoom buttons.
+   */
+  private boolean zoomButtonsEnabled;
 
   /**
    * Receives location updates for {@link LostApiClient}.
@@ -85,6 +93,8 @@ public class OverlayManager implements TouchInput.PanResponder {
   };
 
   View.OnClickListener findMeExternalClickListener;
+  View.OnClickListener zoomInExternalClickListener;
+  View.OnClickListener zoomOutExternalClickListener;
 
   private MapData polylineMapData;
   private MapData polygonMapData;
@@ -195,6 +205,36 @@ public class OverlayManager implements TouchInput.PanResponder {
    */
   public void setFindMeOnClickListener(View.OnClickListener listener) {
     findMeExternalClickListener = listener;
+  }
+
+  /**
+   * Set an external click listener to be invoked after the internal listener.
+   */
+  public void setZoomInOnClickListener(View.OnClickListener listener) {
+    zoomInExternalClickListener = listener;
+  }
+
+  /**
+   * Set an external click listener to be invoked after the internal listener.
+   */
+  public void setZoomOutOnClickListener(View.OnClickListener listener) {
+    zoomOutExternalClickListener = listener;
+  }
+
+  /**
+   * Sets zoom buttons enabled.
+   * @param enabled if true zoom buttons will be showed, otherwise they will be hidden.
+   */
+  public void setZoomButtonsEnabled(boolean enabled) {
+    zoomButtonsEnabled = enabled;
+    handleZoomButtonsEnabledChanged();
+  }
+
+  /**
+   * Are zoom buttons enabled.
+   */
+  public boolean isZoomButtonsEnabled() {
+    return zoomButtonsEnabled;
   }
 
   /**
@@ -694,6 +734,44 @@ public class OverlayManager implements TouchInput.PanResponder {
 
   private void hideFindMe() {
     mapView.hideFindMe();
+  }
+
+  private void handleZoomButtonsEnabledChanged() {
+    if (zoomButtonsEnabled) {
+      showZoom();
+    } else {
+      hideZoom();
+    }
+  }
+
+  private void showZoom() {
+    final ImageButton zoomIn = mapView.showZoomIn();
+    final ImageButton zoomOut = mapView.showZoomOut();
+    zoomIn.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(final View v) {
+        float zoom = mapController.getZoom() + ZOOM_BUTTON_CHANGE;
+        mapStateManager.setZoom(zoom);
+        mapController.setZoomEased(zoom, ZOOM_BUTTON_ANIMATION_DURATION_MILLIS, MapController.EaseType.CUBIC);
+        if (zoomInExternalClickListener != null) {
+          zoomInExternalClickListener.onClick(v);
+        }
+      }
+    });
+    zoomOut.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(final View v) {
+        float zoom = mapController.getZoom() - ZOOM_BUTTON_CHANGE;
+        mapStateManager.setZoom(zoom);
+        mapController.setZoomEased(zoom, ZOOM_BUTTON_ANIMATION_DURATION_MILLIS, MapController.EaseType.CUBIC);
+        if (zoomOutExternalClickListener != null) {
+          zoomOutExternalClickListener.onClick(v);
+        }
+      }
+    });
+  }
+
+  private void hideZoom() {
+    mapView.hideZoomIn();
+    mapView.hideZoomOut();
   }
 
   private void centerMap() {
