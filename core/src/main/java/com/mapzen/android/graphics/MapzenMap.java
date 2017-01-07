@@ -115,6 +115,17 @@ public class MapzenMap {
   };
 
   /**
+   * Internal map rotate gesture listener that forwards events to both external listener and the
+   * {@link OverlayManager}.
+   */
+  TouchInput.RotateResponder internalRotateResponder = new TouchInput.RotateResponder() {
+    public boolean onRotate(float x, float y, float rotation) {
+      overlayManager.onRotate(x, y, rotation);
+      return rotateResponder != null && rotateResponder.onRotate(x, y, rotation);
+    }
+  };
+
+  /**
    * Creates a new map based on the given {@link MapView} and {@link MapController}.
    */
   MapzenMap(MapView mapView, MapController mapController, OverlayManager overlayManager,
@@ -125,6 +136,7 @@ public class MapzenMap {
     this.mapStateManager = mapStateManager;
     this.labelPickHandler = labelPickHandler;
     mapController.setPanResponder(internalPanResponder);
+    mapController.setRotateResponder(internalRotateResponder);
     overlayManager.restoreMapData();
     restoreMapState();
   }
@@ -232,6 +244,9 @@ public class MapzenMap {
   public void setRotation(float radians) {
     mapStateManager.setRotation(radians);
     mapController.setRotation(radians);
+    if (overlayManager.isCompassEnabled()) {
+      overlayManager.setCompassButtonEnabled(true);
+    }
   }
 
   /**
@@ -255,6 +270,14 @@ public class MapzenMap {
     mapStateManager.setRotation(radians);
     mapController.setRotationEased(radians, duration,
         EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.get(easeType));
+    if (overlayManager.isCompassEnabled()) {
+      new Handler().postDelayed(new Runnable() {
+        @Override
+        public void run() {
+          overlayManager.setCompassButtonEnabled(true);
+        }
+      }, duration);
+    }
   }
 
   /**
@@ -339,6 +362,13 @@ public class MapzenMap {
    */
   public boolean isMyLocationEnabled() {
     return overlayManager.isMyLocationEnabled();
+  }
+
+  /**
+   * Set an external click listener to be invoked after the internal listener.
+   */
+  public void setCompassOnClickListener(View.OnClickListener listener) {
+    overlayManager.setCompassOnClickListener(listener);
   }
 
   /**
@@ -474,7 +504,6 @@ public class MapzenMap {
    */
   public void setRotateResponder(TouchInput.RotateResponder rotateResponder) {
     this.rotateResponder = rotateResponder;
-    mapController.setRotateResponder(this.rotateResponder);
   }
 
   /**
@@ -614,6 +643,14 @@ public class MapzenMap {
    */
   public void applySceneUpdates() {
     mapController.applySceneUpdates();
+  }
+
+  /**
+   * Sets compass button enabled.
+   * @param enabled if true compass button will be showed, otherwise it will be hidden.
+   */
+  public void setCompassButtonEnabled(boolean enabled) {
+    overlayManager.setCompassButtonEnabled(enabled);
   }
 
   /**

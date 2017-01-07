@@ -293,10 +293,10 @@ public class MapzenMapTest {
     verify(overlayManager).onFling(1f, 2f, 3f, 4f);
   }
 
-  @Test public void setRotateResponder_shouldInvokeMapController() {
+  @Test public void setRotateResponder_shouldNotInvokeMapController() {
     TestRotateResponder rotateResponder = new TestRotateResponder();
     map.setRotateResponder(rotateResponder);
-    verify(mapController).setRotateResponder(rotateResponder);
+    verify(mapController, never()).setRotateResponder(rotateResponder);
   }
 
   @Test public void getRotateResponder_shouldNotBeNull() {
