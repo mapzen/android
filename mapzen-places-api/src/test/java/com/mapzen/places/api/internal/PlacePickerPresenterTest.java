@@ -1,5 +1,7 @@
 package com.mapzen.places.api.internal;
 
+import com.mapzen.tangram.LngLat;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,7 +15,7 @@ public class PlacePickerPresenterTest {
   TestPlacePickerController controller;
 
   @Before public void setup() {
-    presenter = new PlacePickerPresenterImpl();
+    presenter = new PlacePickerPresenterImpl(new TestPlaceDetailFetcher());
     controller = new TestPlacePickerController();
     presenter.setController(controller);
   }
@@ -21,12 +23,12 @@ public class PlacePickerPresenterTest {
   @Test public void onLabelPicked_shouldShowDialog() {
     HashMap<String, String> properties = new HashMap<>();
     properties.put("name", "Hanjan");
-    presenter.onLabelPicked(properties);
+    presenter.onLabelPicked(new LngLat(0.0, 0.0), properties);
     assertThat(controller.dialogShown).isTrue();
     assertThat(controller.dialogTitle).isEqualTo("Hanjan");
   }
 
-  @Test public void onPlaceSelected_shouldFinishActivity() {
+  @Test public void onPlaceConfirmed_shouldFinishActivity() {
     presenter.onPlaceConfirmed();
     assertThat(controller.finished).isTrue();
   }
