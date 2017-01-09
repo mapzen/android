@@ -6,7 +6,7 @@
       android:label="@string/app_name"
       android:supportsRtl="true">
 
-    <activity android:name=".internal.ui.PlacePickerActivity"/>
+    <activity android:name=".internal.PlacePickerActivity"/>
     <activity
         android:name=".internal.ui.PlaceAutocompleteActivity"
         android:theme="@style/Theme.AppCompat.Light"/>
