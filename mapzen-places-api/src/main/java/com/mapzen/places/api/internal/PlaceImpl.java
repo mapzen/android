@@ -15,7 +15,7 @@ import java.util.Locale;
 /**
  * Represents a physical place selected from a {@link com.mapzen.android.graphics.MapzenMap}.
  */
-class PlaceImpl implements Place, Parcelable {
+public class PlaceImpl implements Place, Parcelable {
 
   private final CharSequence address;
   private final CharSequence attributions;
