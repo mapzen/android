@@ -23,12 +23,18 @@ import retrofit2.Response;
 /**
  * Activity that provides auto-completion for places.
  */
-public class PlaceAutocompleteActivity extends AppCompatActivity {
+public class PlaceAutocompleteActivity extends AppCompatActivity
+    implements PlaceAutocompleteController {
   private static final String TAG  = PlaceAutocompleteActivity.class.getSimpleName();
+
+  private PlaceAutocompletePresenter presenter;
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.place_autcomplete_activity);
+
+    // TODO inject
+    presenter = new PlaceAutocompletePresenter(this);
 
     AutoCompleteListView listView = (AutoCompleteListView) findViewById(R.id.list_view);
     AutoCompleteAdapter autocompleteAdapter =
@@ -39,11 +45,8 @@ public class PlaceAutocompleteActivity extends AppCompatActivity {
     peliasSearchView.setIconifiedByDefault(false);
     peliasSearchView.setCallback(new Callback<Result>() {
       @Override public void onResponse(Call<Result> call, Response<Result> response) {
-        final Intent intent = new Intent();
+        presenter.onResponse(response);
 
-        // TODO: Fetch place details
-        intent.putExtra("mapzen_place", response.body().getFeatures().get(0).properties.name);
-        setResult(RESULT_OK, intent);
         finish();
       }
 
@@ -77,5 +80,16 @@ public class PlaceAutocompleteActivity extends AppCompatActivity {
 
     peliasSearchView.setAutoCompleteListView(listView);
     peliasSearchView.setPelias(pelias);
+  }
+
+  @Override public void setResult(String name) {
+    // TODO: Replace String result with Place object. Details should be fetched by presenter.
+    final Intent intent = new Intent();
+    intent.putExtra("mapzen_place", name);
+    setResult(RESULT_OK, intent);
+  }
+
+  @Override public void finish() {
+    super.finish();
   }
 }
