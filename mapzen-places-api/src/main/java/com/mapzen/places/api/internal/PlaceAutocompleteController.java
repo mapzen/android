@@ -1,5 +1,8 @@
 package com.mapzen.places.api.internal;
 
+/**
+ * Interface for place autocomplete wrapper Activity.
+ */
 interface PlaceAutocompleteController {
 
   /**
