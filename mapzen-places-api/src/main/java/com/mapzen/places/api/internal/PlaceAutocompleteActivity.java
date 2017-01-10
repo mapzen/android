@@ -60,6 +60,8 @@ public class PlaceAutocompleteActivity extends AppCompatActivity {
     Pelias pelias = new Pelias();
     pelias.setDebug(true);
     pelias.setLocationProvider(new PeliasLocationProvider() {
+
+      // TODO: Replace with real location integration
       @Override public double getLat() {
         return 40.7443;
       }
