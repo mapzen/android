@@ -3,7 +3,6 @@ package com.mapzen.places.api.internal;
 import com.mapzen.pelias.BoundingBox;
 import com.mapzen.pelias.Pelias;
 import com.mapzen.pelias.PeliasLocationProvider;
-import com.mapzen.pelias.PeliasRequestHandler;
 import com.mapzen.pelias.gson.Result;
 import com.mapzen.pelias.widget.AutoCompleteAdapter;
 import com.mapzen.pelias.widget.AutoCompleteListView;
@@ -16,9 +15,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -63,18 +59,6 @@ public class PlaceAutocompleteActivity extends AppCompatActivity {
 
     Pelias pelias = new Pelias();
     pelias.setDebug(true);
-    pelias.setRequestHandler(new PeliasRequestHandler() {
-      @Override public Map<String, String> headersForRequest() {
-        return null;
-      }
-
-      @Override public Map<String, String> queryParamsForRequest() {
-        HashMap<String, String> params = new HashMap<>();
-        params.put("api_key",  "mapzen-ZTA7CTR");
-        return params;
-      }
-    });
-
     pelias.setLocationProvider(new PeliasLocationProvider() {
       @Override public double getLat() {
         return 40.7443;
