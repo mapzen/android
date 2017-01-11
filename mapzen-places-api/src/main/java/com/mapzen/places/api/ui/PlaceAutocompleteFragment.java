@@ -18,24 +18,20 @@ import static android.app.Activity.RESULT_OK;
  * A fragment that provides auto-completion for places.
  */
 public class PlaceAutocompleteFragment extends Fragment {
-  private TextView input;
+  private PlaceAutocompleteView autocompleteView;
 
   @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-    final View view = inflater.inflate(R.layout.place_autocomplete_fragment, container, false);
-    input = (TextView) view.findViewById(R.id.place_autocomplete_search_input);
-    input.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
-        startActivityForResult(new Intent(getActivity(), PlaceAutocompleteActivity.class), 0);
-      }
-    });
-    return view;
+    autocompleteView = (PlaceAutocompleteView) inflater.inflate(
+        R.layout.place_autocomplete_fragment, container, false);
+    autocompleteView.setFragment(this);
+    return autocompleteView;
   }
 
   @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
     if (resultCode == RESULT_OK) {
       // TODO: Replace with PlaceAutocomplete.getPlace(Context, Intent)
-      input.setText(data.getStringExtra("mapzen_place"));
+      autocompleteView.setText(data.getStringExtra("mapzen_place"));
     }
   }
 }
