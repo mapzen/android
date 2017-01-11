@@ -8,6 +8,7 @@ import com.mapzen.pelias.gson.Result;
 import com.mapzen.pelias.widget.AutoCompleteAdapter;
 import com.mapzen.pelias.widget.AutoCompleteListView;
 import com.mapzen.pelias.widget.PeliasSearchView;
+import com.mapzen.places.api.LatLngBounds;
 import com.mapzen.places.api.Place;
 import com.mapzen.places.api.R;
 
@@ -19,6 +20,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_BOUNDS;
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_PLACE;
 import static com.mapzen.places.api.ui.PlaceAutocomplete.EXTRA_STATUS;
 import retrofit2.Call;
@@ -69,22 +71,28 @@ public class PlaceAutocompleteActivity extends AppCompatActivity
     pelias.setDebug(true);
     pelias.setLocationProvider(new PeliasLocationProvider() {
 
-      // TODO: Replace with real location integration
       @Override public double getLat() {
-        return 40.7443;
+        return presenter.getLat();
       }
 
       @Override public double getLon() {
-        return  -73.9903;
+        return presenter.getLon();
       }
 
       @Override public BoundingBox getBoundingBox() {
-        return null;
+        return presenter.getBoundingBox();
       }
     });
 
     peliasSearchView.setAutoCompleteListView(listView);
     peliasSearchView.setPelias(pelias);
+  }
+
+  @Override public LatLngBounds getBounds() {
+    if (getIntent().getExtras() == null) {
+      return null;
+    }
+    return getIntent().getExtras().getParcelable(EXTRA_BOUNDS);
   }
 
   @Override public void setResult(Place place, Status status) {
