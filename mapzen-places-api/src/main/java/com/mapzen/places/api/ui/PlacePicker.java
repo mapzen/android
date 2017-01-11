@@ -8,14 +8,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
+import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_BOUNDS;
+import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_PLACE;
+
 /**
  * Entry point for interaction with the PlacePicker API which allows the user to select a place on
  * the map and receive detailed information about it.
  */
 public class PlacePicker {
-
-  public static final String EXTRA_PLACE = "extra_place";
-  public static final String EXTRA_BOUNDS = "extra_bounds";
 
   /**
    * Returns the place's attributions.

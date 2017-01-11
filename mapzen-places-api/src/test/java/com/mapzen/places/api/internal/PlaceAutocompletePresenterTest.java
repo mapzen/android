@@ -1,8 +1,10 @@
 package com.mapzen.places.api.internal;
 
+import com.mapzen.android.lost.api.Status;
 import com.mapzen.pelias.gson.Feature;
 import com.mapzen.pelias.gson.Properties;
 import com.mapzen.pelias.gson.Result;
+import com.mapzen.places.api.Place;
 
 import org.junit.Test;
 
@@ -25,7 +27,7 @@ public class PlaceAutocompletePresenterTest {
   public void onResponse_shouldSetResult() throws Exception {
     Response<Result> response = getTestResponse();
     presenter.onResponse(response);
-    assertThat(controller.result).isEqualTo("Test Name");
+    assertThat(controller.result.getName()).isEqualTo("Test Name");
   }
 
   @Test
@@ -46,10 +48,10 @@ public class PlaceAutocompletePresenterTest {
   }
 
   private static class TestPlaceAutocompleteController implements PlaceAutocompleteController {
-    private String result = null;
+    private Place result = null;
     private boolean isFinishing = false;
 
-    @Override public void setResult(String result) {
+    @Override public void setResult(Place result, Status status) {
       this.result = result;
     }
 

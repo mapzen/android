@@ -46,4 +46,8 @@ class PlacePickerPresenterImpl implements PlacePickerPresenter {
     Place place = detailFetcher.getFetchedPlace();
     controller.finishWithPlace(place);
   }
+
+  @Override public void onAutocompletePlacePicked(Place place) {
+    controller.finishWithPlace(place);
+  }
 }

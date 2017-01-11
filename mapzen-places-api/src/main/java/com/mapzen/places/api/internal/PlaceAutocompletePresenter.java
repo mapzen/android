@@ -1,6 +1,9 @@
 package com.mapzen.places.api.internal;
 
+import com.mapzen.android.lost.api.Status;
+import com.mapzen.pelias.gson.Properties;
 import com.mapzen.pelias.gson.Result;
+import com.mapzen.places.api.Place;
 
 import retrofit2.Response;
 
@@ -23,8 +26,16 @@ class PlaceAutocompletePresenter {
    * @param response parsed result returned by the service.
    */
   void onResponse(Response<Result> response) {
-    // TODO: Fetch place details and populate full Place object.
-    controller.setResult(response.body().getFeatures().get(0).properties.name);
+    // TODO: Fetch place details.
+    Properties properties = response.body().getFeatures().get(0).properties;
+    String name = properties.name;
+    String address = properties.label;
+    Place place = new PlaceImpl.Builder()
+        .setName(name)
+        .setAddress(address)
+        .build();
+    Status status = new Status(Status.SUCCESS);
+    controller.setResult(place, status);
     controller.finish();
   }
 }
