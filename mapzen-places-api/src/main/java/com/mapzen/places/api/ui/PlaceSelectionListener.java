@@ -5,7 +5,7 @@ import com.mapzen.places.api.Place;
 
 /**
  * Interface for receiving information about a {@link Place} after it is selected from a
- * {@link PlaceAutocompleteFragment}
+ * {@link PlaceAutocompleteFragment}.
  */
 public interface PlaceSelectionListener {
 

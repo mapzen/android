@@ -20,16 +20,31 @@ public class PlaceAutocompleteView extends LinearLayout {
 
   TextView input;
 
+  /**
+   * Public constructor.
+   * @param context
+   */
   public PlaceAutocompleteView(Context context) {
     super(context);
     setup(context);
   }
 
+  /**
+   * Public constructor.
+   * @param context
+   * @param attrs
+   */
   public PlaceAutocompleteView(Context context, AttributeSet attrs) {
     super(context, attrs);
     setup(context);
   }
 
+  /**
+   * Public constructor.
+   * @param context
+   * @param attrs
+   * @param defStyleAttr
+   */
   public PlaceAutocompleteView(Context context, AttributeSet attrs, int defStyleAttr) {
     super(context, attrs, defStyleAttr);
     setup(context);
@@ -42,6 +57,11 @@ public class PlaceAutocompleteView extends LinearLayout {
     setBackgroundColor(getResources().getColor(R.color.mz_white));
   }
 
+  /**
+   * Set the view's {@link Activity} so that when the view is clicked the
+   * {@link PlaceAutocompleteActivity} can be started for a result via the activity context.
+   * @param a
+   */
   public void setActivity(Activity a) {
     final Activity activity = a;
     input = (TextView) findViewById(R.id.place_autocomplete_search_input);
@@ -53,6 +73,11 @@ public class PlaceAutocompleteView extends LinearLayout {
     });
   }
 
+  /**
+   * Set the view's {@link Fragment} so that when the view is clicked the
+   * {@link PlaceAutocompleteActivity} can be started for a result via the fragment context.
+   * @param f
+   */
   public void setFragment(Fragment f) {
     final Fragment fragment = f;
     input = (TextView) findViewById(R.id.place_autocomplete_search_input);
@@ -64,6 +89,10 @@ public class PlaceAutocompleteView extends LinearLayout {
     });
   }
 
+  /**
+   * Sets the view input text.
+   * @param s
+   */
   public void setText(String s) {
     input.setText(s);
   }

@@ -22,7 +22,6 @@ import android.util.Log;
 
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_BOUNDS;
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_PLACE;
-import static com.mapzen.places.api.ui.PlaceAutocomplete.EXTRA_STATUS;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

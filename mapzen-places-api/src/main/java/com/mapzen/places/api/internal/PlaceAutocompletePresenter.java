@@ -4,7 +4,6 @@ import com.mapzen.android.lost.api.Status;
 import com.mapzen.pelias.BoundingBox;
 import com.mapzen.pelias.gson.Properties;
 import com.mapzen.pelias.gson.Result;
-import com.mapzen.places.api.LatLng;
 import com.mapzen.places.api.LatLngBounds;
 import com.mapzen.places.api.Place;
 
@@ -42,9 +41,16 @@ class PlaceAutocompletePresenter {
     controller.finish();
   }
 
+  /**
+   * Return the bounding box that should be used to limit autocomplete results. This value is either
+   * set explicitly via {@link com.mapzen.places.api.ui.PlaceAutocomplete.IntentBuilder#
+   * setBoundsBias(LatLngBounds)} or is retrieved from the device's last known location.
+   * @return
+   */
   BoundingBox getBoundingBox() {
     LatLngBounds bounds = controller.getBounds();
     if (bounds == null) {
+      //TODO: retrieve device's last known location
       return null;
     }
     double minLat = bounds.getSouthwest().getLatitude();
@@ -54,6 +60,12 @@ class PlaceAutocompletePresenter {
     return new BoundingBox(minLat, minLon, maxLat, maxLon);
   }
 
+  /**
+   * Returns the latitude value that should be used to limit autocomplete results. It will be the
+   * center of the {@link BoundingBox} returned from
+   * {@link PlaceAutocompletePresenter#getBoundingBox()}.
+   * @return
+   */
   double getLat() {
     BoundingBox boundingBox = getBoundingBox();
     if (boundingBox == null) {
@@ -63,6 +75,12 @@ class PlaceAutocompletePresenter {
     return midLat;
   }
 
+  /**
+   * Returns the longitude value that should be used to limit autocomplete results. It will be the
+   * center of the {@link BoundingBox} returned from
+   * {@link PlaceAutocompletePresenter#getBoundingBox()}.
+   * @return
+   */
   double getLon() {
     BoundingBox boundingBox = getBoundingBox();
     if (boundingBox == null) {

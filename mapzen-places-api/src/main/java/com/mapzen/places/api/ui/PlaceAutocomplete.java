@@ -26,7 +26,7 @@ public class PlaceAutocomplete {
   public static final String EXTRA_FILTER = "extra_filter";
 
   /**
-   * Returns a {@link Place} object.
+   * Retrieves a {@link Place} object from the {@link Intent}.
    * @param context
    * @param intent
    * @return
@@ -38,6 +38,12 @@ public class PlaceAutocomplete {
     return intent.getParcelableExtra(EXTRA_PLACE);
   }
 
+  /**
+   * Retrieves a {@link Status} object from the {@link Intent}.
+   * @param context
+   * @param intent
+   * @return
+   */
   public static Status getStatus(Context context, Intent intent) {
     if (intent == null) {
       return null;
@@ -86,6 +92,11 @@ public class PlaceAutocomplete {
       return this;
     }
 
+    /**
+     * Set a filter to be used to limit autocomplete results.
+     * @param filter
+     * @return
+     */
     public IntentBuilder setFilter(AutocompleteFilter filter) {
       this.filter = filter;
       return this;

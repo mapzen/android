@@ -10,7 +10,6 @@ import com.mapzen.places.api.Place;
 import com.mapzen.places.api.R;
 import com.mapzen.places.api.ui.PlaceAutocomplete;
 import com.mapzen.places.api.ui.PlaceAutocompleteView;
-import com.mapzen.places.api.ui.PlacePicker;
 import com.mapzen.tangram.LabelPickResult;
 import com.mapzen.tangram.LngLat;
 
@@ -21,8 +20,6 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
 
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_BOUNDS;
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_PLACE;

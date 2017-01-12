@@ -8,10 +8,17 @@ import android.os.Parcelable;
  */
 public class AutocompleteFilter implements Parcelable {
 
+  /**
+   * Constructs a new object.
+   */
   public AutocompleteFilter() {
 
   }
 
+  /**
+   * Construsts a new object from a {@link Parcel}.
+   * @param in
+   */
   protected AutocompleteFilter(Parcel in) {
   }
 
