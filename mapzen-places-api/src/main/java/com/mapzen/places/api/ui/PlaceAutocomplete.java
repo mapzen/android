@@ -11,7 +11,9 @@ import android.content.Context;
 import android.content.Intent;
 
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_BOUNDS;
+import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_FILTER;
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_PLACE;
+import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_STATUS;
 
 /**
  * Main entry point for the autocomplete API. A search widget is presented and users can select
@@ -21,9 +23,6 @@ public class PlaceAutocomplete {
 
   public static final int MODE_FULLSCREEN = 1;
   public static final int MODE_OVERLAY = 2;
-
-  public static final String EXTRA_STATUS = "extra_status";
-  public static final String EXTRA_FILTER = "extra_filter";
 
   /**
    * Retrieves a {@link Place} object from the {@link Intent}.
