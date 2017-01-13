@@ -19,6 +19,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_BOUNDS;
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_PLACE;
@@ -58,6 +60,13 @@ public class PlaceAutocompleteActivity extends AppCompatActivity
 
       @Override public void onFailure(Call<Result> call, Throwable t) {
         Log.e(TAG, "Error fetching results", t);
+      }
+    });
+    ImageView searchMagBtn = (ImageView) peliasSearchView.findViewById(R.id.search_mag_icon);
+    searchMagBtn.setImageResource(R.drawable.abc_ic_ab_back_material);
+    searchMagBtn.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View view) {
+        finish();
       }
     });
 
