@@ -2,6 +2,7 @@ package com.mapzen.places.api.ui;
 
 import com.mapzen.places.api.Place;
 import com.mapzen.places.api.R;
+import com.mapzen.places.api.internal.PlaceAutocompleteView;
 
 import android.app.Fragment;
 import android.content.Intent;

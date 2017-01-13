@@ -1,7 +1,6 @@
-package com.mapzen.places.api.ui;
+package com.mapzen.places.api.internal;
 
 import com.mapzen.places.api.R;
-import com.mapzen.places.api.internal.PlaceAutocompleteActivity;
 
 import android.app.Activity;
 import android.app.Fragment;

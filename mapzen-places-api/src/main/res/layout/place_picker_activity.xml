@@ -5,7 +5,7 @@
 
   <include layout="@layout/mz_fragment_map"/>
 
-  <com.mapzen.places.api.ui.PlaceAutocompleteView
+  <com.mapzen.places.api.internal.PlaceAutocompleteView
       android:id="@+id/autocomplete_view"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"/>

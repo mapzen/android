@@ -9,7 +9,6 @@ import com.mapzen.places.api.LatLngBounds;
 import com.mapzen.places.api.Place;
 import com.mapzen.places.api.R;
 import com.mapzen.places.api.ui.PlaceAutocomplete;
-import com.mapzen.places.api.ui.PlaceAutocompleteView;
 import com.mapzen.tangram.LabelPickResult;
 import com.mapzen.tangram.LngLat;
 
