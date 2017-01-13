@@ -46,7 +46,7 @@ class PlaceAutocompletePresenter {
     LatLngBounds bounds = controller.getBounds();
     if (bounds == null) {
       //TODO: retrieve device's last known location
-      return null;
+      return new BoundingBox(40.7011375427, -74.0193099976, 40.8774528503, -73.9104537964);
     }
     double minLat = bounds.getSouthwest().getLatitude();
     double minLon = bounds.getSouthwest().getLongitude();
@@ -66,7 +66,8 @@ class PlaceAutocompletePresenter {
     if (boundingBox == null) {
       return 40.7443;
     }
-    double midLat = (boundingBox.getMaxLat() - boundingBox.getMinLat()) / 2;
+    double diff = (boundingBox.getMaxLat() - boundingBox.getMinLat()) / 2;
+    double midLat = boundingBox.getMinLat() + diff;
     return midLat;
   }
 
@@ -81,7 +82,8 @@ class PlaceAutocompletePresenter {
     if (boundingBox == null) {
       return -73.9903;
     }
-    double midLon = (boundingBox.getMaxLon() - boundingBox.getMinLon()) / 2;
+    double diff = (boundingBox.getMaxLon() - boundingBox.getMinLon()) / 2;
+    double midLon = boundingBox.getMinLon() + diff;
     return midLon;
   }
 }
