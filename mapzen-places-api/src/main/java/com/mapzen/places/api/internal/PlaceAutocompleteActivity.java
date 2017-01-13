@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_BOUNDS;
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_DETAILS;
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_PLACE;
+import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_STATUS;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -107,8 +108,7 @@ public class PlaceAutocompleteActivity extends AppCompatActivity
     final Intent intent = new Intent();
     intent.putExtra(EXTRA_PLACE, place);
     intent.putExtra(EXTRA_DETAILS, details);
-    //TODO: update LOST, make Status Parcelable
-    //intent.putExtra(EXTRA_STATUS, (Parcelable) status);
+    intent.putExtra(EXTRA_STATUS, status);
     setResult(RESULT_OK, intent);
   }
 

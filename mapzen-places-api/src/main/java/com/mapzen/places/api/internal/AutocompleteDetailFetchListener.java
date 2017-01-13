@@ -1,6 +1,8 @@
 package com.mapzen.places.api.internal;
 
 import com.mapzen.android.lost.api.Status;
+import com.mapzen.android.lost.internal.DialogDisplayer;
+import com.mapzen.android.lost.internal.SettingsDialogDisplayer;
 import com.mapzen.places.api.Place;
 
 /**
@@ -10,6 +12,7 @@ import com.mapzen.places.api.Place;
 class AutocompleteDetailFetchListener implements OnPlaceDetailsFetchedListener {
 
   final PlaceAutocompleteController controller;
+  final DialogDisplayer dialogDisplayer = new SettingsDialogDisplayer();
 
   /**
    * Construct new {@link AutocompleteDetailFetchListener} and set its controller.
@@ -20,12 +23,12 @@ class AutocompleteDetailFetchListener implements OnPlaceDetailsFetchedListener {
   }
 
   @Override public void onFetchSuccess(Place place, String details) {
-    Status status = new Status(Status.SUCCESS);
+    Status status = new Status(Status.SUCCESS, dialogDisplayer);
     setResultAndFinish(place, details, status);
   }
 
   @Override public void onFetchFailure() {
-    Status status = new Status(Status.INTERNAL_ERROR);
+    Status status = new Status(Status.INTERNAL_ERROR, dialogDisplayer);
     setResultAndFinish(null, null, status);
   }
 
