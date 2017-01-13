@@ -1,5 +1,6 @@
 package com.mapzen.places.api.internal;
 
+import com.mapzen.places.api.Place;
 import com.mapzen.tangram.LngLat;
 
 import org.junit.Before;
@@ -30,6 +31,12 @@ public class PlacePickerPresenterTest {
 
   @Test public void onPlaceConfirmed_shouldFinishActivity() {
     presenter.onPlaceConfirmed();
+    assertThat(controller.finished).isTrue();
+  }
+
+  @Test public void onAutocompletePlacePicked_shouldFinishActivity() {
+    Place place = new PlaceImpl.Builder().build();
+    presenter.onAutocompletePlacePicked(place);
     assertThat(controller.finished).isTrue();
   }
 }

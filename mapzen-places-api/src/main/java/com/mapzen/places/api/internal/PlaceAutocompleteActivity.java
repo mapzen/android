@@ -1,5 +1,6 @@
 package com.mapzen.places.api.internal;
 
+import com.mapzen.android.lost.api.Status;
 import com.mapzen.pelias.BoundingBox;
 import com.mapzen.pelias.Pelias;
 import com.mapzen.pelias.PeliasLocationProvider;
@@ -7,15 +8,20 @@ import com.mapzen.pelias.gson.Result;
 import com.mapzen.pelias.widget.AutoCompleteAdapter;
 import com.mapzen.pelias.widget.AutoCompleteListView;
 import com.mapzen.pelias.widget.PeliasSearchView;
+import com.mapzen.places.api.LatLngBounds;
+import com.mapzen.places.api.Place;
 import com.mapzen.places.api.R;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_BOUNDS;
+import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_PLACE;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -64,17 +70,16 @@ public class PlaceAutocompleteActivity extends AppCompatActivity
     pelias.setDebug(true);
     pelias.setLocationProvider(new PeliasLocationProvider() {
 
-      // TODO: Replace with real location integration
       @Override public double getLat() {
-        return 40.7443;
+        return presenter.getLat();
       }
 
       @Override public double getLon() {
-        return  -73.9903;
+        return presenter.getLon();
       }
 
       @Override public BoundingBox getBoundingBox() {
-        return null;
+        return presenter.getBoundingBox();
       }
     });
 
@@ -82,10 +87,18 @@ public class PlaceAutocompleteActivity extends AppCompatActivity
     peliasSearchView.setPelias(pelias);
   }
 
-  @Override public void setResult(String name) {
-    // TODO: Replace String result with Place object. Details should be fetched by presenter.
+  @Override public LatLngBounds getBounds() {
+    if (getIntent().getExtras() == null) {
+      return null;
+    }
+    return getIntent().getExtras().getParcelable(EXTRA_BOUNDS);
+  }
+
+  @Override public void setResult(Place place, Status status) {
     final Intent intent = new Intent();
-    intent.putExtra("mapzen_place", name);
+    intent.putExtra(EXTRA_PLACE, (Parcelable) place);
+    //TODO: update LOST, make Status Parcelable
+    //intent.putExtra(EXTRA_STATUS, (Parcelable) status);
     setResult(RESULT_OK, intent);
   }
 

@@ -1,5 +1,6 @@
 package com.mapzen.places.api.internal;
 
+import com.mapzen.places.api.Place;
 import com.mapzen.tangram.LngLat;
 
 import java.util.Map;
@@ -26,4 +27,10 @@ interface PlacePickerPresenter {
    * a POI has been picked.
    */
   void onPlaceConfirmed();
+
+  /**
+   * Called when a {@link Place} is selected from the PlaceAutocomplete UI.
+   * @param place
+   */
+  void onAutocompletePlacePicked(Place place);
 }

@@ -8,7 +8,7 @@ import com.mapzen.places.api.LatLng;
 import com.mapzen.places.api.LatLngBounds;
 import com.mapzen.places.api.Place;
 import com.mapzen.places.api.R;
-import com.mapzen.places.api.ui.PlacePicker;
+import com.mapzen.places.api.ui.PlaceAutocomplete;
 import com.mapzen.tangram.LabelPickResult;
 import com.mapzen.tangram.LngLat;
 
@@ -20,6 +20,9 @@ import android.graphics.Point;
 import android.graphics.PointF;
 import android.os.Bundle;
 
+import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_BOUNDS;
+import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_PLACE;
+
 /**
  * Activity which displays a map and a dialog when the user selects a place on the map.
  */
@@ -28,6 +31,7 @@ public class PlacePickerActivity extends Activity implements
     DialogInterface.OnClickListener {
 
   PlacePickerPresenter presenter;
+  PlaceAutocompleteView autocompleteView;
   MapView mapView;
   MapzenMap map;
   AlertDialog dialog;
@@ -35,7 +39,10 @@ public class PlacePickerActivity extends Activity implements
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.mz_fragment_map);
+    setContentView(R.layout.place_picker_activity);
+
+    autocompleteView = (PlaceAutocompleteView) findViewById(R.id.autocomplete_view);
+    autocompleteView.setActivity(this);
 
     //TODO inject
     presenter = new PlacePickerPresenterImpl(new PeliasPlaceDetailFetcher());
@@ -85,20 +92,26 @@ public class PlacePickerActivity extends Activity implements
     if (place instanceof PlaceImpl) {
       PlaceImpl placeImpl = (PlaceImpl) place;
       Intent intent = new Intent();
-      intent.putExtra(PlacePicker.EXTRA_PLACE, placeImpl);
+      intent.putExtra(EXTRA_PLACE, placeImpl);
       setResult(RESULT_OK, intent);
     }
     finish();
   }
 
+  @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    if (resultCode == RESULT_OK) {
+      Place place = PlaceAutocomplete.getPlace(this, data);
+      presenter.onAutocompletePlacePicked(place);
+    }
+  }
+
   private void initializeMap() {
-    //TODO center on either curr location or given bounds
     map.setMyLocationEnabled(true);
     map.setLabelPickListener(this);
 
     Bundle extras = getIntent().getExtras();
     if (extras != null) {
-      LatLngBounds bounds = (LatLngBounds) extras.get(PlacePicker.EXTRA_BOUNDS);
+      LatLngBounds bounds = (LatLngBounds) extras.get(EXTRA_BOUNDS);
       if (bounds != null) {
         LatLng center = bounds.getCenter();
         double lng = center.getLongitude();
