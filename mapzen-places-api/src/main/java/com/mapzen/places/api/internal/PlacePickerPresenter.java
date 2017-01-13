@@ -32,5 +32,5 @@ interface PlacePickerPresenter {
    * Called when a {@link Place} is selected from the PlaceAutocomplete UI.
    * @param place
    */
-  void onAutocompletePlacePicked(Place place);
+  void onAutocompletePlacePicked(Place place, String details);
 }

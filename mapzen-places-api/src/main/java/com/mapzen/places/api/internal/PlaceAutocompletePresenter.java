@@ -1,11 +1,9 @@
 package com.mapzen.places.api.internal;
 
-import com.mapzen.android.lost.api.Status;
 import com.mapzen.pelias.BoundingBox;
 import com.mapzen.pelias.gson.Properties;
 import com.mapzen.pelias.gson.Result;
 import com.mapzen.places.api.LatLngBounds;
-import com.mapzen.places.api.Place;
 
 import retrofit2.Response;
 
@@ -14,13 +12,18 @@ import retrofit2.Response;
  */
 class PlaceAutocompletePresenter {
   private final PlaceAutocompleteController controller;
+  private final PlaceDetailFetcher detailFetcher;
+  private final OnPlaceDetailsFetchedListener detailFetchListener;
 
   /**
    * Creates a new instance with reference to controller.
    * @param controller place autocomplete wrapper Activity.
    */
-  PlaceAutocompletePresenter(PlaceAutocompleteController controller) {
+  PlaceAutocompletePresenter(PlaceAutocompleteController controller,
+      PlaceDetailFetcher detailFetcher, OnPlaceDetailsFetchedListener detailFetchListener) {
     this.controller = controller;
+    this.detailFetcher = detailFetcher;
+    this.detailFetchListener = detailFetchListener;
   }
 
   /**
@@ -28,17 +31,9 @@ class PlaceAutocompletePresenter {
    * @param response parsed result returned by the service.
    */
   void onResponse(Response<Result> response) {
-    // TODO: Fetch place details.
     Properties properties = response.body().getFeatures().get(0).properties;
-    String name = properties.name;
-    String address = properties.label;
-    Place place = new PlaceImpl.Builder()
-        .setName(name)
-        .setAddress(address)
-        .build();
-    Status status = new Status(Status.SUCCESS);
-    controller.setResult(place, status);
-    controller.finish();
+    String gid = properties.gid;
+    detailFetcher.fetchDetails(gid, detailFetchListener);
   }
 
   /**

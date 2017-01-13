@@ -1,6 +1,5 @@
 package com.mapzen.places.api.internal;
 
-import com.mapzen.places.api.Place;
 import com.mapzen.tangram.LngLat;
 
 import java.util.Map;
@@ -13,7 +12,7 @@ public class TestPlaceDetailFetcher implements PlaceDetailFetcher {
 
   }
 
-  @Override public Place getFetchedPlace() {
-    return new PlaceImpl.Builder().build();
+  @Override public void fetchDetails(String gid, OnPlaceDetailsFetchedListener listener) {
+
   }
 }

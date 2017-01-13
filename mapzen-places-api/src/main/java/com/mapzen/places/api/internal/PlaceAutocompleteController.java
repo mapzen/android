@@ -14,7 +14,7 @@ interface PlaceAutocompleteController {
    * @param result Selected{@code Place} object.
    * @param status Selection status.
    */
-  void setResult(Place result, Status status);
+  void setResult(Place result, String details, Status status);
 
   /**
    * Finish place autocomplete wrapper activity and return to calling application.

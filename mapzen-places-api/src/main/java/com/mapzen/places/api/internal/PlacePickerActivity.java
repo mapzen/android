@@ -21,6 +21,7 @@ import android.graphics.PointF;
 import android.os.Bundle;
 
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_BOUNDS;
+import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_DETAILS;
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_PLACE;
 
 /**
@@ -101,7 +102,8 @@ public class PlacePickerActivity extends Activity implements
   @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     if (resultCode == RESULT_OK) {
       Place place = PlaceAutocomplete.getPlace(this, data);
-      presenter.onAutocompletePlacePicked(place);
+      String details = data.getExtras().getString(EXTRA_DETAILS);
+      presenter.onAutocompletePlacePicked(place, details);
     }
   }
 

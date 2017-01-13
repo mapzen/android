@@ -9,4 +9,5 @@ public class PlaceIntentConsts {
   public static final String EXTRA_BOUNDS = "extra_bounds";
   public static final String EXTRA_STATUS = "extra_status";
   public static final String EXTRA_FILTER = "extra_filter";
+  public static final String EXTRA_DETAILS = "extra_details";
 }

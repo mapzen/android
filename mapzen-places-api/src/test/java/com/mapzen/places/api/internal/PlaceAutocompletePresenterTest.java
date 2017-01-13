@@ -14,12 +14,18 @@ import org.junit.Test;
 import android.support.annotation.NonNull;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import retrofit2.Response;
 
 public class PlaceAutocompletePresenterTest {
 
   private TestPlaceAutocompleteController controller = new TestPlaceAutocompleteController();
-  private PlaceAutocompletePresenter presenter = new PlaceAutocompletePresenter(controller);
+  private PlaceDetailFetcher detailFetcher = mock(PlaceDetailFetcher.class);
+  private OnPlaceDetailsFetchedListener detailFetchListener = mock(
+      OnPlaceDetailsFetchedListener.class);
+  private PlaceAutocompletePresenter presenter = new PlaceAutocompletePresenter(controller,
+      detailFetcher, detailFetchListener);
 
   @Test
   public void shouldNotBeNull() throws Exception {
@@ -27,21 +33,14 @@ public class PlaceAutocompletePresenterTest {
   }
 
   @Test
-  public void onResponse_shouldSetResult() throws Exception {
+  public void onResponse_shouldFetchPlaceDetails() throws Exception {
     Response<Result> response = getTestResponse();
     presenter.onResponse(response);
-    assertThat(controller.result.getName()).isEqualTo("Test Name");
+    verify(detailFetcher).fetchDetails("123abc", detailFetchListener);
   }
 
   @Test
-  public void onResponse_shouldFinish() throws Exception {
-    Response<Result> response = getTestResponse();
-    presenter.onResponse(response);
-    assertThat(controller.isFinishing).isTrue();
-  }
-
-  @Test
-  public void getBoundingBox_shouldReturnCorrectBox() {
+  public void getBoundingBox_shouldReturnCorrectBox() throws Exception {
     BoundingBox boundingBox = presenter.getBoundingBox();
     assertThat(boundingBox.getMinLat()).isEqualTo(0.0);
     assertThat(boundingBox.getMinLon()).isEqualTo(0.0);
@@ -50,13 +49,13 @@ public class PlaceAutocompletePresenterTest {
   }
 
   @Test
-  public void getLat_shouldReturnCorrectLat() {
+  public void getLat_shouldReturnCorrectLat() throws Exception {
     double lat = presenter.getLat();
     assertThat(lat).isEqualTo(25.0);
   }
 
   @Test
-  public void getLon_shouldReturnCorrectLon() {
+  public void getLon_shouldReturnCorrectLon() throws Exception {
     double lat = presenter.getLon();
     assertThat(lat).isEqualTo(50.0);
   }
@@ -65,6 +64,7 @@ public class PlaceAutocompletePresenterTest {
     Result result = new Result();
     Feature feature = new Feature();
     Properties properties = new Properties();
+    properties.gid = "123abc";
     properties.name = "Test Name";
     feature.properties = properties;
     result.getFeatures().add(feature);
@@ -78,7 +78,7 @@ public class PlaceAutocompletePresenterTest {
     LatLng ne = new LatLng(50.0, 100.0);
     LatLngBounds bounds = new LatLngBounds(sw, ne);
 
-    @Override public void setResult(Place result, Status status) {
+    @Override public void setResult(Place result, String details, Status status) {
       this.result = result;
     }
 

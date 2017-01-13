@@ -14,7 +14,6 @@ import com.mapzen.places.api.R;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +22,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_BOUNDS;
+import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_DETAILS;
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_PLACE;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,7 +42,9 @@ public class PlaceAutocompleteActivity extends AppCompatActivity
     setContentView(R.layout.place_autcomplete_activity);
 
     // TODO inject
-    presenter = new PlaceAutocompletePresenter(this);
+    PlaceDetailFetcher detailFetcher = new PeliasPlaceDetailFetcher();
+    OnPlaceDetailsFetchedListener detailFetchListener = new AutocompleteDetailFetchListener(this);
+    presenter = new PlaceAutocompletePresenter(this, detailFetcher, detailFetchListener);
 
     AutoCompleteListView listView = (AutoCompleteListView) findViewById(R.id.list_view);
     AutoCompleteAdapter autocompleteAdapter =
@@ -54,8 +56,6 @@ public class PlaceAutocompleteActivity extends AppCompatActivity
     peliasSearchView.setCallback(new Callback<Result>() {
       @Override public void onResponse(Call<Result> call, Response<Result> response) {
         presenter.onResponse(response);
-
-        finish();
       }
 
       @Override public void onFailure(Call<Result> call, Throwable t) {
@@ -103,9 +103,10 @@ public class PlaceAutocompleteActivity extends AppCompatActivity
     return getIntent().getExtras().getParcelable(EXTRA_BOUNDS);
   }
 
-  @Override public void setResult(Place place, Status status) {
+  @Override public void setResult(Place place, String details, Status status) {
     final Intent intent = new Intent();
-    intent.putExtra(EXTRA_PLACE, (Parcelable) place);
+    intent.putExtra(EXTRA_PLACE, place);
+    intent.putExtra(EXTRA_DETAILS, details);
     //TODO: update LOST, make Status Parcelable
     //intent.putExtra(EXTRA_STATUS, (Parcelable) status);
     setResult(RESULT_OK, intent);

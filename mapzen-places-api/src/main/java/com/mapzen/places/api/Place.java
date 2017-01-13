@@ -1,6 +1,7 @@
 package com.mapzen.places.api;
 
 import android.net.Uri;
+import android.os.Parcelable;
 
 import java.util.List;
 import java.util.Locale;
@@ -8,7 +9,7 @@ import java.util.Locale;
 /**
  * Represents a physical place selected from a {@link com.mapzen.android.graphics.MapzenMap}.
  */
-public interface Place {
+public interface Place extends Parcelable {
 
   /**
    * Returns human readable address for this place.
