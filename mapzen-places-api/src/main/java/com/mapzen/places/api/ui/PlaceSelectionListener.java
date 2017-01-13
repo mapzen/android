@@ -13,11 +13,11 @@ public interface PlaceSelectionListener {
    * Called when the user selects a {@link Place}.
    * @param place
    */
-  abstract void onPlaceSelected(Place place);
+  void onPlaceSelected(Place place);
 
   /**
    * Called when an error occurs while trying to select a {@link Place}.
    * @param status
    */
-  abstract void onError(Status status);
+  void onError(Status status);
 }
