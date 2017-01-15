@@ -10,10 +10,10 @@ import com.mapzen.R;
 
 public class CompassView extends RelativeLayout {
 
-  public static final int ROTATION_ANIMATION_DURATION_MILLIS = 1000;
-  public static final int FADE_OUT_ANIMATION_DURATION_MILLIS = 1000;
+  static final int ROTATION_ANIMATION_DURATION_MILLIS = 1000;
+  static final int FADE_OUT_ANIMATION_DURATION_MILLIS = 1000;
 
-  public CompassView(Context context, AttributeSet attrs) {
+  CompassView(Context context, AttributeSet attrs) {
     super(context, attrs);
     LayoutInflater inflater = (LayoutInflater) context
       .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
