@@ -8,6 +8,9 @@ import android.widget.RelativeLayout;
 
 import com.mapzen.R;
 
+/**
+ * Compass button for MapView.
+ */
 public class CompassView extends RelativeLayout {
 
   /**
