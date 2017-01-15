@@ -10,9 +10,15 @@ import com.mapzen.R;
 
 public class CompassView extends RelativeLayout {
 
+  /**
+   * Durations in milliseconds for rotation and fade out animations.
+   */
   static final int ROTATION_ANIMATION_DURATION_MILLIS = 1000;
   static final int FADE_OUT_ANIMATION_DURATION_MILLIS = 1000;
 
+  /**
+   * Create a new {@link CompassView} object for showing current rotation of map.
+   */
   CompassView(Context context, AttributeSet attrs) {
     super(context, attrs);
     LayoutInflater inflater = (LayoutInflater) context
