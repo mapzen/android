@@ -25,7 +25,6 @@ import org.powermock.reflect.Whitebox;
 
 import android.content.Context;
 import android.location.Location;
-import android.test.mock.MockContext;
 import android.view.View;
 import android.widget.ImageButton;
 
