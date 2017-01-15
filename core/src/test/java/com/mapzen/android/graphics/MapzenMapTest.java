@@ -305,6 +305,20 @@ public class MapzenMapTest {
     assertThat(map.getRotateResponder()).isNotNull();
   }
 
+  @Test public void setRotateResponder_shouldInvokeOverlayManager() {
+    TestRotateResponder rotateResponder = new TestRotateResponder();
+    map.setRotateResponder(rotateResponder);
+    map.internalRotateResponder.onRotate(1, 2, 0.5f);
+    verify(overlayManager).onRotate(1, 2, 0.5f);
+  }
+
+  @Test public void setRotateResponder_shouldInvokeRotateResponder() {
+    TestRotateResponder rotateResponder = new TestRotateResponder();
+    map.setRotateResponder(rotateResponder);
+    map.internalRotateResponder.onRotate(1, 2, 0.5f);
+    assertThat(rotateResponder.rotated).isTrue();
+  }
+
   @Test public void setScaleResponder_shouldInvokeMapController() {
     TestScaleResponder scaleResponder = new TestScaleResponder();
     map.setScaleResponder(scaleResponder);
@@ -504,6 +518,16 @@ public class MapzenMapTest {
   @Test public void applySceneUpdates_shouldInvokeMapController() {
     map.applySceneUpdates();
     verify(mapController).applySceneUpdates();
+  }
+
+  public class TestRotateResponder implements TouchInput.RotateResponder {
+
+    boolean rotated = false;
+
+    @Override public boolean onRotate(float x, float y, float rotation) {
+      rotated = true;
+      return false;
+    }
   }
 
   private class TestFeaturePickListener implements FeaturePickListener {

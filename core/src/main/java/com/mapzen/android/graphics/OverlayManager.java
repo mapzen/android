@@ -873,7 +873,7 @@ public class OverlayManager implements TouchInput.PanResponder, TouchInput.Rotat
   }
 
   @Override public boolean onRotate(float x, float y, float rotation) {
-    final View compass = mapView.findViewById(R.id.mz_compass);
+    final View compass = mapView.getCompass();
     if (compass.getAlpha() == 0f) {
       compass.setAlpha(1f);
     }
