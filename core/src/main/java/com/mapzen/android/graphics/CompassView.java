@@ -13,6 +13,7 @@ import com.mapzen.R;
  */
 public class CompassView extends RelativeLayout {
 
+<<<<<<< HEAD
   /**
    * Durations in milliseconds for rotation and fade out animations.
    */
@@ -22,6 +23,11 @@ public class CompassView extends RelativeLayout {
   /**
    * Create a new {@link CompassView} object for showing current rotation of map.
    */
+=======
+  static final int ROTATION_ANIMATION_DURATION_MILLIS = 1000;
+  static final int FADE_OUT_ANIMATION_DURATION_MILLIS = 1000;
+
+>>>>>>> 1dd12b3... Constructor and static final fields of CompassView class change to package private.
   CompassView(Context context, AttributeSet attrs) {
     super(context, attrs);
     LayoutInflater inflater = (LayoutInflater) context
