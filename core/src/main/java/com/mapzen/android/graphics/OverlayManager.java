@@ -736,7 +736,7 @@ public class OverlayManager implements TouchInput.PanResponder, TouchInput.Rotat
     float currentRotation = mapStateManager.getRotation();
     final CompassView button = mapView.showCompass();
     button.setAlpha(currentRotation == 0f ? 0f : 1f);
-    button.setRotation((float)Math.toDegrees(currentRotation));
+    button.setRotation((float) Math.toDegrees(currentRotation));
     button.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         mapStateManager.setRotation(0);
@@ -877,7 +877,7 @@ public class OverlayManager implements TouchInput.PanResponder, TouchInput.Rotat
     if (compass.getAlpha() == 0f) {
       compass.setAlpha(1f);
     }
-    compass.setRotation((float)Math.toDegrees(mapController.getRotation()));
+    compass.setRotation((float) Math.toDegrees(mapController.getRotation()));
     return false;
   }
 }

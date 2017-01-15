@@ -15,14 +15,15 @@ public class CompassView extends RelativeLayout {
 
   public CompassView(Context context, AttributeSet attrs) {
     super(context, attrs);
-    LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    LayoutInflater inflater = (LayoutInflater) context
+      .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     if (inflater != null) {
       inflater.inflate(getLayoutId(), this, true);
     }
   }
 
   @Override public void setRotation(float rotation) {
-    final ImageView image = (ImageView)findViewById(getImageId());
+    final ImageView image = (ImageView) findViewById(getImageId());
     if (image != null) {
       image.setRotation(rotation);
       if (image.getAlpha() == 0f) {
@@ -31,12 +32,16 @@ public class CompassView extends RelativeLayout {
     }
   }
 
+  /**
+   * Resets compass to point to North.
+   */
   public void reset() {
-    final ImageView image = (ImageView)findViewById(getImageId());
+    final ImageView image = (ImageView) findViewById(getImageId());
     if (image != null) {
       float newRotation = (image.getRotation() < 180) ? 0 : 360;
       image.animate().setDuration(ROTATION_ANIMATION_DURATION_MILLIS).rotation(newRotation);
-      animate().setDuration(FADE_OUT_ANIMATION_DURATION_MILLIS).alpha(0f).setStartDelay(ROTATION_ANIMATION_DURATION_MILLIS);
+      animate().setDuration(FADE_OUT_ANIMATION_DURATION_MILLIS).alpha(0f)
+        .setStartDelay(ROTATION_ANIMATION_DURATION_MILLIS);
     }
   }
 
