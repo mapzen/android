@@ -15,6 +15,7 @@ import com.mapzen.tangram.TestMapData;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -54,10 +55,14 @@ import static org.powermock.api.mockito.PowerMockito.mock;
   private OverlayManager overlayManager;
   private MapView mapView;
   private LostApiClient lostApiClient;
+  private TestCompassButton compassButton;
   private TestButton findMeButton;
   private TestButton zoomInButton;
   private TestButton zoomOutButton;
   private TestMapData mapData;
+
+  @Mock
+  Context mockContext;
 
   @Before public void setup() throws Exception {
     mapController = mock(TestMapController.class);
@@ -73,10 +78,13 @@ import static org.powermock.api.mockito.PowerMockito.mock;
     when(LocationServices.FusedLocationApi.getLastLocation(lostApiClient))
         .thenReturn(new Location("test"));
     when(lostApiClient.isConnected()).thenReturn(true);
+    compassButton = new TestCompassButton(mockContext);
     findMeButton = new TestButton(null);
     zoomInButton = new TestButton(null);
     zoomOutButton = new TestButton(null);
     when(mapController.addDataLayer(any(String.class))).thenReturn(mapData);
+    when(mapView.showCompass()).thenReturn(compassButton);
+    when(mapView.findViewById(R.id.mz_compass)).thenReturn(compassButton);
     when(mapView.showFindMe()).thenReturn(findMeButton);
     when(mapView.showZoomIn()).thenReturn(zoomInButton);
     when(mapView.showZoomOut()).thenReturn(zoomOutButton);
@@ -416,6 +424,22 @@ import static org.powermock.api.mockito.PowerMockito.mock;
     verify(mapController).requestRender();
   }
 
+  @Test public void setCompassOnClickListener_shouldInvokeListenerOnButtonClick() throws Exception {
+    TestOnClickListener listener = new TestOnClickListener();
+    when(mapView.showCompass()).thenReturn(compassButton);
+    overlayManager.setCompassButtonEnabled(true);
+    overlayManager.setCompassOnClickListener(listener);
+    compassButton.performClick();
+    assertThat(listener.click).isTrue();
+  }
+
+  @Test public void onClickCompass_shouldResetMapRotation() throws Exception {
+    overlayManager.setCompassButtonEnabled(true);
+    compassButton.performClick();
+    assertThat(mapStateManager.getRotation()).isEqualTo(0);
+    assertThat(mapController.getRotation()).isEqualTo(0);
+  }
+
   @Test public void setFindMeOnClickListener_shouldInvokeListenerOnButtonClick() throws Exception {
     TestOnClickListener listener = new TestOnClickListener();
     when(mapView.showFindMe()).thenReturn(findMeButton);
@@ -519,6 +543,26 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 
     @Override public void onClick(View v) {
       click = true;
+    }
+  }
+
+  private class TestCompassButton extends CompassView {
+    private OnClickListener listener;
+
+    public TestCompassButton(Context context) {
+      super(context, null);
+    }
+
+    @Override public void setOnClickListener(OnClickListener l) {
+      listener = l;
+    }
+
+    @Override public boolean performClick() {
+      if (listener != null) {
+        listener.onClick(this);
+      }
+
+      return true;
     }
   }
 
