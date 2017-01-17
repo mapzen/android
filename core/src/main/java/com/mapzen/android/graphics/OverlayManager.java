@@ -751,7 +751,8 @@ public class OverlayManager implements TouchInput.PanResponder {
       @Override public void onClick(final View v) {
         float zoom = mapController.getZoom() + ZOOM_BUTTON_CHANGE;
         mapStateManager.setZoom(zoom);
-        mapController.setZoomEased(zoom, ZOOM_BUTTON_ANIMATION_DURATION_MILLIS, MapController.EaseType.CUBIC);
+        mapController.setZoomEased(zoom, ZOOM_BUTTON_ANIMATION_DURATION_MILLIS,
+          MapController.EaseType.CUBIC);
         if (zoomInExternalClickListener != null) {
           zoomInExternalClickListener.onClick(v);
         }
@@ -761,7 +762,8 @@ public class OverlayManager implements TouchInput.PanResponder {
       @Override public void onClick(final View v) {
         float zoom = mapController.getZoom() - ZOOM_BUTTON_CHANGE;
         mapStateManager.setZoom(zoom);
-        mapController.setZoomEased(zoom, ZOOM_BUTTON_ANIMATION_DURATION_MILLIS, MapController.EaseType.CUBIC);
+        mapController.setZoomEased(zoom, ZOOM_BUTTON_ANIMATION_DURATION_MILLIS,
+          MapController.EaseType.CUBIC);
         if (zoomOutExternalClickListener != null) {
           zoomOutExternalClickListener.onClick(v);
         }
