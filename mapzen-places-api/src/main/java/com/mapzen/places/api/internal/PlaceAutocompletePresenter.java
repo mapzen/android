@@ -3,6 +3,7 @@ package com.mapzen.places.api.internal;
 import com.mapzen.pelias.BoundingBox;
 import com.mapzen.pelias.gson.Properties;
 import com.mapzen.pelias.gson.Result;
+import com.mapzen.places.api.AutocompleteFilter;
 import com.mapzen.places.api.LatLngBounds;
 
 import retrofit2.Response;
@@ -14,16 +15,19 @@ class PlaceAutocompletePresenter {
   private final PlaceAutocompleteController controller;
   private final PlaceDetailFetcher detailFetcher;
   private final OnPlaceDetailsFetchedListener detailFetchListener;
+  private final FilterMapper filterMapper;
 
   /**
    * Creates a new instance with reference to controller.
    * @param controller place autocomplete wrapper Activity.
    */
   PlaceAutocompletePresenter(PlaceAutocompleteController controller,
-      PlaceDetailFetcher detailFetcher, OnPlaceDetailsFetchedListener detailFetchListener) {
+      PlaceDetailFetcher detailFetcher, OnPlaceDetailsFetchedListener detailFetchListener,
+      FilterMapper filterMapper) {
     this.controller = controller;
     this.detailFetcher = detailFetcher;
     this.detailFetchListener = detailFetchListener;
+    this.filterMapper = filterMapper;
   }
 
   /**
@@ -85,5 +89,30 @@ class PlaceAutocompletePresenter {
     double diff = (boundingBox.getMaxLon() - boundingBox.getMinLon()) / 2;
     double midLon = boundingBox.getMinLon() + diff;
     return midLon;
+  }
+
+  /**
+   * Return the ISO 3166-1 Alpha-2 country code that should be used to limit autocomplete results.
+   * @return
+   */
+  String getCountryFilter() {
+    AutocompleteFilter filter = controller.getAutocompleteFilter();
+    if (filter == null) {
+      return null;
+    }
+    return filter.getCountry();
+  }
+
+  /**
+   * Return the layers that should be used to limit autocomplete results.
+   * @return
+   */
+  String getLayersFilter() {
+    AutocompleteFilter filter = controller.getAutocompleteFilter();
+    if (filter == null) {
+      return null;
+    }
+    int typeFilter = filter.getTypeFilter();
+    return filterMapper.getInternalFilter(typeFilter);
   }
 }

@@ -17,7 +17,7 @@ public class AutocompletePredictionBufferTest {
   List<AutocompletePrediction> predictions;
 
   @Before public void setup() {
-    status = new Status(Status.SUCCESS);
+    status = new Status(Status.SUCCESS, null);
     predictions = new ArrayList<>();
     predictions.add(new AutocompletePrediction("test", "test"));
     buffer = new AutocompletePredictionBuffer(status, predictions);

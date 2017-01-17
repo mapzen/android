@@ -5,6 +5,7 @@ import com.mapzen.pelias.BoundingBox;
 import com.mapzen.pelias.gson.Feature;
 import com.mapzen.pelias.gson.Properties;
 import com.mapzen.pelias.gson.Result;
+import com.mapzen.places.api.AutocompleteFilter;
 import com.mapzen.places.api.LatLng;
 import com.mapzen.places.api.LatLngBounds;
 import com.mapzen.places.api.Place;
@@ -25,7 +26,7 @@ public class PlaceAutocompletePresenterTest {
   private OnPlaceDetailsFetchedListener detailFetchListener = mock(
       OnPlaceDetailsFetchedListener.class);
   private PlaceAutocompletePresenter presenter = new PlaceAutocompletePresenter(controller,
-      detailFetcher, detailFetchListener);
+      detailFetcher, detailFetchListener, null);
 
   @Test
   public void shouldNotBeNull() throws Exception {
@@ -88,6 +89,10 @@ public class PlaceAutocompletePresenterTest {
 
     @Override public LatLngBounds getBounds() {
       return bounds;
+    }
+
+    @Override public AutocompleteFilter getAutocompleteFilter() {
+      return null;
     }
   }
 }

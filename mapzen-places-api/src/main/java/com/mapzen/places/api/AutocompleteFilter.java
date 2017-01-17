@@ -56,9 +56,18 @@ public class AutocompleteFilter implements Parcelable {
   /**
    * Constructs a new object.
    */
-  public AutocompleteFilter(String country, int typeFilter) {
+  AutocompleteFilter(String country, int typeFilter) {
     this.country = country;
     this.typeFilter = typeFilter;
+  }
+
+  /**
+   * Return the country that results should be limited to. Will be an ISO 3166-1 Alpha-2 country
+   * code or null.
+   * @return
+   */
+  public String getCountry() {
+    return country;
   }
 
   /**
@@ -85,7 +94,7 @@ public class AutocompleteFilter implements Parcelable {
   public static class Builder {
 
     private String country;
-    private int typeFilter;
+    private int typeFilter = TYPE_FILTER_NONE;
 
     /**
      * The country to restrict results to. This should be a ISO 3166-1 Alpha-2 country code

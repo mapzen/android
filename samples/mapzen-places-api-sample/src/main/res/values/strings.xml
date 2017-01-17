@@ -11,4 +11,5 @@
   <string name="sample_place_picker_description">Select a place from the map using the Mapzen Place Picker</string>
   <string name="sample_autocomplete_label">Autocomplete</string>
   <string name="sample_autocomplete_description">Search for a place using the Mapzen Search autocomplete widget</string>
+  <string name="launch_autocomplete">Launch Autocomplete</string>
 </resources>

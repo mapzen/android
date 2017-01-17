@@ -4,16 +4,19 @@ import com.mapzen.android.lost.api.Status;
 import com.mapzen.pelias.BoundingBox;
 import com.mapzen.pelias.Pelias;
 import com.mapzen.pelias.PeliasLocationProvider;
+import com.mapzen.pelias.SuggestFilter;
 import com.mapzen.pelias.gson.Result;
 import com.mapzen.pelias.widget.AutoCompleteAdapter;
 import com.mapzen.pelias.widget.AutoCompleteListView;
 import com.mapzen.pelias.widget.PeliasSearchView;
+import com.mapzen.places.api.AutocompleteFilter;
 import com.mapzen.places.api.LatLngBounds;
 import com.mapzen.places.api.Place;
 import com.mapzen.places.api.R;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +26,7 @@ import android.widget.ImageView;
 
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_BOUNDS;
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_DETAILS;
+import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_FILTER;
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_PLACE;
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_STATUS;
 import retrofit2.Call;
@@ -45,7 +49,9 @@ public class PlaceAutocompleteActivity extends AppCompatActivity
     // TODO inject
     PlaceDetailFetcher detailFetcher = new PeliasPlaceDetailFetcher();
     OnPlaceDetailsFetchedListener detailFetchListener = new AutocompleteDetailFetchListener(this);
-    presenter = new PlaceAutocompletePresenter(this, detailFetcher, detailFetchListener);
+    FilterMapper filterMapper = new PeliasFilterMapper();
+    presenter = new PlaceAutocompletePresenter(this, detailFetcher, detailFetchListener,
+        filterMapper);
 
     AutoCompleteListView listView = (AutoCompleteListView) findViewById(R.id.list_view);
     AutoCompleteAdapter autocompleteAdapter =
@@ -95,13 +101,28 @@ public class PlaceAutocompleteActivity extends AppCompatActivity
 
     peliasSearchView.setAutoCompleteListView(listView);
     peliasSearchView.setPelias(pelias);
+    peliasSearchView.setSuggestFilter(new SuggestFilter() {
+      @Override public String getCountryFilter() {
+        return presenter.getCountryFilter();
+      }
+
+      @Override public String getLayersFilter() {
+        return presenter.getLayersFilter();
+      }
+
+      //TODO: filter only by wof (but discuss first bc it seriously limits # of results)
+      @Override public String getSources() {
+        return "wof,osm,oa,gn";
+      }
+    });
   }
 
   @Override public LatLngBounds getBounds() {
-    if (getIntent().getExtras() == null) {
-      return null;
-    }
-    return getIntent().getExtras().getParcelable(EXTRA_BOUNDS);
+    return (LatLngBounds) safeGetExtra(EXTRA_BOUNDS);
+  }
+
+  @Override public AutocompleteFilter getAutocompleteFilter() {
+    return (AutocompleteFilter) safeGetExtra(EXTRA_FILTER);
   }
 
   @Override public void setResult(Place place, String details, Status status) {
@@ -114,5 +135,12 @@ public class PlaceAutocompleteActivity extends AppCompatActivity
 
   @Override public void finish() {
     super.finish();
+  }
+
+  private Parcelable safeGetExtra(String key) {
+    if (getIntent().getExtras() == null) {
+      return null;
+    }
+    return getIntent().getExtras().getParcelable(key);
   }
 }

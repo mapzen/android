@@ -32,6 +32,7 @@ class PeliasPlaceDetailFetcher implements PlaceDetailFetcher {
    */
   public PeliasPlaceDetailFetcher() {
     pelias = new Pelias();
+    pelias.setDebug(true);
   }
 
   @Override public void fetchDetails(LngLat coordinates, final Map<String, String> properties,
@@ -58,6 +59,11 @@ class PeliasPlaceDetailFetcher implements PlaceDetailFetcher {
   @Override public void fetchDetails(String gid, final OnPlaceDetailsFetchedListener listener) {
     pelias.place(gid, new Callback<Result>() {
       @Override public void onResponse(Call<Result> call, Response<Result> response) {
+        if (response.body() == null || response.body().getFeatures() == null ||
+            response.body().getFeatures().isEmpty()) {
+          listener.onFetchFailure();
+          return;
+        }
         Feature feature = response.body().getFeatures().get(0);
         String title = feature.properties.name;
         Place place = getFetchedPlace(feature);
