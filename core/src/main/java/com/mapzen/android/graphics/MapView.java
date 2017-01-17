@@ -27,6 +27,7 @@ public class MapView extends RelativeLayout {
   @Inject MapInitializer mapInitializer;
 
   TangramMapView tangramMapView;
+  CompassView compass;
   ImageButton findMe;
   TextView attribution;
 
@@ -64,6 +65,7 @@ public class MapView extends RelativeLayout {
   @Override protected void onFinishInflate() {
     super.onFinishInflate();
     tangramMapView = (TangramMapView) findViewById(R.id.mz_tangram_map);
+    compass = (CompassView) findViewById(R.id.mz_compass);
     findMe = (ImageButton) findViewById(R.id.mz_find_me);
     attribution = (TextView) findViewById(R.id.mz_attribution);
     final TextView attribution = (TextView) findViewById(R.id.mz_attribution);
@@ -125,6 +127,28 @@ public class MapView extends RelativeLayout {
   public void getMapAsync(@NonNull String key, MapStyle mapStyle,
       @NonNull OnMapReadyCallback callback) {
     mapInitializer.init(this, key, mapStyle, callback);
+  }
+
+  /**
+   * Get the compass button.
+   */
+  public CompassView getCompass() {
+    return compass;
+  }
+
+  /**
+   * Show compass button.
+   */
+  public CompassView showCompass() {
+    compass.setVisibility(View.VISIBLE);
+    return compass;
+  }
+
+  /**
+   * Hide compass button.
+   */
+  public void hideCompass() {
+    compass.setVisibility(View.GONE);
   }
 
   /**

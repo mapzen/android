@@ -11,6 +11,20 @@
       android:layout_height="match_parent"
       />
 
+  <com.mapzen.android.graphics.CompassView
+      android:id="@+id/mz_compass"
+      android:layout_width="@dimen/mz_compass_button_width"
+      android:layout_height="@dimen/mz_compass_button_height"
+      android:layout_alignParentLeft="true"
+      android:layout_alignParentTop="true"
+      android:layout_marginLeft="@dimen/mz_compass_button_margin_left"
+      android:layout_marginTop="@dimen/mz_compass_button_margin_top"
+      android:visibility="gone"
+      android:src="@drawable/mz_compass"
+      android:contentDescription="@string/mz_compass"
+      tools:ignore="RtlHardcoded"
+      />
+
   <ImageButton
       android:id="@+id/mz_find_me"
       android:layout_width="@dimen/mz_find_me_button_width"
