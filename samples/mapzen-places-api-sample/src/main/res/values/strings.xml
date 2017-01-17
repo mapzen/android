@@ -3,4 +3,12 @@
   <string name="geodata_demo_label">GeoDataApi</string>
   <string name="geodata_demo_description">Places.GeoDataApi example usage</string>
   <string name="need_permissions">This app needs location permissions to work properly.</string>
+  <string name="place_name">Name:</string>
+  <string name="place_address">Address:</string>
+  <string name="place_attribution">Attribution:</string>
+  <string name="place_bounds">Bounds:</string>
+  <string name="sample_place_picker_label">Place Picker</string>
+  <string name="sample_place_picker_description">Select a place from the map using the Mapzen Place Picker</string>
+  <string name="sample_autocomplete_label">Autocomplete</string>
+  <string name="sample_autocomplete_description">Search for a place using the Mapzen Search autocomplete widget</string>
 </resources>

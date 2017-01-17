@@ -3,4 +3,6 @@
   <string name="use_this_place">Use this place?</string>
   <string name="change_location">Change Location</string>
   <string name="select">Select</string>
+  <string name="place_autocomplete_clear_button">Clear search</string>
+  <string name="place_autocomplete_search_hint">Search</string>
 </resources>

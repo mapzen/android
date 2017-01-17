@@ -1,9 +1,12 @@
 package com.mapzen.places.api;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Represents a rectangular area.
  */
-public class LatLngBounds {
+public class LatLngBounds implements Parcelable {
 
   private final LatLng northeast;
   private final LatLng southwest;
@@ -91,6 +94,31 @@ public class LatLngBounds {
     return this.southwest.getLongitude() <= this.northeast.getLongitude() ?
         this.southwest.getLongitude() <= lng && lng <= this.northeast.getLongitude() :
         this.southwest.getLongitude() <= lng || lng <= this.northeast.getLongitude();
+  }
+
+  public static final Parcelable.Creator<LatLngBounds> CREATOR
+      = new Parcelable.Creator<LatLngBounds>() {
+    public LatLngBounds createFromParcel(Parcel in) {
+      return new LatLngBounds(in);
+    }
+
+    public LatLngBounds[] newArray(int size) {
+      return new LatLngBounds[size];
+    }
+  };
+
+  private LatLngBounds(Parcel in) {
+    this.northeast = in.readParcelable(LatLng.class.getClassLoader());
+    this.southwest = in.readParcelable(LatLng.class.getClassLoader());
+  }
+
+  @Override public int describeContents() {
+    return 0;
+  }
+
+  @Override public void writeToParcel(Parcel parcel, int i) {
+    parcel.writeParcelable(this.northeast, i);
+    parcel.writeParcelable(this.southwest, i);
   }
 
   /**

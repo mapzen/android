@@ -1,9 +1,12 @@
 package com.mapzen.places.api;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Represents a pair of coordinates as degrees.
  */
-public class LatLng {
+public class LatLng implements Parcelable {
 
   private static final double LAT_MIN = -90;
   private static final double LAT_MAX = 90;
@@ -42,5 +45,30 @@ public class LatLng {
    */
   public double getLongitude() {
     return longitude;
+  }
+
+  public static final Parcelable.Creator<LatLng> CREATOR
+      = new Parcelable.Creator<LatLng>() {
+    public LatLng createFromParcel(Parcel in) {
+      return new LatLng(in);
+    }
+
+    public LatLng[] newArray(int size) {
+      return new LatLng[size];
+    }
+  };
+
+  private LatLng(Parcel in) {
+    latitude = in.readDouble();
+    longitude = in.readDouble();
+  }
+
+  @Override public int describeContents() {
+    return 0;
+  }
+
+  @Override public void writeToParcel(Parcel parcel, int i) {
+    parcel.writeDouble(latitude);
+    parcel.writeDouble(longitude);
   }
 }

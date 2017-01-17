@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * Adds functionality to {@link MapController} map by way of {@link LostApiClient}.
  */
-public class OverlayManager implements TouchInput.PanResponder {
+public class OverlayManager implements TouchInput.PanResponder, TouchInput.RotateResponder {
 
   public static final int ZOOM_BUTTON_ANIMATION_DURATION_MILLIS = 300;
   public static final float ZOOM_BUTTON_CHANGE = 1f;
@@ -76,6 +76,10 @@ public class OverlayManager implements TouchInput.PanResponder {
    * Should we show the zoom buttons.
    */
   private boolean zoomButtonsEnabled;
+  /**
+   * Should we show the compass icon.
+   */
+  private boolean compassButtonEnabled;
 
   /**
    * Receives location updates for {@link LostApiClient}.
@@ -92,6 +96,7 @@ public class OverlayManager implements TouchInput.PanResponder {
     }
   };
 
+  View.OnClickListener compassExternalClickListener;
   View.OnClickListener findMeExternalClickListener;
   View.OnClickListener zoomInExternalClickListener;
   View.OnClickListener zoomOutExternalClickListener;
@@ -203,6 +208,13 @@ public class OverlayManager implements TouchInput.PanResponder {
   /**
    * Set an external click listener to be invoked after the internal listener.
    */
+  public void setCompassOnClickListener(View.OnClickListener listener) {
+    compassExternalClickListener = listener;
+  }
+
+  /**
+   * Set an external click listener to be invoked after the internal listener.
+   */
   public void setFindMeOnClickListener(View.OnClickListener listener) {
     findMeExternalClickListener = listener;
   }
@@ -235,6 +247,22 @@ public class OverlayManager implements TouchInput.PanResponder {
    */
   public boolean isZoomButtonsEnabled() {
     return zoomButtonsEnabled;
+  }
+
+  /**
+   * Sets compass button enabled.
+   * @param enabled if true compass button will be showed, otherwise it will be hidden.
+   */
+  public void setCompassButtonEnabled(boolean enabled) {
+    compassButtonEnabled = enabled;
+    handleCompassButtonEnabledChanged();
+  }
+
+  /**
+   * Is compass button enabled.
+   */
+  public boolean isCompassEnabled() {
+    return compassButtonEnabled;
   }
 
   /**
@@ -771,9 +799,38 @@ public class OverlayManager implements TouchInput.PanResponder {
     });
   }
 
+  private void handleCompassButtonEnabledChanged() {
+    if (compassButtonEnabled) {
+      showCompass();
+    } else {
+      hideCompass();
+    }
+  }
+
+  private void showCompass() {
+    float currentRotation = mapStateManager.getRotation();
+    final CompassView button = mapView.showCompass();
+    button.setAlpha(currentRotation == 0f ? 0f : 1f);
+    button.setRotation((float) Math.toDegrees(currentRotation));
+    button.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        mapStateManager.setRotation(0);
+        mapController.setRotationEased(0, CompassView.ROTATION_ANIMATION_DURATION_MILLIS);
+        button.reset();
+        if (compassExternalClickListener != null) {
+          compassExternalClickListener.onClick(v);
+        }
+      }
+    });
+  }
+
   private void hideZoom() {
     mapView.hideZoomIn();
     mapView.hideZoomOut();
+  }
+  
+  private void hideCompass() {
+    mapView.hideCompass();
   }
 
   private void centerMap() {
@@ -892,6 +949,15 @@ public class OverlayManager implements TouchInput.PanResponder {
   @Override public boolean onFling(float posX, float posY, float velocityX, float velocityY) {
     final View findMe = mapView.findViewById(R.id.mz_find_me);
     findMe.setActivated(false);
+    return false;
+  }
+
+  @Override public boolean onRotate(float x, float y, float rotation) {
+    final View compass = mapView.getCompass();
+    if (compass.getAlpha() == 0f) {
+      compass.setAlpha(1f);
+    }
+    compass.setRotation((float) Math.toDegrees(mapController.getRotation()));
     return false;
   }
 }
