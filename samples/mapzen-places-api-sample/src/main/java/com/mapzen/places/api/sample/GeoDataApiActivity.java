@@ -21,7 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 /**
- * Demonstrates use of the {@link com.mapzen.places.GeoDataApi}
+ * Demonstrates use of the {@link com.mapzen.places.api.GeoDataApi}.
  */
 public class GeoDataApiActivity extends AppCompatActivity {
 

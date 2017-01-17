@@ -13,11 +13,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import static com.mapzen.places.api.AutocompleteFilter.TYPE_FILTER_ADDRESS;
-import static com.mapzen.places.api.AutocompleteFilter.TYPE_FILTER_ESTABLISHMENT;
-import static com.mapzen.places.api.AutocompleteFilter.TYPE_FILTER_GEOCODE;
-import static com.mapzen.places.api.AutocompleteFilter.TYPE_FILTER_REGIONS;
 import static com.mapzen.places.api.ui.PlaceAutocomplete.MODE_OVERLAY;
 
+/**
+ * Demonstrates how to launch the Places Autocomplete UI.
+ */
 public class AutocompleteDemoActivity extends AppCompatActivity {
 
   private static final int AUTOCOMPLETE_REQUEST_CODE = 1;

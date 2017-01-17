@@ -16,6 +16,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * Demonstrates how to launch the Places PlacePicker UI.
+ */
 public class PlacePickerDemoActivity extends AppCompatActivity {
 
   private static final int PERMISSIONS_REQUEST_CODE = 1;
