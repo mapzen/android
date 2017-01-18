@@ -63,6 +63,12 @@ public class PlaceAutocompleteView extends LinearLayout {
         Context.LAYOUT_INFLATER_SERVICE);
     inflater.inflate(R.layout.place_autocomplete_view, this, true);
     setBackgroundColor(getResources().getColor(R.color.mz_white));
+    findViewById(R.id.place_autocomplete_clear_button).setOnClickListener(new OnClickListener() {
+      @Override public void onClick(View view) {
+        PlaceAutocompleteView.this.text = null;
+        input.setText(null);
+      }
+    });
   }
 
   /**
