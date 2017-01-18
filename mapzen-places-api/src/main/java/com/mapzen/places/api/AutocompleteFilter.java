@@ -14,12 +14,6 @@ public class AutocompleteFilter implements Parcelable {
   public static final int TYPE_FILTER_ADDRESS = 2;
   /**
    * Only return results that represent cities.
-   *
-   * Return will be returned for the following place types:
-   * <p><ul>
-   * <li>{@link Place#TYPE_LOCALITY}
-   * <li>{@link Place#TYPE_ADMINISTRATIVE_AREA_LEVEL_3}
-   * </ul><p>
    */
   public static final int TYPE_FILTER_CITIES = 5;
   /**
@@ -36,17 +30,6 @@ public class AutocompleteFilter implements Parcelable {
   public static final int TYPE_FILTER_NONE = 0;
   /**
    * Only return results that represent regions.
-   *
-   * Results will be returned for the following place types:
-   * <p><ul>
-   * <li>{@link Place#TYPE_LOCALITY}
-   * <li>{@link Place#TYPE_SUBLOCALITY}
-   * <li>{@link Place#TYPE_POSTAL_CODE}
-   * <li>{@link Place#TYPE_COUNTRY}
-   * <li>{@link Place#TYPE_ADMINISTRATIVE_AREA_LEVEL_1}
-   * <li>{@link Place#TYPE_ADMINISTRATIVE_AREA_LEVEL_2}
-   * </ul><p>
-   *
    */
   public static final int TYPE_FILTER_REGIONS = 4;
 
