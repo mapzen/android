@@ -51,8 +51,9 @@ public class PlaceAutocompleteActivity extends AppCompatActivity
     PlaceDetailFetcher detailFetcher = new PeliasPlaceDetailFetcher();
     OnPlaceDetailsFetchedListener detailFetchListener = new AutocompleteDetailFetchListener(this);
     FilterMapper filterMapper = new PeliasFilterMapper();
-    presenter = new PlaceAutocompletePresenter(this, detailFetcher, detailFetchListener,
-        filterMapper);
+    presenter = new PlaceAutocompletePresenter(detailFetcher, detailFetchListener, filterMapper);
+    presenter.setBounds((LatLngBounds) safeGetExtra(EXTRA_BOUNDS));
+    presenter.setFilter((AutocompleteFilter) safeGetExtra(EXTRA_FILTER));
 
     AutoCompleteListView listView = (AutoCompleteListView) findViewById(R.id.list_view);
     AutoCompleteAdapter autocompleteAdapter =
@@ -119,14 +120,6 @@ public class PlaceAutocompleteActivity extends AppCompatActivity
     if (getIntent().getExtras() != null) {
       peliasSearchView.setQuery(getIntent().getExtras().getCharSequence(EXTRA_TEXT), false);
     }
-  }
-
-  @Override public LatLngBounds getBounds() {
-    return (LatLngBounds) safeGetExtra(EXTRA_BOUNDS);
-  }
-
-  @Override public AutocompleteFilter getAutocompleteFilter() {
-    return (AutocompleteFilter) safeGetExtra(EXTRA_FILTER);
   }
 
   @Override public void setResult(Place place, String details, Status status) {

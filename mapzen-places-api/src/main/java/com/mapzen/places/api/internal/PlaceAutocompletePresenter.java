@@ -12,22 +12,28 @@ import retrofit2.Response;
  * Place autocomplete presenter to handle non-Android logic.
  */
 class PlaceAutocompletePresenter {
-  private final PlaceAutocompleteController controller;
   private final PlaceDetailFetcher detailFetcher;
   private final OnPlaceDetailsFetchedListener detailFetchListener;
   private final FilterMapper filterMapper;
+  private LatLngBounds bounds;
+  private AutocompleteFilter filter;
 
   /**
-   * Creates a new instance with reference to controller.
-   * @param controller place autocomplete wrapper Activity.
+   * Creates a new instance.
    */
-  PlaceAutocompletePresenter(PlaceAutocompleteController controller,
-      PlaceDetailFetcher detailFetcher, OnPlaceDetailsFetchedListener detailFetchListener,
-      FilterMapper filterMapper) {
-    this.controller = controller;
+  PlaceAutocompletePresenter(PlaceDetailFetcher detailFetcher,
+      OnPlaceDetailsFetchedListener detailFetchListener, FilterMapper filterMapper) {
     this.detailFetcher = detailFetcher;
     this.detailFetchListener = detailFetchListener;
     this.filterMapper = filterMapper;
+  }
+
+  void setBounds(LatLngBounds bounds) {
+    this.bounds = bounds;
+  }
+
+  void setFilter(AutocompleteFilter filter) {
+    this.filter = filter;
   }
 
   /**
@@ -47,7 +53,6 @@ class PlaceAutocompletePresenter {
    * @return
    */
   BoundingBox getBoundingBox() {
-    LatLngBounds bounds = controller.getBounds();
     if (bounds == null) {
       //TODO: retrieve device's last known location
       return new BoundingBox(40.7011375427, -74.0193099976, 40.8774528503, -73.9104537964);
@@ -96,7 +101,6 @@ class PlaceAutocompletePresenter {
    * @return
    */
   String getCountryFilter() {
-    AutocompleteFilter filter = controller.getAutocompleteFilter();
     if (filter == null) {
       return null;
     }
@@ -108,7 +112,6 @@ class PlaceAutocompletePresenter {
    * @return
    */
   String getLayersFilter() {
-    AutocompleteFilter filter = controller.getAutocompleteFilter();
     if (filter == null) {
       return null;
     }

@@ -1,8 +1,6 @@
 package com.mapzen.places.api.internal;
 
 import com.mapzen.android.lost.api.Status;
-import com.mapzen.places.api.AutocompleteFilter;
-import com.mapzen.places.api.LatLngBounds;
 import com.mapzen.places.api.Place;
 
 /**
@@ -21,17 +19,4 @@ interface PlaceAutocompleteController {
    * Finish place autocomplete wrapper activity and return to calling application.
    */
   void finish();
-
-  /**
-   * Return the bounds for this controller so that it can be converted to a
-   * {@link com.mapzen.pelias.BoundingBox} by the presenter.
-   * @return
-   */
-  LatLngBounds getBounds();
-
-  /**
-   * Return the filter that should be used to limit autocomplete results.
-   * @return
-   */
-  AutocompleteFilter getAutocompleteFilter();
 }

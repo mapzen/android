@@ -1,14 +1,11 @@
 package com.mapzen.places.api.internal;
 
-import com.mapzen.android.lost.api.Status;
 import com.mapzen.pelias.BoundingBox;
 import com.mapzen.pelias.gson.Feature;
 import com.mapzen.pelias.gson.Properties;
 import com.mapzen.pelias.gson.Result;
-import com.mapzen.places.api.AutocompleteFilter;
 import com.mapzen.places.api.LatLng;
 import com.mapzen.places.api.LatLngBounds;
-import com.mapzen.places.api.Place;
 
 import org.junit.Test;
 
@@ -21,12 +18,11 @@ import retrofit2.Response;
 
 public class PlaceAutocompletePresenterTest {
 
-  private TestPlaceAutocompleteController controller = new TestPlaceAutocompleteController();
   private PlaceDetailFetcher detailFetcher = mock(PlaceDetailFetcher.class);
   private OnPlaceDetailsFetchedListener detailFetchListener = mock(
       OnPlaceDetailsFetchedListener.class);
-  private PlaceAutocompletePresenter presenter = new PlaceAutocompletePresenter(controller,
-      detailFetcher, detailFetchListener, null);
+  private PlaceAutocompletePresenter presenter = new PlaceAutocompletePresenter(detailFetcher,
+      detailFetchListener, null);
 
   @Test
   public void shouldNotBeNull() throws Exception {
@@ -42,6 +38,9 @@ public class PlaceAutocompletePresenterTest {
 
   @Test
   public void getBoundingBox_shouldReturnCorrectBox() throws Exception {
+    LatLng sw = new LatLng(0.0, 0.0);
+    LatLng ne = new LatLng(50.0, 100.0);
+    presenter.setBounds(new LatLngBounds(sw, ne));
     BoundingBox boundingBox = presenter.getBoundingBox();
     assertThat(boundingBox.getMinLat()).isEqualTo(0.0);
     assertThat(boundingBox.getMinLon()).isEqualTo(0.0);
@@ -51,12 +50,18 @@ public class PlaceAutocompletePresenterTest {
 
   @Test
   public void getLat_shouldReturnCorrectLat() throws Exception {
+    LatLng sw = new LatLng(0.0, 0.0);
+    LatLng ne = new LatLng(50.0, 100.0);
+    presenter.setBounds(new LatLngBounds(sw, ne));
     double lat = presenter.getLat();
     assertThat(lat).isEqualTo(25.0);
   }
 
   @Test
   public void getLon_shouldReturnCorrectLon() throws Exception {
+    LatLng sw = new LatLng(0.0, 0.0);
+    LatLng ne = new LatLng(50.0, 100.0);
+    presenter.setBounds(new LatLngBounds(sw, ne));
     double lat = presenter.getLon();
     assertThat(lat).isEqualTo(50.0);
   }
@@ -72,27 +77,4 @@ public class PlaceAutocompletePresenterTest {
     return Response.success(result);
   }
 
-  private static class TestPlaceAutocompleteController implements PlaceAutocompleteController {
-    private Place result = null;
-    private boolean isFinishing = false;
-    LatLng sw = new LatLng(0.0, 0.0);
-    LatLng ne = new LatLng(50.0, 100.0);
-    LatLngBounds bounds = new LatLngBounds(sw, ne);
-
-    @Override public void setResult(Place result, String details, Status status) {
-      this.result = result;
-    }
-
-    @Override public void finish() {
-      isFinishing = true;
-    }
-
-    @Override public LatLngBounds getBounds() {
-      return bounds;
-    }
-
-    @Override public AutocompleteFilter getAutocompleteFilter() {
-      return null;
-    }
-  }
 }
