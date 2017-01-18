@@ -24,6 +24,7 @@ public class CompassView extends RelativeLayout {
   /**
    * Create a new {@link CompassView} object for showing current rotation of map.
    */
+<<<<<<< HEAD
 =======
   static final int ROTATION_ANIMATION_DURATION_MILLIS = 1000;
   static final int FADE_OUT_ANIMATION_DURATION_MILLIS = 1000;
@@ -41,6 +42,9 @@ public class CompassView extends RelativeLayout {
    */
 >>>>>>> e74c036... Add javadoc to for constructor and static final fields of CompassView class.
   CompassView(Context context, AttributeSet attrs) {
+=======
+  public CompassView(Context context, AttributeSet attrs) {
+>>>>>>> 445a608... Change CompassView constructor to public.
     super(context, attrs);
     LayoutInflater inflater = (LayoutInflater) context
       .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
