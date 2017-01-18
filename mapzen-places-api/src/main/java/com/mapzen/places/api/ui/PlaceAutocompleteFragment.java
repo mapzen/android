@@ -1,5 +1,7 @@
 package com.mapzen.places.api.ui;
 
+import com.mapzen.places.api.AutocompleteFilter;
+import com.mapzen.places.api.LatLngBounds;
 import com.mapzen.places.api.Place;
 import com.mapzen.places.api.R;
 import com.mapzen.places.api.internal.PlaceAutocompleteView;
@@ -48,4 +50,35 @@ public class PlaceAutocompleteFragment extends Fragment {
     this.listener = listener;
   }
 
+  /**
+   * Set the {@link PlaceAutocompleteView}'s bounds bias.
+   * @param boundsBias
+   */
+  public void setBoundsBias(LatLngBounds boundsBias) {
+    autocompleteView.setBoundsBias(boundsBias);
+  }
+
+  /**
+   * Set the {@link PlaceAutocompleteView}'s filter.
+   * @param filter
+   */
+  public void setFilter(AutocompleteFilter filter) {
+    autocompleteView.setFilter(filter);
+  }
+
+  /**
+   * Set the {@link PlaceAutocompleteView}'s hint.
+   * @param hint
+   */
+  public void setHint(CharSequence hint) {
+    autocompleteView.setHint(hint);
+  }
+
+  /**
+   * Set the {@link PlaceAutocompleteView}'s text.
+   * @param text
+   */
+  public void setText(CharSequence text) {
+    autocompleteView.setText(text);
+  }
 }

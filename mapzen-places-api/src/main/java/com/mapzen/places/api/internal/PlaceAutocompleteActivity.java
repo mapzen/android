@@ -29,6 +29,7 @@ import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_DETAILS;
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_FILTER;
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_PLACE;
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_STATUS;
+import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_TEXT;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -115,6 +116,9 @@ public class PlaceAutocompleteActivity extends AppCompatActivity
         return "wof,osm,oa,gn";
       }
     });
+    if (getIntent().getExtras() != null) {
+      peliasSearchView.setQuery(getIntent().getExtras().getCharSequence(EXTRA_TEXT), false);
+    }
   }
 
   @Override public LatLngBounds getBounds() {

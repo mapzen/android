@@ -1,65 +1,40 @@
 package com.mapzen.places.api.sample;
 
+import com.mapzen.android.lost.api.Status;
 import com.mapzen.places.api.AutocompleteFilter;
 import com.mapzen.places.api.Place;
-import com.mapzen.places.api.ui.PlaceAutocomplete;
+import com.mapzen.places.api.ui.PlaceAutocompleteFragment;
+import com.mapzen.places.api.ui.PlaceSelectionListener;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 import static com.mapzen.places.api.AutocompleteFilter.TYPE_FILTER_ADDRESS;
-import static com.mapzen.places.api.ui.PlaceAutocomplete.MODE_OVERLAY;
 
 /**
  * Demonstrates how to launch the Places Autocomplete UI.
  */
-public class AutocompleteDemoActivity extends AppCompatActivity {
-
-  private static final int AUTOCOMPLETE_REQUEST_CODE = 1;
-
-  private Intent autoCompleteIntent;
-  private Button launchAutocompleteBtn;
-  private TextView placeNameText;
-  private TextView placeAddressText;
+public class AutocompleteDemoActivity extends AppCompatActivity implements PlaceSelectionListener {
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_autocomplete);
-    setupBtn();
-    setupTextViews();
 
+    PlaceAutocompleteFragment fragment = (PlaceAutocompleteFragment) getFragmentManager().
+        findFragmentById(R.id.place_autocomplete_fragment);
     AutocompleteFilter filter = new AutocompleteFilter.Builder()
         .setTypeFilter(TYPE_FILTER_ADDRESS)
         .build();
-   autoCompleteIntent = new PlaceAutocomplete.IntentBuilder(MODE_OVERLAY)
-        .setFilter(filter)
-        .build(this);
+    fragment.setPlaceSelectionListener(this);
+    fragment.setFilter(filter);
   }
 
-  @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    if (requestCode == AUTOCOMPLETE_REQUEST_CODE && resultCode == RESULT_OK) {
-      Place place = PlaceAutocomplete.getPlace(this, data);
-      placeNameText.setText(place.getName());
-      placeAddressText.setText(place.getAddress());
-    }
+  @Override public void onPlaceSelected(Place place) {
+    // Do something with selected place
   }
 
-  private void setupBtn() {
-    launchAutocompleteBtn = (Button) findViewById(R.id.launch_autocomplete_btn);
-    launchAutocompleteBtn.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View view) {
-        startActivityForResult(autoCompleteIntent, AUTOCOMPLETE_REQUEST_CODE);
-      }
-    });
-  }
+  @Override public void onError(Status status) {
 
-  private void setupTextViews() {
-    placeNameText = (TextView) findViewById(R.id.place_name_text);
-    placeAddressText = (TextView) findViewById(R.id.place_address_text);
   }
 }
