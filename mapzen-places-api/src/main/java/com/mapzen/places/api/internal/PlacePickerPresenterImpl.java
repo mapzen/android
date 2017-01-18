@@ -15,6 +15,7 @@ class PlacePickerPresenterImpl implements PlacePickerPresenter {
 
   PlacePickerViewController controller;
   PlaceDetailFetcher detailFetcher;
+  Place place;
 
   /**
    * Construct a new object.
@@ -33,8 +34,13 @@ class PlacePickerPresenterImpl implements PlacePickerPresenter {
 
     detailFetcher.fetchDetails(coordinates, properties,
         new OnPlaceDetailsFetchedListener() {
-          @Override public void onPlaceDetailsFetched(String details) {
+          @Override public void onFetchSuccess(Place place, String details) {
+            PlacePickerPresenterImpl.this.place = place;
             controller.updateDialog(id, details);
+          }
+
+          @Override public void onFetchFailure() {
+
           }
         }
     );
@@ -43,11 +49,13 @@ class PlacePickerPresenterImpl implements PlacePickerPresenter {
   }
 
   @Override public void onPlaceConfirmed() {
-    Place place = detailFetcher.getFetchedPlace();
     controller.finishWithPlace(place);
   }
 
-  @Override public void onAutocompletePlacePicked(Place place) {
-    controller.finishWithPlace(place);
+  @Override public void onAutocompletePlacePicked(Place place, String details) {
+    this.place = place;
+    controller.showDialog(place.getId(), details);
+    //TODO:dialog change location should bring back autocomplete ui
+    //TODO:hide map ui and just have dialog visible
   }
 }

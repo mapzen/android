@@ -1,11 +1,10 @@
 package com.mapzen.places.api.internal;
 
-import com.mapzen.android.lost.api.Status;
 import com.mapzen.pelias.BoundingBox;
 import com.mapzen.pelias.gson.Properties;
 import com.mapzen.pelias.gson.Result;
+import com.mapzen.places.api.AutocompleteFilter;
 import com.mapzen.places.api.LatLngBounds;
-import com.mapzen.places.api.Place;
 
 import retrofit2.Response;
 
@@ -13,14 +12,28 @@ import retrofit2.Response;
  * Place autocomplete presenter to handle non-Android logic.
  */
 class PlaceAutocompletePresenter {
-  private final PlaceAutocompleteController controller;
+  private final PlaceDetailFetcher detailFetcher;
+  private final OnPlaceDetailsFetchedListener detailFetchListener;
+  private final FilterMapper filterMapper;
+  private LatLngBounds bounds;
+  private AutocompleteFilter filter;
 
   /**
-   * Creates a new instance with reference to controller.
-   * @param controller place autocomplete wrapper Activity.
+   * Creates a new instance.
    */
-  PlaceAutocompletePresenter(PlaceAutocompleteController controller) {
-    this.controller = controller;
+  PlaceAutocompletePresenter(PlaceDetailFetcher detailFetcher,
+      OnPlaceDetailsFetchedListener detailFetchListener, FilterMapper filterMapper) {
+    this.detailFetcher = detailFetcher;
+    this.detailFetchListener = detailFetchListener;
+    this.filterMapper = filterMapper;
+  }
+
+  void setBounds(LatLngBounds bounds) {
+    this.bounds = bounds;
+  }
+
+  void setFilter(AutocompleteFilter filter) {
+    this.filter = filter;
   }
 
   /**
@@ -28,17 +41,9 @@ class PlaceAutocompletePresenter {
    * @param response parsed result returned by the service.
    */
   void onResponse(Response<Result> response) {
-    // TODO: Fetch place details.
     Properties properties = response.body().getFeatures().get(0).properties;
-    String name = properties.name;
-    String address = properties.label;
-    Place place = new PlaceImpl.Builder()
-        .setName(name)
-        .setAddress(address)
-        .build();
-    Status status = new Status(Status.SUCCESS);
-    controller.setResult(place, status);
-    controller.finish();
+    String gid = properties.gid;
+    detailFetcher.fetchDetails(gid, detailFetchListener);
   }
 
   /**
@@ -48,10 +53,9 @@ class PlaceAutocompletePresenter {
    * @return
    */
   BoundingBox getBoundingBox() {
-    LatLngBounds bounds = controller.getBounds();
     if (bounds == null) {
       //TODO: retrieve device's last known location
-      return null;
+      return new BoundingBox(40.7011375427, -74.0193099976, 40.8774528503, -73.9104537964);
     }
     double minLat = bounds.getSouthwest().getLatitude();
     double minLon = bounds.getSouthwest().getLongitude();
@@ -71,7 +75,8 @@ class PlaceAutocompletePresenter {
     if (boundingBox == null) {
       return 40.7443;
     }
-    double midLat = (boundingBox.getMaxLat() - boundingBox.getMinLat()) / 2;
+    double diff = (boundingBox.getMaxLat() - boundingBox.getMinLat()) / 2;
+    double midLat = boundingBox.getMinLat() + diff;
     return midLat;
   }
 
@@ -86,7 +91,31 @@ class PlaceAutocompletePresenter {
     if (boundingBox == null) {
       return -73.9903;
     }
-    double midLon = (boundingBox.getMaxLon() - boundingBox.getMinLon()) / 2;
+    double diff = (boundingBox.getMaxLon() - boundingBox.getMinLon()) / 2;
+    double midLon = boundingBox.getMinLon() + diff;
     return midLon;
+  }
+
+  /**
+   * Return the ISO 3166-1 Alpha-2 country code that should be used to limit autocomplete results.
+   * @return
+   */
+  String getCountryFilter() {
+    if (filter == null) {
+      return null;
+    }
+    return filter.getCountry();
+  }
+
+  /**
+   * Return the layers that should be used to limit autocomplete results.
+   * @return
+   */
+  String getLayersFilter() {
+    if (filter == null) {
+      return null;
+    }
+    int typeFilter = filter.getTypeFilter();
+    return filterMapper.getInternalFilter(typeFilter);
   }
 }

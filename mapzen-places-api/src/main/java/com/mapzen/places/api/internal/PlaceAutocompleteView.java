@@ -1,5 +1,7 @@
 package com.mapzen.places.api.internal;
 
+import com.mapzen.places.api.AutocompleteFilter;
+import com.mapzen.places.api.LatLngBounds;
 import com.mapzen.places.api.R;
 
 import android.app.Activity;
@@ -12,12 +14,19 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_BOUNDS;
+import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_FILTER;
+import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_TEXT;
+
 /**
  * Compound view which displays search icon, autocomplete text view and clear button.
  */
 public class PlaceAutocompleteView extends LinearLayout {
 
-  TextView input;
+  private TextView input;
+  private AutocompleteFilter filter;
+  private LatLngBounds bounds;
+  private CharSequence text;
 
   /**
    * Public constructor.
@@ -66,8 +75,7 @@ public class PlaceAutocompleteView extends LinearLayout {
     input = (TextView) findViewById(R.id.place_autocomplete_search_input);
     input.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        activity.startActivityForResult(new Intent(activity.getBaseContext(),
-            PlaceAutocompleteActivity.class), 0);
+        activity.startActivityForResult(constructIntent(activity), 0);
       }
     });
   }
@@ -82,17 +90,49 @@ public class PlaceAutocompleteView extends LinearLayout {
     input = (TextView) findViewById(R.id.place_autocomplete_search_input);
     input.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        fragment.startActivityForResult(new Intent(fragment.getActivity().getBaseContext(),
-            PlaceAutocompleteActivity.class), 0);
+        fragment.startActivityForResult(constructIntent(fragment.getActivity()), 0);
       }
     });
   }
 
+  private Intent constructIntent(Activity activity) {
+    Intent intent = new Intent(activity.getBaseContext(), PlaceAutocompleteActivity.class);
+    intent.putExtra(EXTRA_FILTER, filter);
+    intent.putExtra(EXTRA_BOUNDS, bounds);
+    intent.putExtra(EXTRA_TEXT, text);
+    return intent;
+  }
+
   /**
-   * Sets the view input text.
+   * Sets the view input text and the launched {@link PlaceAutocompleteActivity}'s input text.
    * @param s
    */
-  public void setText(String s) {
+  public void setText(CharSequence s) {
+    this.text = s;
     input.setText(s);
+  }
+
+  /**
+   * Sets the view input hint text.
+   * @param hint
+   */
+  public void setHint(CharSequence hint) {
+    input.setHint(hint);
+  }
+
+  /**
+   * Sets the launched {@link PlaceAutocompleteActivity}'s autocomplete filter.
+   * @param filter
+   */
+  public void setFilter(AutocompleteFilter filter) {
+    this.filter = filter;
+  }
+
+  /**
+   * Sets the launched {@link PlaceAutocompleteActivity}'s autocomplete bounds bias.
+   * @param bounds
+   */
+  public void setBoundsBias(LatLngBounds bounds) {
+    this.bounds = bounds;
   }
 }

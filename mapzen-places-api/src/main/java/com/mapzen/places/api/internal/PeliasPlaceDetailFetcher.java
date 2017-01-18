@@ -26,47 +26,64 @@ import retrofit2.Response;
 class PeliasPlaceDetailFetcher implements PlaceDetailFetcher {
 
   private Pelias pelias;
-  private Feature feature;
-  private LngLat coordinates;
-  private Map<String, String> properties;
 
   /**
    * Constructs a new object.
    */
   public PeliasPlaceDetailFetcher() {
     pelias = new Pelias();
+    pelias.setDebug(true);
   }
 
   @Override public void fetchDetails(LngLat coordinates, final Map<String, String> properties,
       final OnPlaceDetailsFetchedListener listener) {
-    this.coordinates = coordinates;
-    this.properties = properties;
     pelias.reverse(coordinates.latitude, coordinates.longitude, new Callback<Result>() {
           @Override public void onResponse(Call<Result> call, Response<Result> response) {
             String title = properties.get(PROPERTY_NAME);
             for (Feature feature : response.body().getFeatures()) {
               if (feature.properties.name.equals(title)) {
-                PeliasPlaceDetailFetcher.this.feature = feature;
-                String label = feature.properties.label;
-                label = label.replace(title + ",", "").trim();
-                listener.onPlaceDetailsFetched(title + "\n" + label);
+                Place place = getFetchedPlace(feature);
+                String details = getDetails(feature, title);
+                listener.onFetchSuccess(place, details);
               }
             }
           }
 
           @Override public void onFailure(Call<Result> call, Throwable t) {
-
+            listener.onFetchFailure();
           }
         }
     );
   }
 
+  @Override public void fetchDetails(String gid, final OnPlaceDetailsFetchedListener listener) {
+    pelias.place(gid, new Callback<Result>() {
+      @Override public void onResponse(Call<Result> call, Response<Result> response) {
+        if (response.body() == null || response.body().getFeatures() == null ||
+            response.body().getFeatures().isEmpty()) {
+          listener.onFetchFailure();
+          return;
+        }
+        Feature feature = response.body().getFeatures().get(0);
+        String title = feature.properties.name;
+        Place place = getFetchedPlace(feature);
+        String details = getDetails(feature, title);
+        listener.onFetchSuccess(place, details);
+      }
+
+      @Override public void onFailure(Call<Result> call, Throwable t) {
+        listener.onFetchFailure();
+      }
+    });
+  }
+
   //TODO: fill in missing values
-  @Override public Place getFetchedPlace() {
+  private Place getFetchedPlace(Feature feature) {
     final CharSequence address = feature.properties.label;
     final CharSequence attributions = "";
     final String id = feature.properties.id;
-    final LatLng latLng = new LatLng(coordinates.latitude, coordinates.longitude);
+    final LatLng latLng = new LatLng(feature.geometry.coordinates.get(1),
+        feature.geometry.coordinates.get(0));
     final Locale locale = Locale.US;
     final CharSequence name = feature.properties.name;
     final CharSequence phoneNumber = "";
@@ -89,5 +106,11 @@ class PeliasPlaceDetailFetcher implements PlaceDetailFetcher {
         .setViewPort(viewport)
         .setWebsiteUri(websiteUri)
         .build();
+  }
+
+  private String getDetails(Feature feature, String title) {
+    String label = feature.properties.label;
+    label = label.replace(title + ",", "").trim();
+    return title + "\n" + label;
   }
 }

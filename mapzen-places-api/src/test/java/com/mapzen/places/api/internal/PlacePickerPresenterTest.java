@@ -34,9 +34,9 @@ public class PlacePickerPresenterTest {
     assertThat(controller.finished).isTrue();
   }
 
-  @Test public void onAutocompletePlacePicked_shouldFinishActivity() {
+  @Test public void onAutocompletePlacePicked_shouldShowDialog() {
     Place place = new PlaceImpl.Builder().build();
-    presenter.onAutocompletePlacePicked(place);
-    assertThat(controller.finished).isTrue();
+    presenter.onAutocompletePlacePicked(place, "details");
+    assertThat(controller.dialogShown).isTrue();
   }
 }

@@ -4,10 +4,12 @@ import com.mapzen.android.lost.api.Status;
 import com.mapzen.pelias.BoundingBox;
 import com.mapzen.pelias.Pelias;
 import com.mapzen.pelias.PeliasLocationProvider;
+import com.mapzen.pelias.SuggestFilter;
 import com.mapzen.pelias.gson.Result;
 import com.mapzen.pelias.widget.AutoCompleteAdapter;
 import com.mapzen.pelias.widget.AutoCompleteListView;
 import com.mapzen.pelias.widget.PeliasSearchView;
+import com.mapzen.places.api.AutocompleteFilter;
 import com.mapzen.places.api.LatLngBounds;
 import com.mapzen.places.api.Place;
 import com.mapzen.places.api.R;
@@ -19,9 +21,15 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_BOUNDS;
+import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_DETAILS;
+import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_FILTER;
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_PLACE;
+import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_STATUS;
+import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_TEXT;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,7 +48,12 @@ public class PlaceAutocompleteActivity extends AppCompatActivity
     setContentView(R.layout.place_autcomplete_activity);
 
     // TODO inject
-    presenter = new PlaceAutocompletePresenter(this);
+    PlaceDetailFetcher detailFetcher = new PeliasPlaceDetailFetcher();
+    OnPlaceDetailsFetchedListener detailFetchListener = new AutocompleteDetailFetchListener(this);
+    FilterMapper filterMapper = new PeliasFilterMapper();
+    presenter = new PlaceAutocompletePresenter(detailFetcher, detailFetchListener, filterMapper);
+    presenter.setBounds((LatLngBounds) safeGetExtra(EXTRA_BOUNDS));
+    presenter.setFilter((AutocompleteFilter) safeGetExtra(EXTRA_FILTER));
 
     AutoCompleteListView listView = (AutoCompleteListView) findViewById(R.id.list_view);
     AutoCompleteAdapter autocompleteAdapter =
@@ -52,12 +65,17 @@ public class PlaceAutocompleteActivity extends AppCompatActivity
     peliasSearchView.setCallback(new Callback<Result>() {
       @Override public void onResponse(Call<Result> call, Response<Result> response) {
         presenter.onResponse(response);
-
-        finish();
       }
 
       @Override public void onFailure(Call<Result> call, Throwable t) {
         Log.e(TAG, "Error fetching results", t);
+      }
+    });
+    ImageView searchMagBtn = (ImageView) peliasSearchView.findViewById(R.id.search_mag_icon);
+    searchMagBtn.setImageResource(R.drawable.abc_ic_ab_back_material);
+    searchMagBtn.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View view) {
+        finish();
       }
     });
 
@@ -85,24 +103,41 @@ public class PlaceAutocompleteActivity extends AppCompatActivity
 
     peliasSearchView.setAutoCompleteListView(listView);
     peliasSearchView.setPelias(pelias);
-  }
+    peliasSearchView.setSuggestFilter(new SuggestFilter() {
+      @Override public String getCountryFilter() {
+        return presenter.getCountryFilter();
+      }
 
-  @Override public LatLngBounds getBounds() {
-    if (getIntent().getExtras() == null) {
-      return null;
+      @Override public String getLayersFilter() {
+        return presenter.getLayersFilter();
+      }
+
+      //TODO: filter only by wof (but discuss first bc it seriously limits # of results)
+      @Override public String getSources() {
+        return "wof,osm,oa,gn";
+      }
+    });
+    if (getIntent().getExtras() != null) {
+      peliasSearchView.setQuery(getIntent().getExtras().getCharSequence(EXTRA_TEXT), false);
     }
-    return getIntent().getExtras().getParcelable(EXTRA_BOUNDS);
   }
 
-  @Override public void setResult(Place place, Status status) {
+  @Override public void setResult(Place place, String details, Status status) {
     final Intent intent = new Intent();
-    intent.putExtra(EXTRA_PLACE, (Parcelable) place);
-    //TODO: update LOST, make Status Parcelable
-    //intent.putExtra(EXTRA_STATUS, (Parcelable) status);
+    intent.putExtra(EXTRA_PLACE, place);
+    intent.putExtra(EXTRA_DETAILS, details);
+    intent.putExtra(EXTRA_STATUS, status);
     setResult(RESULT_OK, intent);
   }
 
   @Override public void finish() {
     super.finish();
+  }
+
+  private Parcelable safeGetExtra(String key) {
+    if (getIntent().getExtras() == null) {
+      return null;
+    }
+    return getIntent().getExtras().getParcelable(key);
   }
 }
