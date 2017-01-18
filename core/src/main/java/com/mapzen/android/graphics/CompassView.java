@@ -1,12 +1,12 @@
 package com.mapzen.android.graphics;
 
+import com.mapzen.R;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-
-import com.mapzen.R;
 
 /**
  * Compass button for MapView.
@@ -22,7 +22,7 @@ public class CompassView extends RelativeLayout {
   /**
    * Create a new {@link CompassView} object for showing current rotation of map.
    */
-  CompassView(Context context, AttributeSet attrs) {
+  public CompassView(Context context, AttributeSet attrs) {
     super(context, attrs);
     LayoutInflater inflater = (LayoutInflater) context
       .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
