@@ -3,8 +3,6 @@ package com.mapzen.places.api.internal;
 import com.mapzen.android.lost.api.PendingResult;
 import com.mapzen.android.lost.api.ResultCallback;
 import com.mapzen.android.lost.api.Status;
-import com.mapzen.android.lost.internal.DialogDisplayer;
-import com.mapzen.android.lost.internal.SettingsDialogDisplayer;
 import com.mapzen.pelias.Pelias;
 import com.mapzen.pelias.gson.Feature;
 import com.mapzen.pelias.gson.Result;
@@ -34,7 +32,6 @@ class AutocompletePendingResult extends PendingResult<AutocompletePredictionBuff
   private final String query;
   private final LatLngBounds bounds;
   private final AutocompleteFilter filter;
-  private final DialogDisplayer dialogDisplayer = new SettingsDialogDisplayer();
 
   /**
    * Constructs a new object given a pelias instance, a query, a lat/lng bounds, and an autocomplete
@@ -74,7 +71,7 @@ class AutocompletePendingResult extends PendingResult<AutocompletePredictionBuff
     LatLng center = bounds.getCenter();
     pelias.suggest(query, center.getLatitude(), center.getLongitude(), new Callback<Result>() {
       @Override public void onResponse(Call<Result> call, Response<Result> response) {
-        Status status = new Status(Status.SUCCESS, dialogDisplayer);
+        Status status = new Status(Status.SUCCESS);
 
         final ArrayList<AutocompletePrediction> predictions = new ArrayList<>();
         final List<Feature> features = response.body().getFeatures();
@@ -89,7 +86,7 @@ class AutocompletePendingResult extends PendingResult<AutocompletePredictionBuff
       }
 
       @Override public void onFailure(Call<Result> call, Throwable t) {
-        Status status = new Status(Status.INTERNAL_ERROR, dialogDisplayer);
+        Status status = new Status(Status.INTERNAL_ERROR);
         AutocompletePredictionBuffer buffer = new AutocompletePredictionBuffer(status, null);
         callback.onResult(buffer);
       }
