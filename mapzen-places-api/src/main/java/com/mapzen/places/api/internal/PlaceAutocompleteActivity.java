@@ -1,5 +1,6 @@
 package com.mapzen.places.api.internal;
 
+import com.mapzen.android.lost.api.LostApiClient;
 import com.mapzen.android.lost.api.Status;
 import com.mapzen.pelias.BoundingBox;
 import com.mapzen.pelias.Pelias;
@@ -54,6 +55,9 @@ public class PlaceAutocompleteActivity extends AppCompatActivity
     presenter = new PlaceAutocompletePresenter(detailFetcher, detailFetchListener, filterMapper);
     presenter.setBounds((LatLngBounds) safeGetExtra(EXTRA_BOUNDS));
     presenter.setFilter((AutocompleteFilter) safeGetExtra(EXTRA_FILTER));
+    LostApiClient client = new LostApiClient.Builder(this).addConnectionCallbacks(
+        presenter).build();
+    presenter.setLostClient(client);
 
     AutoCompleteListView listView = (AutoCompleteListView) findViewById(R.id.list_view);
     AutoCompleteAdapter autocompleteAdapter =
