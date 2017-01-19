@@ -16,7 +16,7 @@ import retrofit2.Response;
 /**
  * Place autocomplete presenter to handle non-Android logic.
  */
-class PlaceAutocompletePresenter implements LostApiClient.ConnectionCallbacks {
+class PlaceAutocompletePresenter {
   private static final String TAG = "MapzenPlaces";
   private static final double BOUNDS_RADIUS = 0.02;
   private static final double LAT_DEFAULT = 0.0;
@@ -28,7 +28,6 @@ class PlaceAutocompletePresenter implements LostApiClient.ConnectionCallbacks {
   private LatLngBounds bounds;
   private AutocompleteFilter filter;
   private LostApiClient client;
-  private boolean connected = false;
 
   /**
    * Creates a new instance.
@@ -78,7 +77,7 @@ class PlaceAutocompletePresenter implements LostApiClient.ConnectionCallbacks {
   BoundingBox getBoundingBox() {
     if (bounds == null) {
       Location location = null;
-      if (connected) {
+      if (client != null && client.isConnected()) {
         try {
           location = LocationServices.FusedLocationApi.getLastLocation(client);
         } catch (SecurityException e) {
@@ -169,11 +168,4 @@ class PlaceAutocompletePresenter implements LostApiClient.ConnectionCallbacks {
     return filterMapper.getInternalFilter(typeFilter);
   }
 
-  @Override public void onConnected() {
-    connected = true;
-  }
-
-  @Override public void onConnectionSuspended() {
-    connected = false;
-  }
 }

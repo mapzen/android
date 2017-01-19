@@ -55,8 +55,7 @@ public class PlaceAutocompleteActivity extends AppCompatActivity
     presenter = new PlaceAutocompletePresenter(detailFetcher, detailFetchListener, filterMapper);
     presenter.setBounds((LatLngBounds) safeGetExtra(EXTRA_BOUNDS));
     presenter.setFilter((AutocompleteFilter) safeGetExtra(EXTRA_FILTER));
-    LostApiClient client = new LostApiClient.Builder(this).addConnectionCallbacks(
-        presenter).build();
+    LostApiClient client = new LostApiClient.Builder(this).build();
     presenter.setLostClient(client);
 
     AutoCompleteListView listView = (AutoCompleteListView) findViewById(R.id.list_view);

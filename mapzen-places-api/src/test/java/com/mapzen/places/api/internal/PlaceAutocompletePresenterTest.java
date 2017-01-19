@@ -70,7 +70,7 @@ public class PlaceAutocompletePresenterTest {
     when(location.getLongitude()).thenReturn(70.0);
     when(mockService.getLastLocation(client)).thenReturn(location);
     presenter.setLostClient(client);
-    presenter.onConnected();
+    when(client.isConnected()).thenReturn(true);
     BoundingBox boundingBox = presenter.getBoundingBox();
     double boundsRadius = 0.02;
     assertThat(boundingBox.getMinLat() + boundsRadius).isEqualTo(location.getLatitude());
