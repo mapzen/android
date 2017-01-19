@@ -6,31 +6,12 @@ buildscript {
       url 'https://plugins.gradle.org/m2/'
     }
   }
-  dependencies {
-    classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
-    classpath 'net.researchgate:gradle-release:2.4.0'
-  }
 }
 
 apply plugin: 'com.android.library'
 apply plugin: 'checkstyle'
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'net.researchgate.release'
-
-group = GROUP
-version = VERSION_NAME
-project.archivesBaseName = POM_ARTIFACT_ID
 
 ext.tangram_version = "0.4.6"
-
-release {
-  tagTemplate = 'mapzen-core${version}'
-  versionPropertyFile = 'gradle.properties'
-  versionProperties = ['VERSION_NAME']
-  newVersionCommitMessage = '[Gradle Release Plugin] - core new version commit:'
-}
-
-afterReleaseBuild.dependsOn uploadArchives
 
 android {
   compileSdkVersion 24
@@ -81,8 +62,6 @@ task verify(dependsOn: ['compileDebugSources',
                         'test',
                         'checkstyle',
                         'lint'])
-
-apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
 
 task submodules {
   def folder = new File( 'core/src/main/assets/styles/walkabout-style-more-labels/walkabout-style-more-labels.yaml' )
