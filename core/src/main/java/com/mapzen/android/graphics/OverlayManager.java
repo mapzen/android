@@ -29,6 +29,9 @@ import java.util.List;
  */
 public class OverlayManager implements TouchInput.PanResponder, TouchInput.RotateResponder {
 
+  public static final int ZOOM_BUTTON_ANIMATION_DURATION_MILLIS = 300;
+  public static final float ZOOM_BUTTON_CHANGE = 1f;
+
   private static final int LOCATION_REQUEST_INTERVAL_MILLIS = 5000;
   private static final int LOCATION_REQUEST_DISPLACEMENT_MILLIS = 5000;
   private static final int ANIMATION_DURATION_MILLIS = 500;
@@ -69,6 +72,10 @@ public class OverlayManager implements TouchInput.PanResponder, TouchInput.Rotat
    */
   private boolean myLocationEnabled;
   /**
+   * Should we show the zoom buttons.
+   */
+  private boolean zoomButtonsEnabled;
+  /**
    * Should we show the compass icon.
    */
   private boolean compassButtonEnabled;
@@ -90,6 +97,8 @@ public class OverlayManager implements TouchInput.PanResponder, TouchInput.Rotat
 
   View.OnClickListener compassExternalClickListener;
   View.OnClickListener findMeExternalClickListener;
+  View.OnClickListener zoomInExternalClickListener;
+  View.OnClickListener zoomOutExternalClickListener;
 
   private MapData polylineMapData;
   private MapData polygonMapData;
@@ -207,6 +216,36 @@ public class OverlayManager implements TouchInput.PanResponder, TouchInput.Rotat
    */
   public void setFindMeOnClickListener(View.OnClickListener listener) {
     findMeExternalClickListener = listener;
+  }
+
+  /**
+   * Set an external click listener to be invoked after the internal listener.
+   */
+  public void setZoomInOnClickListener(View.OnClickListener listener) {
+    zoomInExternalClickListener = listener;
+  }
+
+  /**
+   * Set an external click listener to be invoked after the internal listener.
+   */
+  public void setZoomOutOnClickListener(View.OnClickListener listener) {
+    zoomOutExternalClickListener = listener;
+  }
+
+  /**
+   * Sets zoom buttons enabled.
+   * @param enabled if true zoom buttons will be showed, otherwise they will be hidden.
+   */
+  public void setZoomButtonsEnabled(boolean enabled) {
+    zoomButtonsEnabled = enabled;
+    handleZoomButtonsEnabledChanged();
+  }
+
+  /**
+   * Are zoom buttons enabled.
+   */
+  public boolean isZoomButtonsEnabled() {
+    return zoomButtonsEnabled;
   }
 
   /**
@@ -724,6 +763,41 @@ public class OverlayManager implements TouchInput.PanResponder, TouchInput.Rotat
     mapView.hideFindMe();
   }
 
+  private void handleZoomButtonsEnabledChanged() {
+    if (zoomButtonsEnabled) {
+      showZoom();
+    } else {
+      hideZoom();
+    }
+  }
+
+  private void showZoom() {
+    final ImageButton zoomIn = mapView.showZoomIn();
+    final ImageButton zoomOut = mapView.showZoomOut();
+    zoomIn.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(final View v) {
+        float zoom = mapController.getZoom() + ZOOM_BUTTON_CHANGE;
+        mapStateManager.setZoom(zoom);
+        mapController.setZoomEased(zoom, ZOOM_BUTTON_ANIMATION_DURATION_MILLIS,
+          MapController.EaseType.CUBIC);
+        if (zoomInExternalClickListener != null) {
+          zoomInExternalClickListener.onClick(v);
+        }
+      }
+    });
+    zoomOut.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(final View v) {
+        float zoom = mapController.getZoom() - ZOOM_BUTTON_CHANGE;
+        mapStateManager.setZoom(zoom);
+        mapController.setZoomEased(zoom, ZOOM_BUTTON_ANIMATION_DURATION_MILLIS,
+          MapController.EaseType.CUBIC);
+        if (zoomOutExternalClickListener != null) {
+          zoomOutExternalClickListener.onClick(v);
+        }
+      }
+    });
+  }
+
   private void handleCompassButtonEnabledChanged() {
     if (compassButtonEnabled) {
       showCompass();
@@ -747,6 +821,11 @@ public class OverlayManager implements TouchInput.PanResponder, TouchInput.Rotat
         }
       }
     });
+  }
+
+  private void hideZoom() {
+    mapView.hideZoomIn();
+    mapView.hideZoomOut();
   }
 
   private void hideCompass() {

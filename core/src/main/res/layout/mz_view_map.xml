@@ -30,9 +30,9 @@
       android:layout_width="@dimen/mz_find_me_button_width"
       android:layout_height="@dimen/mz_find_me_button_height"
       android:layout_alignParentRight="true"
-      android:layout_alignParentBottom="true"
+      android:layout_alignParentTop="true"
       android:layout_marginRight="@dimen/mz_find_me_button_margin_right"
-      android:layout_marginBottom="@dimen/mz_find_me_button_margin_bottom"
+      android:layout_marginTop="@dimen/mz_find_me_button_margin_top"
       android:background="@drawable/mz_bg_white_gray_border"
       android:visibility="gone"
       android:src="@drawable/mz_find_me"
@@ -40,6 +40,36 @@
       tools:ignore="RtlHardcoded"
       />
 
+  <ImageButton
+      android:id="@+id/mz_zoom_in"
+      android:layout_width="@dimen/mz_zoom_in_button_width"
+      android:layout_height="@dimen/mz_zoom_in_button_height"
+      android:layout_alignParentRight="true"
+      android:layout_alignParentBottom="true"
+      android:layout_marginRight="@dimen/mz_zoom_in_button_margin_right"
+      android:layout_marginBottom="@dimen/mz_zoom_in_button_margin_bottom"
+      android:background="@drawable/mz_bg_white_gray_border"
+      android:visibility="gone"
+      android:src="@drawable/mz_zoom_in"
+      android:contentDescription="@string/mz_zoom_in"
+      tools:ignore="RtlHardcoded"
+      />
+
+  <ImageButton
+      android:id="@+id/mz_zoom_out"
+      android:layout_width="@dimen/mz_zoom_out_button_width"
+      android:layout_height="@dimen/mz_zoom_out_button_height"
+      android:layout_alignParentRight="true"
+      android:layout_alignParentBottom="true"
+      android:layout_marginRight="@dimen/mz_zoom_out_button_margin_right"
+      android:layout_marginBottom="@dimen/mz_zoom_out_button_margin_bottom"
+      android:background="@drawable/mz_bg_white_gray_border"
+      android:visibility="gone"
+      android:src="@drawable/mz_zoom_out"
+      android:contentDescription="@string/mz_zoom_out"
+      tools:ignore="RtlHardcoded"
+      />
+      
   <TextView
       android:id="@+id/mz_attribution"
       android:layout_width="wrap_content"

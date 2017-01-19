@@ -379,6 +379,20 @@ public class MapzenMap {
   }
 
   /**
+   * Set an external click listener to be invoked after the internal listener.
+   */
+  public void setZoomInOnClickListener(View.OnClickListener listener) {
+    overlayManager.setZoomInOnClickListener(listener);
+  }
+
+  /**
+   * Set an external click listener to be invoked after the internal listener.
+   */
+  public void setZoomOutOnClickListener(View.OnClickListener listener) {
+    overlayManager.setZoomOutOnClickListener(listener);
+  }
+
+  /**
    * Adds marker overlay to map. Returned {@link MapData} should be removed from map
    */
   public MapData addMarker(Marker marker) {
@@ -643,6 +657,14 @@ public class MapzenMap {
    */
   public void applySceneUpdates() {
     mapController.applySceneUpdates();
+  }
+
+  /**
+   * Sets zoom buttons enabled.
+   * @param enabled if true zoom buttonswill be showed, otherwise they will be hidden.
+   */
+  public void setZoomButtonsEnabled(boolean enabled) {
+    overlayManager.setZoomButtonsEnabled(enabled);
   }
 
   /**

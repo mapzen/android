@@ -56,6 +56,8 @@ import static org.powermock.api.mockito.PowerMockito.mock;
   private LostApiClient lostApiClient;
   private TestCompassButton compassButton;
   private TestButton findMeButton;
+  private TestButton zoomInButton;
+  private TestButton zoomOutButton;
   private TestMapData mapData;
 
   @Mock
@@ -77,11 +79,17 @@ import static org.powermock.api.mockito.PowerMockito.mock;
     when(lostApiClient.isConnected()).thenReturn(true);
     compassButton = new TestCompassButton(mockContext);
     findMeButton = new TestButton(null);
+    zoomInButton = new TestButton(null);
+    zoomOutButton = new TestButton(null);
     when(mapController.addDataLayer(any(String.class))).thenReturn(mapData);
     when(mapView.showCompass()).thenReturn(compassButton);
     when(mapView.findViewById(R.id.mz_compass)).thenReturn(compassButton);
     when(mapView.showFindMe()).thenReturn(findMeButton);
+    when(mapView.showZoomIn()).thenReturn(zoomInButton);
+    when(mapView.showZoomOut()).thenReturn(zoomOutButton);
     when(mapView.findViewById(R.id.mz_find_me)).thenReturn(findMeButton);
+    when(mapView.findViewById(R.id.mz_zoom_in)).thenReturn(zoomInButton);
+    when(mapView.findViewById(R.id.mz_zoom_out)).thenReturn(zoomOutButton);
   }
 
   @Test public void setMyLocationEnabled_shouldCenterMapIfFindMeIsActive() throws Exception {
@@ -469,6 +477,52 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 
     findMeButton.performClick();
     assertThat(findMeButton.isActivated()).isFalse();
+  }
+
+  @Test public void setZoomInOnClickListener_shouldInvokeListenerOnButtonClick() throws Exception {
+    TestOnClickListener listener = new TestOnClickListener();
+    when(mapView.showZoomIn()).thenReturn(zoomInButton);
+    overlayManager.setZoomInOnClickListener(listener);
+    overlayManager.setZoomButtonsEnabled(true);
+    zoomInButton.performClick();
+    assertThat(listener.click).isTrue();
+  }
+
+  @Test public void onClickZoomIn_shouldZoomInMap() throws Exception {
+    doCallRealMethod().when(mapStateManager).setZoom(anyFloat());
+    doCallRealMethod().when(mapController).setZoom(anyFloat());
+    when(mapStateManager.getZoom()).thenCallRealMethod();
+    when(mapController.getZoom()).thenCallRealMethod();
+
+    when(mapView.showZoomIn()).thenReturn(zoomInButton);
+    mapStateManager.setZoom(3);
+    mapController.setZoom(3);
+    overlayManager.setZoomButtonsEnabled(true);
+    zoomInButton.performClick();
+    assertThat(mapStateManager.getZoom()).isEqualTo(3 + OverlayManager.ZOOM_BUTTON_CHANGE);
+  }
+
+  @Test public void setZoomOutOnClickListener_shouldInvokeListenerOnButtonClick() throws Exception {
+    TestOnClickListener listener = new TestOnClickListener();
+    when(mapView.showZoomOut()).thenReturn(zoomOutButton);
+    overlayManager.setZoomOutOnClickListener(listener);
+    overlayManager.setZoomButtonsEnabled(true);
+    zoomOutButton.performClick();
+    assertThat(listener.click).isTrue();
+  }
+
+  @Test public void onClickZoomOut_shouldZoomOutMap() throws Exception {
+    doCallRealMethod().when(mapStateManager).setZoom(anyFloat());
+    doCallRealMethod().when(mapController).setZoom(anyFloat());
+    when(mapStateManager.getZoom()).thenCallRealMethod();
+    when(mapController.getZoom()).thenCallRealMethod();
+
+    when(mapView.showZoomIn()).thenReturn(zoomOutButton);
+    mapStateManager.setZoom(3);
+    mapController.setZoom(3);
+    overlayManager.setZoomButtonsEnabled(true);
+    zoomOutButton.performClick();
+    assertThat(mapStateManager.getZoom()).isEqualTo(3 - OverlayManager.ZOOM_BUTTON_CHANGE);
   }
 
   @Test public void onPan_shouldDeactivateFindMe() throws Exception {

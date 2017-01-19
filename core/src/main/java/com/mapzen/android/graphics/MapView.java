@@ -29,6 +29,8 @@ public class MapView extends RelativeLayout {
   TangramMapView tangramMapView;
   CompassView compass;
   ImageButton findMe;
+  ImageButton zoomIn;
+  ImageButton zoomOut;
   TextView attribution;
 
   /**
@@ -67,6 +69,8 @@ public class MapView extends RelativeLayout {
     tangramMapView = (TangramMapView) findViewById(R.id.mz_tangram_map);
     compass = (CompassView) findViewById(R.id.mz_compass);
     findMe = (ImageButton) findViewById(R.id.mz_find_me);
+    zoomIn = (ImageButton) findViewById(R.id.mz_zoom_in);
+    zoomOut = (ImageButton) findViewById(R.id.mz_zoom_out);
     attribution = (TextView) findViewById(R.id.mz_attribution);
     final TextView attribution = (TextView) findViewById(R.id.mz_attribution);
     attribution.setOnClickListener(new OnClickListener() {
@@ -171,6 +175,50 @@ public class MapView extends RelativeLayout {
    */
   public void hideFindMe() {
     findMe.setVisibility(View.GONE);
+  }
+
+  /**
+   * Get the zoom in button.
+   */
+  public ImageButton getZoomIn() {
+    return zoomIn;
+  }
+
+  /**
+   * Show button for zooming in.
+   */
+  public ImageButton showZoomIn() {
+    zoomIn.setVisibility(View.VISIBLE);
+    return zoomIn;
+  }
+
+  /**
+   * Hide button for zooming in.
+   */
+  public void hideZoomIn() {
+    zoomIn.setVisibility(View.GONE);
+  }
+
+  /**
+   * Get the zoom out button.
+   */
+  public ImageButton getZoomOut() {
+    return zoomOut;
+  }
+
+  /**
+   * Show button for zooming out.
+   */
+  public ImageButton showZoomOut() {
+    zoomOut.setVisibility(View.VISIBLE);
+    return zoomOut;
+  }
+
+  /**
+   * Hide button for zooming out.
+   */
+  public void hideZoomOut() {
+    zoomOut.setVisibility(View.GONE);
   }
 
   /**
