@@ -9,7 +9,7 @@
     <activity android:name=".internal.PlacePickerActivity"/>
     <activity
         android:name=".internal.PlaceAutocompleteActivity"
-        android:theme="@style/Theme.AppCompat.Light"/>
+        android:theme="@style/PlacesOverlay" />
 
   </application>
 
