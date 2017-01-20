@@ -1,10 +1,15 @@
 package com.mapzen.places.api.internal;
 
+import com.mapzen.android.lost.api.LocationServices;
+import com.mapzen.android.lost.api.LostApiClient;
 import com.mapzen.pelias.BoundingBox;
 import com.mapzen.pelias.gson.Properties;
 import com.mapzen.pelias.gson.Result;
 import com.mapzen.places.api.AutocompleteFilter;
 import com.mapzen.places.api.LatLngBounds;
+
+import android.location.Location;
+import android.util.Log;
 
 import retrofit2.Response;
 
@@ -12,11 +17,17 @@ import retrofit2.Response;
  * Place autocomplete presenter to handle non-Android logic.
  */
 class PlaceAutocompletePresenter {
+  private static final String TAG = "MapzenPlaces";
+  private static final double BOUNDS_RADIUS = 0.02;
+  private static final double LAT_DEFAULT = 0.0;
+  private static final double LON_DEFAULT = 0.0;
+
   private final PlaceDetailFetcher detailFetcher;
   private final OnPlaceDetailsFetchedListener detailFetchListener;
   private final FilterMapper filterMapper;
   private LatLngBounds bounds;
   private AutocompleteFilter filter;
+  private LostApiClient client;
 
   /**
    * Creates a new instance.
@@ -37,6 +48,17 @@ class PlaceAutocompletePresenter {
   }
 
   /**
+   * Set client to be used to retrieve device location if bounds is not set.
+   * @param client
+   */
+  void setLostClient(LostApiClient client) {
+    this.client = client;
+    if (this.client != null) {
+      client.connect();
+    }
+  }
+
+  /**
    * Invoked when the {@code PeliasSearchView} returns a successful response.
    * @param response parsed result returned by the service.
    */
@@ -54,8 +76,23 @@ class PlaceAutocompletePresenter {
    */
   BoundingBox getBoundingBox() {
     if (bounds == null) {
-      //TODO: retrieve device's last known location
-      return new BoundingBox(40.7011375427, -74.0193099976, 40.8774528503, -73.9104537964);
+      Location location = null;
+      if (client != null && client.isConnected()) {
+        try {
+          location = LocationServices.FusedLocationApi.getLastLocation(client);
+        } catch (SecurityException e) {
+          Log.e(TAG, "Please specify a bounding box or request "
+              + "android.permission.ACCESS_COARSE_LOCATION in your manifest.");
+        }
+      }
+      if (location != null) {
+        double minLat = location.getLatitude() - BOUNDS_RADIUS;
+        double minLon = location.getLongitude() - BOUNDS_RADIUS;
+        double maxLat = location.getLatitude() + BOUNDS_RADIUS;
+        double maxLon = location.getLongitude() + BOUNDS_RADIUS;
+        return new BoundingBox(minLat, minLon, maxLat, maxLon);
+      }
+      return new BoundingBox(LAT_DEFAULT, LON_DEFAULT, LAT_DEFAULT, LON_DEFAULT);
     }
     double minLat = bounds.getSouthwest().getLatitude();
     double minLon = bounds.getSouthwest().getLongitude();
@@ -71,9 +108,15 @@ class PlaceAutocompletePresenter {
    * @return
    */
   double getLat() {
-    BoundingBox boundingBox = getBoundingBox();
+    BoundingBox boundingBox = null;
+    try {
+      boundingBox = getBoundingBox();
+    } catch (SecurityException e) {
+      Log.e(TAG, "Please specify a bounding box or "
+          + "request android.permission.ACCESS_COARSE_LOCATION in your manifest.");
+    }
     if (boundingBox == null) {
-      return 40.7443;
+      return LAT_DEFAULT;
     }
     double diff = (boundingBox.getMaxLat() - boundingBox.getMinLat()) / 2;
     double midLat = boundingBox.getMinLat() + diff;
@@ -87,9 +130,15 @@ class PlaceAutocompletePresenter {
    * @return
    */
   double getLon() {
-    BoundingBox boundingBox = getBoundingBox();
+    BoundingBox boundingBox = null;
+    try {
+      boundingBox = getBoundingBox();
+    } catch (SecurityException e) {
+      Log.e(TAG, "Please specify a bounding box or "
+          + "request android.permission.ACCESS_COARSE_LOCATION in your manifest.");
+    }
     if (boundingBox == null) {
-      return -73.9903;
+      return LON_DEFAULT;
     }
     double diff = (boundingBox.getMaxLon() - boundingBox.getMinLon()) / 2;
     double midLon = boundingBox.getMinLon() + diff;
@@ -118,4 +167,5 @@ class PlaceAutocompletePresenter {
     int typeFilter = filter.getTypeFilter();
     return filterMapper.getInternalFilter(typeFilter);
   }
+
 }

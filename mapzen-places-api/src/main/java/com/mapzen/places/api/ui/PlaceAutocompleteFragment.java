@@ -51,7 +51,10 @@ public class PlaceAutocompleteFragment extends Fragment {
   }
 
   /**
-   * Set the {@link PlaceAutocompleteView}'s bounds bias.
+   * Set the {@link PlaceAutocompleteView}'s bounds bias. If not set, you should
+   * request android.permission.ACCESS_COARSE_LOCATION in your manifest so that the map will be
+   * centered on the user's current location. If this permission is not present results will not
+   * be limited by any bounds.
    * @param boundsBias
    */
   public void setBoundsBias(LatLngBounds boundsBias) {
