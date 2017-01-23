@@ -30,4 +30,5 @@ deployment:
       - scripts/deploy-places-api-sample-app.sh
       - ./gradlew aarSize countReleaseDexMethods permissions mapzen-android-sdk:dependencies --configuration compile
       - pip install 'Circle-Tickler == 1.0.1'
-      - tickle-circle mapzen mapzen-docs-generator master $CIRCLE_TOKEN
+      # remove the first run once new repo is verified
+      - tickle-circle mapzen mapzen-docs-generator master $CIRCLE_TOKEN || tickle-circle mapzen documentation master $CIRCLE_TOKEN
