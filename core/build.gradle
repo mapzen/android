@@ -33,12 +33,12 @@ release {
 afterReleaseBuild.dependsOn uploadArchives
 
 android {
-  compileSdkVersion 24
-  buildToolsVersion '25.0.1'
+  compileSdkVersion 25
+  buildToolsVersion '25.0.2'
 
   defaultConfig {
     minSdkVersion 15
-    targetSdkVersion 24
+    targetSdkVersion 25
     versionCode 1
     versionName "1.0"
     resValue "string", "tangram_version", "${tangram_version}"
@@ -98,7 +98,7 @@ assemble.doFirst {
 }
 
 dependencies {
-  compile 'com.android.support:appcompat-v7:24.2.1'
+  compile 'com.android.support:appcompat-v7:25.1.0'
 
   compile "com.mapzen.tangram:tangram:$tangram_version"
   compile 'com.mapzen.android:pelias-android-sdk:1.1.0-SNAPSHOT'
