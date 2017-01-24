@@ -12,6 +12,7 @@ import android.content.Intent;
 
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_BOUNDS;
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_FILTER;
+import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_MODE;
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_PLACE;
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_STATUS;
 
@@ -57,7 +58,7 @@ public class PlaceAutocomplete {
 
     private LatLngBounds bounds;
     private AutocompleteFilter filter;
-    private int mode;
+    private int mode = MODE_OVERLAY;
 
     /**
      * Construct builder with either {@link PlaceAutocomplete#MODE_FULLSCREEN} or
@@ -77,6 +78,7 @@ public class PlaceAutocomplete {
       Intent intent = new Intent(activity, PlaceAutocompleteActivity.class);
       intent.putExtra(EXTRA_BOUNDS, bounds);
       intent.putExtra(EXTRA_FILTER, filter);
+      intent.putExtra(EXTRA_MODE, mode);
       return intent;
     }
 

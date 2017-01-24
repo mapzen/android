@@ -11,4 +11,5 @@ public class PlaceIntentConsts {
   public static final String EXTRA_FILTER = "extra_filter";
   public static final String EXTRA_DETAILS = "extra_details";
   public static final String EXTRA_TEXT = "extra_text";
+  public static final String EXTRA_MODE = "extra_mode";
 }

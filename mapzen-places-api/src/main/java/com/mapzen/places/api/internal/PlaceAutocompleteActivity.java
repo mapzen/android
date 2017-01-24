@@ -28,9 +28,12 @@ import android.widget.ImageView;
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_BOUNDS;
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_DETAILS;
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_FILTER;
+import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_MODE;
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_PLACE;
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_STATUS;
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_TEXT;
+import static com.mapzen.places.api.ui.PlaceAutocomplete.MODE_FULLSCREEN;
+import static com.mapzen.places.api.ui.PlaceAutocomplete.MODE_OVERLAY;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -45,8 +48,22 @@ public class PlaceAutocompleteActivity extends AppCompatActivity
   private PlaceAutocompletePresenter presenter;
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
+    int mode = MODE_OVERLAY;
+    if (getIntent().getExtras() != null) {
+      mode = getIntent().getExtras().getInt(EXTRA_MODE);
+    }
+
+    if (mode == MODE_FULLSCREEN) {
+      setTheme(R.style.PlacesFullscreen);
+    }
+
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.place_autcomplete_activity);
+
+    if (mode == MODE_FULLSCREEN) {
+      setContentView(R.layout.place_autcomplete_activity_fullscreen);
+    } else {
+      setContentView(R.layout.place_autocomplete_activity_overlay);
+    }
 
     // TODO inject
     PlaceDetailFetcher detailFetcher = new PeliasPlaceDetailFetcher();
@@ -63,7 +80,13 @@ public class PlaceAutocompleteActivity extends AppCompatActivity
         new AutoCompleteAdapter(this, android.R.layout.simple_list_item_1);
     listView.setAdapter(autocompleteAdapter);
 
-    PeliasSearchView peliasSearchView = new PeliasSearchView(this);
+    PeliasSearchView peliasSearchView;
+    if (mode == MODE_FULLSCREEN) {
+      peliasSearchView = new PeliasSearchView(this);
+    } else {
+      peliasSearchView = (PeliasSearchView) findViewById(R.id.pelias_search_view);
+    }
+
     peliasSearchView.setIconifiedByDefault(false);
     peliasSearchView.setCallback(new Callback<Result>() {
       @Override public void onResponse(Call<Result> call, Response<Result> response) {
@@ -82,10 +105,12 @@ public class PlaceAutocompleteActivity extends AppCompatActivity
       }
     });
 
-    ActionBar.LayoutParams lp = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT,
-        ActionBar.LayoutParams.MATCH_PARENT);
-    getSupportActionBar().setCustomView(peliasSearchView, lp);
-    getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+    if (mode == MODE_FULLSCREEN) {
+      ActionBar.LayoutParams lp = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT,
+          ActionBar.LayoutParams.MATCH_PARENT);
+      getSupportActionBar().setCustomView(peliasSearchView, lp);
+      getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+    }
 
     Pelias pelias = new Pelias();
     pelias.setDebug(true);
