@@ -10,6 +10,7 @@ import com.mapzen.pelias.gson.Result;
 import com.mapzen.pelias.widget.AutoCompleteAdapter;
 import com.mapzen.pelias.widget.AutoCompleteListView;
 import com.mapzen.pelias.widget.PeliasSearchView;
+import com.mapzen.pelias.widget.SearchSubmitListener;
 import com.mapzen.places.api.AutocompleteFilter;
 import com.mapzen.places.api.LatLngBounds;
 import com.mapzen.places.api.Place;
@@ -148,6 +149,15 @@ public class PlaceAutocompleteActivity extends AppCompatActivity
     if (getIntent().getExtras() != null) {
       peliasSearchView.setQuery(getIntent().getExtras().getCharSequence(EXTRA_TEXT), false);
     }
+    peliasSearchView.setSearchSubmitListener(new SearchSubmitListener() {
+      @Override public boolean searchOnSearchKeySubmit() {
+        return false;
+      }
+
+      @Override public boolean hideAutocompleteOnSearchSubmit() {
+        return false;
+      }
+    });
   }
 
   @Override public void setResult(Place place, String details, Status status) {
