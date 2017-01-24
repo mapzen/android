@@ -24,3 +24,31 @@ allprojects {
 task clean(type: Delete) {
   delete rootProject.buildDir
 }
+
+task installSdk {
+  description 'Builds and installs the Mapzen Android SDK to the local maven repository'
+  dependsOn ':core:verify',
+      ':core:install',
+      ':mapzen-android-sdk:verify',
+      ':mapzen-android-sdk:install'
+}
+
+task installPlaces {
+  description 'Builds and installs the Mapzen Places API to the local maven repository'
+  dependsOn ':core:verify',
+      ':core:install',
+      ':mapzen-places-api:verify',
+      ':mapzen-places-api:install'
+}
+
+task installSdkDemo {
+  description 'Builds and installs the Mapzen Android SDK demo to a connected emulator or device'
+  dependsOn 'installSdk',
+      ':samples_mapzen-android-sdk-sample:installDebug'
+}
+
+task installPlacesDemo {
+  description 'Builds and installs the Mapzen Places API demo to a connected emulator or device'
+  dependsOn 'installPlaces',
+      ':samples_mapzen-places-api-sample:installDebug'
+}
