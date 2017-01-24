@@ -6,6 +6,7 @@ import com.mapzen.android.graphics.model.MapStyle;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
@@ -24,6 +25,9 @@ public class MapView extends RelativeLayout {
 
   private static final String MAPZEN_RIGHTS = "https://mapzen.com/rights/";
 
+  public static final int OVERLAY_MODE_SDK = 0;
+  public static final int OVERLAY_MODE_CLASSIC = 1;
+
   @Inject MapInitializer mapInitializer;
 
   TangramMapView tangramMapView;
@@ -32,6 +36,8 @@ public class MapView extends RelativeLayout {
   ImageButton zoomIn;
   ImageButton zoomOut;
   TextView attribution;
+
+  private int overlayMode = OVERLAY_MODE_SDK;
 
   /**
    * Create new instance.
@@ -47,6 +53,13 @@ public class MapView extends RelativeLayout {
    */
   public MapView(Context context, AttributeSet attrs) {
     super(context, attrs);
+    final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MapView);
+    try {
+      overlayMode = a.getInteger(R.styleable.MapView_overlayMode, OVERLAY_MODE_SDK);
+    } finally {
+      a.recycle();
+    }
+
     initDI(context);
     initViews(context);
   }
@@ -57,10 +70,14 @@ public class MapView extends RelativeLayout {
   }
 
   private void initViews(Context context) {
-    LayoutInflater inflater =
+    final LayoutInflater inflater =
         (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     if (inflater != null) {
-      inflater.inflate(R.layout.mz_view_map, this);
+      if (overlayMode == OVERLAY_MODE_SDK) {
+        inflater.inflate(R.layout.mz_view_map, this);
+      } else {
+        inflater.inflate(R.layout.mz_view_map_classic, this);
+      }
     }
   }
 

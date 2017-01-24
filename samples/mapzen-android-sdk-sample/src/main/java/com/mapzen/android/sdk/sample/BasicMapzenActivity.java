@@ -75,6 +75,9 @@ public class BasicMapzenActivity extends AppCompatActivity
             .show();
       }
     });
+
+    map.setCompassButtonEnabled(true);
+    map.setZoomButtonsEnabled(true);
   }
 
   @Override protected void onPause() {

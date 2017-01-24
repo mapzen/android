@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+  <com.mapzen.android.graphics.TangramMapView
+      android:id="@+id/mz_tangram_map"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      />
+
+  <com.mapzen.android.graphics.CompassView
+      android:id="@+id/mz_compass"
+      android:layout_width="@dimen/mz_compass_button_width"
+      android:layout_height="@dimen/mz_compass_button_height"
+      android:layout_alignParentRight="true"
+      android:layout_alignParentTop="true"
+      android:layout_marginRight="@dimen/mz_compass_button_margin_left"
+      android:layout_marginTop="@dimen/mz_compass_button_margin_top"
+      android:visibility="gone"
+      android:src="@drawable/mz_compass"
+      android:contentDescription="@string/mz_compass"
+      tools:ignore="RtlHardcoded"
+      />
+
+  <ImageButton
+      android:id="@+id/mz_find_me"
+      android:layout_width="@dimen/mz_find_me_button_width"
+      android:layout_height="@dimen/mz_find_me_button_height"
+      android:layout_alignParentRight="true"
+      android:layout_alignParentBottom="true"
+      android:layout_marginRight="@dimen/mz_find_me_button_margin_right"
+      android:layout_marginBottom="@dimen/mz_find_me_button_margin_top"
+      android:background="@drawable/mz_bg_white_gray_border"
+      android:visibility="gone"
+      android:src="@drawable/mz_find_me"
+      android:contentDescription="@string/mz_find_me"
+      tools:ignore="RtlHardcoded"
+      />
+
+  <ImageButton
+      android:id="@+id/mz_zoom_in"
+      android:layout_width="@dimen/mz_zoom_in_button_width"
+      android:layout_height="@dimen/mz_zoom_in_button_height"
+      android:layout_alignParentLeft="true"
+      android:layout_alignParentTop="true"
+      android:layout_marginLeft="@dimen/mz_zoom_in_button_margin_left"
+      android:layout_marginTop="@dimen/mz_zoom_in_button_margin_top"
+      android:background="@drawable/mz_bg_white_gray_border"
+      android:visibility="gone"
+      android:src="@drawable/mz_zoom_in"
+      android:contentDescription="@string/mz_zoom_in"
+      tools:ignore="RtlHardcoded"
+      />
+
+  <ImageButton
+      android:id="@+id/mz_zoom_out"
+      android:layout_width="@dimen/mz_zoom_out_button_width"
+      android:layout_height="@dimen/mz_zoom_out_button_height"
+      android:layout_alignParentLeft="true"
+      android:layout_below="@+id/mz_zoom_in"
+      android:layout_marginLeft="@dimen/mz_zoom_out_button_margin_left"
+      android:background="@drawable/mz_bg_white_gray_border"
+      android:visibility="gone"
+      android:src="@drawable/mz_zoom_out"
+      android:contentDescription="@string/mz_zoom_out"
+      tools:ignore="RtlHardcoded"
+      />
+
+  <TextView
+      android:id="@+id/mz_attribution"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textColor="#444444"
+      android:textSize="@dimen/mz_attribution_font_size"
+      android:text="@string/mz_attribution"
+      android:layout_alignParentBottom="true"
+      android:layout_alignParentLeft="true"
+      android:layout_marginLeft="@dimen/mz_attribution_margin_left"
+      android:layout_marginBottom="@dimen/mz_attribution_margin_bottom"
+      tools:ignore="RtlHardcoded"
+      />
+
+</merge>

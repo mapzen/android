@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <attr format="enum" name="overlayMode">
+    <enum name="sdk" value="0"/>
+    <enum name="classic" value="1"/>
+  </attr>
+
+  <declare-styleable name="MapView">
+    <attr name="overlayMode" />
+  </declare-styleable>
+
+  <declare-styleable name="MapFragment">
+    <attr name="overlayMode" />
+  </declare-styleable>
+</resources>
