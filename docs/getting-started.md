@@ -18,7 +18,7 @@ Sign up for an API key from the [Mapzen developer portal](https://mapzen.com/dev
 
 ```xml
 <resources>
-    <string name="api_key">[YOUR_MAPZEN_API_KEY]</string>
+    <string name="mapzen_api_key">[YOUR_MAPZEN_API_KEY]</string>
 </resources>
 ```
 

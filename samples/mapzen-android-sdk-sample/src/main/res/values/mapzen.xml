@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="api_key">[YOUR_MAPZEN_API_KEY]</string>
+  <string name="mapzen_api_key">mapzen-MxD3a8w</string>
 </resources>
