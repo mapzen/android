@@ -3,11 +3,16 @@ package com.mapzen.android.graphics;
 import com.mapzen.R;
 import com.mapzen.android.graphics.model.MapStyle;
 
+import android.content.Context;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import static com.mapzen.android.graphics.MapView.OVERLAY_MODE_SDK;
 
 /**
  * A map component in an app. This fragment is the simplest way to place a map in an application.
@@ -16,10 +21,27 @@ import android.view.ViewGroup;
 public class MapFragment extends Fragment {
   MapView mapView;
 
+  private int overlayMode = OVERLAY_MODE_SDK;
+
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-    mapView = (MapView) inflater.inflate(R.layout.mz_fragment_map, container, false);
+    int layout = R.layout.mz_fragment_map;
+    if (overlayMode == MapView.OVERLAY_MODE_CLASSIC) {
+      layout = R.layout.mz_fragment_map_classic;
+    }
+
+    mapView = (MapView) inflater.inflate(layout, container, false);
     return mapView;
+  }
+
+  @Override public void onInflate(Context context, AttributeSet attrs, Bundle savedInstanceState) {
+    super.onInflate(context, attrs, savedInstanceState);
+    TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MapFragment);
+    try {
+      overlayMode = a.getInteger(R.styleable.MapFragment_overlayMode, OVERLAY_MODE_SDK);
+    } finally {
+      a.recycle();
+    }
   }
 
   /**
