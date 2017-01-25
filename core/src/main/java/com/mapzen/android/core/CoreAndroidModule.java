@@ -1,6 +1,7 @@
 package com.mapzen.android.core;
 
 import com.mapzen.android.graphics.TileHttpHandler;
+import com.mapzen.android.search.SearchInitializer;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -57,5 +58,13 @@ import dagger.Provides;
       Log.e(TAG, e.getLocalizedMessage());
     }
     return new TileHttpHandler(null);
+  }
+
+  /**
+   * Provide initializer for configuring {@link com.mapzen.android.search.MapzenSearch} objects.
+   * @return
+   */
+  @Provides @Singleton public SearchInitializer provideSearchInitializer() {
+    return new SearchInitializer();
   }
 }

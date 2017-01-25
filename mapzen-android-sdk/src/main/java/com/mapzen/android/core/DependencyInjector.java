@@ -1,7 +1,6 @@
 package com.mapzen.android.core;
 
 import com.mapzen.android.routing.MapzenRouter;
-import com.mapzen.android.search.MapzenSearch;
 
 import android.content.Context;
 
@@ -19,7 +18,6 @@ class DependencyInjector {
   @Singleton @Component(modules = { AndroidModule.class, CommonModule.class })
   public interface LibraryComponent {
     void inject(MapzenRouter router);
-    void inject(MapzenSearch search);
   }
 
   private LibraryComponent component;

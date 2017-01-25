@@ -1,6 +1,6 @@
 package com.mapzen.android.search;
 
-import com.mapzen.android.core.DI;
+import com.mapzen.android.core.CoreDI;
 import com.mapzen.pelias.BoundingBox;
 import com.mapzen.pelias.Pelias;
 import com.mapzen.pelias.PeliasLocationProvider;
@@ -50,8 +50,8 @@ public class MapzenSearch {
   }
 
   private void initDI(Context context) {
-    DI.init(context);
-    DI.component().inject(this);
+    CoreDI.init(context);
+    CoreDI.component().inject(this);
   }
 
   /**
