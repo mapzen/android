@@ -13,7 +13,7 @@ MapzenRouter router = new MapzenRouter(this, [YOUR_MAPZEN_API_KEY]);
 
 **mapzen.xml**
 ```xml
-<string name="api_key">[YOUR_MAPZEN_API_KEY]</string>
+<string name="mapzen_api_key">[YOUR_MAPZEN_API_KEY]</string>
 ```
 
 ```java
