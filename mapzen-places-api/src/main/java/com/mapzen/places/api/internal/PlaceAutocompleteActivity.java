@@ -87,7 +87,6 @@ public class PlaceAutocompleteActivity extends AppCompatActivity
     } else {
       peliasSearchView = (PeliasSearchView) findViewById(R.id.pelias_search_view);
     }
-
     peliasSearchView.setIconifiedByDefault(false);
     peliasSearchView.setCallback(new Callback<Result>() {
       @Override public void onResponse(Call<Result> call, Response<Result> response) {
@@ -98,6 +97,7 @@ public class PlaceAutocompleteActivity extends AppCompatActivity
         Log.e(TAG, "Error fetching results", t);
       }
     });
+
     ImageView searchMagBtn = (ImageView) peliasSearchView.findViewById(R.id.search_mag_icon);
     searchMagBtn.setImageResource(R.drawable.abc_ic_ab_back_material);
     searchMagBtn.setOnClickListener(new View.OnClickListener() {
@@ -158,6 +158,7 @@ public class PlaceAutocompleteActivity extends AppCompatActivity
         return false;
       }
     });
+    peliasSearchView.setDismissKeyboardOnListScroll(true);
   }
 
   @Override public void setResult(Place place, String details, Status status) {
