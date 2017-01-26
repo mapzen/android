@@ -11,6 +11,17 @@ import static com.mapzen.places.api.AutocompleteFilter.TYPE_FILTER_ESTABLISHMENT
 import static com.mapzen.places.api.AutocompleteFilter.TYPE_FILTER_GEOCODE;
 import static com.mapzen.places.api.AutocompleteFilter.TYPE_FILTER_NONE;
 import static com.mapzen.places.api.AutocompleteFilter.TYPE_FILTER_REGIONS;
+import static com.mapzen.places.api.internal.PeliasLayerConsts.PELIAS_LAYER_ADDRESS;
+import static com.mapzen.places.api.internal.PeliasLayerConsts.PELIAS_LAYER_BOROUGH;
+import static com.mapzen.places.api.internal.PeliasLayerConsts.PELIAS_LAYER_COARSE;
+import static com.mapzen.places.api.internal.PeliasLayerConsts.PELIAS_LAYER_COUNTRY;
+import static com.mapzen.places.api.internal.PeliasLayerConsts.PELIAS_LAYER_COUNTY;
+import static com.mapzen.places.api.internal.PeliasLayerConsts.PELIAS_LAYER_LOCALITY;
+import static com.mapzen.places.api.internal.PeliasLayerConsts.PELIAS_LAYER_LOCAL_ADMIN;
+import static com.mapzen.places.api.internal.PeliasLayerConsts.PELIAS_LAYER_MACRO_COUNTY;
+import static com.mapzen.places.api.internal.PeliasLayerConsts.PELIAS_LAYER_NEIGHBOURHOOD;
+import static com.mapzen.places.api.internal.PeliasLayerConsts.PELIAS_LAYER_NONE;
+import static com.mapzen.places.api.internal.PeliasLayerConsts.PELIAS_LAYER_VENUE;
 
 /**
  * Maps internal filter values to {@link com.mapzen.places.api.AutocompleteFilter} values for the
@@ -18,34 +29,22 @@ import static com.mapzen.places.api.AutocompleteFilter.TYPE_FILTER_REGIONS;
  */
 public class PeliasFilterMapper implements FilterMapper {
 
-  private static final String PELIAS_FILTER_ADDRESS = "address";
-  private static final String PELIAS_FILTER_LOCALITY = "locality";
-  private static final String PELIAS_FILTER_VENUE = "venue";
-  private static final String PELIAS_FILTER_COARSE = "coarse";
-  private static final String PELIAS_FILTER_NONE = "";
-  private static final String PELIAS_FILTER_COUNTRY = "country";
-  private static final String PELIAS_FILTER_MACRO_COUNTY = "macrocounty";
-  private static final String PELIAS_FILTER_COUNTY = "county";
-  private static final String PELIAS_FILTER_LOCAL_ADMIN = "localadmin";
-  private static final String PELIAS_FILTER_BOROUGH = "borough";
-  private static final String PELIAS_FILTER_NEIGHBOURHOOD = "neighbourhood";
-
   private static final Map<Integer, String> MAPZEN_PLACES_TO_PELIAS_FILTERS;
   static {
     MAPZEN_PLACES_TO_PELIAS_FILTERS = new HashMap();
-    MAPZEN_PLACES_TO_PELIAS_FILTERS.put(TYPE_FILTER_ADDRESS, PELIAS_FILTER_ADDRESS);
-    MAPZEN_PLACES_TO_PELIAS_FILTERS.put(TYPE_FILTER_CITIES, PELIAS_FILTER_LOCALITY);
-    MAPZEN_PLACES_TO_PELIAS_FILTERS.put(TYPE_FILTER_ESTABLISHMENT, PELIAS_FILTER_VENUE);
-    MAPZEN_PLACES_TO_PELIAS_FILTERS.put(TYPE_FILTER_GEOCODE, PELIAS_FILTER_COARSE);
-    MAPZEN_PLACES_TO_PELIAS_FILTERS.put(TYPE_FILTER_NONE, PELIAS_FILTER_NONE);
+    MAPZEN_PLACES_TO_PELIAS_FILTERS.put(TYPE_FILTER_ADDRESS, PELIAS_LAYER_ADDRESS);
+    MAPZEN_PLACES_TO_PELIAS_FILTERS.put(TYPE_FILTER_CITIES, PELIAS_LAYER_LOCALITY);
+    MAPZEN_PLACES_TO_PELIAS_FILTERS.put(TYPE_FILTER_ESTABLISHMENT, PELIAS_LAYER_VENUE);
+    MAPZEN_PLACES_TO_PELIAS_FILTERS.put(TYPE_FILTER_GEOCODE, PELIAS_LAYER_COARSE);
+    MAPZEN_PLACES_TO_PELIAS_FILTERS.put(TYPE_FILTER_NONE, PELIAS_LAYER_NONE);
     List<String> regionFilters = new ArrayList<String>() { {
-      add(PELIAS_FILTER_COUNTRY);
-      add(PELIAS_FILTER_MACRO_COUNTY);
-      add(PELIAS_FILTER_LOCALITY);
-      add(PELIAS_FILTER_COUNTY);
-      add(PELIAS_FILTER_LOCAL_ADMIN);
-      add(PELIAS_FILTER_BOROUGH);
-      add(PELIAS_FILTER_NEIGHBOURHOOD);
+      add(PELIAS_LAYER_COUNTRY);
+      add(PELIAS_LAYER_MACRO_COUNTY);
+      add(PELIAS_LAYER_LOCALITY);
+      add(PELIAS_LAYER_COUNTY);
+      add(PELIAS_LAYER_LOCAL_ADMIN);
+      add(PELIAS_LAYER_BOROUGH);
+      add(PELIAS_LAYER_NEIGHBOURHOOD);
     } };
     String peliasRegionFilters = buildCommaSeparated(regionFilters);
     MAPZEN_PLACES_TO_PELIAS_FILTERS.put(TYPE_FILTER_REGIONS, peliasRegionFilters);

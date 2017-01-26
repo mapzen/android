@@ -11,6 +11,19 @@ import java.util.Locale;
  */
 public interface Place extends Parcelable {
 
+  int TYPE_COUNTRY = 1005;
+  int TYPE_LOCALITY = 1009;
+  int TYPE_POINT_OF_INTEREST = 1013;
+  int TYPE_ESTABLISHMENT = 34;
+  int TYPE_STREET_ADDRESS = 1021;
+  int TYPE_POLITICAL = 1012;
+  int TYPE_SUBLOCALITY = 1022;
+  int TYPE_SUBLOCALITY_LEVEL_1 = 1023;
+  int TYPE_NEIGHBORHOOD = 1011;
+  int TYPE_ROUTE = 1020;
+  int TYPE_ADMINISTRATIVE_AREA_LEVEL_1 = 1001;
+
+
   /**
    * Returns human readable address for this place.
    * @return

@@ -4,6 +4,7 @@ import com.mapzen.android.lost.api.LostApiClient;
 import com.mapzen.android.lost.api.Status;
 import com.mapzen.android.search.MapzenSearch;
 import com.mapzen.pelias.BoundingBox;
+import com.mapzen.pelias.Pelias;
 import com.mapzen.pelias.PeliasLocationProvider;
 import com.mapzen.pelias.SuggestFilter;
 import com.mapzen.pelias.gson.Result;
@@ -67,7 +68,9 @@ public class PlaceAutocompleteActivity extends AppCompatActivity
     }
 
     // TODO inject
-    PlaceDetailFetcher detailFetcher = new PeliasPlaceDetailFetcher();
+    Pelias pelias = new Pelias();
+    PeliasCallbackHandler callbackHandler = new PeliasCallbackHandler();
+    PlaceDetailFetcher detailFetcher = new PeliasPlaceDetailFetcher(pelias, callbackHandler);
     OnPlaceDetailsFetchedListener detailFetchListener = new AutocompleteDetailFetchListener(this);
     FilterMapper filterMapper = new PeliasFilterMapper();
     presenter = new PlaceAutocompletePresenter(detailFetcher, detailFetchListener, filterMapper);
@@ -116,7 +119,6 @@ public class PlaceAutocompleteActivity extends AppCompatActivity
     MapzenSearch mapzenSearch = new MapzenSearch(this);
     mapzenSearch.getPelias().setDebug(true);
     mapzenSearch.setLocationProvider(new PeliasLocationProvider() {
-
       @Override public double getLat() {
         return presenter.getLat();
       }
