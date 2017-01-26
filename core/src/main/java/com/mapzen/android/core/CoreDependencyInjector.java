@@ -3,6 +3,7 @@ package com.mapzen.android.core;
 import com.mapzen.android.graphics.GraphicsModule;
 import com.mapzen.android.graphics.MapInitializer;
 import com.mapzen.android.graphics.MapView;
+import com.mapzen.android.search.MapzenSearch;
 
 import android.content.Context;
 
@@ -20,8 +21,8 @@ class CoreDependencyInjector {
   @Singleton @Component(modules = { CoreAndroidModule.class, GraphicsModule.class })
   public interface CoreLibraryComponent {
     void inject(MapView mapView);
-
     void inject(MapInitializer mapInitializer);
+    void inject(MapzenSearch search);
   }
 
   private CoreLibraryComponent component;

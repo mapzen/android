@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import android.content.Context;
 
-import static com.mapzen.android.TestHelper.getMockContext;
+import static com.mapzen.TestHelper.getMockContext;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;

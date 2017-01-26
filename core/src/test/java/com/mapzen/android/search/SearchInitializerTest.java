@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import android.content.Context;
 
-import static com.mapzen.android.TestHelper.getMockContext;
+import static com.mapzen.TestHelper.getMockContext;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class SearchInitializerTest {

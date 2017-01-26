@@ -1,7 +1,6 @@
 package com.mapzen.android.core;
 
 import com.mapzen.android.routing.TurnByTurnHttpHandler;
-import com.mapzen.android.search.SearchInitializer;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -61,11 +60,4 @@ import dagger.Provides;
     return handler;
   }
 
-  /**
-   * Provide initializer for configuring {@link com.mapzen.android.search.MapzenSearch} objects.
-   * @return
-   */
-  @Provides @Singleton public SearchInitializer provideSearchInitializer() {
-    return new SearchInitializer();
-  }
 }

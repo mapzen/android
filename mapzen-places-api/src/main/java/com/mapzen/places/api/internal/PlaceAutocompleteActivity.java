@@ -2,8 +2,8 @@ package com.mapzen.places.api.internal;
 
 import com.mapzen.android.lost.api.LostApiClient;
 import com.mapzen.android.lost.api.Status;
+import com.mapzen.android.search.MapzenSearch;
 import com.mapzen.pelias.BoundingBox;
-import com.mapzen.pelias.Pelias;
 import com.mapzen.pelias.PeliasLocationProvider;
 import com.mapzen.pelias.SuggestFilter;
 import com.mapzen.pelias.gson.Result;
@@ -113,9 +113,9 @@ public class PlaceAutocompleteActivity extends AppCompatActivity
       getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
     }
 
-    Pelias pelias = new Pelias();
-    pelias.setDebug(true);
-    pelias.setLocationProvider(new PeliasLocationProvider() {
+    MapzenSearch mapzenSearch = new MapzenSearch(this);
+    mapzenSearch.getPelias().setDebug(true);
+    mapzenSearch.setLocationProvider(new PeliasLocationProvider() {
 
       @Override public double getLat() {
         return presenter.getLat();
@@ -131,7 +131,7 @@ public class PlaceAutocompleteActivity extends AppCompatActivity
     });
 
     peliasSearchView.setAutoCompleteListView(listView);
-    peliasSearchView.setPelias(pelias);
+    peliasSearchView.setPelias(mapzenSearch.getPelias());
     peliasSearchView.setSuggestFilter(new SuggestFilter() {
       @Override public String getCountryFilter() {
         return presenter.getCountryFilter();
