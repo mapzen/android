@@ -11,8 +11,8 @@ import java.io.IOException;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TileHttpHandlerTest {
-  private static final String TEST_URL = "http://vector.mapzen.com/osm/all/1/2/3.json";
-  private static final String TEST_KEY = "vector-tiles-test";
+  private static final String TEST_URL = "http://vector.mapzen.com/osm/all/1/2/3.json?api_key=&";
+  private static final String TEST_KEY = "mapzen-test-api-key";
 
   private TileHttpHandler tileHttpHandler = new TileHttpHandler(TEST_KEY);
 
