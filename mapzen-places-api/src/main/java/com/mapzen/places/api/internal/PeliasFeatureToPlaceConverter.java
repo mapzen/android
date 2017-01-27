@@ -16,12 +16,14 @@ import java.util.Locale;
 class PeliasFeatureToPlaceConverter {
 
   private PeliasLayerToPlaceTypeConverter layerConverter;
+  private PointToBoundsConverter pointConverter;
 
   /**
    * Constructor.
    */
   PeliasFeatureToPlaceConverter() {
     layerConverter = new PeliasLayerToPlaceTypeConverter();
+    pointConverter = new PointToBoundsConverter();
   }
 
   /**
@@ -33,15 +35,15 @@ class PeliasFeatureToPlaceConverter {
     //TODO: fill in missing values
     final CharSequence address = feature.properties.label;
     final String id = feature.properties.id;
-    final LatLng latLng = new LatLng(feature.geometry.coordinates.get(1),
-        feature.geometry.coordinates.get(0));
     final Locale locale = Locale.US;
     final CharSequence name = feature.properties.name;
     final List<Integer> placeTypes = new ArrayList<>();
     if (feature.properties.layer != null) {
       placeTypes.addAll(layerConverter.getPlaceTypes(feature.properties.layer));
     }
-    final LatLngBounds viewport = new LatLngBounds(latLng, latLng);
+    final LatLng latLng = new LatLng(feature.geometry.coordinates.get(1),
+        feature.geometry.coordinates.get(0));
+    final LatLngBounds viewport = pointConverter.boundsFromPoint(latLng);
     return new PlaceImpl.Builder()
         .setAddress(address)
         .setAttributions(null)
