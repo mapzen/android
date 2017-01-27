@@ -21,7 +21,7 @@ group = GROUP
 version = VERSION_NAME
 project.archivesBaseName = POM_ARTIFACT_ID
 
-ext.tangram_version = "0.4.6"
+ext.tangram_version = "0.4.8"
 
 release {
   tagTemplate = 'mapzen-core${version}'

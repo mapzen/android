@@ -45,7 +45,7 @@ public class TileHttpHandler extends HttpHandler {
 
   @Override public boolean onRequest(String url, Callback cb) {
     final Callback fnlCb = cb;
-    final String urlWithKey = url + PARAM_API_KEY + apiKey;
+    final String urlWithKey = url.substring(0, url.length() - 1) + apiKey;
     Callback internalCallback = new Callback() {
       @Override public void onFailure(Request request, IOException e) {
         String requestUrl = request.urlString();
@@ -71,6 +71,8 @@ public class TileHttpHandler extends HttpHandler {
       }
     };
     urlToMillis.put(urlWithKey, System.currentTimeMillis());
+
+    System.out.println(urlWithKey);
     return super.onRequest(urlWithKey, internalCallback);
   }
 
