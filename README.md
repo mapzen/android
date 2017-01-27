@@ -33,4 +33,27 @@ The Mapzen Android SDK incorporates several stand-alone libraries for map render
 - [Lost](https://github.com/mapzen/lost)- Drop-in replacement for Google Play services Location APIs
 
 ## Sample
-For a working example please refer to the SDK [sample app](https://github.com/mapzen/android/tree/master/mapzen-android-sdk-sample).
+For a working example please refer to the SDK [sample app](https://github.com/mapzen/android/tree/master/samples/mapzen-android-sdk-sample).
+
+# Mapzen Places API
+[![Circle CI](https://circleci.com/gh/mapzen/android.svg?style=svg&circle-token=3191e9499a851a9a3869a72ee3c55d4e29133ebc)](https://circleci.com/gh/mapzen/android)
+
+The Mapzen Places API is a drop in replacement for the Google Places API.
+
+## Usage
+Everything you need to get going using the Mapzen Places API
+
+### Set up
+- [Installation](https://github.com/mapzen/android/blob/master/docs/installation-places.md)
+- [Getting started](https://github.com/mapzen/android/blob/master/docs/getting-started-places.md)
+
+### UI Components
+- [Autocomplete UI](https://github.com/mapzen/android/blob/master/docs/autocomplete-ui.md)
+- [PlacePicker UI](https://github.com/mapzen/android/blob/master/docs/place-picker-ui.md)
+
+### Data Components
+- [GeoDataApi](https://github.com/mapzen/android/blob/master/docs/geodata-api.md)
+- [PlaceDetectionApi](https://github.com/mapzen/android/blob/master/docs/place-detection-api.md)
+
+## Sample
+For a working example please refer to the Places [sample app](https://github.com/mapzen/android/tree/master/samples/mapzen-places-api-sample).

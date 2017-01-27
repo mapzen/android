@@ -58,7 +58,7 @@ public class PlacePickerDemoActivity extends AppCompatActivity {
   @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
 
-    if (requestCode == PLACE_PICKER_REQUEST) {
+    if (requestCode == PLACE_PICKER_REQUEST && resultCode == RESULT_OK) {
       Place place = PlacePicker.getPlace(this, data);
       placeName.setText(place.getName());
       placeAddress.setText(place.getAddress());
