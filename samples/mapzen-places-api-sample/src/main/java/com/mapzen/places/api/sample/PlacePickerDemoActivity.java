@@ -63,9 +63,6 @@ public class PlacePickerDemoActivity extends AppCompatActivity {
       placeName.setText(place.getName());
       placeAddress.setText(place.getAddress());
 
-      CharSequence attributions = PlacePicker.getAttributions(data);
-      placeAttribution.setText(attributions);
-
       LatLngBounds bounds = PlacePicker.getLatLngBounds(data);
       placeBounds.setText("SW lat:" + bounds.getSouthwest().getLatitude() + "\nSW lng:" +
           bounds.getSouthwest().getLongitude() + "\nNE lat:" + bounds.getNortheast().getLatitude() +

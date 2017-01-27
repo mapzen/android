@@ -219,10 +219,13 @@ public class PlaceImpl implements Place, Parcelable {
 
   /**
    * Returns the attributions to be shown to the user if data from the Place is used.
+   *
+   * Warning: this property is not yet implemented and will throw an
+   * {@link UnsupportedOperationException} if accessed
    * @return
    */
   @Override public CharSequence getAttributions() {
-    return attributions;
+    throw new UnsupportedOperationException("Not yet implemented");
   }
 
   /**
@@ -259,10 +262,13 @@ public class PlaceImpl implements Place, Parcelable {
 
   /**
    * Returns the place's phone number in international format.
+   *
+   * Warning: this property is not yet implemented and will throw an
+   * {@link UnsupportedOperationException} if accessed
    * @return
    */
   @Override public CharSequence getPhoneNumber() {
-    return phoneNumber;
+    throw new UnsupportedOperationException("Not yet implemented");
   }
 
   /**
@@ -275,18 +281,24 @@ public class PlaceImpl implements Place, Parcelable {
 
   /**
    * Returns the price level for this place on a scale from 0 (cheapest) to 4.
+   *
+   * Warning: this property is not yet implemented and will throw an
+   * {@link UnsupportedOperationException} if accessed
    * @return
    */
   @Override public int getPriceLevel() {
-    return priceLevel;
+    throw new UnsupportedOperationException("Not yet implemented");
   }
 
   /**
    * Returns the place's rating, from 1.0 to 5.0, based on aggregated user reviews.
+   *
+   * Warning: this property is not yet implemented and will throw an
+   * {@link UnsupportedOperationException} if accessed
    * @return
    */
   @Override public float getRating() {
-    return rating;
+    throw new UnsupportedOperationException("Not yet implemented");
   }
 
   /**
@@ -299,6 +311,9 @@ public class PlaceImpl implements Place, Parcelable {
 
   /**
    * Returns website uri for this place.
+   *
+   * Warning: this property is not yet implemented and will throw an
+   * {@link UnsupportedOperationException} if accessed
    * @return
    */
   @Override public Uri getWebsiteUri() {
