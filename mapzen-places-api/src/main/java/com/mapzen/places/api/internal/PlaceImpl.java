@@ -317,7 +317,7 @@ public class PlaceImpl implements Place, Parcelable {
    * @return
    */
   @Override public Uri getWebsiteUri() {
-    return websiteUri;
+    throw new UnsupportedOperationException("Not yet implemented");
   }
 
   public static final Parcelable.Creator<Place> CREATOR

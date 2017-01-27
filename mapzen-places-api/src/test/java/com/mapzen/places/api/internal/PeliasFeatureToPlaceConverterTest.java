@@ -23,11 +23,11 @@ public class PeliasFeatureToPlaceConverterTest {
     assertThat(place.getAddress()).isEqualTo("label");
   }
 
-  @Test
+  @Test(expected = UnsupportedOperationException.class)
   public void getFetchedPlace_shouldNotHaveAttributions() throws Exception {
     Feature feature = getTestFeature();
     Place place = converter.getFetchedPlace(feature);
-    assertThat(place.getAttributions()).isNull();
+    place.getAttributions();
   }
 
   @Test
@@ -59,11 +59,11 @@ public class PeliasFeatureToPlaceConverterTest {
     assertThat(place.getName()).isEqualTo("name");
   }
 
-  @Test
+  @Test(expected = UnsupportedOperationException.class)
   public void getFetchedPlace_shouldNotHavePhoneNumber() throws Exception {
     Feature feature = getTestFeature();
     Place place = converter.getFetchedPlace(feature);
-    assertThat(place.getPhoneNumber()).isNull();
+    place.getPhoneNumber();
   }
 
   @Test
@@ -74,18 +74,18 @@ public class PeliasFeatureToPlaceConverterTest {
     assertThat(place.getPlaceTypes()).contains(TYPE_ESTABLISHMENT);
   }
 
-  @Test
+  @Test(expected = UnsupportedOperationException.class)
   public void getFetchedPlace_shouldNotHavePriceLevel() throws Exception {
     Feature feature = getTestFeature();
     Place place = converter.getFetchedPlace(feature);
-    assertThat(place.getPriceLevel()).isEqualTo(0);
+    place.getPriceLevel();
   }
 
-  @Test
+  @Test(expected = UnsupportedOperationException.class)
   public void getFetchedPlace_shouldNotHaveRating() throws Exception {
     Feature feature = getTestFeature();
     Place place = converter.getFetchedPlace(feature);
-    assertThat(place.getRating()).isEqualTo(0);
+    place.getRating();
   }
 
   @Test
@@ -96,11 +96,11 @@ public class PeliasFeatureToPlaceConverterTest {
     assertThat(place.getViewport().getCenter().getLongitude()).isEqualTo(70.0);
   }
 
-  @Test
+  @Test(expected = UnsupportedOperationException.class)
   public void getFetchedPlace_shouldNotHaveWebsiteUri() throws Exception {
     Feature feature = getTestFeature();
     Place place = converter.getFetchedPlace(feature);
-    assertThat(place.getWebsiteUri()).isNull();
+    place.getWebsiteUri();
   }
 
   private Feature getTestFeature() {
