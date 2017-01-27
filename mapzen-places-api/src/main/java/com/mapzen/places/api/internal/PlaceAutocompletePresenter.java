@@ -18,13 +18,13 @@ import retrofit2.Response;
  */
 class PlaceAutocompletePresenter {
   private static final String TAG = "MapzenPlaces";
-  private static final double BOUNDS_RADIUS = 0.02;
   private static final double LAT_DEFAULT = 0.0;
   private static final double LON_DEFAULT = 0.0;
 
   private final PlaceDetailFetcher detailFetcher;
   private final OnPlaceDetailsFetchedListener detailFetchListener;
   private final FilterMapper filterMapper;
+  private final PointToBoundsConverter pointConverter;
   private LatLngBounds bounds;
   private AutocompleteFilter filter;
   private LostApiClient client;
@@ -37,6 +37,7 @@ class PlaceAutocompletePresenter {
     this.detailFetcher = detailFetcher;
     this.detailFetchListener = detailFetchListener;
     this.filterMapper = filterMapper;
+    this.pointConverter = new PointToBoundsConverter();
   }
 
   void setBounds(LatLngBounds bounds) {
@@ -86,11 +87,7 @@ class PlaceAutocompletePresenter {
         }
       }
       if (location != null) {
-        double minLat = location.getLatitude() - BOUNDS_RADIUS;
-        double minLon = location.getLongitude() - BOUNDS_RADIUS;
-        double maxLat = location.getLatitude() + BOUNDS_RADIUS;
-        double maxLon = location.getLongitude() + BOUNDS_RADIUS;
-        return new BoundingBox(minLat, minLon, maxLat, maxLon);
+        return pointConverter.boundingBoxFromPoint(location.getLatitude(), location.getLongitude());
       }
       return new BoundingBox(LAT_DEFAULT, LON_DEFAULT, LAT_DEFAULT, LON_DEFAULT);
     }

@@ -66,8 +66,26 @@ public class PlaceAutocompleteActivity extends AppCompatActivity
       setContentView(R.layout.place_autocomplete_activity_overlay);
     }
 
+    MapzenSearch mapzenSearch = new MapzenSearch(this);
+    mapzenSearch.getPelias().setDebug(true);
+    mapzenSearch.setLocationProvider(new PeliasLocationProvider() {
+      @Override public double getLat() {
+        return presenter.getLat();
+      }
+
+      @Override public double getLon() {
+        return presenter.getLon();
+      }
+
+      @Override public BoundingBox getBoundingBox() {
+        return presenter.getBoundingBox();
+      }
+    });
+
     // TODO inject
-    PlaceDetailFetcher detailFetcher = new PeliasPlaceDetailFetcher();
+    PeliasCallbackHandler callbackHandler = new PeliasCallbackHandler();
+    PlaceDetailFetcher detailFetcher = new PeliasPlaceDetailFetcher(mapzenSearch.getPelias(),
+        callbackHandler);
     OnPlaceDetailsFetchedListener detailFetchListener = new AutocompleteDetailFetchListener(this);
     FilterMapper filterMapper = new PeliasFilterMapper();
     presenter = new PlaceAutocompletePresenter(detailFetcher, detailFetchListener, filterMapper);
@@ -112,23 +130,6 @@ public class PlaceAutocompleteActivity extends AppCompatActivity
       getSupportActionBar().setCustomView(peliasSearchView, lp);
       getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
     }
-
-    MapzenSearch mapzenSearch = new MapzenSearch(this);
-    mapzenSearch.getPelias().setDebug(true);
-    mapzenSearch.setLocationProvider(new PeliasLocationProvider() {
-
-      @Override public double getLat() {
-        return presenter.getLat();
-      }
-
-      @Override public double getLon() {
-        return presenter.getLon();
-      }
-
-      @Override public BoundingBox getBoundingBox() {
-        return presenter.getBoundingBox();
-      }
-    });
 
     peliasSearchView.setAutoCompleteListView(listView);
     peliasSearchView.setPelias(mapzenSearch.getPelias());

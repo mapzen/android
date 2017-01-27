@@ -19,6 +19,9 @@ public class PlacePicker {
 
   /**
    * Returns the place's attributions.
+   *
+   * Warning: this property is not yet implemented and will throw an
+   * {@link UnsupportedOperationException} if accessed
    * @param intent intent returned in {@link Activity#onActivityResult(int, int, Intent)}
    * @return
    */
