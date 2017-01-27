@@ -4,7 +4,7 @@ import com.mapzen.android.graphics.LabelPickListener;
 import com.mapzen.android.graphics.MapView;
 import com.mapzen.android.graphics.MapzenMap;
 import com.mapzen.android.graphics.OnMapReadyCallback;
-import com.mapzen.pelias.Pelias;
+import com.mapzen.android.search.MapzenSearch;
 import com.mapzen.places.api.LatLng;
 import com.mapzen.places.api.LatLngBounds;
 import com.mapzen.places.api.Place;
@@ -47,9 +47,10 @@ public class PlacePickerActivity extends Activity implements
     autocompleteView.setActivity(this);
 
     //TODO inject
-    Pelias pelias = new Pelias();
+    MapzenSearch mapzenSearch = new MapzenSearch(this);
     PeliasCallbackHandler callbackHandler = new PeliasCallbackHandler();
-    presenter = new PlacePickerPresenterImpl(new PeliasPlaceDetailFetcher(pelias, callbackHandler));
+    presenter = new PlacePickerPresenterImpl(new PeliasPlaceDetailFetcher(mapzenSearch.getPelias(),
+        callbackHandler));
     presenter.setController(this);
 
     mapView = (MapView) findViewById(R.id.mz_map_view);
