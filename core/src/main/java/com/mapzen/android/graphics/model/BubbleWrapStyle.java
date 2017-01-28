@@ -9,6 +9,6 @@ public class BubbleWrapStyle extends MapStyle {
    * Creates a new instance.
    */
   public BubbleWrapStyle() {
-    super("styles/bubble-wrap/bubble-wrap.yaml");
+    super("styles/bubble-wrap/bubble-wrap-style.yaml");
   }
 }
