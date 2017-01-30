@@ -48,9 +48,6 @@ retrieve information about the selected `Place`.
     Place place = PlacePicker.getPlace(this, data);
     // Update UI with place information
 
-    CharSequence attributions = PlacePicker.getAttributions(data);
-    // Set attribution text visible in bottom left corner of UI
-
     LatLngBounds bounds = PlacePicker.getLatLngBounds(data);
     // Update UI with bounds
   }
