@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-  <include layout="@layout/mz_fragment_map"/>
+  <include layout="@layout/place_fragment_map"/>
 
   <com.mapzen.places.api.internal.PlaceAutocompleteView
       android:id="@+id/autocomplete_view"
