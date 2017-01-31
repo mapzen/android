@@ -1,10 +1,12 @@
 package com.mapzen.android.graphics;
 
 import com.mapzen.R;
+import com.mapzen.android.OkHttp3TestUtils;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.core.classloader.annotations.SuppressStaticInitializationFor;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -15,22 +17,26 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManagerFactory;
+
 import static com.mapzen.android.graphics.MapView.OVERLAY_MODE_CLASSIC;
 import static com.mapzen.android.graphics.MapView.OVERLAY_MODE_SDK;
+import okhttp3.internal.tls.CertificateChainCleaner;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.when;
 
-@RunWith(PowerMockRunner.class) @SuppressStaticInitializationFor("com.mapzen.tangram.MapController")
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({ TrustManagerFactory.class, SSLContext.class, CertificateChainCleaner.class })
+@SuppressStaticInitializationFor("com.mapzen.tangram.MapController")
 public class MapFragmentTest {
 
   private MapFragment mapFragment;
 
   @Before public void setUp() throws Exception {
+    OkHttp3TestUtils.initMockSslContext();
     final Resources resources = mock(Resources.class);
     when(resources.getIdentifier((String) any(), (String) any(), (String) any())).thenReturn(0);
 
@@ -51,12 +57,6 @@ public class MapFragmentTest {
     TestCallback callback = new TestCallback();
     mapFragment.getMapAsync(callback);
     assertThat(callback.map).isInstanceOf(MapzenMap.class);
-  }
-
-  @Test public void getMap_shouldSetHttpHandler() throws Exception {
-    TestCallback callback = new TestCallback();
-    mapFragment.getMapAsync(callback);
-    verify(callback.map.getMapController(), times(1)).setHttpHandler((TileHttpHandler) any());
   }
 
   @Test public void shouldInflateLayoutWithOverlayModeSdk() throws Exception {

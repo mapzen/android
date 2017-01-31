@@ -1,27 +1,37 @@
 package com.mapzen.android.graphics;
 
+import com.mapzen.android.OkHttp3TestUtils;
 import com.mapzen.android.core.CoreDI;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.core.classloader.annotations.SuppressStaticInitializationFor;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import static com.mapzen.TestHelper.getMockContext;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import android.content.Context;
 
-@RunWith(PowerMockRunner.class) @SuppressStaticInitializationFor("com.mapzen.tangram.MapController")
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManagerFactory;
+
+import static com.mapzen.TestHelper.getMockContext;
+import okhttp3.internal.tls.CertificateChainCleaner;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({ TrustManagerFactory.class, SSLContext.class, CertificateChainCleaner.class })
+@SuppressStaticInitializationFor("com.mapzen.tangram.MapController")
 public class MapInitializerTest {
 
   private MapInitializer mapInitializer;
 
   @Before public void setUp() throws Exception {
+    OkHttp3TestUtils.initMockSslContext();
     CoreDI.init(getMockContext());
-    mapInitializer = new MapInitializer();
+    mapInitializer = new MapInitializer(mock(Context.class), mock(TileHttpHandler.class),
+        new MapDataManager(), new MapStateManager());
   }
 
   @Test public void shouldNotBeNull() throws Exception {
@@ -31,22 +41,7 @@ public class MapInitializerTest {
   @Test public void init_shouldReturnMapzenMap() throws Exception {
     final TestCallback callback = new TestCallback();
     final TestMapView mapView = new TestMapView();
-    mapInitializer.init(mapView, callback);
+    mapInitializer.init(mapView, "test_api_key", callback);
     assertThat(callback.map).isInstanceOf(MapzenMap.class);
-  }
-
-  @Test public void init_shouldSetHttpHandler() throws Exception {
-    final TestCallback callback = new TestCallback();
-    final TestMapView mapView = new TestMapView();
-    mapInitializer.init(mapView, callback);
-    verify(callback.map.getMapController(), times(1)).setHttpHandler((TileHttpHandler) any());
-  }
-
-  @Test public void init_shouldSetHttpHandlerWithGivenApiKey() throws Exception {
-    final TestCallback callback = new TestCallback();
-    final TestMapView mapView = new TestMapView();
-    final String key = "vector-tiles-test-key";
-    mapInitializer.init(mapView, key, callback);
-    assertThat(mapInitializer.httpHandler.getApiKey()).isEqualTo(key);
   }
 }

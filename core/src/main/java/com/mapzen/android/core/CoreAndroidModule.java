@@ -5,7 +5,6 @@ import com.mapzen.android.search.SearchInitializer;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.util.Log;
 
 import javax.inject.Singleton;
 
@@ -15,9 +14,7 @@ import dagger.Provides;
 /**
  * Dependency injection module for components that depend on an Android {@link Context}.
  */
-@Module public class CoreAndroidModule {
-  private static final String TAG = CoreAndroidModule.class.getSimpleName();
-
+@Module class CoreAndroidModule {
   private final Context context;
 
   /**
@@ -47,17 +44,8 @@ import dagger.Provides;
   /**
    * Provides HTTP handler to append API key to outgoing vector tile requests.
    */
-  @Provides @Singleton public TileHttpHandler provideTileHttpHandler(Resources res) {
-    final String packageName = context.getPackageName();
-    try {
-      final int apiKeyId = res.getIdentifier(ApiKeyConstants.API_KEY_RES_NAME,
-          ApiKeyConstants.API_KEY_RES_TYPE, packageName);
-      final String apiKey = res.getString(apiKeyId);
-      return new TileHttpHandler(apiKey);
-    } catch (Resources.NotFoundException e) {
-      Log.e(TAG, e.getLocalizedMessage());
-    }
-    return new TileHttpHandler(null);
+  @Provides @Singleton public TileHttpHandler provideTileHttpHandler() {
+    return new TileHttpHandler();
   }
 
   /**
