@@ -1,6 +1,5 @@
 package com.mapzen.android.graphics;
 
-import com.mapzen.android.OkHttp3TestUtils;
 import com.mapzen.android.graphics.model.CameraType;
 import com.mapzen.android.graphics.model.EaseType;
 import com.mapzen.android.graphics.model.Marker;
@@ -15,7 +14,7 @@ import com.mapzen.tangram.TouchInput;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.SuppressStaticInitializationFor;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
@@ -26,10 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManagerFactory;
-
-import okhttp3.internal.tls.CertificateChainCleaner;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyFloat;
@@ -41,7 +36,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ TrustManagerFactory.class, SSLContext.class, CertificateChainCleaner.class })
+@PowerMockIgnore("javax.net.ssl.*")
 @SuppressStaticInitializationFor("com.mapzen.tangram.MapController")
 public class MapzenMapTest {
 
@@ -52,7 +47,6 @@ public class MapzenMapTest {
   private LabelPickHandler labelPickHandler;
 
   @Before public void setUp() throws Exception {
-    OkHttp3TestUtils.initMockSslContext();
     mapView = new TestMapView();
     mapController = mock(TestMapController.class);
     doCallRealMethod().when(mapController)
