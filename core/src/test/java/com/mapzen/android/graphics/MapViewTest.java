@@ -15,6 +15,7 @@ import static com.mapzen.android.graphics.MapView.OVERLAY_MODE_CLASSIC;
 import static com.mapzen.android.graphics.MapView.OVERLAY_MODE_SDK;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
