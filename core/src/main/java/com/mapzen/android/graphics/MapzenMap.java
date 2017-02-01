@@ -9,6 +9,7 @@ import com.mapzen.android.graphics.model.Polyline;
 import com.mapzen.tangram.LngLat;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.MapData;
+import com.mapzen.tangram.SceneUpdate;
 import com.mapzen.tangram.TouchInput;
 
 import android.graphics.PointF;
@@ -649,7 +650,7 @@ public class MapzenMap {
    * @param value A YAML valid string (example "{ property: true }" or "true")
    */
   public void queueSceneUpdate(String componentPath, String value) {
-    mapController.queueSceneUpdate(componentPath, value);
+    mapController.queueSceneUpdate(new SceneUpdate(componentPath, value));
   }
 
   /**

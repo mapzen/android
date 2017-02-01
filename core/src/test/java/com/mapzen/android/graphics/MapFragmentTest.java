@@ -5,6 +5,7 @@ import com.mapzen.R;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.SuppressStaticInitializationFor;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -21,11 +22,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.when;
 
-@RunWith(PowerMockRunner.class) @SuppressStaticInitializationFor("com.mapzen.tangram.MapController")
+@RunWith(PowerMockRunner.class)
+@PowerMockIgnore("javax.net.ssl.*")
+@SuppressStaticInitializationFor("com.mapzen.tangram.MapController")
 public class MapFragmentTest {
 
   private MapFragment mapFragment;
@@ -51,12 +52,6 @@ public class MapFragmentTest {
     TestCallback callback = new TestCallback();
     mapFragment.getMapAsync(callback);
     assertThat(callback.map).isInstanceOf(MapzenMap.class);
-  }
-
-  @Test public void getMap_shouldSetHttpHandler() throws Exception {
-    TestCallback callback = new TestCallback();
-    mapFragment.getMapAsync(callback);
-    verify(callback.map.getMapController(), times(1)).setHttpHandler((TileHttpHandler) any());
   }
 
   @Test public void shouldInflateLayoutWithOverlayModeSdk() throws Exception {

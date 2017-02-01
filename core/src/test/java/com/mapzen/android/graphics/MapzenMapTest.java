@@ -8,12 +8,13 @@ import com.mapzen.android.graphics.model.Polyline;
 import com.mapzen.tangram.LabelPickResult;
 import com.mapzen.tangram.LngLat;
 import com.mapzen.tangram.MapController;
+import com.mapzen.tangram.SceneUpdate;
 import com.mapzen.tangram.TouchInput;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.SuppressStaticInitializationFor;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
@@ -27,27 +28,32 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyFloat;
+import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(PowerMockRunner.class) @SuppressStaticInitializationFor("com.mapzen.tangram.MapController")
+@RunWith(PowerMockRunner.class)
+@PowerMockIgnore("javax.net.ssl.*")
+@SuppressStaticInitializationFor("com.mapzen.tangram.MapController")
 public class MapzenMapTest {
 
   private TestMapView mapView;
   private MapzenMap map;
-  private MapController mapController;
+  private TestMapController mapController;
   private OverlayManager overlayManager;
   private LabelPickHandler labelPickHandler;
 
   @Before public void setUp() throws Exception {
     mapView = new TestMapView();
-    mapController = Mockito.mock(TestMapController.class);
-    Mockito.doCallRealMethod().when(mapController)
+    mapController = mock(TestMapController.class);
+    doCallRealMethod().when(mapController)
         .setFeaturePickListener(any(MapController.FeaturePickListener.class));
-    Mockito.doCallRealMethod().when(mapController).pickFeature(anyFloat(), anyFloat());
+    doCallRealMethod().when(mapController).pickFeature(anyFloat(), anyFloat());
+    doCallRealMethod().when(mapController).queueSceneUpdate(any(SceneUpdate.class));
+    doCallRealMethod().when(mapController).getSceneUpdate();
     overlayManager = mock(OverlayManager.class);
     MapStateManager mapStateManager = new MapStateManager();
     labelPickHandler = new LabelPickHandler(mapView);
@@ -512,7 +518,8 @@ public class MapzenMapTest {
 
   @Test public void queueSceneUpdate_shouldInvokeMapController() {
     map.queueSceneUpdate("test", "true");
-    verify(mapController).queueSceneUpdate("test", "true");
+    assertThat(mapController.getSceneUpdate().getPath()).isEqualTo("test");
+    assertThat(mapController.getSceneUpdate().getValue()).isEqualTo("true");
   }
 
   @Test public void applySceneUpdates_shouldInvokeMapController() {
