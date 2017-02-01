@@ -81,7 +81,7 @@ task verify(dependsOn: ['compileDebugSources',
                         'lint'])
 
 dependencies {
-  compile 'com.mapzen:mapzen-core:0.0.1-SNAPSHOT'
+  compile 'com.mapzen:mapzen-core:1.3.0-SNAPSHOT'
   compile ('com.mapzen:on-the-road:1.2.0-SNAPSHOT') {
     exclude group: 'com.squareup.retrofit2', module: 'converter-gson'
   }
