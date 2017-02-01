@@ -21,19 +21,37 @@ public class PeliasCallbackHandlerTest {
   @Test
   public void handleSuccess_titleFeatures_shouldCallListenerForMatchingTitle() throws Exception {
     String title = "Place";
-    List<Feature> features = getTestFeatures("NotPlace", "Place");
+    Response response = getTestResponse("NotPlace", "Place");
     TestDetailsListener listener = new TestDetailsListener();
-    callbackHandler.handleSuccess(title, features, listener);
+    callbackHandler.handleSuccess(title, response, listener);
     assertThat(listener.place.getName()).isEqualTo(title);
   }
 
   @Test
   public void handleSuccess_titleFeatures_shouldCreateCorrectDetails() throws Exception {
     String title = "Place";
-    List<Feature> features = getTestFeatures("NotPlace", "", "Place", "Place, Label");
+    Response response = getTestResponse("NotPlace", "", "Place", "Place, Label");
     TestDetailsListener listener = new TestDetailsListener();
-    callbackHandler.handleSuccess(title, features, listener);
+    callbackHandler.handleSuccess(title, response, listener);
     assertThat(listener.details).isEqualTo("Place\nLabel");
+  }
+
+  @Test
+  public void handleSuccess_titleFeatures_shouldCallFetchFailure() {
+    String title = "Place";
+    TestDetailsListener listener = new TestDetailsListener();
+    Place place = new PlaceImpl.Builder().build();
+    listener.place = place;
+    callbackHandler.handleSuccess(title, Response.<Result>success(null), listener);
+    assertThat(listener.place).isNull();
+    listener.place = place;
+    Result result = new Result();
+    callbackHandler.handleSuccess(title, Response.success(result), listener);
+    assertThat(listener.place).isNull();
+    listener.place = place;
+    result.setFeatures(new ArrayList<Feature>());
+    callbackHandler.handleSuccess(title, Response.success(result), listener);
+    assertThat(listener.place).isNull();
   }
 
   @Test
@@ -99,13 +117,6 @@ public class PeliasCallbackHandlerTest {
     List<Feature> features = new ArrayList<>();
     features.add(getTestFeature(name1, details1));
     features.add(getTestFeature(name2, details2));
-    return features;
-  }
-
-  private List<Feature> getTestFeatures(String name1, String name2) {
-    List<Feature> features = new ArrayList<>();
-    features.add(getTestFeature(name1, ""));
-    features.add(getTestFeature(name2, ""));
     return features;
   }
 
