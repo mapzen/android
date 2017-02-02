@@ -30,6 +30,9 @@ public class MapzenManager {
 
   static MapzenManager instance;
 
+  /**
+   * Get singleton instance.
+   */
   public static MapzenManager instance(Context context) {
     if (instance == null) {
       instance = new MapzenManager(context);
@@ -52,7 +55,7 @@ public class MapzenManager {
   }
 
   /**
-   * Returns the currently active API key stored by this class;
+   * Returns the currently active API key stored by this class.
    */
   public String getApiKey() {
     return apiKey;

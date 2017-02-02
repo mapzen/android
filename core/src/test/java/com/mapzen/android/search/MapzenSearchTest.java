@@ -26,7 +26,8 @@ public class MapzenSearchTest {
   @Test public void shouldCreatePelias() {
     MapzenSearch mzSearch = new MapzenSearch(context, "API_KEY_PARAM_NAME");
     assertThat(mzSearch.getPelias()).isNotNull();
-    assertThat(mzSearch.searchInitializer.getRequestHandler().getApiKey()).isEqualTo("API_KEY_PARAM_NAME");
+    assertThat(mzSearch.searchInitializer.getRequestHandler().getApiKey())
+        .isEqualTo("API_KEY_PARAM_NAME");
   }
 
   @Test public void suggest_shouldCallPelias() {
