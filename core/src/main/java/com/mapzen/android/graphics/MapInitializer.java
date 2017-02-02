@@ -1,6 +1,6 @@
 package com.mapzen.android.graphics;
 
-import com.mapzen.android.core.ApiKeyConstants;
+import com.mapzen.android.core.MapzenManager;
 import com.mapzen.android.graphics.model.BubbleWrapStyle;
 import com.mapzen.android.graphics.model.MapStyle;
 import com.mapzen.tangram.MapController;
@@ -85,9 +85,7 @@ public class MapInitializer {
   private void loadMap(final MapView mapView, String sceneFile, final OnMapReadyCallback callback,
       String apiKey) {
     if (apiKey == null) {
-      final int resId = context.getResources().getIdentifier(ApiKeyConstants.API_KEY_RES_NAME,
-          ApiKeyConstants.API_KEY_RES_TYPE, context.getPackageName());
-      apiKey = context.getString(resId);
+      apiKey = MapzenManager.instance(context).getApiKey();
     }
 
     final ArrayList<SceneUpdate> sceneUpdates = new ArrayList<>(1);

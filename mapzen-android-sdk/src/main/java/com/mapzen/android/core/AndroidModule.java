@@ -4,7 +4,6 @@ import com.mapzen.android.routing.TurnByTurnHttpHandler;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.util.Log;
 
 import javax.inject.Singleton;
 
@@ -15,8 +14,6 @@ import dagger.Provides;
  * Dependency injection module for components that depend on an Android {@link Context}.
  */
 @Module public class AndroidModule {
-  private static final String TAG = AndroidModule.class.getSimpleName();
-
   private final Context context;
 
   /**
@@ -46,18 +43,9 @@ import dagger.Provides;
   /**
    * Provides HTTP handler to append API key to outgoing turn-by-turn requests.
    */
-  @Provides @Singleton public TurnByTurnHttpHandler provideTurnByTurnHttpHandler(Resources res) {
-    TurnByTurnHttpHandler handler = new TurnByTurnHttpHandler();
-    final String packageName = context.getPackageName();
-    try {
-      final int apiKeyId = res.getIdentifier(ApiKeyConstants.API_KEY_RES_NAME,
-          ApiKeyConstants.API_KEY_RES_TYPE, packageName);
-      final String apiKey = res.getString(apiKeyId);
-      handler.setApiKey(apiKey);
-    } catch (Resources.NotFoundException e) {
-      Log.e(TAG, e.getLocalizedMessage());
-    }
+  @Provides @Singleton public TurnByTurnHttpHandler provideTurnByTurnHttpHandler() {
+    final TurnByTurnHttpHandler handler = new TurnByTurnHttpHandler();
+    handler.setApiKey(MapzenManager.instance(context).getApiKey());
     return handler;
   }
-
 }
