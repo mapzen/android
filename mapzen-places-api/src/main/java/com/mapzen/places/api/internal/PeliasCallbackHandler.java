@@ -24,10 +24,12 @@ class PeliasCallbackHandler {
 
   /**
    * Creates a {@link Place} from a {@link Feature} with a name that matches the given title and
-   * notifies the listener that a place has been successfully retrieved.
-   * @param title
-   * @param response
-   * @param listener
+   * notifies the listener that a place has been successfully retrieved. If the response body or
+   * response body features do not exist, the listener is notified of a fetch failure.
+   *
+   * @param title the name of the POI to match.
+   * @param response response returned from the Pelias service.
+   * @param listener object to be notified of success or failure.
    */
   void handleSuccess(String title, Response<Result> response,
       OnPlaceDetailsFetchedListener listener) {
@@ -50,8 +52,9 @@ class PeliasCallbackHandler {
    * feature in the response) and notifies the listener that a place has been successfully
    * retrieved. If the response body or response body features do not exist, the listener is
    * notified of a fetch failure.
-   * @param response
-   * @param listener
+   *
+   * @param response response returned from the Pelias service.
+   * @param listener object to be notified of success or failure.
    */
   void handleSuccess(Response<Result> response, OnPlaceDetailsFetchedListener listener) {
     if (!isValidResponse(response)) {
@@ -68,6 +71,7 @@ class PeliasCallbackHandler {
 
   /**
    * Verifies whether the response body returned by the Pelias service is valid (contains features).
+   *
    * @param response Pelias service response.
    * @return {@code true} if the response is valid; {@code false} otherwise.
    */
