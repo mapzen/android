@@ -55,14 +55,6 @@ android {
   }
 }
 
-tasks.withType(Test) {
-  testLogging {
-    exceptionFormat "full"
-    events "started", "skipped", "passed", "failed"
-    showStandardStreams true
-  }
-}
-
 task checkstyle(type: Checkstyle) {
   configFile file("${project.rootDir}/config/checkstyle/checkstyle.xml")
   source 'src'
@@ -71,11 +63,6 @@ task checkstyle(type: Checkstyle) {
 
   classpath = files()
 }
-
-task verify(dependsOn: ['compileDebugSources',
-                        'test',
-                        'checkstyle',
-                        'lint'])
 
 dependencies {
   compile 'com.android.support:appcompat-v7:25.1.0'
