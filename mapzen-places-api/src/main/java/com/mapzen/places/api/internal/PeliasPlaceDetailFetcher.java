@@ -32,8 +32,7 @@ class PeliasPlaceDetailFetcher implements PlaceDetailFetcher {
       final OnPlaceDetailsFetchedListener listener) {
     pelias.reverse(coordinates.latitude, coordinates.longitude, new Callback<Result>() {
           @Override public void onResponse(Call<Result> call, Response<Result> response) {
-            callbackHandler.handleSuccess(properties.get(PROPERTY_NAME),
-                response.body().getFeatures(), listener);
+            callbackHandler.handleSuccess(properties.get(PROPERTY_NAME), response, listener);
           }
 
           @Override public void onFailure(Call<Result> call, Throwable t) {

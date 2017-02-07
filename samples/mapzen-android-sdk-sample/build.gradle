@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'checkstyle'
 
-def API_KEY = hasProperty('apiKey') ? '"' + apiKey + '"' : "null";
+def MAPZEN_API_KEY = hasProperty('mapzenApiKey') ? '"' + mapzenApiKey + '"' : "null";
 
 android {
   compileSdkVersion 25
@@ -13,7 +13,7 @@ android {
     targetSdkVersion 25
     versionCode 1
     versionName "1.0"
-    buildConfigField "String", "API_KEY", API_KEY
+    buildConfigField "String", "MAPZEN_API_KEY", MAPZEN_API_KEY
   }
   buildTypes {
     release {

@@ -1,6 +1,6 @@
 package com.mapzen.android.search;
 
-import com.mapzen.android.core.ApiKeyConstants;
+import com.mapzen.android.core.MapzenManager;
 import com.mapzen.pelias.PeliasRequestHandler;
 
 import java.util.HashMap;
@@ -34,7 +34,7 @@ public class SearchRequestHandler implements PeliasRequestHandler {
 
   @Override public Map<String, String> queryParamsForRequest() {
     HashMap<String, String> params = new HashMap<>();
-    params.put(ApiKeyConstants.API_KEY, apiKey);
+    params.put(MapzenManager.API_KEY_PARAM_NAME, apiKey);
     return params;
   }
 }

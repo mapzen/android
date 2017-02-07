@@ -2,10 +2,10 @@ package com.mapzen.android.sdk.sample;
 
 import com.mapzen.android.graphics.MapFragment;
 import com.mapzen.android.graphics.MapzenMap;
-import com.mapzen.android.routing.MapzenRouter;
 import com.mapzen.android.graphics.OnMapReadyCallback;
 import com.mapzen.android.graphics.model.Marker;
 import com.mapzen.android.graphics.model.Polyline;
+import com.mapzen.android.routing.MapzenRouter;
 import com.mapzen.model.ValhallaLocation;
 import com.mapzen.tangram.LngLat;
 import com.mapzen.tangram.TouchInput;
@@ -36,7 +36,7 @@ public class RouterActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_route);
 
-    final String apiKey = BuildConfig.API_KEY;
+    final String apiKey = BuildConfig.MAPZEN_API_KEY;
     if (apiKey != null) {
       router = new MapzenRouter(this, apiKey);
     } else {

@@ -1,5 +1,7 @@
 package com.mapzen.places.api.sample;
 
+import com.mapzen.android.core.MapzenManager;
+
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -50,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
     setSupportActionBar(toolbar);
 
     configureListView();
+
+    if (BuildConfig.MAPZEN_API_KEY != null) {
+      MapzenManager.instance(this).setApiKey(BuildConfig.MAPZEN_API_KEY);
+    }
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
       checkRuntimePermissions();

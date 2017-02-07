@@ -1,19 +1,13 @@
 package com.mapzen.android.search;
 
-
-import com.mapzen.android.core.ApiKeyConstants;
+import com.mapzen.android.core.MapzenManager;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.util.Log;
 
 /**
  * Handles setting the api key and a request handler for given {@link MapzenSearch} objects.
  */
 public class SearchInitializer {
-
-  private static final String TAG = SearchInitializer.class.getSimpleName();
-
   private SearchRequestHandler requestHandler = new SearchRequestHandler();
 
   /**
@@ -23,16 +17,7 @@ public class SearchInitializer {
    * @param context
    */
   public void initSearch(MapzenSearch search, Context context) {
-    Resources res = context.getResources();
-    final String packageName = context.getPackageName();
-    try {
-      final int apiKeyId = res.getIdentifier(ApiKeyConstants.API_KEY_RES_NAME,
-          ApiKeyConstants.API_KEY_RES_TYPE, packageName);
-      final String apiKey = res.getString(apiKeyId);
-      initSearch(search, apiKey);
-    } catch (Resources.NotFoundException e) {
-      Log.e(TAG, e.getLocalizedMessage());
-    }
+    initSearch(search, MapzenManager.instance(context).getApiKey());
   }
 
   /**

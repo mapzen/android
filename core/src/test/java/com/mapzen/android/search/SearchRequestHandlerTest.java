@@ -1,6 +1,6 @@
 package com.mapzen.android.search;
 
-import com.mapzen.android.core.ApiKeyConstants;
+import com.mapzen.android.core.MapzenManager;
 
 import org.junit.Test;
 
@@ -17,6 +17,7 @@ public class SearchRequestHandlerTest {
 
   @Test public void queryParamsForRequest_shouldReturnApiKey() {
     adapter.setApiKey("TEST_KEY");
-    assertThat(adapter.queryParamsForRequest().get(ApiKeyConstants.API_KEY)).isEqualTo("TEST_KEY");
+    assertThat(adapter.queryParamsForRequest().get(MapzenManager.API_KEY_PARAM_NAME))
+        .isEqualTo("TEST_KEY");
   }
 }

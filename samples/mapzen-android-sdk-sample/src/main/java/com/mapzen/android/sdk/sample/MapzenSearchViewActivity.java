@@ -56,7 +56,7 @@ public class MapzenSearchViewActivity extends AppCompatActivity {
       }
     });
 
-    final String apiKey = BuildConfig.API_KEY;
+    final String apiKey = BuildConfig.MAPZEN_API_KEY;
     mapzenSearch = new MapzenSearch(this, apiKey);
     mapzenSearch.setLocationProvider(peliasLocationProvider);
 
