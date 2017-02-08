@@ -16,6 +16,7 @@ dependencies:
     - echo y | android update sdk --all --no-ui --force --filter "build-tools-25.0.2"
     - echo y | android update sdk --all --no-ui --force --filter "android-25"
     - echo y | android update sdk --all --no-ui --force --filter "extra-android-m2repository"
+    - ./gradlew :core:install
 
 test:
   override:
