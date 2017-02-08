@@ -1,6 +1,7 @@
 package com.mapzen.android.graphics;
 
 import com.mapzen.android.core.CoreDI;
+import com.mapzen.android.core.MapzenManager;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -35,7 +36,8 @@ public class MapInitializerTest {
   @Test public void init_shouldReturnMapzenMap() throws Exception {
     final TestCallback callback = new TestCallback();
     final TestMapView mapView = new TestMapView();
-    mapInitializer.init(mapView, "test_api_key", callback);
+    MapzenManager.instance(getMockContext()).setApiKey("fake-mapzen-api-key");
+    mapInitializer.init(mapView, callback);
     assertThat(callback.map).isInstanceOf(MapzenMap.class);
   }
 }

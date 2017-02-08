@@ -49,9 +49,12 @@ public class MapzenManager {
    */
   private MapzenManager(Context context) {
     final Resources resources = context.getResources();
-    int id = resources.getIdentifier(API_KEY_RES_NAME, API_KEY_RES_TYPE, context.getPackageName());
-    if (id > 0) {
-      apiKey = resources.getString(id);
+    if (resources != null) {
+      int id = resources.getIdentifier(API_KEY_RES_NAME, API_KEY_RES_TYPE,
+          context.getPackageName());
+      if (id > 0) {
+        apiKey = resources.getString(id);
+      }
     }
   }
 
@@ -60,8 +63,8 @@ public class MapzenManager {
    */
   public String getApiKey() {
     if (apiKey == null || API_KEY_DEFAULT_VALUE.equals(apiKey)) {
-      throw new IllegalStateException("A valid Mapzen API key has not been provided. Please visit"
-          + "https://mapzen.com/documentation/android/getting-started/ for more information.");
+      throw new IllegalStateException("A valid Mapzen API key has not been provided. Please visit "
+          + "https://mapzen.com/documentation/android/getting-started/ to learn how.");
     }
 
     return apiKey;

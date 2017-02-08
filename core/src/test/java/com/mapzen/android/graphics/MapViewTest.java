@@ -1,7 +1,9 @@
 package com.mapzen.android.graphics;
 
 import com.mapzen.R;
+import com.mapzen.android.core.MapzenManager;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.powermock.api.mockito.PowerMockito;
@@ -15,7 +17,6 @@ import static com.mapzen.android.graphics.MapView.OVERLAY_MODE_CLASSIC;
 import static com.mapzen.android.graphics.MapView.OVERLAY_MODE_SDK;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -27,6 +28,11 @@ public class MapViewTest {
   @Before public void setup() throws Exception {
     mapView = PowerMockito.spy(new MapView(getMockContext()));
     when(mapView.getTangramMapView()).thenReturn(mock(TangramMapView.class));
+    MapzenManager.instance(getMockContext()).setApiKey("fake-mapzen-api-key");
+  }
+
+  @After public void tearDown() throws Exception {
+    MapzenManager.instance(getMockContext()).setApiKey(null);
   }
 
   @Test public void shouldNotBeNull() throws Exception {
@@ -34,6 +40,7 @@ public class MapViewTest {
   }
 
   @Test public void getMapAsync_shouldInjectMapInitializer() throws Exception {
+    MapzenManager.instance(getMockContext()).setApiKey("fake-mapzen-api-key");
     mapView.getMapAsync(new TestCallback());
     assertThat(mapView.mapInitializer).isNotNull();
   }
@@ -44,15 +51,6 @@ public class MapViewTest {
     mapView.mapInitializer = mapInitializer;
     mapView.getMapAsync(callback);
     verify(mapInitializer, times(1)).init(mapView, callback);
-  }
-
-  @Test public void getMapAsync_shouldInvokeMapInitializerWithApiKey() throws Exception {
-    final MapInitializer mapInitializer = mock(MapInitializer.class);
-    final OnMapReadyCallback callback = new TestCallback();
-    final String key = "vector-tiles-test-key";
-    mapView.mapInitializer = mapInitializer;
-    mapView.getMapAsync(key, callback);
-    verify(mapInitializer, times(1)).init(mapView, key, callback);
   }
 
   @Test public void shouldInflateLayoutWithOverlayModeSdk() throws Exception {

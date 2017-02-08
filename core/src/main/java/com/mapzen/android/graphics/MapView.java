@@ -129,28 +129,6 @@ public class MapView extends RelativeLayout {
   }
 
   /**
-   * Load map asynchronously using given API key.
-   *
-   * @param callback listener to be invoked when map is initialized and ready to use.
-   * @param key vector tiles API key that should be used to load map tiles.
-   */
-  public void getMapAsync(@NonNull String key, @NonNull OnMapReadyCallback callback) {
-    mapInitializer.init(this, key, callback);
-  }
-
-  /**
-   * Load map asynchronously using given API key.
-   *
-   * @param callback listener to be invoked when map is initialized and ready to use.
-   * @param key vector tiles API key that should be used to load map tiles.
-   * @param mapStyle mapStyle that should be set
-   */
-  public void getMapAsync(@NonNull String key, MapStyle mapStyle,
-      @NonNull OnMapReadyCallback callback) {
-    mapInitializer.init(this, key, mapStyle, callback);
-  }
-
-  /**
    * Get the compass button.
    */
   public CompassView getCompass() {
