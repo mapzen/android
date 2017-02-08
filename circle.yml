@@ -19,7 +19,7 @@ dependencies:
 
 test:
   override:
-    - ./gradlew clean :core:install :core:verify :mapzen-android-sdk:verify :mapzen-places-api:verify --configure-on-demand
+    - ./gradlew clean :core:install :core:verify :mapzen-android-sdk:verify :mapzen-places-api:verify --configure-on-demand -PdisablePreDex
 
 deployment:
   master:
