@@ -1,6 +1,6 @@
 general:
-  - /home/ubuntu/mapzen-android-sdk/samples/mapzen-android-sdk-sample/build/outputs/apk/
-  - /home/ubuntu/mapzen-android-sdk/samples/mapzen-places-api-sample/build/outputs/apk/
+  - "samples/mapzen-android-sdk-sample/build/outputs/apk"
+  - "samples/mapzen-places-api-sample/build/outputs/apk"
 
 machine:
   java:
