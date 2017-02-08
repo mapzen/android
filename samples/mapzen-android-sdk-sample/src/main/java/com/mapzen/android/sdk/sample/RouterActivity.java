@@ -34,13 +34,7 @@ public class RouterActivity extends BaseDemoActivity {
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_route);
-
-    final String apiKey = BuildConfig.MAPZEN_API_KEY;
-    if (apiKey != null) {
-      router = new MapzenRouter(this, apiKey);
-    } else {
-      router = new MapzenRouter(this);
-    }
+    router = new MapzenRouter(this);
 
     final MapFragment mapFragment =
         (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);

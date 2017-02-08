@@ -29,15 +29,6 @@ public class MapzenRouter {
     internalRouter.setHttpHandler(httpHandler);
   }
 
-  /**
-   * Creates a new {@link MapzenRouter} with api key set in code.
-   */
-  public MapzenRouter(Context context, String apiKey) {
-    initDI(context);
-    httpHandler.setApiKey(apiKey);
-    internalRouter.setHttpHandler(httpHandler);
-  }
-
   private void initDI(Context context) {
     DI.init(context);
     DI.component().inject(this);
