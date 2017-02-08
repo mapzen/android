@@ -34,20 +34,22 @@ public class MapzenManagerTest {
     assertThat(mapzenManager).isNotNull();
   }
 
-  @Test public void getApiKey_shouldReturnNullIfNotSet() throws Exception {
+  @Test(expected = IllegalStateException.class)
+  public void getApiKey_shouldReturnThrowIfNotSet() throws Exception {
     Context context = mock(Context.class);
     Resources resources = new TestResources();
     when(context.getResources()).thenReturn(resources);
     MapzenManager mapzenManager = MapzenManager.instance(context);
-    assertThat(mapzenManager.getApiKey()).isNull();
+    mapzenManager.getApiKey();
   }
 
-  @Test public void getApiKey_shouldReturnNullIfResourceNotFound() throws Exception {
+  @Test(expected = IllegalStateException.class)
+  public void getApiKey_shouldReturnThrowIfResourceNotFound() throws Exception {
     Context context = mock(Context.class);
     Resources resources = new TestResourcesNotFound();
     when(context.getResources()).thenReturn(resources);
     MapzenManager mapzenManager = MapzenManager.instance(context);
-    assertThat(mapzenManager.getApiKey()).isNull();
+    mapzenManager.getApiKey();
   }
 
   @Test public void getApiKey_shouldReturnStringResourceValue() throws Exception {
