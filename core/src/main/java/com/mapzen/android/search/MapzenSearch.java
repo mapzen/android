@@ -31,15 +31,6 @@ public class MapzenSearch {
   }
 
   /**
-   * Creates a new {@link MapzenSearch} with api key set in code.
-   */
-  public MapzenSearch(Context context, String apiKey) {
-    initDI(context);
-    internalSearch = new Pelias();
-    searchInitializer.initSearch(this, apiKey);
-  }
-
-  /**
    * Creates a new {@link MapzenSearch} with the {@link Pelias} object used for underlying
    * search/autocomplete queries.
    */

@@ -1,10 +1,12 @@
 package com.mapzen.android.routing;
 
+import com.mapzen.android.core.MapzenManager;
 import com.mapzen.valhalla.Route;
 import com.mapzen.valhalla.RouteCallback;
 import com.mapzen.valhalla.Router;
 import com.mapzen.valhalla.ValhallaRouter;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,8 +23,13 @@ public class MapzenRouterTest {
 
   @Before public void setup() {
     Context context = getMockContext();
+    MapzenManager.instance(context).setApiKey("fake-mapzen-api-key");
     router = new MapzenRouter(context);
     router.setValhallaRouter(mock(ValhallaRouter.class));
+  }
+
+  @After public void tearDown() throws Exception {
+    MapzenManager.instance(getMockContext()).setApiKey(null);
   }
 
   @Test public void fetch_shouldInvokeInternalRouter() {

@@ -37,10 +37,12 @@ public class MapzenSearchTest {
   }
 
   @Test public void shouldCreatePelias() {
-    MapzenSearch mzSearch = new MapzenSearch(context, "API_KEY_PARAM_NAME");
+    MapzenManager.instance(context).setApiKey("fake-mapzen-api-key");
+    MapzenSearch mzSearch = new MapzenSearch(context);
     assertThat(mzSearch.getPelias()).isNotNull();
     assertThat(mzSearch.searchInitializer.getRequestHandler().getApiKey())
-        .isEqualTo("API_KEY_PARAM_NAME");
+        .isEqualTo("fake-mapzen-api-key");
+    MapzenManager.instance(context).setApiKey(null);
   }
 
   @Test public void suggest_shouldCallPelias() {
