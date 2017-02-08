@@ -34,7 +34,7 @@ test:
 
 deployment:
   master:
-    branch: master
+    branch: /^(?!master).*$/
     commands:
       - ./gradlew :samples_mapzen-android-sdk-sample:assembleDebug -PmapzenApiKey=$MAPZEN_API_KEY
       - ./gradlew :samples_mapzen-place-api-sample:assembleDebug -PmapzenApiKey=$MAPZEN_API_KEY
