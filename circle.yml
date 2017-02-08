@@ -8,6 +8,7 @@ machine:
   python:
     version: 2.7.10
   environment:
+    GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx2048m -XX:+HeapDumpOnOutOfMemoryError"'
     TEST_FLAGS: "--configure-on-demand -PdisablePreDex"
 
 checkout:
