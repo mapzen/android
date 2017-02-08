@@ -29,5 +29,4 @@ deployment:
       - ./gradlew uploadArchives -PsonatypeUsername=$SONATYPE_NEXUS_SNAPSHOTS_USERNAME -PsonatypePassword=$SONATYPE_NEXUS_SNAPSHOTS_PASSWORD
       - ./gradlew aarSize countReleaseDexMethods permissions mapzen-android-sdk:dependencies --configuration compile
       - scripts/deploy-samples.sh
-      - pip install 'Circle-Tickler == 1.0.1'
-      - tickle-circle mapzen documentation master $CIRCLE_TOKEN
+      - scripts/publish-docs.sh
