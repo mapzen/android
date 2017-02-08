@@ -6,14 +6,13 @@ import com.mapzen.android.graphics.OnMapReadyCallback;
 import com.mapzen.tangram.LngLat;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
 /**
  * Demonstrates drawing start and end routing pins on the map.
  */
-public class RoutePinsActivity extends AppCompatActivity {
+public class RoutePinsActivity extends BaseDemoActivity {
 
   MapzenMap map;
   static boolean routePinsDrawn = true;

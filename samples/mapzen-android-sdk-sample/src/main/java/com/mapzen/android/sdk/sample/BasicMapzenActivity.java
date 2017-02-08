@@ -5,7 +5,6 @@ import com.mapzen.android.graphics.MapzenMap;
 import com.mapzen.android.graphics.OnMapReadyCallback;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -17,7 +16,7 @@ import android.widget.Toast;
 /**
  * Basic SDK demo, tracks user's current location on map.
  */
-public class BasicMapzenActivity extends AppCompatActivity
+public class BasicMapzenActivity extends BaseDemoActivity
     implements AdapterView.OnItemSelectedListener {
 
   private static final String KEY_LOCATION_ENABLED = "enabled";

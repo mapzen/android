@@ -1,13 +1,12 @@
 package com.mapzen.android.sdk.sample;
 
+import com.mapzen.android.graphics.FeaturePickListener;
 import com.mapzen.android.graphics.MapFragment;
 import com.mapzen.android.graphics.MapzenMap;
 import com.mapzen.android.graphics.OnMapReadyCallback;
-import com.mapzen.android.graphics.FeaturePickListener;
 import com.mapzen.tangram.LngLat;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ import java.util.Map;
 /**
  * Demonstrates how to use the {@link FeaturePickListener}.
  */
-public class FeaturePickListenerActivity extends AppCompatActivity {
+public class FeaturePickListenerActivity extends BaseDemoActivity {
 
   private static final String PROP_SEARCH_INDEX = "searchIndex";
   private static final String PROP_STATE = "state";

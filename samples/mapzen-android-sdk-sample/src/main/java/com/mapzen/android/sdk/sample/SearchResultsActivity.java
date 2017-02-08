@@ -6,7 +6,6 @@ import com.mapzen.android.graphics.OnMapReadyCallback;
 import com.mapzen.tangram.LngLat;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
@@ -16,7 +15,7 @@ import java.util.List;
 /**
  * Demonstrates displaying search results on the map.
  */
-public class SearchResultsActivity extends AppCompatActivity {
+public class SearchResultsActivity extends BaseDemoActivity {
 
   MapzenMap map;
   static boolean drawSearchResults = true;

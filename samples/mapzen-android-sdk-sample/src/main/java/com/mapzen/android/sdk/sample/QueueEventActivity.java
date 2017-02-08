@@ -7,13 +7,12 @@ import com.mapzen.android.graphics.ViewCompleteListener;
 import com.mapzen.tangram.LngLat;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 /**
  * Demonstrates queueing an event to run animations on the map.
  */
-public class QueueEventActivity extends AppCompatActivity {
+public class QueueEventActivity extends BaseDemoActivity {
 
   private MapzenMap map;
 

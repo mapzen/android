@@ -14,7 +14,6 @@ import com.mapzen.tangram.LngLat;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 
 import java.util.List;
 
@@ -27,7 +26,7 @@ import retrofit2.Response;
  * Allows the user to search for a place, displays autocomplete results in a list and search
  * results on a map.
  */
-public class MapzenSearchViewActivity extends AppCompatActivity {
+public class MapzenSearchViewActivity extends BaseDemoActivity {
 
   AutoCompleteListView listView;
 

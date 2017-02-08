@@ -7,12 +7,11 @@ import com.mapzen.android.graphics.model.Marker;
 import com.mapzen.tangram.LngLat;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 /**
  * Show map markers.
  */
-public class MarkerMapzenActivity extends AppCompatActivity {
+public class MarkerMapzenActivity extends BaseDemoActivity {
 
   private MapzenMap map;
 

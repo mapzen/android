@@ -9,7 +9,6 @@ import com.mapzen.tangram.LabelPickResult;
 import com.mapzen.tangram.LngLat;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import java.util.Map;
@@ -17,7 +16,7 @@ import java.util.Map;
 /**
  * Demonstrates how to use {@link com.mapzen.android.graphics.LabelPickListener}.
  */
-public class LabelPickListenerActivity extends AppCompatActivity {
+public class LabelPickListenerActivity extends BaseDemoActivity {
 
   MapzenMap map;
 
