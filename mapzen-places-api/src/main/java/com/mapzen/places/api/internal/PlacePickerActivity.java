@@ -66,7 +66,7 @@ public class PlacePickerActivity extends Activity implements
     if (result == null) {
       return;
     }
-    presenter.onLabelPicked(result.getCoordinates(), result.getProperties());
+    presenter.onLabelPicked(result.getProperties());
   }
 
   @Override public void showDialog(String id, String title) {
