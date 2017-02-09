@@ -13,7 +13,7 @@ class PlacePickerPresenterImpl implements PlacePickerPresenter {
   private static final String TAG = "PlacePicker";
 
   private static final String PROPERTY_ID = "id";
-  static final String PROPERTY_NAME = "name";
+  private static final String PROPERTY_NAME = "name";
 
   PlacePickerViewController controller;
   PlaceDetailFetcher detailFetcher;
