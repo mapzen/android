@@ -51,6 +51,14 @@ public class PeliasPlaceDetailFetcherTest {
     verify(pelias).place(eq(PELIAS_GID_BASE + PELIAS_GID_WAY + "123"), any(Callback.class));
   }
 
+  @Test public void fetchDetails_props_shouldConstructGidWithWayIfHasAreaYes() throws Exception {
+    Map props = new HashMap();
+    props.put(PROP_ID, "123.000");
+    props.put(PROP_AREA, "yes");
+    fetcher.fetchDetails(props, null);
+    verify(pelias).place(eq(PELIAS_GID_BASE + PELIAS_GID_WAY + "123"), any(Callback.class));
+  }
+
   @Test public void fetchDetails_props_shouldConstructGidWithNodeIfNoArea() throws Exception {
     Map props = new HashMap();
     props.put(PROP_ID, "123.000");
