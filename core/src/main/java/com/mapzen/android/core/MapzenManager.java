@@ -60,6 +60,9 @@ public class MapzenManager {
 
   /**
    * Returns the currently active API key stored by this class.
+   *
+   * @throws IllegalStateException if a valid API key has not been set in code or as a string
+   * resource.
    */
   public String getApiKey() {
     if (apiKey == null || API_KEY_DEFAULT_VALUE.equals(apiKey)) {
