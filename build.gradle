@@ -21,6 +21,23 @@ allprojects {
   }
 }
 
+subprojects {
+  task verify(dependsOn: ['compileDebugSources',
+                          'testDebugUnitTest',
+                          'checkstyle',
+                          'lint'])
+
+  tasks.withType(Test) {
+    testLogging {
+      exceptionFormat "full"
+      events "skipped", "passed", "failed"
+      showStandardStreams true
+    }
+  }
+
+  tasks.withType(Javadoc).all { enabled = false }
+}
+
 task clean(type: Delete) {
   delete rootProject.buildDir
 }

@@ -1,8 +1,16 @@
+general:
+  artifacts:
+    - "samples/mapzen-android-sdk-sample/build/outputs/apk"
+    - "samples/mapzen-places-api-sample/build/outputs/apk"
+
 machine:
   java:
     version: oraclejdk8
   python:
     version: 2.7.10
+  environment:
+    GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx2048m -XX:+HeapDumpOnOutOfMemoryError"'
+    TEST_FLAGS: "--configure-on-demand -PdisablePreDex"
 
 checkout:
   post:
@@ -14,20 +22,23 @@ dependencies:
     - echo y | android update sdk --all --no-ui --force --filter "build-tools-25.0.2"
     - echo y | android update sdk --all --no-ui --force --filter "android-25"
     - echo y | android update sdk --all --no-ui --force --filter "extra-android-m2repository"
-    - sudo apt-get update; sudo apt-get install s3cmd
-    - printf "[default]\naccess_key = $S3_ACCESS_KEY\n secret_key = $S3_SECRET_KEY" > ~/.s3cfg
+    - ./gradlew :core:install
 
 test:
   override:
-    - ./gradlew clean :core:install :core:verify :mapzen-android-sdk:verify :mapzen-places-api:verify
+    - case $CIRCLE_NODE_INDEX in 0) ./gradlew :core:verify $TEST_FLAGS ;; 1) ./gradlew :mapzen-android-sdk:verify $TEST_FLAGS ;; 2) ./gradlew :mapzen-places-api:verify $TEST_FLAGS ;; esac:
+        parallel: true
+  post:
+    - mkdir -p $CIRCLE_TEST_REPORTS/junit/
+    - find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
 
 deployment:
   master:
     branch: master
     commands:
+      - ./gradlew :samples_mapzen-android-sdk-sample:assembleDebug -PmapzenApiKey=$MAPZEN_API_KEY
+      - ./gradlew :samples_mapzen-place-api-sample:assembleDebug -PmapzenApiKey=$MAPZEN_API_KEY
       - ./gradlew uploadArchives -PsonatypeUsername=$SONATYPE_NEXUS_SNAPSHOTS_USERNAME -PsonatypePassword=$SONATYPE_NEXUS_SNAPSHOTS_PASSWORD
-      - scripts/deploy-android-sdk-sample-app.sh
-      - scripts/deploy-places-api-sample-app.sh
       - ./gradlew aarSize countReleaseDexMethods permissions mapzen-android-sdk:dependencies --configuration compile
-      - pip install 'Circle-Tickler == 1.0.1'
-      - tickle-circle mapzen documentation master $CIRCLE_TOKEN
+      - scripts/deploy-samples.sh
+      - scripts/publish-docs.sh

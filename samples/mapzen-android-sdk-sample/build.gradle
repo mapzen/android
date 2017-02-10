@@ -36,11 +36,6 @@ task checkstyle(type: Checkstyle) {
   classpath = files()
 }
 
-task verify(dependsOn: ['compileDebugSources',
-                        'test',
-                        'checkstyle',
-                        'lint'])
-
 dependencies {
   compile(project(':mapzen-android-sdk')) {
     transitive = true;

@@ -7,7 +7,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+    classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
     classpath 'net.researchgate:gradle-release:2.4.0'
   }
 }
@@ -60,14 +60,6 @@ android {
   }
 }
 
-tasks.withType(Test) {
-  testLogging {
-    exceptionFormat "full"
-    events "started", "skipped", "passed", "failed"
-    showStandardStreams true
-  }
-}
-
 task checkstyle(type: Checkstyle) {
   configFile file("${project.rootDir}/config/checkstyle/checkstyle.xml")
   source 'src'
@@ -76,11 +68,6 @@ task checkstyle(type: Checkstyle) {
 
   classpath = files()
 }
-
-task verify(dependsOn: ['compileDebugSources',
-                        'test',
-                        'checkstyle',
-                        'lint'])
 
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
 
