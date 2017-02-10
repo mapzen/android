@@ -7,12 +7,11 @@ import com.mapzen.android.graphics.model.Polyline;
 import com.mapzen.tangram.LngLat;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 /**
  * Polyline SDK demo.
  */
-public class PolylineMapzenActivity extends AppCompatActivity {
+public class PolylineMapzenActivity extends BaseDemoActivity {
 
   private MapzenMap map;
 

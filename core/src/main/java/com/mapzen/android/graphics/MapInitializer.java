@@ -40,7 +40,7 @@ public class MapInitializer {
    * Initialize map for the current {@link MapView} and notify via {@link OnMapReadyCallback}.
    */
   public void init(final MapView mapView, final OnMapReadyCallback callback) {
-    loadMap(mapView, new BubbleWrapStyle(), false, callback, null);
+    loadMap(mapView, new BubbleWrapStyle(), false, callback);
   }
 
   /**
@@ -48,24 +48,7 @@ public class MapInitializer {
    * {@link OnMapReadyCallback}.
    */
   public void init(final MapView mapView, MapStyle mapStyle, final OnMapReadyCallback callback) {
-    loadMap(mapView, mapStyle, true, callback, null);
-  }
-
-  /**
-   * Initialize map for the current {@link MapView} with given API key and notify via
-   * {@link OnMapReadyCallback}.
-   */
-  public void init(final MapView mapView, String key, final OnMapReadyCallback callback) {
-    loadMap(mapView, new BubbleWrapStyle(), false, callback, key);
-  }
-
-  /**
-   * Initialize map for the current {@link MapView} with given API key and notify via
-   * {@link OnMapReadyCallback}.
-   */
-  public void init(final MapView mapView, String key, MapStyle mapStyle,
-      final OnMapReadyCallback callback) {
-    loadMap(mapView, mapStyle, true, callback, key);
+    loadMap(mapView, mapStyle, true, callback);
   }
 
   private TangramMapView getTangramView(final MapView mapView) {
@@ -73,22 +56,18 @@ public class MapInitializer {
   }
 
   private void loadMap(final MapView mapView, MapStyle mapStyle, boolean styleExplicitlySet,
-      final OnMapReadyCallback callback, String apiKey) {
+      final OnMapReadyCallback callback) {
     if (mapStateManager.getPersistMapState() && !styleExplicitlySet) {
       MapStyle restoredMapStyle = mapStateManager.getMapStyle();
       mapStyle = restoredMapStyle;
     }
     mapStateManager.setMapStyle(mapStyle);
-    loadMap(mapView, mapStyle.getSceneFile(), callback, apiKey);
+    loadMap(mapView, mapStyle.getSceneFile(), callback);
   }
 
-  private void loadMap(final MapView mapView, String sceneFile, final OnMapReadyCallback callback,
-      String apiKey) {
-    if (apiKey == null) {
-      apiKey = MapzenManager.instance(context).getApiKey();
-    }
-
+  private void loadMap(final MapView mapView, String sceneFile, final OnMapReadyCallback callback) {
     final ArrayList<SceneUpdate> sceneUpdates = new ArrayList<>(1);
+    final String apiKey = MapzenManager.instance(context).getApiKey();
     sceneUpdates.add(new SceneUpdate("global.sdk_mapzen_api_key", apiKey));
     getTangramView(mapView).getMapAsync(new com.mapzen.tangram.MapView.OnMapReadyCallback() {
       @Override public void onMapReady(MapController mapController) {

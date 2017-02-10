@@ -14,7 +14,6 @@ import com.mapzen.valhalla.RouteCallback;
 
 import android.graphics.PointF;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -26,7 +25,7 @@ import java.util.List;
 /**
  * Demonstrates how to use {@link MapzenRouter}.
  */
-public class RouterActivity extends AppCompatActivity {
+public class RouterActivity extends BaseDemoActivity {
 
   MapzenMap map;
   MapzenRouter router;
@@ -35,13 +34,7 @@ public class RouterActivity extends AppCompatActivity {
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_route);
-
-    final String apiKey = BuildConfig.MAPZEN_API_KEY;
-    if (apiKey != null) {
-      router = new MapzenRouter(this, apiKey);
-    } else {
-      router = new MapzenRouter(this);
-    }
+    router = new MapzenRouter(this);
 
     final MapFragment mapFragment =
         (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);

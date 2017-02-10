@@ -7,12 +7,11 @@ import com.mapzen.android.graphics.model.Polygon;
 import com.mapzen.tangram.LngLat;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 /**
  * Polygon SDK demo.
  */
-public class PolygonMapzenActivity extends AppCompatActivity {
+public class PolygonMapzenActivity extends BaseDemoActivity {
 
   private MapzenMap map;
 

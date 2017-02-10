@@ -11,7 +11,6 @@ import com.mapzen.android.graphics.model.WalkaboutStyle;
 import com.mapzen.android.graphics.model.ZincStyle;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,7 +20,7 @@ import android.widget.Spinner;
 /**
  * Demonstrates switching the map's style.
  */
-public class SwitchStyleActivity extends AppCompatActivity
+public class SwitchStyleActivity extends BaseDemoActivity
     implements AdapterView.OnItemSelectedListener {
 
   private MapFragment mapFragment;

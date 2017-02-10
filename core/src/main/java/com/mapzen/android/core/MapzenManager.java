@@ -27,6 +27,7 @@ public class MapzenManager {
   public static final String API_KEY_RES_NAME = "mapzen_api_key";
   public static final String API_KEY_RES_TYPE = "string";
   public static final String API_KEY_PARAM_NAME = "api_key";
+  public static final String API_KEY_DEFAULT_VALUE = "[YOUR_MAPZEN_API_KEY]";
 
   static MapzenManager instance;
 
@@ -48,16 +49,27 @@ public class MapzenManager {
    */
   private MapzenManager(Context context) {
     final Resources resources = context.getResources();
-    int id = resources.getIdentifier(API_KEY_RES_NAME, API_KEY_RES_TYPE, context.getPackageName());
-    if (id > 0) {
-      apiKey = resources.getString(id);
+    if (resources != null) {
+      int id = resources.getIdentifier(API_KEY_RES_NAME, API_KEY_RES_TYPE,
+          context.getPackageName());
+      if (id > 0) {
+        apiKey = resources.getString(id);
+      }
     }
   }
 
   /**
    * Returns the currently active API key stored by this class.
+   *
+   * @throws IllegalStateException if a valid API key has not been set in code or as a string
+   * resource.
    */
   public String getApiKey() {
+    if (apiKey == null || API_KEY_DEFAULT_VALUE.equals(apiKey)) {
+      throw new IllegalStateException("A valid Mapzen API key has not been provided. Please visit "
+          + "https://mapzen.com/documentation/android/getting-started/ to learn how.");
+    }
+
     return apiKey;
   }
 

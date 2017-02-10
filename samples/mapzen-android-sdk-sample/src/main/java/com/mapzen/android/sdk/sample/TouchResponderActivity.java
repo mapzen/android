@@ -6,7 +6,6 @@ import com.mapzen.android.graphics.OnMapReadyCallback;
 import com.mapzen.tangram.TouchInput;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -19,7 +18,7 @@ import java.util.List;
 /**
  * Demonstrates handling touches on the map.
  */
-public class TouchResponderActivity extends AppCompatActivity {
+public class TouchResponderActivity extends BaseDemoActivity {
 
   private MapzenMap map;
 

@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +24,7 @@ import android.widget.Toast;
  * If app is running on api 23 or above, handles requesting runtime permissions and displays
  * UI if permissions aren't granted.
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseDemoActivity {
 
   private static final int PERMISSIONS_REQUEST_CODE = 1;
   private static final int NUMBER_OF_PERMISSIONS = 2;

@@ -61,14 +61,6 @@ public class MapFragment extends Fragment {
     mapView.getMapAsync(mapStyle, callback);
   }
 
-  /**
-   * Asynchronously creates the map and configures the vector tiles API key using the given
-   * string parameter. Uses default stylesheet (bubble wrap).
-   */
-  public void getMapAsync(final String key, final OnMapReadyCallback callback) {
-    mapView.getMapAsync(key, callback);
-  }
-
   @Override public void onDestroy() {
     super.onDestroy();
     if (mapView != null) {

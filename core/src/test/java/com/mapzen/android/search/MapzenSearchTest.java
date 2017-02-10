@@ -1,10 +1,13 @@
 package com.mapzen.android.search;
 
+import com.mapzen.android.core.MapzenManager;
 import com.mapzen.pelias.BoundingBox;
 import com.mapzen.pelias.Pelias;
 import com.mapzen.pelias.PeliasLocationProvider;
 import com.mapzen.pelias.gson.Result;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import android.content.Context;
@@ -18,16 +21,28 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MapzenSearchTest {
+  private Context context;
+  private Pelias pelias;
+  private MapzenSearch search;
 
-  Context context = getMockContext();
-  Pelias pelias = mock(Pelias.class);
-  MapzenSearch search = new MapzenSearch(context, pelias);
+  @Before public void setUp() throws Exception {
+    MapzenManager.instance(getMockContext()).setApiKey("fake-mapzen-api-key");
+    context = getMockContext();
+    pelias = mock(Pelias.class);
+    search = new MapzenSearch(context, pelias);
+  }
+
+  @After public void tearDown() throws Exception {
+    MapzenManager.instance(getMockContext()).setApiKey(null);
+  }
 
   @Test public void shouldCreatePelias() {
-    MapzenSearch mzSearch = new MapzenSearch(context, "API_KEY_PARAM_NAME");
+    MapzenManager.instance(context).setApiKey("fake-mapzen-api-key");
+    MapzenSearch mzSearch = new MapzenSearch(context);
     assertThat(mzSearch.getPelias()).isNotNull();
     assertThat(mzSearch.searchInitializer.getRequestHandler().getApiKey())
-        .isEqualTo("API_KEY_PARAM_NAME");
+        .isEqualTo("fake-mapzen-api-key");
+    MapzenManager.instance(context).setApiKey(null);
   }
 
   @Test public void suggest_shouldCallPelias() {

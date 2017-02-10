@@ -6,12 +6,11 @@ import com.mapzen.android.graphics.OnMapReadyCallback;
 import com.mapzen.android.graphics.model.MapStyle;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 /**
  * Demonstrates how to set a custom stylesheet.
  */
-public class CustomStylesheetActivity extends AppCompatActivity {
+public class CustomStylesheetActivity extends BaseDemoActivity {
 
   public static final MapStyle TRON_STYLE = new MapStyle("styles/tron/tron.yaml");
 
