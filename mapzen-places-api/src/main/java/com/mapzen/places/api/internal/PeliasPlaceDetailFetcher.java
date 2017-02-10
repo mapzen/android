@@ -2,11 +2,9 @@ package com.mapzen.places.api.internal;
 
 import com.mapzen.pelias.Pelias;
 import com.mapzen.pelias.gson.Result;
-import com.mapzen.tangram.LngLat;
 
 import java.util.Map;
 
-import static com.mapzen.places.api.internal.PlacePickerPresenterImpl.PROPERTY_NAME;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -22,24 +20,18 @@ class PeliasPlaceDetailFetcher implements PlaceDetailFetcher {
   /**
    * Constructs a new object.
    */
-  public PeliasPlaceDetailFetcher(Pelias pelias, PeliasCallbackHandler callbackHandler) {
+  PeliasPlaceDetailFetcher(Pelias pelias, PeliasCallbackHandler callbackHandler) {
     this.pelias = pelias;
     this.callbackHandler = callbackHandler;
     pelias.setDebug(true);
   }
 
-  @Override public void fetchDetails(LngLat coordinates, final Map<String, String> properties,
+  @Override public void fetchDetails(final Map<String, String> properties,
       final OnPlaceDetailsFetchedListener listener) {
-    pelias.reverse(coordinates.latitude, coordinates.longitude, new Callback<Result>() {
-          @Override public void onResponse(Call<Result> call, Response<Result> response) {
-            callbackHandler.handleSuccess(properties.get(PROPERTY_NAME), response, listener);
-          }
-
-          @Override public void onFailure(Call<Result> call, Throwable t) {
-            callbackHandler.handleFailure(listener);
-          }
-        }
-    );
+    final long id = parseId(properties);
+    final String nodeOrWay = parseNodeOrWay(properties);
+    final String gid = PELIAS_GID_BASE + nodeOrWay + id;
+    fetchDetails(gid, listener);
   }
 
   @Override public void fetchDetails(String gid, final OnPlaceDetailsFetchedListener listener) {
@@ -52,5 +44,25 @@ class PeliasPlaceDetailFetcher implements PlaceDetailFetcher {
         callbackHandler.handleFailure(listener);
       }
     });
+  }
+
+  private long parseId(final Map<String, String> properties) {
+    if (properties.containsKey(PROP_ID)) {
+      String idString = properties.get(PROP_ID);
+      if (idString.contains(".")) {
+        idString = idString.split("\\.")[0];
+      }
+      return Long.parseLong(idString);
+    }
+
+    return 0;
+  }
+
+  private String parseNodeOrWay(final Map<String, String> properties) {
+    if (properties.containsKey(PROP_AREA)) {
+      return PELIAS_GID_WAY;
+    } else {
+      return PELIAS_GID_NODE;
+    }
   }
 }

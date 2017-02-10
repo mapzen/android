@@ -1,7 +1,8 @@
 package com.mapzen.places.api.internal;
 
 import com.mapzen.places.api.Place;
-import com.mapzen.tangram.LngLat;
+
+import android.util.Log;
 
 import java.util.Map;
 
@@ -9,9 +10,10 @@ import java.util.Map;
  * Implementation of {@link PlacePickerPresenter}.
  */
 class PlacePickerPresenterImpl implements PlacePickerPresenter {
+  private static final String TAG = "PlacePicker";
 
-  public static final String PROPERTY_ID = "id";
-  public static final String PROPERTY_NAME = "name";
+  private static final String PROPERTY_ID = "id";
+  private static final String PROPERTY_NAME = "name";
 
   PlacePickerViewController controller;
   PlaceDetailFetcher detailFetcher;
@@ -20,7 +22,7 @@ class PlacePickerPresenterImpl implements PlacePickerPresenter {
   /**
    * Construct a new object.
    */
-  public PlacePickerPresenterImpl(PlaceDetailFetcher fetcher) {
+  PlacePickerPresenterImpl(PlaceDetailFetcher fetcher) {
     detailFetcher = fetcher;
   }
 
@@ -28,22 +30,20 @@ class PlacePickerPresenterImpl implements PlacePickerPresenter {
     this.controller = controller;
   }
 
-  @Override public void onLabelPicked(LngLat coordinates, Map<String, String> properties) {
+  @Override public void onLabelPicked(Map<String, String> properties) {
     final String id = properties.get(PROPERTY_ID);
     final String title = properties.get(PROPERTY_NAME);
 
-    detailFetcher.fetchDetails(coordinates, properties,
-        new OnPlaceDetailsFetchedListener() {
-          @Override public void onFetchSuccess(Place place, String details) {
-            PlacePickerPresenterImpl.this.place = place;
-            controller.updateDialog(id, details);
-          }
+    detailFetcher.fetchDetails(properties, new OnPlaceDetailsFetchedListener() {
+      @Override public void onFetchSuccess(Place place, String details) {
+        PlacePickerPresenterImpl.this.place = place;
+        controller.updateDialog(id, details);
+      }
 
-          @Override public void onFetchFailure() {
-
-          }
-        }
-    );
+      @Override public void onFetchFailure() {
+        Log.e(TAG, "Unable to fetch details for place: " + id);
+      }
+    });
 
     controller.showDialog(id, title);
   }
