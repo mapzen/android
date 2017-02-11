@@ -28,7 +28,7 @@ You can set your Mapzen API key via an XML string resource. Add a file `app/src/
 
 ### Set API key using `MapzenManager` class
 
-Alternatively you can set your Mapzen API key via the `MapzenManager` class. Just make sure you call the following method prior to calling MapView#getMapAsyc(...) or creating an instance of `MapzenSearch` or `MapzenRouter`.
+Alternatively you can set your Mapzen API key via the `MapzenManager` class. Just make sure you call the following method prior to calling `MapView#getMapAsyc(...)` or creating an instance of `MapzenSearch` or `MapzenRouter`.
 
 Of course you'll want to replace `[YOUR_MAPZEN_API_KEY]` with your real key just like above.
 
@@ -51,4 +51,6 @@ mapFragment.getMapAsync(new OnMapReadyCallback() {
 
 Your map is now ready to use. `MapzenMap` is your main entry point to interact with the map.
 
-For advanced use (animations, custom styles, etc.) please refer to the [Tangram ES](https://github.com/tangrams/tangram-es) documentation.
+Most common map operertions can be completed using `MapzenMap` including [setting the position, rotation, zoom, and tilt](https://mapzen.com/documentation/android/basic-functions/). You can also [load new styles](https://mapzen.com/documentation/android/styles/) or draw [point](https://mapzen.com/documentation/android/markers/), [line](https://mapzen.com/documentation/android/polyline/), and [polygon](https://mapzen.com/documentation/android/polygon/) overlays.
+
+For advanced use cases you have access the underlying Tangram `MapController` instance by calling `MapzenMap#getMapController()`. See the [Tangram ES Android documentation](https://mapzen.com/documentation/tangram/Android-API/) for more information.
