@@ -1,8 +1,10 @@
 # Getting started
 
-## 1. Sign up for an API key
+Sign up for a Mapzen API key on the [Mapzen developer portal](https://mapzen.com/developers).
 
-Sign up for an API key from the [Mapzen developer portal](https://mapzen.com/developers). Add your API key to your application as an XML string resource.
+## Set API key using a string resource
+
+You can set your Mapzen API key via an XML string resource. Add a file `app/src/main/res/values/mapzen.xml` and copy the following code but replace `[YOUR_MAPZEN_API_KEY]` with your real Mapzen API key from the developer portal.
 
 ```xml
 <resources>
@@ -10,4 +12,10 @@ Sign up for an API key from the [Mapzen developer portal](https://mapzen.com/dev
 </resources>
 ```
 
-You are now ready to use the Mapzen Places API
+## Set API key using `MapzenManager` class
+
+Alternatively you can set your Mapzen API key via the `MapzenManager` class. Of course you'll want to replace `[YOUR_MAPZEN_API_KEY]` with your real key just like above.
+
+```java
+MapzenManager.instance(context).setApiKey("[YOUR_MAPZEN_API_KEY]");
+```
