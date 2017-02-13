@@ -30,8 +30,6 @@ release {
   newVersionCommitMessage = '[Gradle Release Plugin] - core new version commit:'
 }
 
-afterReleaseBuild.dependsOn uploadArchives
-
 android {
   compileSdkVersion 25
   buildToolsVersion '25.0.2'
