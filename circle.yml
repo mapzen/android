@@ -40,5 +40,10 @@ deployment:
       - ./gradlew :samples_mapzen-place-api-sample:assembleDebug -PmapzenApiKey=$MAPZEN_API_KEY
       - ./gradlew uploadArchives -PsonatypeUsername=$SONATYPE_NEXUS_SNAPSHOTS_USERNAME -PsonatypePassword=$SONATYPE_NEXUS_SNAPSHOTS_PASSWORD
       - ./gradlew aarSize countReleaseDexMethods permissions mapzen-android-sdk:dependencies --configuration compile
+  release:
+    tag: /v[0-9]+(\.[0-9]+)*/
+    owner: mapzen
+    commands:
+      - scripts/deploy-staging.sh
       - scripts/deploy-samples.sh
       - scripts/publish-docs.sh
