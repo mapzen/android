@@ -29,8 +29,6 @@ release {
   newVersionCommitMessage = '[Gradle Release Plugin] - mapzen-places-api new version commit:'
 }
 
-afterReleaseBuild.dependsOn uploadArchives
-
 android {
   compileSdkVersion 25
   buildToolsVersion '25.0.2'
