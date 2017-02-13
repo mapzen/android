@@ -4,10 +4,14 @@ Steps to build a new release version AAR and deploy to [Maven Central](http://se
 
 ## 1. Build and deploy to staging repository
 
-Build release and deploy to the Sonatype staging repository.
+Run the gradle-release plugin to update version number, build locally, and push a new tag to GitHub.
 ```bash
 $ ./gradlew clean release --refresh-dependencies
 ```
+
+Wait for [Circle CI](https://circleci.com/gh/mapzen/android) to pick up the new tag, build and deploy the release artifacts to the Sonatype staging repository.
+
+There should be three (3) bundles deployed: `mapzen-core`, `mapzen-android-sdk`, and `mapzen-places-api`.
 
 ## 2. Promote release artifact
 
