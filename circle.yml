@@ -41,7 +41,7 @@ deployment:
       - ./gradlew uploadArchives -PsonatypeUsername=$SONATYPE_NEXUS_SNAPSHOTS_USERNAME -PsonatypePassword=$SONATYPE_NEXUS_SNAPSHOTS_PASSWORD
       - ./gradlew aarSize countReleaseDexMethods permissions mapzen-android-sdk:dependencies --configuration compile
   release:
-    tag: /v[0-9]+(\.[0-9]+)*/
+    tag: /v[0-9]+(\.[0-9]+)*(-rc[0-9])?/
     owner: mapzen
     commands:
       - scripts/deploy-staging.sh
