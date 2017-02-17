@@ -8,27 +8,18 @@ buildscript {
   }
   dependencies {
     classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
-    classpath 'net.researchgate:gradle-release:2.4.0'
   }
 }
 
 apply plugin: 'com.android.library'
 apply plugin: 'checkstyle'
 apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'net.researchgate.release'
 
 group = GROUP
 version = VERSION_NAME
 project.archivesBaseName = POM_ARTIFACT_ID
 
 ext.tangram_version = "0.4.9"
-
-release {
-  tagTemplate = 'mapzen-core${version}'
-  versionPropertyFile = 'gradle.properties'
-  versionProperties = ['VERSION_NAME']
-  newVersionCommitMessage = '[Gradle Release Plugin] - core new version commit:'
-}
 
 android {
   compileSdkVersion 25

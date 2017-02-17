@@ -8,7 +8,6 @@ buildscript {
   }
   dependencies {
     classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
-    classpath 'net.researchgate:gradle-release:2.4.0'
     classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.6.1'
   }
 }
@@ -16,19 +15,11 @@ buildscript {
 apply plugin: 'com.android.library'
 apply plugin: 'checkstyle'
 apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'net.researchgate.release'
 apply plugin: 'com.getkeepsafe.dexcount'
 
 group = GROUP
 version = VERSION_NAME
 project.archivesBaseName = POM_ARTIFACT_ID
-
-release {
-  tagTemplate = 'mapzen-android-sdk${version}'
-  versionPropertyFile = 'gradle.properties'
-  versionProperties = ['VERSION_NAME']
-  newVersionCommitMessage = '[Gradle Release Plugin] - mapzen-android-sdk new version commit:'
-}
 
 android {
   compileSdkVersion 25
