@@ -6,11 +6,16 @@ buildscript {
   }
   dependencies {
     classpath 'com.android.tools.build:gradle:2.2.3'
+    classpath 'net.researchgate:gradle-release:2.4.0'
 
     // NOTE: Do not place your application dependencies here; they belong
     // in the individual module build.gradle files
   }
 }
+
+apply plugin: 'net.researchgate.release'
+
+task build(dependsOn: [':core:build', ':mapzen-android-sdk:build', ':mapzen-places-api:build'])
 
 allprojects {
   repositories {
@@ -68,4 +73,23 @@ task installPlacesDemo {
   description 'Builds and installs the Mapzen Places API demo to a connected emulator or device'
   dependsOn 'installPlaces',
       ':samples_mapzen-places-api-sample:installDebug'
+}
+
+release {
+  tagTemplate = 'v${version}'
+  versionPropertyFile = 'gradle.properties'
+  versionProperties = ['VERSION_NAME']
+  newVersionCommitMessage = '[Gradle Release Plugin] - mapzen-android-sdk new version commit:'
+}
+
+project.ext.preDexLibs = !project.hasProperty('disablePreDex')
+
+subprojects {
+  project.plugins.whenPluginAdded { plugin ->
+    if ("com.android.build.gradle.AppPlugin".equals(plugin.class.name)) {
+      project.android.dexOptions.preDexLibraries = rootProject.ext.preDexLibs
+    } else if ("com.android.build.gradle.LibraryPlugin".equals(plugin.class.name)) {
+      project.android.dexOptions.preDexLibraries = rootProject.ext.preDexLibs
+    }
+  }
 }
