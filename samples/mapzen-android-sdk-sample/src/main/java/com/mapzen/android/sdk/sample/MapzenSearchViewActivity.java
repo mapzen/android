@@ -80,6 +80,7 @@ public class MapzenSearchViewActivity extends BaseDemoActivity {
         for (Feature feature : response.body().getFeatures()) {
           List<Double> coordinates = feature.geometry.coordinates;
           LngLat point = new LngLat(coordinates.get(0), coordinates.get(1));
+          mapzenMap.setPosition(point, 1);
           mapzenMap.drawSearchResult(point);
         }
       }
