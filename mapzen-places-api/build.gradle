@@ -54,8 +54,8 @@ task checkstyle(type: Checkstyle) {
 }
 
 dependencies {
+  compile project(':core')
   compile 'com.android.support:appcompat-v7:25.1.0'
-  compile "com.mapzen:mapzen-core:$version"
 
   testCompile 'junit:junit:4.12'
   testCompile 'org.assertj:assertj-core:1.7.1'
