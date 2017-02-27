@@ -58,7 +58,7 @@ task checkstyle(type: Checkstyle) {
 
 dependencies {
   compile project(':core')
-  compile ('com.mapzen:on-the-road:1.2.0-rc2') {
+  compile ('com.mapzen:on-the-road:1.2.0') {
     exclude group: 'com.squareup.retrofit2', module: 'converter-gson'
   }
 
