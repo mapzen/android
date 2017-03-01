@@ -1,7 +1,10 @@
-# PlacePicker UI
+# Mapzen Places
 
-The Mapzen Places PlacePicker UI combines the Autocomplete UI with a map to allow selecting a place
-either via autocomplete or by picking a POI from the map. You can integrate it into your application
+Mapzen Places allows users to select a place on a map via [autocomplete](autocomplete-ui.md) using the [GeoDataApi](geodata-api.md) or by selecting a point of interest (POI) from the map. A place detection API is in active development.
+
+## PlacePicker UI
+
+The Mapzen Places PlacePicker UI combines the [Autocomplete UI](autocomplete-ui.md) with a map to allow selecting a place either via autocomplete or by picking a POI from the map. You can integrate it into your application
 using `Intent`s.
 
 ## PlacePicker.IntentBuilder
