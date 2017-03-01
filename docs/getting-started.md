@@ -51,6 +51,6 @@ mapFragment.getMapAsync(new OnMapReadyCallback() {
 
 Your map is now ready to use. `MapzenMap` is your main entry point to interact with the map.
 
-Most common map operertions can be completed using `MapzenMap` including [setting the position, rotation, zoom, and tilt](https://mapzen.com/documentation/android/basic-functions/). You can also [load new styles](https://mapzen.com/documentation/android/styles/) or draw [point](https://mapzen.com/documentation/android/markers/), [line](https://mapzen.com/documentation/android/polyline/), and [polygon](https://mapzen.com/documentation/android/polygon/) overlays.
+Most common map operertions can be completed using `MapzenMap` including [setting the position, rotation, zoom, and tilt](https://mapzen.com/documentation/android/basic-functions/). You can also [load new styles](https://mapzen.com/documentation/android/styles/) or draw [point](https://mapzen.com/documentation/android/add-features/), [line](https://mapzen.com/documentation/android/add-features/), and [polygon](https://mapzen.com/documentation/android/add-features/) overlays.
 
 For advanced use cases you have access the underlying Tangram `MapController` instance by calling `MapzenMap#getMapController()`. See the [Tangram ES Android documentation](https://mapzen.com/documentation/tangram/Android-API/) for more information.

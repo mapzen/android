@@ -1,7 +1,42 @@
-# PlacePicker UI
+# Mapzen Places
 
-The Mapzen Places PlacePicker UI combines the Autocomplete UI with a map to allow selecting a place
-either via autocomplete or by picking a POI from the map. You can integrate it into your application
+Mapzen Places allows users to select a place on a map via [autocomplete](autocomplete-ui.md) using the [GeoDataApi](geodata-api.md) or by selecting a point of interest (POI) from the map.
+
+## Installation
+
+The Mapzen Places API for Android can be included in any Android app via download, Maven, or Gradle. To get started, download the [latest AAR](http://search.maven.org/remotecontent?filepath=com/mapzen/mapzen-places-api/1.3.0/mapzen-places-api-1.3.0.aar).
+
+### Maven
+
+Include dependency using Maven.
+
+```xml
+<dependency>
+  <groupId>com.mapzen</groupId>
+  <artifactId>mapzen-places-api</artifactId>
+  <version>1.3.0</version>
+  <type>aar</type>
+</dependency>
+```
+
+### Gradle
+
+Include dependency using Gradle.
+
+```groovy
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  compile 'com.mapzen:mapzen-places-api:1.3.0'
+  ...
+}
+```
+
+## PlacePicker UI
+
+The Mapzen Places PlacePicker UI combines the [Autocomplete UI](autocomplete-ui.md) with a map to allow selecting a place either via autocomplete or by picking a POI from the map. You can integrate it into your application
 using `Intent`s.
 
 ## PlacePicker.IntentBuilder

@@ -1,9 +1,9 @@
-# GeoDataApi
+# Autocomplete Retrieval
 
-The GeoDataApi allows you to programmatically retrieve autocomplete (and soon place) results. It
+The GeoDataAPI allows you to programmatically retrieve autocomplete (and soon place) results. It
 does not have any UI components, allowing you to use your own custom UI. To get started with this
 API you need to create and connect a `LostApiClient`. After the client is connected, you can query
-the GeoDataApi for information.
+the GeoDataApi for information. This API is still in active development and will have more features added soon.
 
 ##Create and Connect `LostApiClient`:
 LostApiClient client;
@@ -60,15 +60,3 @@ result.setResultCallback(new ResultCallback<AutocompletePredictionBuffer>() {
   }
 });
 ```
-
-## `Places.GeoDataApi.addPlace`:
-
-Coming soon
-
-## `Places.GeoDataApi.getPlaceById`:
-
-Coming soon
-
-## `Places.GeoDataApi.getPlacePhotos`:
-
-Coming soon
