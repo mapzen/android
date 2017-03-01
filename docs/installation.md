@@ -1,10 +1,11 @@
 # Installation
 
-The Mapzen SDK can be included in any Android app via download, Maven, or Gradle. It includes everything you need to get started. No other mapping or location services dependencies are required (really).
+The Mapzen SDK and Mapzen Places SDK can be included in any Android app via download, Maven, or Gradle. It includes everything you need to get started. No other mapping or location services dependencies are required.
 
 ## Download
 
-Download the [latest AAR](http://search.maven.org/remotecontent?filepath=com/mapzen/mapzen-android-sdk/1.2.1/mapzen-android-sdk-1.2.1.aar).
+- [Mapzen SDK](http://search.maven.org/remotecontent?filepath=com/mapzen/mapzen-android-sdk/1.2.1/mapzen-android-sdk-1.2.1.aar)
+- [Mapzen Places SDK](http://search.maven.org/remotecontent?filepath=com/mapzen/mapzen-places-api/0.0.1/mapzen-places-api-0.0.1.aar), more on installing the Places SDK is [here](places.md)
 
 ## Maven
 
