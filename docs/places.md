@@ -39,6 +39,9 @@ dependencies {
 The Mapzen Places PlacePicker UI combines the [Autocomplete UI](autocomplete-ui.md) with a map to allow selecting a place either via autocomplete or by picking a POI from the map. You can integrate it into your application
 using `Intent`s.
 
+<img src="https://s3.amazonaws.com/mapzen-assets/images/mapzen-places-api-android/place_picker.png" width="883" height="776" />
+
+
 ## PlacePicker.IntentBuilder
 
 The PlacePicker UI requires your application to request location permissions so that it can allow
