@@ -1,10 +1,10 @@
 # Mapzen Places
 
-Mapzen Places allows users to select a place on a map via [autocomplete](autocomplete-ui.md) using the [GeoDataApi](geodata-api.md) or by selecting a point of interest (POI) from the map. A place detection API is in active development.
+Mapzen Places allows users to select a place on a map via [autocomplete](autocomplete-ui.md) using the [GeoDataApi](geodata-api.md) or by selecting a point of interest (POI) from the map.
 
 ## Installation
 
-The Mapzen Places SDK can be included in any Android app via download, Maven, or Gradle. To get started, download the [latest AAR](http://search.maven.org/remotecontent?filepath=com/mapzen/mapzen-places-api/0.0.1/mapzen-places-api-0.0.1.aar).
+The Mapzen Places API for Android can be included in any Android app via download, Maven, or Gradle. To get started, download the [latest AAR](http://search.maven.org/remotecontent?filepath=com/mapzen/mapzen-places-api/1.3.0/mapzen-places-api-1.3.0.aar).
 
 ### Maven
 
@@ -14,7 +14,7 @@ Include dependency using Maven.
 <dependency>
   <groupId>com.mapzen</groupId>
   <artifactId>mapzen-places-api</artifactId>
-  <version>0.0.1</version>
+  <version>1.3.0</version>
   <type>aar</type>
 </dependency>
 ```
@@ -29,7 +29,7 @@ repositories {
 }
 
 dependencies {
-  compile 'com.mapzen:mapzen-places-api:0.0.1'
+  compile 'com.mapzen:mapzen-places-api:1.3.0'
   ...
 }
 ```
