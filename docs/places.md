@@ -56,7 +56,7 @@ Request Location Permissions:
 ```
 
 If your app targets API 23 or higher you will also need to request and handle runtime permissions.
-You can read more about how to set that up (here)[https://developer.android.com/training/permissions/requesting.html].
+You can read more about how to set that up [here](https://developer.android.com/training/permissions/requesting.html).
 
 With permissions properly granted you can now begin to construct your `Intent` to launch the PlacePicker UI.
 
