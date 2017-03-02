@@ -4,6 +4,8 @@ The Mapzen Places Autocomplete UI provides an easy way for you to display a sear
 users to select a `Place` from autocomplete results, and then get information on the `Place` they
 selected. It is available for you to integrate into your app via either a fragment or an intent.
 
+<img src="https://s3.amazonaws.com/mapzen-assets/images/mapzen-places-api-android/place_autocomplete.png" width="436" height="776" />
+
 ## PlaceAutocompleteFragment
 
 ### Add Fragment to your Layout
