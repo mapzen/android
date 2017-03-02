@@ -15,6 +15,7 @@ android {
     versionName "1.0"
     buildConfigField "String", "MAPZEN_API_KEY", MAPZEN_API_KEY
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    com.android.ddmlib.DdmPreferences.setTimeOut(60000)
   }
   buildTypes {
     release {

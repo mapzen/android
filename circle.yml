@@ -11,6 +11,8 @@ machine:
   environment:
     GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx2048m -XX:+HeapDumpOnOutOfMemoryError"'
     TEST_FLAGS: "--configure-on-demand -PdisablePreDex"
+    TERM: "dumb"
+    ADB_INSTALL_TIMEOUT: "10"
 
 checkout:
   post:
@@ -29,8 +31,23 @@ dependencies:
 
 test:
   override:
-    - case $CIRCLE_NODE_INDEX in 0) ./gradlew :core:verify $TEST_FLAGS ;; 1) ./gradlew :mapzen-android-sdk:verify $TEST_FLAGS ;; 2) ./gradlew :mapzen-places-api:verify $TEST_FLAGS ;; esac:
+#    - case $CIRCLE_NODE_INDEX in 0) ./gradlew :core:verify $TEST_FLAGS ;; 1) ./gradlew :mapzen-android-sdk:verify $TEST_FLAGS ;; 2) ./gradlew :mapzen-places-api:verify $TEST_FLAGS ;; esac:
+#        parallel: true
+    # start the emulator
+    - emulator -avd circleci-android22 -no-audio -no-window:
+        background: true
         parallel: true
+    # wait for it to have booted
+    - circle-android wait-for-boot
+    # unlock the emulator screen
+    - sleep 30
+    - adb shell input keyevent 82
+    # run tests  against the emulator.
+    - ./gradlew connectedAndroidTest -PdisablePreDex
+    # copy the build outputs to artifacts
+    - cp -r app/build/outputs $CIRCLE_ARTIFACTS
+    # copy the test results to the test results directory.
+    - cp -r app/build/outputs/androidTest-results/* $CIRCLE_TEST_REPORTS
   post:
     - mkdir -p $CIRCLE_TEST_REPORTS/junit/
     - find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
