@@ -20,7 +20,6 @@ Add your Mapzen API key to the sample app by replacing the dummy text value of `
 Run the following commands from the root folder of the project to build and install the app.
 
 ```bash
-git submodule init
-git submodule update
+git submodule update --init --recursive
 ./gradlew installPlacesDemo
 ```

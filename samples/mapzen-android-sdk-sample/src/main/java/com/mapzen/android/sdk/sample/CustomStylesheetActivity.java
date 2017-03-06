@@ -12,7 +12,8 @@ import android.os.Bundle;
  */
 public class CustomStylesheetActivity extends BaseDemoActivity {
 
-  public static final MapStyle TRON_STYLE = new MapStyle("styles/tron/tron.yaml");
+  public static final MapStyle TRON_STYLE =
+      new MapStyle("styles/tron-style/tron-style-more-labels.yaml");
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
