@@ -27,4 +27,12 @@ interface PlacePickerViewController {
    * {@link PlacePickerActivity}.
    */
   void finishWithPlace(Place place);
+
+  /**
+   * Toggles the connection to the location services layer. Location services should be disabled
+   * when the place picker is not visible on the screen.
+   *
+   * @param enabled {@code true} to enable the location services layer, {@code false} to disable it.
+   */
+  void setMyLocationEnabled(boolean enabled);
 }
