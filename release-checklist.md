@@ -23,5 +23,9 @@ The unsigned artifact will fail signature verification and should be dropped. Th
 
 ## 3. Documentation
 
-Add release name and notes to GitHub [releases page](https://github.com/mapzen/android/releases). Attach and upload AAR. Update
+Add release name and notes to GitHub [releases page](https://github.com/mapzen/android/releases). Update
 [installations page](https://github.com/mapzen/android/blob/master/docs/installation.md) to point to the new artifact.
+
+Download AARs and Javadoc JARs from Maven Central for `mapzen-core`, `mapzen-android-sdk`, and `mapzen-places-api` modules. Attach to release notes.
+
+Unzip Javadoc JARs in the proper folders of the `gh-pages` branch. Commit and push to GitHub to publish to https://mapzen.github.io/android/.
