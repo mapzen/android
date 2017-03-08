@@ -32,4 +32,14 @@ interface PlacePickerPresenter {
    * @param place
    */
   void onAutocompletePlacePicked(Place place, String details);
+
+  /**
+   * Invoked when view is hidden (i.e. Activity is sent to background or finished).
+   */
+  void onHideView();
+
+  /**
+   * Invoked when view is shown (i.e. Activity is resumed).
+   */
+  void onShowView();
 }

@@ -58,4 +58,12 @@ class PlacePickerPresenterImpl implements PlacePickerPresenter {
     //TODO:dialog change location should bring back autocomplete ui
     //TODO:hide map ui and just have dialog visible
   }
+
+  @Override public void onHideView() {
+    controller.setMyLocationEnabled(false);
+  }
+
+  @Override public void onShowView() {
+    controller.setMyLocationEnabled(true);
+  }
 }

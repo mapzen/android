@@ -57,6 +57,22 @@ public class PlacePickerActivity extends Activity implements
     mapView.getMapAsync(this);
   }
 
+  @Override protected void onPause() {
+    super.onPause();
+    presenter.onHideView();
+  }
+
+  @Override protected void onResume() {
+    super.onResume();
+    presenter.onShowView();
+  }
+
+  @Override public void setMyLocationEnabled(boolean enabled) {
+    if (map != null) {
+      map.setMyLocationEnabled(enabled);
+    }
+  }
+
   @Override public void onMapReady(MapzenMap mapzenMap) {
     map = mapzenMap;
     initializeMap();

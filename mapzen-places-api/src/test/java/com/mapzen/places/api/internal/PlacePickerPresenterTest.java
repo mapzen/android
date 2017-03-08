@@ -38,4 +38,16 @@ public class PlacePickerPresenterTest {
     presenter.onAutocompletePlacePicked(place, "details");
     assertThat(controller.dialogShown).isTrue();
   }
+
+  @Test public void onHideView_shouldDisableLocationServices() throws Exception {
+    controller.myLocationEnabled = true;
+    presenter.onHideView();
+    assertThat(controller.myLocationEnabled).isFalse();
+  }
+
+  @Test public void onShowView_shouldEnableLocationServices() throws Exception {
+    controller.myLocationEnabled = false;
+    presenter.onShowView();
+    assertThat(controller.myLocationEnabled).isTrue();
+  }
 }
