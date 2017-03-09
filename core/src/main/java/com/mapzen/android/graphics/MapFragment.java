@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Locale;
+
 import static com.mapzen.android.graphics.MapView.OVERLAY_MODE_SDK;
 
 /**
@@ -55,10 +57,21 @@ public class MapFragment extends Fragment {
   /**
    * Asynchronously creates the map and configures the vector tiles API key using the string
    * resource declared in the client application. Configures the stylesheet using the stylesheet
-   * parameter
+   * parameter.
    */
   public void getMapAsync(MapStyle mapStyle, final OnMapReadyCallback callback) {
     mapView.getMapAsync(mapStyle, callback);
+  }
+
+  /**
+   * Asynchronously creates the map and configures the vector tiles API key using the string
+   * resource declared in the client application. Configures the stylesheet using the stylesheet
+   * parameter.
+   *
+   * Also sets {@link Locale} used to determine default language when rendering map labels.
+   */
+  public void getMapAsync(MapStyle mapStyle, Locale locale, final OnMapReadyCallback callback) {
+    mapView.getMapAsync(mapStyle, locale, callback);
   }
 
   @Override public void onDestroy() {

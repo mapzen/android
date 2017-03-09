@@ -9,6 +9,7 @@ import com.mapzen.tangram.SceneUpdate;
 import android.content.Context;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -16,6 +17,8 @@ import javax.inject.Inject;
  * Class responsible for initializing the map.
  */
 public class MapInitializer {
+  static final String STYLE_GLOBAL_VAR_API_KEY = "global.sdk_mapzen_api_key";
+  static final String STYLE_GLOBAL_VAR_LANGUAGE = "global.ux_language";
 
   private Context context;
 
@@ -24,6 +27,8 @@ public class MapInitializer {
   private MapDataManager mapDataManager;
 
   private MapStateManager mapStateManager;
+
+  private Locale locale = Locale.getDefault();
 
   /**
    * Creates a new instance.
@@ -51,6 +56,18 @@ public class MapInitializer {
     loadMap(mapView, mapStyle, true, callback);
   }
 
+  /**
+   * Initialize map for current {@link MapView} and {@link MapStyle} before notifying via
+   * {@link OnMapReadyCallback}.
+   *
+   * Also sets {@link Locale} used to determine default language when rendering map labels.
+   */
+  public void init(final MapView mapView, MapStyle mapStyle, Locale locale,
+      final OnMapReadyCallback callback) {
+    this.locale = locale;
+    loadMap(mapView, mapStyle, true, callback);
+  }
+
   private TangramMapView getTangramView(final MapView mapView) {
     return mapView.getTangramMapView();
   }
@@ -68,7 +85,8 @@ public class MapInitializer {
   private void loadMap(final MapView mapView, String sceneFile, final OnMapReadyCallback callback) {
     final ArrayList<SceneUpdate> sceneUpdates = new ArrayList<>(1);
     final String apiKey = MapzenManager.instance(context).getApiKey();
-    sceneUpdates.add(new SceneUpdate("global.sdk_mapzen_api_key", apiKey));
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_API_KEY, apiKey));
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_LANGUAGE, locale.getLanguage()));
     getTangramView(mapView).getMapAsync(new com.mapzen.tangram.MapView.OnMapReadyCallback() {
       @Override public void onMapReady(MapController mapController) {
         mapController.setHttpHandler(tileHttpHandler);
