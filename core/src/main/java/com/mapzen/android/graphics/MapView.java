@@ -16,6 +16,8 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.Locale;
+
 import javax.inject.Inject;
 
 /**
@@ -121,11 +123,23 @@ public class MapView extends RelativeLayout {
    * Load map asynchronously using APK key declared in XML resources. For example:
    * {@code <string name="mapzen_api_key">[YOUR_API_KEY]</string>}
    *
+   * @param mapStyle mapStyle that should be set.
    * @param callback listener to be invoked when map is initialized and ready to use.
-   * @param mapStyle mapStyle that should be set
    */
   public void getMapAsync(MapStyle mapStyle, @NonNull OnMapReadyCallback callback) {
     mapInitializer.init(this, mapStyle, callback);
+  }
+
+  /**
+   * Load map asynchronously using APK key declared in XML resources. For example:
+   * {@code <string name="mapzen_api_key">[YOUR_API_KEY]</string>}
+   *
+   * @param mapStyle mapStyle that should be set.
+   * @param locale used to determine language that should be used for map labels.
+   * @param callback listener to be invoked when map is initialized and ready to use.
+   */
+  public void getMapAsync(MapStyle mapStyle, Locale locale, @NonNull OnMapReadyCallback callback) {
+    mapInitializer.init(this, mapStyle, locale, callback);
   }
 
   /**

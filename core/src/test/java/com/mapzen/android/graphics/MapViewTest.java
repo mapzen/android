@@ -2,6 +2,8 @@ package com.mapzen.android.graphics;
 
 import com.mapzen.R;
 import com.mapzen.android.core.MapzenManager;
+import com.mapzen.android.graphics.model.BubbleWrapStyle;
+import com.mapzen.android.graphics.model.MapStyle;
 
 import org.junit.After;
 import org.junit.Before;
@@ -11,6 +13,8 @@ import org.powermock.api.mockito.PowerMockito;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+
+import java.util.Locale;
 
 import static com.mapzen.TestHelper.getMockContext;
 import static com.mapzen.android.graphics.MapView.OVERLAY_MODE_CLASSIC;
@@ -52,6 +56,15 @@ public class MapViewTest {
     mapView.mapInitializer = mapInitializer;
     mapView.getMapAsync(callback);
     verify(mapInitializer, times(1)).init(mapView, callback);
+  }
+
+  @Test public void getMapAsync_shouldUseGivenLocale() throws Exception {
+    final MapInitializer mapInitializer = mock(MapInitializer.class);
+    final OnMapReadyCallback callback = new TestCallback();
+    final MapStyle mapStyle = new BubbleWrapStyle();
+    mapView.mapInitializer = mapInitializer;
+    mapView.getMapAsync(mapStyle, Locale.FRENCH, callback);
+    verify(mapInitializer, times(1)).init(mapView, mapStyle, Locale.FRENCH, callback);
   }
 
   @Test public void shouldInflateLayoutWithOverlayModeSdk() throws Exception {
