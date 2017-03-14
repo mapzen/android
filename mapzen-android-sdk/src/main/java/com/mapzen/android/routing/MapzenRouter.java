@@ -62,6 +62,19 @@ public class MapzenRouter {
   }
 
   /**
+   * Set route narrative language.
+   *
+   * @param language language to be used for written and verbal instructions. A list of supported
+   * languages can be found at:
+   * <p />
+   * https://github.com/valhalla/valhalla-docs/blob/master/api-reference.md#directions-options.
+   */
+  public MapzenRouter setLanguage(Router.Language language) {
+    internalRouter.setLanguage(language);
+    return this;
+  }
+
+  /**
    * The router can fetch different types of directions. Set the type to be biking.
    * @return
    */

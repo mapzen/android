@@ -48,6 +48,11 @@ public class MapzenRouterTest {
     verify(router.getRouter()).setDistanceUnits(Router.DistanceUnits.MILES);
   }
 
+  @Test public void setLanguage_shouldInvokeInternalRouter() throws Exception {
+    router.setLanguage(Router.Language.FR_FR);
+    verify(router.getRouter()).setLanguage(Router.Language.FR_FR);
+  }
+
   @Test public void setBiking_shouldInvokeInternalRouter() {
     router.setBiking();
     verify(router.getRouter()).setBiking();
