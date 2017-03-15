@@ -8,6 +8,9 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+/**
+ * Confirmation dialog shown to the user when a POI has been selected.
+ */
 public class PlaceDialogFragment extends DialogFragment implements DialogInterface.OnClickListener {
   public static final String TAG = PlaceDialogFragment.class.getSimpleName();
 
@@ -16,6 +19,12 @@ public class PlaceDialogFragment extends DialogFragment implements DialogInterfa
   private AlertDialog dialog;
   private PlaceDialogListener listener;
 
+  /**
+   * Create new instance of the dialog fragment.
+   *
+   * @param title text to be displayed in the dialog.
+   * @return a new instance of the dialog fragment.
+   */
   public static PlaceDialogFragment newInstance(String title) {
     final PlaceDialogFragment fragment = new PlaceDialogFragment();
     Bundle args = new Bundle();
@@ -35,6 +44,11 @@ public class PlaceDialogFragment extends DialogFragment implements DialogInterfa
     return dialog;
   }
 
+  /**
+   * Update text displayed in the dialog.
+   *
+   * @param detail new text to display.
+   */
   public void setMessage(String detail) {
     dialog.setMessage(detail);
     getArguments().putString(ARG_NAME_TITLE, detail);
@@ -52,12 +66,27 @@ public class PlaceDialogFragment extends DialogFragment implements DialogInterfa
     }
   }
 
+  /**
+   * Set place dialog listener.
+   *
+   * @param listener the callbacks to invoke when the dialog is confirmed or dismissed.
+   */
   public void setListener(PlaceDialogListener listener) {
     this.listener = listener;
   }
 
+  /**
+   * Dialog listener interface.
+   */
   public interface PlaceDialogListener {
+    /**
+     * Positive button click listener.
+     */
     void onPlaceConfirmed();
+
+    /**
+     * Negative button click listener.
+     */
     void onPlaceDismissed();
   }
 }
