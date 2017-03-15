@@ -8,6 +8,7 @@ class TestPlacePickerController implements PlacePickerViewController {
   String dialogTitle = null;
   boolean finished = false;
   boolean myLocationEnabled = false;
+  Place place = null;
 
   @Override public void showDialog(String id, String title) {
     dialogShown = true;
@@ -19,6 +20,7 @@ class TestPlacePickerController implements PlacePickerViewController {
   }
 
   @Override public void finishWithPlace(Place place) {
+    this.place = place;
     finished = true;
   }
 

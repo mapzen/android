@@ -14,8 +14,6 @@ import com.mapzen.tangram.LabelPickResult;
 import com.mapzen.tangram.LngLat;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.PointF;
@@ -30,13 +28,13 @@ import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_PLACE;
  */
 public class PlacePickerActivity extends Activity implements
     PlacePickerViewController, OnMapReadyCallback, LabelPickListener,
-    DialogInterface.OnClickListener {
+    PlaceDialogFragment.PlaceDialogListener {
 
   PlacePickerPresenter presenter;
   PlaceAutocompleteView autocompleteView;
   MapView mapView;
   MapzenMap map;
-  AlertDialog dialog;
+  PlaceDialogFragment dialog;
   String dialogPlaceId;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +53,12 @@ public class PlacePickerActivity extends Activity implements
 
     mapView = (MapView) findViewById(R.id.mz_map_view);
     mapView.getMapAsync(this);
+
+    final PlaceDialogFragment fragment =
+        (PlaceDialogFragment) getFragmentManager().findFragmentByTag(PlaceDialogFragment.TAG);
+    if (fragment != null) {
+      fragment.setListener(this);
+    }
   }
 
   @Override protected void onPause() {
@@ -86,14 +90,10 @@ public class PlacePickerActivity extends Activity implements
   }
 
   @Override public void showDialog(String id, String title) {
-    dialog = new AlertDialog.Builder(this)
-        .setTitle(R.string.use_this_place)
-        .setMessage(title)
-        .setNegativeButton(R.string.change_location, this)
-        .setPositiveButton(R.string.select, this)
-        .create();
-    dialog.show();
+    dialog = PlaceDialogFragment.newInstance(title);
+    dialog.show(getFragmentManager(), PlaceDialogFragment.TAG);
     dialogPlaceId = id;
+    dialog.setListener(this);
   }
 
   @Override public void updateDialog(String id, String detail) {
@@ -102,10 +102,12 @@ public class PlacePickerActivity extends Activity implements
     }
   }
 
-  @Override public void onClick(DialogInterface dialogInterface, int i) {
-    if (i == DialogInterface.BUTTON_POSITIVE) {
-      presenter.onPlaceConfirmed();
-    }
+  @Override public void onPlaceConfirmed() {
+    presenter.onPlaceConfirmed();
+    dialogPlaceId = null;
+  }
+
+  @Override public void onPlaceDismissed() {
     dialogPlaceId = null;
   }
 
