@@ -834,6 +834,9 @@ public class MapzenMap {
     setCameraType(mapStateManager.getCameraType());
   }
 
+  /**
+   * Invoked by {@link MapView} when the parent activity or fragment is destroyed.
+   */
   void onDestroy() {
     mapStateManager.setPosition(mapController.getPosition());
     mapStateManager.setZoom(mapController.getZoom());
