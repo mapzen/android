@@ -836,5 +836,8 @@ public class MapzenMap {
 
   void onDestroy() {
     mapStateManager.setPosition(mapController.getPosition());
+    mapStateManager.setZoom(mapController.getZoom());
+    mapStateManager.setRotation(mapController.getRotation());
+    mapStateManager.setTilt(mapController.getTilt());
   }
 }
