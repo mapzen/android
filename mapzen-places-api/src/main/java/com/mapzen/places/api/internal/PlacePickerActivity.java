@@ -39,6 +39,8 @@ public class PlacePickerActivity extends Activity implements
   AlertDialog dialog;
   String dialogPlaceId;
 
+  private boolean mapInitComplete = false;
+
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.place_picker_activity);
@@ -53,6 +55,10 @@ public class PlacePickerActivity extends Activity implements
         callbackHandler));
     presenter.setController(this);
 
+    if (savedInstanceState != null) {
+      mapInitComplete = true;
+    }
+
     mapView = (MapView) findViewById(R.id.mz_map_view);
     mapView.getMapAsync(this);
   }
@@ -65,6 +71,15 @@ public class PlacePickerActivity extends Activity implements
   @Override protected void onResume() {
     super.onResume();
     presenter.onShowView();
+  }
+
+  @Override protected void onDestroy() {
+    super.onDestroy();
+    mapView.onDestroy();
+  }
+
+  @Override protected void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(new Bundle());
   }
 
   @Override public void setMyLocationEnabled(boolean enabled) {
@@ -130,7 +145,13 @@ public class PlacePickerActivity extends Activity implements
   private void initializeMap() {
     map.setMyLocationEnabled(true);
     map.setLabelPickListener(this);
+    map.setPersistMapState(true);
+    if (!mapInitComplete) {
+      initMapView();
+    }
+  }
 
+  private void initMapView() {
     Bundle extras = getIntent().getExtras();
     if (extras != null) {
       LatLngBounds bounds = (LatLngBounds) extras.get(EXTRA_BOUNDS);
