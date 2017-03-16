@@ -40,6 +40,7 @@ public class MapView extends RelativeLayout {
   TextView attribution;
 
   private int overlayMode = OVERLAY_MODE_SDK;
+  private MapzenMap mapzenMap;
 
   /**
    * Create new instance.
@@ -241,6 +242,11 @@ public class MapView extends RelativeLayout {
    * You must call this method from the parent Activity/Fragment's corresponding method.
    */
   public void onDestroy() {
+    mapzenMap.onDestroy();
     getTangramMapView().onDestroy();
+  }
+
+  void setMapzenMap(MapzenMap mapzenMap) {
+    this.mapzenMap = mapzenMap;
   }
 }
