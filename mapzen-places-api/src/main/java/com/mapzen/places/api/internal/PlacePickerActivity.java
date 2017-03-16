@@ -152,6 +152,9 @@ public class PlacePickerActivity extends Activity implements
   }
 
   private void initMapView() {
+    // The calculation below fails if map.getZoom() returns 0 so set a reasonable default zoom.
+    map.setZoom(15);
+
     Bundle extras = getIntent().getExtras();
     if (extras != null) {
       LatLngBounds bounds = (LatLngBounds) extras.get(EXTRA_BOUNDS);
