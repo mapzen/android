@@ -835,5 +835,6 @@ public class MapzenMap {
   }
 
   void onDestroy() {
+    mapStateManager.setPosition(mapController.getPosition());
   }
 }

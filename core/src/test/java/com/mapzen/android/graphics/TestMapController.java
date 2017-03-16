@@ -28,6 +28,11 @@ public class TestMapController extends MapController {
     super(new GLSurfaceView(getMockContext()));
   }
 
+  @Override public void setPosition(LngLat position) {
+    longitude = position.longitude;
+    latitude = position.latitude;
+  }
+
   @Override public void setPositionEased(LngLat lngLat, int duration) {
     longitude = lngLat.longitude;
     latitude = lngLat.latitude;

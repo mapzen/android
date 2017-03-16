@@ -45,6 +45,7 @@ public class MapzenMapTest {
   private TestMapController mapController;
   private OverlayManager overlayManager;
   private LabelPickHandler labelPickHandler;
+  private MapStateManager mapStateManager;
 
   @Before public void setUp() throws Exception {
     mapView = new TestMapView();
@@ -54,8 +55,10 @@ public class MapzenMapTest {
     doCallRealMethod().when(mapController).pickFeature(anyFloat(), anyFloat());
     doCallRealMethod().when(mapController).queueSceneUpdate(any(SceneUpdate.class));
     doCallRealMethod().when(mapController).getSceneUpdate();
+    doCallRealMethod().when(mapController).setPosition(any(LngLat.class));
+    doCallRealMethod().when(mapController).getPosition();
     overlayManager = mock(OverlayManager.class);
-    MapStateManager mapStateManager = new MapStateManager();
+    mapStateManager = new MapStateManager();
     labelPickHandler = new LabelPickHandler(mapView);
     map = new MapzenMap(mapView, mapController, overlayManager, mapStateManager, labelPickHandler);
   }
@@ -525,6 +528,13 @@ public class MapzenMapTest {
   @Test public void applySceneUpdates_shouldInvokeMapController() {
     map.applySceneUpdates();
     verify(mapController).applySceneUpdates();
+  }
+
+  @Test public void onDestroy_shouldPersistMapPosition() throws Exception {
+    LngLat position = new LngLat(1, 2);
+    mapController.setPosition(position);
+    map.onDestroy();
+    assertThat(mapStateManager.getPosition()).isEqualTo(position);
   }
 
   public class TestRotateResponder implements TouchInput.RotateResponder {
