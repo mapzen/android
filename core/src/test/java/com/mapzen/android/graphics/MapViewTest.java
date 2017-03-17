@@ -91,6 +91,13 @@ public class MapViewTest {
     assertThat(layoutInflater.getRoot()).isEqualTo(mapView);
   }
 
+  @Test public void onDestroy_shouldDestroyMapzenMap() throws Exception {
+    MapzenMap map = mock(MapzenMap.class);
+    mapView.setMapzenMap(map);
+    mapView.onDestroy();
+    verify(map).onDestroy();
+  }
+
   private void initMockAttributes(Context context, TypedArray typedArray,
       TestLayoutInflater layoutInflater, int overlayMode) {
     when(context.obtainStyledAttributes(any(AttributeSet.class), eq(R.styleable.MapView)))

@@ -136,6 +136,7 @@ public class MapzenMap {
     this.overlayManager = overlayManager;
     this.mapStateManager = mapStateManager;
     this.labelPickHandler = labelPickHandler;
+    mapView.setMapzenMap(this);
     mapController.setPanResponder(internalPanResponder);
     mapController.setRotateResponder(internalRotateResponder);
     overlayManager.restoreMapData();
@@ -831,5 +832,15 @@ public class MapzenMap {
     setRotation(mapStateManager.getRotation());
     setTilt(mapStateManager.getTilt());
     setCameraType(mapStateManager.getCameraType());
+  }
+
+  /**
+   * Invoked by {@link MapView} when the parent activity or fragment is destroyed.
+   */
+  void onDestroy() {
+    mapStateManager.setPosition(mapController.getPosition());
+    mapStateManager.setZoom(mapController.getZoom());
+    mapStateManager.setRotation(mapController.getRotation());
+    mapStateManager.setTilt(mapController.getTilt());
   }
 }

@@ -45,6 +45,7 @@ public class MapzenMapTest {
   private TestMapController mapController;
   private OverlayManager overlayManager;
   private LabelPickHandler labelPickHandler;
+  private MapStateManager mapStateManager;
 
   @Before public void setUp() throws Exception {
     mapView = new TestMapView();
@@ -54,8 +55,16 @@ public class MapzenMapTest {
     doCallRealMethod().when(mapController).pickFeature(anyFloat(), anyFloat());
     doCallRealMethod().when(mapController).queueSceneUpdate(any(SceneUpdate.class));
     doCallRealMethod().when(mapController).getSceneUpdate();
+    doCallRealMethod().when(mapController).setPosition(any(LngLat.class));
+    doCallRealMethod().when(mapController).getPosition();
+    doCallRealMethod().when(mapController).setZoom(anyFloat());
+    doCallRealMethod().when(mapController).getZoom();
+    doCallRealMethod().when(mapController).setRotation(anyFloat());
+    doCallRealMethod().when(mapController).getRotation();
+    doCallRealMethod().when(mapController).setTilt(anyFloat());
+    doCallRealMethod().when(mapController).getTilt();
     overlayManager = mock(OverlayManager.class);
-    MapStateManager mapStateManager = new MapStateManager();
+    mapStateManager = new MapStateManager();
     labelPickHandler = new LabelPickHandler(mapView);
     map = new MapzenMap(mapView, mapController, overlayManager, mapStateManager, labelPickHandler);
   }
@@ -525,6 +534,31 @@ public class MapzenMapTest {
   @Test public void applySceneUpdates_shouldInvokeMapController() {
     map.applySceneUpdates();
     verify(mapController).applySceneUpdates();
+  }
+
+  @Test public void onDestroy_shouldPersistMapPosition() throws Exception {
+    LngLat position = new LngLat(1, 2);
+    mapController.setPosition(position);
+    map.onDestroy();
+    assertThat(mapStateManager.getPosition()).isEqualTo(position);
+  }
+
+  @Test public void onDestroy_shouldPersistMapZoom() throws Exception {
+    mapController.setZoom(15);
+    map.onDestroy();
+    assertThat(mapStateManager.getZoom()).isEqualTo(15);
+  }
+
+  @Test public void onDestroy_shouldPersistMapRotation() throws Exception {
+    mapController.setRotation(3.14f);
+    map.onDestroy();
+    assertThat(mapStateManager.getRotation()).isEqualTo(3.14f);
+  }
+
+  @Test public void onDestroy_shouldPersistMapTilt() throws Exception {
+    mapController.setTilt(1.57f);
+    map.onDestroy();
+    assertThat(mapStateManager.getTilt()).isEqualTo(1.57f);
   }
 
   public class TestRotateResponder implements TouchInput.RotateResponder {

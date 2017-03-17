@@ -77,6 +77,7 @@ public class BasicMapzenActivity extends BaseDemoActivity
 
     map.setCompassButtonEnabled(true);
     map.setZoomButtonsEnabled(true);
+    map.setPersistMapState(true);
   }
 
   @Override protected void onPause() {
