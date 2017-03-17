@@ -39,6 +39,15 @@ public class PlacePickerPresenterTest {
     assertThat(controller.dialogShown).isTrue();
   }
 
+  @Test public void onAutocompletePlacePicked_shouldPersistPlaceOnRotation() throws Exception {
+    Place place = new PlaceImpl.Builder().build();
+    presenter.onAutocompletePlacePicked(place, "details");
+    presenter = new PlacePickerPresenterImpl(new TestPlaceDetailFetcher());
+    presenter.setController(controller);
+    presenter.onPlaceConfirmed();
+    assertThat(controller.place).isEqualTo(place);
+  }
+
   @Test public void onHideView_shouldDisableLocationServices() throws Exception {
     controller.myLocationEnabled = true;
     presenter.onHideView();

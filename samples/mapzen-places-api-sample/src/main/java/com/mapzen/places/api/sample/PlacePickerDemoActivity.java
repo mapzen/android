@@ -23,8 +23,9 @@ public class PlacePickerDemoActivity extends AppCompatActivity {
 
   private static final int PERMISSIONS_REQUEST_CODE = 1;
   private static final int NUMBER_OF_PERMISSIONS = 1;
-
   private static final int PLACE_PICKER_REQUEST = 1;
+
+  private static boolean isPickingPlace = false;
 
   TextView placeName;
   TextView placeAddress;
@@ -35,7 +36,10 @@ public class PlacePickerDemoActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.place_picker_demo);
     setupTextViews();
-    safeLaunchPicker();
+
+    if (!isPickingPlace) {
+      safeLaunchPicker();
+    }
   }
 
   @Override public void onRequestPermissionsResult(int requestCode, String[] permissions,
@@ -57,6 +61,7 @@ public class PlacePickerDemoActivity extends AppCompatActivity {
 
   @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
+    isPickingPlace = false;
 
     if (requestCode == PLACE_PICKER_REQUEST && resultCode == RESULT_OK) {
       Place place = PlacePicker.getPlace(this, data);
@@ -111,6 +116,7 @@ public class PlacePickerDemoActivity extends AppCompatActivity {
     Intent intent = new PlacePicker.IntentBuilder()
         .setLatLngBounds(new LatLngBounds(southwest, northeast))
         .build(this);
+    isPickingPlace = true;
     startActivityForResult(intent, PLACE_PICKER_REQUEST);
   }
 
