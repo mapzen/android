@@ -14,7 +14,7 @@ import android.os.Bundle;
 public class PlaceDialogFragment extends DialogFragment implements DialogInterface.OnClickListener {
   public static final String TAG = PlaceDialogFragment.class.getSimpleName();
 
-  private static final String ARG_NAME_TITLE = "title";
+  private static final String ARG_NAME_MESSAGE = "message";
 
   private AlertDialog dialog;
   private PlaceDialogListener listener;
@@ -22,19 +22,19 @@ public class PlaceDialogFragment extends DialogFragment implements DialogInterfa
   /**
    * Create new instance of the dialog fragment.
    *
-   * @param title text to be displayed in the dialog.
+   * @param message text to be displayed in the dialog.
    * @return a new instance of the dialog fragment.
    */
-  public static PlaceDialogFragment newInstance(String title) {
+  public static PlaceDialogFragment newInstance(String message) {
     final PlaceDialogFragment fragment = new PlaceDialogFragment();
     Bundle args = new Bundle();
-    args.putString(ARG_NAME_TITLE, title);
+    args.putString(ARG_NAME_MESSAGE, message);
     fragment.setArguments(args);
     return fragment;
   }
 
   @Override public Dialog onCreateDialog(Bundle savedInstanceState) {
-    final String title = getArguments().getString(ARG_NAME_TITLE);
+    final String title = getArguments().getString(ARG_NAME_MESSAGE);
     dialog = new AlertDialog.Builder(getActivity())
         .setTitle(R.string.use_this_place)
         .setMessage(title)
@@ -51,7 +51,7 @@ public class PlaceDialogFragment extends DialogFragment implements DialogInterfa
    */
   public void setMessage(String detail) {
     dialog.setMessage(detail);
-    getArguments().putString(ARG_NAME_TITLE, detail);
+    getArguments().putString(ARG_NAME_MESSAGE, detail);
   }
 
   @Override public void onClick(DialogInterface dialog, int which) {
