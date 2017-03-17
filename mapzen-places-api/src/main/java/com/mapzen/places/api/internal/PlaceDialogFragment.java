@@ -34,10 +34,10 @@ public class PlaceDialogFragment extends DialogFragment implements DialogInterfa
   }
 
   @Override public Dialog onCreateDialog(Bundle savedInstanceState) {
-    final String title = getArguments().getString(ARG_NAME_MESSAGE);
+    final String message = getArguments().getString(ARG_NAME_MESSAGE);
     dialog = new AlertDialog.Builder(getActivity())
         .setTitle(R.string.use_this_place)
-        .setMessage(title)
+        .setMessage(message)
         .setNegativeButton(R.string.change_location, this)
         .setPositiveButton(R.string.select, this)
         .create();
