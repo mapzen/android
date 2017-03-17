@@ -24,6 +24,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_BOUNDS;
@@ -105,6 +106,8 @@ public class PlaceAutocompleteActivity extends AppCompatActivity
     } else {
       peliasSearchView = (PeliasSearchView) findViewById(R.id.pelias_search_view);
     }
+    peliasSearchView.setImeOptions(peliasSearchView.getImeOptions() |
+        EditorInfo.IME_FLAG_NO_EXTRACT_UI);
     peliasSearchView.setIconifiedByDefault(false);
     peliasSearchView.setCallback(new Callback<Result>() {
       @Override public void onResponse(Call<Result> call, Response<Result> response) {
