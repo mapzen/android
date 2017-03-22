@@ -18,16 +18,34 @@ public class MarkerOptions {
 
   // Setters
 
+  /**
+   * Set the marker position.
+   *
+   * @param position coordinate to display the marker.
+   * @return this marker options instance.
+   */
   public MarkerOptions position(LngLat position) {
     this.position = position;
     return this;
   }
 
+  /**
+   * Set the marker icon resource ID.
+   *
+   * @param resId drawable resource ID for the marker to display.
+   * @return this marker options instance.
+   */
   public MarkerOptions icon(int resId) {
     this.resId = resId;
     return this;
   }
 
+  /**
+   * Set the marker icon style string.
+   *
+   * @param style Tangram style string used to define the marker appearance.
+   * @return this marker options instance.
+   */
   public MarkerOptions style(String style) {
     this.style = style;
     return this;

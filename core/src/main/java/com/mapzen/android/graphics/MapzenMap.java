@@ -850,6 +850,12 @@ public class MapzenMap {
     mapStateManager.setTilt(mapController.getTilt());
   }
 
+  /**
+   * Adds a custom bitmap marker to the map.
+   *
+   * @param markerOptions options used to define marker appearance.
+   * @return a new bitmap marker instance.
+   */
   public BitmapMarker addBitmapMarker(MarkerOptions markerOptions) {
     return markerManager.addMarker(markerOptions);
   }
