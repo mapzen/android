@@ -3,6 +3,7 @@ package com.mapzen.android.graphics;
 import com.mapzen.android.graphics.model.CameraType;
 import com.mapzen.android.graphics.model.EaseType;
 import com.mapzen.android.graphics.model.Marker;
+import com.mapzen.android.graphics.model.MarkerManager;
 import com.mapzen.android.graphics.model.Polygon;
 import com.mapzen.android.graphics.model.Polyline;
 import com.mapzen.tangram.LabelPickResult;
@@ -46,6 +47,7 @@ public class MapzenMapTest {
   private OverlayManager overlayManager;
   private LabelPickHandler labelPickHandler;
   private MapStateManager mapStateManager;
+  private MarkerManager markerManager;
 
   @Before public void setUp() throws Exception {
     mapView = new TestMapView();
@@ -66,7 +68,9 @@ public class MapzenMapTest {
     overlayManager = mock(OverlayManager.class);
     mapStateManager = new MapStateManager();
     labelPickHandler = new LabelPickHandler(mapView);
-    map = new MapzenMap(mapView, mapController, overlayManager, mapStateManager, labelPickHandler);
+    markerManager = new MarkerManager(mapController);
+    map = new MapzenMap(mapView, mapController, overlayManager, mapStateManager, labelPickHandler,
+        markerManager);
   }
 
   @Test public void shouldNotBeNull() throws Exception {

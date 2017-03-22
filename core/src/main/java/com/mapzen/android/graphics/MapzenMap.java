@@ -1,9 +1,12 @@
 package com.mapzen.android.graphics;
 
+import com.mapzen.android.graphics.model.BitmapMarker;
 import com.mapzen.android.graphics.model.CameraType;
 import com.mapzen.android.graphics.model.EaseType;
 import com.mapzen.android.graphics.model.MapStyle;
 import com.mapzen.android.graphics.model.Marker;
+import com.mapzen.android.graphics.model.MarkerManager;
+import com.mapzen.android.graphics.model.MarkerOptions;
 import com.mapzen.android.graphics.model.Polygon;
 import com.mapzen.android.graphics.model.Polyline;
 import com.mapzen.tangram.LngLat;
@@ -36,6 +39,7 @@ public class MapzenMap {
   private final OverlayManager overlayManager;
   private final MapStateManager mapStateManager;
   private final LabelPickHandler labelPickHandler;
+  private final MarkerManager markerManager;
 
   boolean pickFeatureOnSingleTapConfirmed = false;
   boolean pickLabelOnSingleTapConfirmed = false;
@@ -130,12 +134,14 @@ public class MapzenMap {
    * Creates a new map based on the given {@link MapView} and {@link MapController}.
    */
   MapzenMap(MapView mapView, MapController mapController, OverlayManager overlayManager,
-      MapStateManager mapStateManager, LabelPickHandler labelPickHandler) {
+      MapStateManager mapStateManager, LabelPickHandler labelPickHandler,
+      MarkerManager markerManager) {
     this.mapView = mapView;
     this.mapController = mapController;
     this.overlayManager = overlayManager;
     this.mapStateManager = mapStateManager;
     this.labelPickHandler = labelPickHandler;
+    this.markerManager = markerManager;
     mapView.setMapzenMap(this);
     mapController.setPanResponder(internalPanResponder);
     mapController.setRotateResponder(internalRotateResponder);
@@ -842,5 +848,9 @@ public class MapzenMap {
     mapStateManager.setZoom(mapController.getZoom());
     mapStateManager.setRotation(mapController.getRotation());
     mapStateManager.setTilt(mapController.getTilt());
+  }
+
+  public BitmapMarker addBitmapMarker(MarkerOptions markerOptions) {
+    return markerManager.addMarker(markerOptions);
   }
 }
