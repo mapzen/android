@@ -12,6 +12,7 @@ import com.mapzen.android.graphics.model.Polyline;
 import com.mapzen.tangram.LngLat;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.MapData;
+import com.mapzen.tangram.MarkerPickResult;
 import com.mapzen.tangram.SceneUpdate;
 import com.mapzen.tangram.TouchInput;
 
@@ -43,6 +44,7 @@ public class MapzenMap {
 
   boolean pickFeatureOnSingleTapConfirmed = false;
   boolean pickLabelOnSingleTapConfirmed = false;
+  boolean pickMarkerOnSingleTapConfirmed = false;
 
   private TouchInput.TapResponder internalTapResponder = new TouchInput.TapResponder() {
     @Override public boolean onSingleTapUp(float x, float y) {
@@ -62,6 +64,7 @@ public class MapzenMap {
       if (pickLabelOnSingleTapConfirmed) {
         mapController.pickLabel(x, y);
       }
+      mapController.pickMarker(x, y);
       return false;
     }
   };
@@ -614,6 +617,27 @@ public class MapzenMap {
     labelPickHandler.setListener(listener);
     mapController.setLabelPickListener(labelPickHandler);
     pickLabelOnSingleTapConfirmed = (listener != null);
+    mapController.setTapResponder(internalTapResponder);
+  }
+
+  /**
+   * Set a listener for marker pick events.
+   *
+   * @param listener Listener to receive callback when markers are selected.
+   */
+  public void setMarkerPickListener(final MarkerPickListener listener) {
+    mapController.setMarkerPickListener(new MapController.MarkerPickListener() {
+      @Override
+      public void onMarkerPick(final MarkerPickResult markerPickResult, final float positionX,
+          final float positionY) {
+        mapView.post(new Runnable() {
+          @Override public void run() {
+            listener.onMarkerPick(new BitmapMarker(markerPickResult.getMarker()));
+          }
+        });
+      }
+    });
+    pickMarkerOnSingleTapConfirmed = (listener != null);
     mapController.setTapResponder(internalTapResponder);
   }
 

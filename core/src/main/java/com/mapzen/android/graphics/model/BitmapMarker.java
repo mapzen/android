@@ -8,10 +8,10 @@ import com.mapzen.tangram.Marker;
 public class BitmapMarker {
 
   /**
-   * Package private constructor that wraps a Tangram marker.
+   * Constructor that wraps a Tangram marker.
    *
    * @param tangramMarker the underlying Tangram marker object.
    */
-  BitmapMarker(Marker tangramMarker) {
+  public BitmapMarker(Marker tangramMarker) {
   }
 }

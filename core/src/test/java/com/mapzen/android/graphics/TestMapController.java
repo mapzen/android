@@ -3,15 +3,16 @@ package com.mapzen.android.graphics;
 import com.mapzen.tangram.LngLat;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.MapData;
+import com.mapzen.tangram.Marker;
+import com.mapzen.tangram.MarkerPickResult;
 import com.mapzen.tangram.SceneUpdate;
 import com.mapzen.tangram.TestMapData;
-
-import org.mockito.Mockito;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.opengl.GLSurfaceView;
 
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class TestMapController extends MapController {
@@ -22,6 +23,7 @@ public class TestMapController extends MapController {
   private float mapRotation = 0;
   private float mapTilt = 0;
   private FeaturePickListener featurePickListener;
+  private MarkerPickListener markerPickListener;
   private SceneUpdate sceneUpdate;
 
   public TestMapController() {
@@ -81,6 +83,18 @@ public class TestMapController extends MapController {
     featurePickListener.onFeaturePick(null, posX, posY);
   }
 
+  @Override public void setMarkerPickListener(MarkerPickListener listener) {
+    markerPickListener = listener;
+  }
+
+  @Override public void pickMarker(float posX, float posY) {
+    MarkerPickResult markerPickResult = mock(MarkerPickResult.class);
+    when(markerPickResult.getMarker()).thenReturn(mock(Marker.class));
+    if (markerPickListener != null) {
+      markerPickListener.onMarkerPick(markerPickResult, posX, posY);
+    }
+  }
+
   @Override public void queueSceneUpdate(SceneUpdate sceneUpdate) {
     this.sceneUpdate = sceneUpdate;
   }
@@ -90,8 +104,8 @@ public class TestMapController extends MapController {
   }
 
   private static Context getMockContext() {
-    final Context context = Mockito.mock(Context.class);
-    when(context.getResources()).thenReturn(Mockito.mock(Resources.class));
+    final Context context = mock(Context.class);
+    when(context.getResources()).thenReturn(mock(Resources.class));
     return context;
   }
 }

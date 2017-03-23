@@ -2,16 +2,19 @@ package com.mapzen.android.sdk.sample;
 
 import com.mapzen.android.graphics.MapFragment;
 import com.mapzen.android.graphics.MapzenMap;
+import com.mapzen.android.graphics.MarkerPickListener;
 import com.mapzen.android.graphics.OnMapReadyCallback;
+import com.mapzen.android.graphics.model.BitmapMarker;
 import com.mapzen.android.graphics.model.MarkerOptions;
 import com.mapzen.tangram.LngLat;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 /**
  * Custom marker demo.
  */
-public class CustomMarkerActivity extends BaseDemoActivity {
+public class CustomMarkerActivity extends BaseDemoActivity implements MarkerPickListener {
 
   private MapzenMap map;
 
@@ -34,12 +37,17 @@ public class CustomMarkerActivity extends BaseDemoActivity {
     map.setZoomButtonsEnabled(true);
     map.setPersistMapState(true);
 
-    MarkerOptions markerOptions = new MarkerOptions()
+    final MarkerOptions markerOptions = new MarkerOptions()
         .position(new LngLat(-73.985428, 40.748817))
         .icon(R.drawable.mapzen);
 
     map.addBitmapMarker(markerOptions);
     map.setPosition(new LngLat(-73.985428, 40.748817));
     map.setZoom(16);
+    map.setMarkerPickListener(this);
+  }
+
+  @Override public void onMarkerPick(BitmapMarker marker) {
+    Toast.makeText(this, marker.toString(), Toast.LENGTH_SHORT).show();
   }
 }
