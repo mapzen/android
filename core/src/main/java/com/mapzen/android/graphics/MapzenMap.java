@@ -632,7 +632,9 @@ public class MapzenMap {
           final float positionY) {
         mapView.post(new Runnable() {
           @Override public void run() {
-            listener.onMarkerPick(new BitmapMarker(markerPickResult.getMarker()));
+            if (markerPickResult != null) {
+              listener.onMarkerPick(new BitmapMarker(markerPickResult.getMarker()));
+            }
           }
         });
       }
