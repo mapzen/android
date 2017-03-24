@@ -50,3 +50,5 @@ deployment:
       - scripts/deploy-staging.sh
       - scripts/deploy-samples.sh
       - scripts/publish-docs.sh
+      - pip install 'Circle-Beacon == 2.0.0'
+      - alert-circle mapzen documentation master $CIRCLE_TOKEN
