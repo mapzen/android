@@ -19,7 +19,7 @@ public class MarkerManager {
   }
 
   /**
-   * Add a new marker to the map.
+   * Adds a new marker to the map.
    *
    * @param markerOptions options that define the appearance of the marker.
    * @return a new bitmap marker wrapper for the Tangram marker object.
@@ -29,6 +29,15 @@ public class MarkerManager {
     marker.setPoint(markerOptions.getPosition());
     marker.setDrawable(markerOptions.getIcon());
     marker.setStylingFromString(markerOptions.getStyle());
-    return new BitmapMarker(marker);
+    return new BitmapMarker(this, marker);
+  }
+
+  /**
+   * Removes a marker from the map.
+   *
+   * @param marker Tangram marker to be removed.
+   */
+  public void removeMarker(Marker marker) {
+    mapController.removeMarker(marker);
   }
 }

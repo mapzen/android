@@ -13,4 +13,26 @@
       app:overlayMode="classic"
       />
 
+  <LinearLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      >
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_marker"
+        android:id="@+id/add_marker_btn"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/remove_marker"
+        android:id="@+id/remove_marker_btn"
+        />
+
+  </LinearLayout>
+
 </FrameLayout>

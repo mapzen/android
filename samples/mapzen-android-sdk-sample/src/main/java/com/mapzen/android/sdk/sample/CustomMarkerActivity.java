@@ -9,6 +9,7 @@ import com.mapzen.android.graphics.model.MarkerOptions;
 import com.mapzen.tangram.LngLat;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 /**
@@ -17,6 +18,7 @@ import android.widget.Toast;
 public class CustomMarkerActivity extends BaseDemoActivity implements MarkerPickListener {
 
   private MapzenMap map;
+  private BitmapMarker bitmapMarker;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -34,17 +36,27 @@ public class CustomMarkerActivity extends BaseDemoActivity implements MarkerPick
   private void configureMap() {
     map.setMyLocationEnabled(true);
     map.setCompassButtonEnabled(true);
-    map.setZoomButtonsEnabled(true);
     map.setPersistMapState(true);
-
-    final MarkerOptions markerOptions = new MarkerOptions()
-        .position(new LngLat(-73.985428, 40.748817))
-        .icon(R.drawable.mapzen);
-
-    map.addBitmapMarker(markerOptions);
     map.setPosition(new LngLat(-73.985428, 40.748817));
     map.setZoom(16);
     map.setMarkerPickListener(this);
+
+    findViewById(R.id.add_marker_btn).setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        final MarkerOptions markerOptions = new MarkerOptions()
+            .position(new LngLat(-73.985428, 40.748817))
+            .icon(R.drawable.mapzen);
+        bitmapMarker = map.addBitmapMarker(markerOptions);
+      }
+    });
+
+    findViewById(R.id.remove_marker_btn).setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        if (bitmapMarker != null) {
+          bitmapMarker.remove();
+        }
+      }
+    });
   }
 
   @Override public void onMarkerPick(BitmapMarker marker) {

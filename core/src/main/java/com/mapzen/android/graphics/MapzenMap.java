@@ -633,7 +633,7 @@ public class MapzenMap {
         mapView.post(new Runnable() {
           @Override public void run() {
             if (markerPickResult != null) {
-              listener.onMarkerPick(new BitmapMarker(markerPickResult.getMarker()));
+              listener.onMarkerPick(new BitmapMarker(markerManager, markerPickResult.getMarker()));
             }
           }
         });
