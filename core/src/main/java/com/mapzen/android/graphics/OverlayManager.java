@@ -152,7 +152,7 @@ public class OverlayManager implements TouchInput.PanResponder, TouchInput.Rotat
   OverlayManager(MapView mapView, MapController mapController, MapDataManager mapDataManager,
       MapStateManager mapStateManager, LostApiClient lostApiClient) {
     if (lostApiClient == null) {
-      lostApiClient = LocationFactory.sharedClient(mapView.getContext(), connectionCallbacks);
+      lostApiClient = new LostApiClient.Builder(mapView.getContext()).addConnectionCallbacks(connectionCallbacks).build();
     }
 
     this.mapView = mapView;
@@ -862,6 +862,7 @@ public class OverlayManager implements TouchInput.PanResponder, TouchInput.Rotat
 
   private void removeLocationUpdates() {
     if (lostApiClient.isConnected()) {
+      LocationServices.FusedLocationApi.removeLocationUpdates(lostApiClient, locationListener);
       lostApiClient.disconnect();
     }
   }
