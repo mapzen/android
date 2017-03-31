@@ -4,7 +4,6 @@ import com.mapzen.R;
 import com.mapzen.android.graphics.model.Marker;
 import com.mapzen.android.graphics.model.Polygon;
 import com.mapzen.android.graphics.model.Polyline;
-import com.mapzen.android.location.LocationFactory;
 import com.mapzen.android.lost.api.LocationListener;
 import com.mapzen.android.lost.api.LocationRequest;
 import com.mapzen.android.lost.api.LocationServices;
@@ -152,7 +151,8 @@ public class OverlayManager implements TouchInput.PanResponder, TouchInput.Rotat
   OverlayManager(MapView mapView, MapController mapController, MapDataManager mapDataManager,
       MapStateManager mapStateManager, LostApiClient lostApiClient) {
     if (lostApiClient == null) {
-      lostApiClient = LocationFactory.sharedClient(mapView.getContext(), connectionCallbacks);
+      lostApiClient = new LostApiClient.Builder(mapView.getContext())
+          .addConnectionCallbacks(connectionCallbacks).build();
     }
 
     this.mapView = mapView;
@@ -862,6 +862,7 @@ public class OverlayManager implements TouchInput.PanResponder, TouchInput.Rotat
 
   private void removeLocationUpdates() {
     if (lostApiClient.isConnected()) {
+      LocationServices.FusedLocationApi.removeLocationUpdates(lostApiClient, locationListener);
       lostApiClient.disconnect();
     }
   }
