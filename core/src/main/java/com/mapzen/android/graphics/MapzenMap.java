@@ -64,7 +64,9 @@ public class MapzenMap {
       if (pickLabelOnSingleTapConfirmed) {
         mapController.pickLabel(x, y);
       }
-      mapController.pickMarker(x, y);
+      if (pickMarkerOnSingleTapConfirmed) {
+        mapController.pickMarker(x, y);
+      }
       return false;
     }
   };
