@@ -34,7 +34,6 @@ public class CustomMarkerActivity extends BaseDemoActivity implements MarkerPick
   }
 
   private void configureMap() {
-    map.setMyLocationEnabled(true);
     map.setCompassButtonEnabled(true);
     map.setPersistMapState(true);
     map.setPosition(new LngLat(-73.985428, 40.748817));
