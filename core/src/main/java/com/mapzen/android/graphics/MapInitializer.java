@@ -3,6 +3,7 @@ package com.mapzen.android.graphics;
 import com.mapzen.android.core.MapzenManager;
 import com.mapzen.android.graphics.model.BubbleWrapStyle;
 import com.mapzen.android.graphics.model.MapStyle;
+import com.mapzen.android.graphics.model.MarkerManager;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.SceneUpdate;
 
@@ -92,7 +93,8 @@ public class MapInitializer {
         mapController.setHttpHandler(tileHttpHandler);
         callback.onMapReady(
             new MapzenMap(mapView, mapController, new OverlayManager(mapView, mapController,
-                mapDataManager, mapStateManager), mapStateManager, new LabelPickHandler(mapView)));
+                mapDataManager, mapStateManager), mapStateManager, new LabelPickHandler(mapView),
+                new MarkerManager(mapController)));
       }
     }, sceneFile, sceneUpdates);
   }

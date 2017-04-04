@@ -45,6 +45,8 @@
   </string-array>
   <string name="draw_pins">Draw Pins</string>
   <string name="clear_pins">Clear Pins</string>
+  <string name="add_marker">Add Marker</string>
+  <string name="remove_marker">Remove Marker</string>
   <string name="route_pins_map_demo_label">Route Pins</string>
   <string name="route_pins_map_demo_description">Draws start and end route pins on map</string>
   <string name="drop_pin_instruction">Long press anywhere on the map to drop a pin</string>
@@ -76,4 +78,6 @@
   <string name="search_hint">Search</string>
   <string name="label_listener_map_demo_label">Label Listener</string>
   <string name="label_listener_map_demo_description">Adds a label pick listener to the map</string>
+  <string name="custom_marker_demo_label">Custom Marker</string>
+  <string name="custom_marker_demo_description">Adds a custom bitmap marker</string>
 </resources>

@@ -38,8 +38,12 @@
     <activity android:name="FeaturePickListenerActivity"/>
     <activity android:name=".LabelPickListenerActivity"/>
     <activity android:name=".QueueEventActivity"/>
-    <activity android:name=".RouterActivity" />
+    <activity android:name=".RouterActivity"/>
     <activity android:name=".MapzenSearchViewActivity"/>
+    <activity
+        android:name=".CustomMarkerActivity"
+        android:label="@string/custom_marker_demo_label"
+        />
   </application>
 
 </manifest>

@@ -56,6 +56,9 @@ public final class SampleDetailsList {
           RouterActivity.class),
       new SampleDetails(R.string.pelias_search_demo_label,
           R.string.pelias_search_demo_description,
-          MapzenSearchViewActivity.class)
+          MapzenSearchViewActivity.class),
+      new SampleDetails(R.string.custom_marker_demo_label,
+          R.string.custom_marker_demo_description,
+          CustomMarkerActivity.class)
   };
 }

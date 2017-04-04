@@ -1,8 +1,10 @@
 package com.mapzen.android.graphics;
 
+import com.mapzen.android.graphics.model.BitmapMarker;
 import com.mapzen.android.graphics.model.CameraType;
 import com.mapzen.android.graphics.model.EaseType;
 import com.mapzen.android.graphics.model.Marker;
+import com.mapzen.android.graphics.model.MarkerManager;
 import com.mapzen.android.graphics.model.Polygon;
 import com.mapzen.android.graphics.model.Polyline;
 import com.mapzen.tangram.LabelPickResult;
@@ -46,6 +48,7 @@ public class MapzenMapTest {
   private OverlayManager overlayManager;
   private LabelPickHandler labelPickHandler;
   private MapStateManager mapStateManager;
+  private MarkerManager markerManager;
 
   @Before public void setUp() throws Exception {
     mapView = new TestMapView();
@@ -53,6 +56,9 @@ public class MapzenMapTest {
     doCallRealMethod().when(mapController)
         .setFeaturePickListener(any(MapController.FeaturePickListener.class));
     doCallRealMethod().when(mapController).pickFeature(anyFloat(), anyFloat());
+    doCallRealMethod().when(mapController)
+        .setMarkerPickListener(any(MapController.MarkerPickListener.class));
+    doCallRealMethod().when(mapController).pickMarker(anyFloat(), anyFloat());
     doCallRealMethod().when(mapController).queueSceneUpdate(any(SceneUpdate.class));
     doCallRealMethod().when(mapController).getSceneUpdate();
     doCallRealMethod().when(mapController).setPosition(any(LngLat.class));
@@ -66,7 +72,9 @@ public class MapzenMapTest {
     overlayManager = mock(OverlayManager.class);
     mapStateManager = new MapStateManager();
     labelPickHandler = new LabelPickHandler(mapView);
-    map = new MapzenMap(mapView, mapController, overlayManager, mapStateManager, labelPickHandler);
+    markerManager = new MarkerManager(mapController);
+    map = new MapzenMap(mapView, mapController, overlayManager, mapStateManager, labelPickHandler,
+        markerManager);
   }
 
   @Test public void shouldNotBeNull() throws Exception {
@@ -473,7 +481,7 @@ public class MapzenMapTest {
     verify(overlayManager).clearTransitRouteLine();
   }
 
-  @Test public void setFeaturePickListener_shouldInvokeFeatureListener() {
+  @Test public void setFeaturePickListener_shouldInvokeFeatureListener() throws Exception {
     TestFeaturePickListener listener = new TestFeaturePickListener();
     map.setFeaturePickListener(listener);
     mapController.pickFeature(0, 0);
@@ -484,6 +492,20 @@ public class MapzenMapTest {
     TestFeaturePickListener listener = new TestFeaturePickListener();
     map.setFeaturePickListener(listener);
     mapController.pickFeature(0, 0);
+    assertThat(mapView.getAction()).isNotNull();
+  }
+
+  @Test public void setMarkerPickListener_shouldInvokeMarkerListener() throws Exception {
+    TestMarkerPickListener listener = new TestMarkerPickListener();
+    map.setMarkerPickListener(listener);
+    mapController.pickMarker(0, 0);
+    assertThat(listener.picked).isTrue();
+  }
+
+  @Test public void setMarkerPickListener_shouldInvokeCallbackOnMainThread() throws Exception {
+    TestMarkerPickListener listener = new TestMarkerPickListener();
+    map.setMarkerPickListener(listener);
+    mapController.pickMarker(0, 0);
     assertThat(mapView.getAction()).isNotNull();
   }
 
@@ -577,6 +599,16 @@ public class MapzenMapTest {
 
     @Override
     public void onFeaturePick(Map<String, String> properties, float positionX, float positionY) {
+      picked = true;
+    }
+  }
+
+  private class TestMarkerPickListener implements MarkerPickListener {
+
+    boolean picked = false;
+
+    @Override
+    public void onMarkerPick(BitmapMarker marker) {
       picked = true;
     }
   }

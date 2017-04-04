@@ -1,14 +1,18 @@
 package com.mapzen.android.graphics;
 
+import com.mapzen.android.graphics.model.BitmapMarker;
 import com.mapzen.android.graphics.model.CameraType;
 import com.mapzen.android.graphics.model.EaseType;
 import com.mapzen.android.graphics.model.MapStyle;
 import com.mapzen.android.graphics.model.Marker;
+import com.mapzen.android.graphics.model.MarkerManager;
+import com.mapzen.android.graphics.model.MarkerOptions;
 import com.mapzen.android.graphics.model.Polygon;
 import com.mapzen.android.graphics.model.Polyline;
 import com.mapzen.tangram.LngLat;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.MapData;
+import com.mapzen.tangram.MarkerPickResult;
 import com.mapzen.tangram.SceneUpdate;
 import com.mapzen.tangram.TouchInput;
 
@@ -36,9 +40,11 @@ public class MapzenMap {
   private final OverlayManager overlayManager;
   private final MapStateManager mapStateManager;
   private final LabelPickHandler labelPickHandler;
+  private final MarkerManager markerManager;
 
   boolean pickFeatureOnSingleTapConfirmed = false;
   boolean pickLabelOnSingleTapConfirmed = false;
+  boolean pickMarkerOnSingleTapConfirmed = false;
 
   private TouchInput.TapResponder internalTapResponder = new TouchInput.TapResponder() {
     @Override public boolean onSingleTapUp(float x, float y) {
@@ -57,6 +63,9 @@ public class MapzenMap {
       }
       if (pickLabelOnSingleTapConfirmed) {
         mapController.pickLabel(x, y);
+      }
+      if (pickMarkerOnSingleTapConfirmed) {
+        mapController.pickMarker(x, y);
       }
       return false;
     }
@@ -130,12 +139,14 @@ public class MapzenMap {
    * Creates a new map based on the given {@link MapView} and {@link MapController}.
    */
   MapzenMap(MapView mapView, MapController mapController, OverlayManager overlayManager,
-      MapStateManager mapStateManager, LabelPickHandler labelPickHandler) {
+      MapStateManager mapStateManager, LabelPickHandler labelPickHandler,
+      MarkerManager markerManager) {
     this.mapView = mapView;
     this.mapController = mapController;
     this.overlayManager = overlayManager;
     this.mapStateManager = mapStateManager;
     this.labelPickHandler = labelPickHandler;
+    this.markerManager = markerManager;
     mapView.setMapzenMap(this);
     mapController.setPanResponder(internalPanResponder);
     mapController.setRotateResponder(internalRotateResponder);
@@ -611,6 +622,29 @@ public class MapzenMap {
     mapController.setTapResponder(internalTapResponder);
   }
 
+  /**
+   * Set a listener for marker pick events.
+   *
+   * @param listener Listener to receive callback when markers are selected.
+   */
+  public void setMarkerPickListener(final MarkerPickListener listener) {
+    mapController.setMarkerPickListener(new MapController.MarkerPickListener() {
+      @Override
+      public void onMarkerPick(final MarkerPickResult markerPickResult, final float positionX,
+          final float positionY) {
+        mapView.post(new Runnable() {
+          @Override public void run() {
+            if (markerPickResult != null) {
+              listener.onMarkerPick(new BitmapMarker(markerManager, markerPickResult.getMarker()));
+            }
+          }
+        });
+      }
+    });
+    pickMarkerOnSingleTapConfirmed = (listener != null);
+    mapController.setTapResponder(internalTapResponder);
+  }
+
   private void postFeaturePickRunnable(final Map<String, String> properties, final float positionX,
       final float positionY, final FeaturePickListener listener) {
     mapView.post(new Runnable() {
@@ -842,5 +876,15 @@ public class MapzenMap {
     mapStateManager.setZoom(mapController.getZoom());
     mapStateManager.setRotation(mapController.getRotation());
     mapStateManager.setTilt(mapController.getTilt());
+  }
+
+  /**
+   * Adds a custom bitmap marker to the map.
+   *
+   * @param markerOptions options used to define marker appearance.
+   * @return a new bitmap marker instance.
+   */
+  public BitmapMarker addBitmapMarker(MarkerOptions markerOptions) {
+    return markerManager.addMarker(markerOptions);
   }
 }
