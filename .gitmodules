@@ -15,4 +15,4 @@
 	url = https://github.com/tangrams/zinc-style-more-labels.git
 [submodule "samples/mapzen-android-sdk-sample/src/main/assets/styles/tron-style"]
 	path = samples/mapzen-android-sdk-sample/src/main/assets/styles/tron-style
-	url = git@github.com:tangrams/tron-style.git
+	url = https://github.com/tangrams/tron-style.git
