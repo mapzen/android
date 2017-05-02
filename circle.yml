@@ -43,6 +43,7 @@ deployment:
       - scripts/build-places-api-sample-app.sh
       - scripts/deploy-snapshot.sh
       - ./gradlew aarSize countReleaseDexMethods permissions mapzen-android-sdk:dependencies --configuration compile
+      - scripts/release.sh
   release:
     tag: /v[0-9]+(\.[0-9]+)*(-rc[0-9])?/
     owner: mapzen
