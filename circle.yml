@@ -39,8 +39,8 @@ deployment:
   master:
     branch: master
     commands:
-      - ./gradlew :samples_mapzen-android-sdk-sample:assembleDebug -PmapzenApiKey=$MAPZEN_API_KEY
-      - ./gradlew :samples_mapzen-place-api-sample:assembleDebug -PmapzenApiKey=$MAPZEN_API_KEY
+      - scripts/build-android-sdk-sample-app.sh
+      - scripts/build-places-api-sample-app.sh
       - ./gradlew uploadArchives -PsonatypeUsername=$SONATYPE_NEXUS_SNAPSHOTS_USERNAME -PsonatypePassword=$SONATYPE_NEXUS_SNAPSHOTS_PASSWORD
       - ./gradlew aarSize countReleaseDexMethods permissions mapzen-android-sdk:dependencies --configuration compile
   release:
