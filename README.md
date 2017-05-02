@@ -3,6 +3,8 @@
 
 The Mapzen Android SDK is a thin wrapper that packages up everything you need to use Mapzen services in your Android applications. It also simplifies setup, installation, API key management and generally makes your life better.
 
+![screenshot](assets/android-sdk.png)
+
 ## Usage
 Everything you need to get going using the Mapzen SDK
 
@@ -40,6 +42,8 @@ For a working example please refer to the SDK [sample app](https://github.com/ma
 
 The Mapzen Places API is a drop in replacement for the Google Places API.
 
+![screenshot](assets/android-places.png)
+
 ## Usage
 Everything you need to get going using the Mapzen Places API
 
@@ -61,5 +65,7 @@ For a working example please refer to the Places [sample app](https://github.com
 # Eraser Map
 
 An [open source](https://github.com/mapzen/eraser-map) privacy-focused reference application built entirely using Mapzen services. With Eraser Map you can see a canonical implementation of mapping, search, and turn-by-turn navigation.
+
+![screenshot](assets/eraser-map.png)
 
 Beta builds of Eraser Map (plus the SDK demo apps and other science projects) are available on the [Mapzen Android download page](http://android.mapzen.com/).
