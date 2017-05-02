@@ -3,7 +3,7 @@
 # runs the gradle release plugin
 #
 
-if ([ -n ${RELEASE_VERSION_NUMBER} ] && [ -n ${$NEW_VERSION_NUMBER} ]); then
+if ([ -n ${RELEASE_VERSION_NUMBER} ] && [ -n ${NEW_VERSION_NUMBER} ]); then
   echo "Releasing"
   ./gradle release -Prelease.useAutomaticVersion=true \
     -Prelease.releaseVersion=$RELEASE_VERSION_NUMBER \
