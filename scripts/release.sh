@@ -3,18 +3,11 @@
 # runs the gradle release plugin
 #
 
-if [ -z ${RELEASE_VERSION_NUMBER} ]
-  then
-    echo "[ERROR] RELEASE_VERSION_NUMBER not set"
-    exit 1
+if ([ -n ${RELEASE_VERSION_NUMBER} ] && [ -n ${$NEW_VERSION_NUMBER} ]); then
+  echo "Releasing"
+  ./gradle release -Prelease.useAutomaticVersion=true \
+    -Prelease.releaseVersion=$RELEASE_VERSION_NUMBER \
+    -Prelease.newVersion=$NEW_VERSION_NUMBER
+else
+  echo "RELEASE_VERSION_NUMBER & NEW_VERSION_NUMBER not specified, skipping release."
 fi
-
-if [ -z ${$NEW_VERSION_NUMBER} ]
-  then
-    echo "[ERROR] $NEW_VERSION_NUMBER not set"
-    exit 1
-fi
-
-./gradle release -Prelease.useAutomaticVersion=true \
-  -Prelease.releaseVersion=$RELEASE_VERSION_NUMBER \
-  -Prelease.newVersion=$NEW_VERSION_NUMBER
