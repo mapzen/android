@@ -57,3 +57,9 @@ Everything you need to get going using the Mapzen Places API
 
 ## Sample
 For a working example please refer to the Places [sample app](https://github.com/mapzen/android/tree/master/samples/mapzen-places-api-sample).
+
+# Eraser Map
+
+An [open source](https://github.com/mapzen/eraser-map) privacy-focused reference application built entirely using Mapzen services. With Eraser Map you can see a canonical implementation of mapping, search, and turn-by-turn navigation.
+
+Beta builds of Eraser Map (plus the SDK demo apps and other science projects) are available on the [Mapzen Android download page](http://android.mapzen.com/).
