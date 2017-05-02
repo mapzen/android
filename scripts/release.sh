@@ -5,7 +5,7 @@
 
 if ([ -n ${RELEASE_VERSION_NUMBER} ] && [ -n ${NEW_VERSION_NUMBER} ]); then
   echo "Releasing"
-  ./gradle release -Prelease.useAutomaticVersion=true \
+  ./gradlew release -Prelease.useAutomaticVersion=true \
     -Prelease.releaseVersion=$RELEASE_VERSION_NUMBER \
     -Prelease.newVersion=$NEW_VERSION_NUMBER
 else
