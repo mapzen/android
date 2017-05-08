@@ -19,7 +19,7 @@ group = GROUP
 version = VERSION_NAME
 project.archivesBaseName = POM_ARTIFACT_ID
 
-ext.tangram_version = "0.5.1"
+ext.tangram_version = "0.5.2"
 
 android {
   compileSdkVersion 25
