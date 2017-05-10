@@ -86,12 +86,6 @@ public class OverlayManager implements TouchInput.PanResponder, TouchInput.Rotat
     @Override public void onLocationChanged(Location location) {
       handleLocationChange(location);
     }
-
-    @Override public void onProviderEnabled(String provider) {
-    }
-
-    @Override public void onProviderDisabled(String provider) {
-    }
   };
 
   View.OnClickListener compassExternalClickListener;
