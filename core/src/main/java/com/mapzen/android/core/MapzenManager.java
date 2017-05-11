@@ -36,7 +36,7 @@ public class MapzenManager {
    */
   public static MapzenManager instance(Context context) {
     if (instance == null) {
-      instance = new MapzenManager(context);
+      instance = new MapzenManager(context.getApplicationContext());
     }
 
     return instance;
