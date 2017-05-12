@@ -2,8 +2,9 @@ package com.mapzen.places.api.internal;
 
 import com.mapzen.android.lost.api.LocationServices;
 import com.mapzen.android.lost.api.LostApiClient;
+import com.mapzen.android.lost.internal.FusedApiServiceUpdater;
 import com.mapzen.android.lost.internal.FusedLocationProviderApiImpl;
-import com.mapzen.android.lost.internal.FusedLocationProviderService;
+import com.mapzen.android.lost.internal.IFusedLocationProviderService;
 import com.mapzen.pelias.BoundingBox;
 import com.mapzen.pelias.gson.Feature;
 import com.mapzen.pelias.gson.Properties;
@@ -56,21 +57,20 @@ public class PlaceAutocompletePresenterTest {
 
   @Test
   public void getBoundingBox_lostClient_shouldReturnCorrectBox() throws Exception {
-    FusedLocationProviderService.FusedLocationProviderBinder stubBinder =
-          mock(FusedLocationProviderService.FusedLocationProviderBinder.class);
-    FusedLocationProviderService mockService = mock(FusedLocationProviderService.class);
-      when(stubBinder.getService()).thenReturn(mockService);
     FusedLocationProviderApiImpl impl =
         (FusedLocationProviderApiImpl) LocationServices.FusedLocationApi;
-    impl.onServiceConnected(stubBinder);
+    IFusedLocationProviderService service = mock(IFusedLocationProviderService.class);
+    FusedApiServiceUpdater.updateApiService(impl, service);
 
     LostApiClient client = mock(LostApiClient.class);
+    when(client.isConnected()).thenReturn(true);
+    presenter.setLostClient(client);
+
     Location location = mock(Location.class);
     when(location.getLatitude()).thenReturn(40.0);
     when(location.getLongitude()).thenReturn(70.0);
-    when(mockService.getLastLocation(client)).thenReturn(location);
-    presenter.setLostClient(client);
-    when(client.isConnected()).thenReturn(true);
+    when(service.getLastLocation()).thenReturn(location);
+
     BoundingBox boundingBox = presenter.getBoundingBox();
     double boundsRadius = 0.02;
     assertThat(boundingBox.getMinLat() + boundsRadius).isEqualTo(location.getLatitude());

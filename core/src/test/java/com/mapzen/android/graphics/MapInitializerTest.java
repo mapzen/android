@@ -49,7 +49,11 @@ public class MapInitializerTest {
 
   @Test public void init_shouldReturnMapzenMap() throws Exception {
     final TestCallback callback = new TestCallback();
-    final TestMapView mapView = new TestMapView();
+    final TestMapView mapView = mock(TestMapView.class);
+    Context context = mock(Context.class);
+    when(context.getApplicationContext()).thenReturn(mock(Context.class));
+    when(mapView.getContext()).thenReturn(context);
+    when(mapView.getTangramMapView()).thenCallRealMethod();
     MapzenManager.instance(getMockContext()).setApiKey("fake-mapzen-api-key");
     mapInitializer.init(mapView, callback);
     assertThat(callback.map).isInstanceOf(MapzenMap.class);

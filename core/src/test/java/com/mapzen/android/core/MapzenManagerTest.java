@@ -13,10 +13,10 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 
+import static com.mapzen.TestHelper.getMockContext;
 import static com.mapzen.android.core.MapzenManager.API_KEY_RES_NAME;
 import static com.mapzen.android.core.MapzenManager.API_KEY_RES_TYPE;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(PowerMockRunner.class)
@@ -27,7 +27,7 @@ public class MapzenManagerTest {
   }
 
   @Test public void shouldNotBeNull() throws Exception {
-    Context context = mock(Context.class);
+    Context context = getMockContext();
     Resources resources = new TestResources();
     when(context.getResources()).thenReturn(resources);
     MapzenManager mapzenManager = MapzenManager.instance(context);
@@ -36,7 +36,7 @@ public class MapzenManagerTest {
 
   @Test(expected = IllegalStateException.class)
   public void getApiKey_shouldReturnThrowIfNotSet() throws Exception {
-    Context context = mock(Context.class);
+    Context context = getMockContext();
     Resources resources = new TestResources();
     when(context.getResources()).thenReturn(resources);
     MapzenManager mapzenManager = MapzenManager.instance(context);
@@ -45,7 +45,7 @@ public class MapzenManagerTest {
 
   @Test(expected = IllegalStateException.class)
   public void getApiKey_shouldReturnThrowIfResourceNotFound() throws Exception {
-    Context context = mock(Context.class);
+    Context context = getMockContext();
     Resources resources = new TestResourcesNotFound();
     when(context.getResources()).thenReturn(resources);
     MapzenManager mapzenManager = MapzenManager.instance(context);
@@ -53,7 +53,7 @@ public class MapzenManagerTest {
   }
 
   @Test public void getApiKey_shouldReturnStringResourceValue() throws Exception {
-    Context context = mock(Context.class);
+    Context context = getMockContext();
     TestResources resources = new TestResources();
     resources.testApiKey = "mapzen-fake-api-key";
     when(context.getResources()).thenReturn(resources);
@@ -62,7 +62,7 @@ public class MapzenManagerTest {
   }
 
   @Test public void setApiKey_shouldOverrideStringResourcesValue() throws Exception {
-    Context context = mock(Context.class);
+    Context context = getMockContext();
     TestResources resources = new TestResources();
     resources.testApiKey = "mapzen-fake-api-key";
     when(context.getResources()).thenReturn(resources);

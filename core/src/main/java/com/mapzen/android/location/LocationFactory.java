@@ -11,7 +11,6 @@ import android.content.Context;
 public class LocationFactory {
 
   private static LostApiClient shared;
-  private static Context context;
 
   /**
    * Returns shared {@link LostApiClient}.
@@ -23,9 +22,8 @@ public class LocationFactory {
    * and future attempts to bind the fused location service would fail.
    */
   @Deprecated public static LostApiClient sharedClient(Context context) {
-    if (LocationFactory.context != context) {
+    if (shared == null) {
       shared = new LostApiClient.Builder(context).build();
-      LocationFactory.context = context;
     }
 
     return shared;
@@ -42,9 +40,8 @@ public class LocationFactory {
    */
   @Deprecated public static LostApiClient sharedClient(Context context,
       ConnectionCallbacks callbacks) {
-    if (LocationFactory.context != context) {
+    if (shared == null) {
       shared = new LostApiClient.Builder(context).addConnectionCallbacks(callbacks).build();
-      LocationFactory.context = context;
     }
 
     return shared;

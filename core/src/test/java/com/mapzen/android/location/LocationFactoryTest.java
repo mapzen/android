@@ -38,16 +38,16 @@ public class LocationFactoryTest {
         .isEqualTo(LocationFactory.sharedClient(context, callbacks));
   }
 
-  @Test public void sharedClient_shouldReturnNewClientForNewContext() throws Exception {
+  @Test public void sharedClient_shouldReturnSameClientForNewContext() throws Exception {
     assertThat(LocationFactory.sharedClient(Mockito.mock(Context.class)))
-        .isNotEqualTo(LocationFactory.sharedClient(Mockito.mock(Context.class)));
+        .isEqualTo(LocationFactory.sharedClient(Mockito.mock(Context.class)));
   }
 
-  @Test public void sharedClientWithCallbacks_shouldReturnNewClientForNewContext()
+  @Test public void sharedClientWithCallbacks_shouldReturnSameClientForNewContext()
       throws Exception {
     LostApiClient.ConnectionCallbacks callbacks = new TestConnectionCallbacks();
     assertThat(LocationFactory.sharedClient(Mockito.mock(Context.class), callbacks))
-        .isNotEqualTo(LocationFactory.sharedClient(Mockito.mock(Context.class), callbacks));
+        .isEqualTo(LocationFactory.sharedClient(Mockito.mock(Context.class), callbacks));
   }
 
   private class TestConnectionCallbacks implements LostApiClient.ConnectionCallbacks {

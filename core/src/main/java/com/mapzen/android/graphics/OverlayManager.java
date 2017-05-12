@@ -19,6 +19,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageButton;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -86,12 +87,6 @@ public class OverlayManager implements TouchInput.PanResponder, TouchInput.Rotat
     @Override public void onLocationChanged(Location location) {
       handleLocationChange(location);
     }
-
-    @Override public void onProviderEnabled(String provider) {
-    }
-
-    @Override public void onProviderDisabled(String provider) {
-    }
   };
 
   View.OnClickListener compassExternalClickListener;
@@ -116,11 +111,11 @@ public class OverlayManager implements TouchInput.PanResponder, TouchInput.Rotat
 
   private static class OverlayManagerConnectionCallbacks
       implements LostApiClient.ConnectionCallbacks {
-    private OverlayManager overlayManager;
+    private WeakReference<OverlayManager> overlayManager;
 
     @Override public void onConnected() {
-      if (overlayManager != null) {
-        overlayManager.enableLocationLayer();
+      if (overlayManager != null && overlayManager.get() != null) {
+        overlayManager.get().enableLocationLayer();
       }
     }
 
@@ -128,7 +123,7 @@ public class OverlayManager implements TouchInput.PanResponder, TouchInput.Rotat
     }
 
     public void setOverlayManager(OverlayManager overlayManager) {
-      this.overlayManager = overlayManager;
+      this.overlayManager = new WeakReference(overlayManager);
     }
   };
 
