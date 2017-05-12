@@ -17,7 +17,6 @@ import static com.mapzen.TestHelper.getMockContext;
 import static com.mapzen.android.core.MapzenManager.API_KEY_RES_NAME;
 import static com.mapzen.android.core.MapzenManager.API_KEY_RES_TYPE;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(PowerMockRunner.class)
