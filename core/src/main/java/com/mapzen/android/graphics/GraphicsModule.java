@@ -26,4 +26,12 @@ import dagger.Provides;
   @Provides @Singleton public MapStateManager providesMapStateManager() {
     return new MapStateManager();
   }
+
+  /**
+   * Returns the object used create scene updates for global variables on a {@link MapzenMap}.
+   * @return
+   */
+  @Provides @Singleton public SceneUpdateManager providesSceneUpdateManager() {
+    return new SceneUpdateManager();
+  }
 }

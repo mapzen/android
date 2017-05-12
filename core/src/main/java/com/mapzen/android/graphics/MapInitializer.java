@@ -9,7 +9,7 @@ import com.mapzen.tangram.SceneUpdate;
 
 import android.content.Context;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -18,8 +18,6 @@ import javax.inject.Inject;
  * Class responsible for initializing the map.
  */
 public class MapInitializer {
-  static final String STYLE_GLOBAL_VAR_API_KEY = "global.sdk_mapzen_api_key";
-  static final String STYLE_GLOBAL_VAR_LANGUAGE = "global.ux_language";
 
   private Context context;
 
@@ -29,17 +27,21 @@ public class MapInitializer {
 
   private MapStateManager mapStateManager;
 
+  private SceneUpdateManager sceneUpdateManager;
+
   private Locale locale = Locale.getDefault();
 
   /**
    * Creates a new instance.
    */
   @Inject MapInitializer(Context context, TileHttpHandler tileHttpHandler,
-      MapDataManager mapDataManager, MapStateManager mapStateManager) {
+      MapDataManager mapDataManager, MapStateManager mapStateManager,
+      SceneUpdateManager sceneUpdateManager) {
     this.context = context;
     this.tileHttpHandler = tileHttpHandler;
     this.mapDataManager = mapDataManager;
     this.mapStateManager = mapStateManager;
+    this.sceneUpdateManager = sceneUpdateManager;
   }
 
   /**
@@ -84,17 +86,16 @@ public class MapInitializer {
   }
 
   private void loadMap(final MapView mapView, String sceneFile, final OnMapReadyCallback callback) {
-    final ArrayList<SceneUpdate> sceneUpdates = new ArrayList<>(1);
     final String apiKey = MapzenManager.instance(context).getApiKey();
-    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_API_KEY, apiKey));
-    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_LANGUAGE, locale.getLanguage()));
+    final List<SceneUpdate> sceneUpdates = sceneUpdateManager.getUpdatesFor(apiKey, locale);
     getTangramView(mapView).getMapAsync(new com.mapzen.tangram.MapView.OnMapReadyCallback() {
       @Override public void onMapReady(MapController mapController) {
         mapController.setHttpHandler(tileHttpHandler);
+        MapzenManager mapzenManager = MapzenManager.instance(mapView.getContext());
         callback.onMapReady(
             new MapzenMap(mapView, mapController, new OverlayManager(mapView, mapController,
                 mapDataManager, mapStateManager), mapStateManager, new LabelPickHandler(mapView),
-                new MarkerManager(mapController)));
+                new MarkerManager(mapController), sceneUpdateManager, locale, mapzenManager));
       }
     }, sceneFile, sceneUpdates);
   }

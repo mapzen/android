@@ -1,5 +1,6 @@
 package com.mapzen.android.graphics;
 
+import com.mapzen.android.core.MapzenManager;
 import com.mapzen.android.graphics.model.BitmapMarker;
 import com.mapzen.android.graphics.model.CameraType;
 import com.mapzen.android.graphics.model.EaseType;
@@ -25,6 +26,7 @@ import android.view.View;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -41,6 +43,9 @@ public class MapzenMap {
   private final MapStateManager mapStateManager;
   private final LabelPickHandler labelPickHandler;
   private final MarkerManager markerManager;
+  private final SceneUpdateManager sceneUpdateManager;
+  private final MapzenManager mapzenManager;
+  private Locale locale;
 
   boolean pickFeatureOnSingleTapConfirmed = false;
   boolean pickLabelOnSingleTapConfirmed = false;
@@ -140,13 +145,17 @@ public class MapzenMap {
    */
   MapzenMap(MapView mapView, MapController mapController, OverlayManager overlayManager,
       MapStateManager mapStateManager, LabelPickHandler labelPickHandler,
-      MarkerManager markerManager) {
+      MarkerManager markerManager, SceneUpdateManager sceneUpdateManager, Locale locale,
+      MapzenManager mapzenManager) {
     this.mapView = mapView;
     this.mapController = mapController;
     this.overlayManager = overlayManager;
     this.mapStateManager = mapStateManager;
     this.labelPickHandler = labelPickHandler;
     this.markerManager = markerManager;
+    this.sceneUpdateManager = sceneUpdateManager;
+    this.locale = locale;
+    this.mapzenManager = mapzenManager;
     mapView.setMapzenMap(this);
     mapController.setPanResponder(internalPanResponder);
     mapController.setRotateResponder(internalRotateResponder);
@@ -173,7 +182,9 @@ public class MapzenMap {
    */
   public void setStyle(MapStyle mapStyle) {
     mapStateManager.setMapStyle(mapStyle);
-    mapController.loadSceneFile(mapStyle.getSceneFile());
+    String apiKey = mapzenManager.getApiKey();
+    List<SceneUpdate> globalSceneUpdates = sceneUpdateManager.getUpdatesFor(apiKey, locale);
+    mapController.loadSceneFile(mapStyle.getSceneFile(), globalSceneUpdates);
   }
 
   /**

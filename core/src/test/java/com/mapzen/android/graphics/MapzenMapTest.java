@@ -1,5 +1,6 @@
 package com.mapzen.android.graphics;
 
+import com.mapzen.android.core.MapzenManager;
 import com.mapzen.android.graphics.model.BitmapMarker;
 import com.mapzen.android.graphics.model.CameraType;
 import com.mapzen.android.graphics.model.EaseType;
@@ -7,6 +8,7 @@ import com.mapzen.android.graphics.model.Marker;
 import com.mapzen.android.graphics.model.MarkerManager;
 import com.mapzen.android.graphics.model.Polygon;
 import com.mapzen.android.graphics.model.Polyline;
+import com.mapzen.android.graphics.model.WalkaboutStyle;
 import com.mapzen.tangram.LabelPickResult;
 import com.mapzen.tangram.LngLat;
 import com.mapzen.tangram.MapController;
@@ -25,11 +27,13 @@ import android.graphics.PointF;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyFloat;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -49,6 +53,9 @@ public class MapzenMapTest {
   private LabelPickHandler labelPickHandler;
   private MapStateManager mapStateManager;
   private MarkerManager markerManager;
+  private SceneUpdateManager sceneUpdateManager;
+  private Locale locale;
+  private MapzenManager mapzenManager;
 
   @Before public void setUp() throws Exception {
     mapView = new TestMapView();
@@ -73,8 +80,11 @@ public class MapzenMapTest {
     mapStateManager = new MapStateManager();
     labelPickHandler = new LabelPickHandler(mapView);
     markerManager = new MarkerManager(mapController);
+    sceneUpdateManager = new SceneUpdateManager();
+    locale = new Locale("en_us");
+    mapzenManager = mock(MapzenManager.class);
     map = new MapzenMap(mapView, mapController, overlayManager, mapStateManager, labelPickHandler,
-        markerManager);
+        markerManager, sceneUpdateManager, locale, mapzenManager);
   }
 
   @Test public void shouldNotBeNull() throws Exception {
@@ -581,6 +591,12 @@ public class MapzenMapTest {
     mapController.setTilt(1.57f);
     map.onDestroy();
     assertThat(mapStateManager.getTilt()).isEqualTo(1.57f);
+  }
+
+  @Test public void setStyle_shouldSetStyleAndGlobalVariables() throws Exception {
+    map.setStyle(new WalkaboutStyle());
+    verify(mapController).loadSceneFile(
+        anyString(), any(List.class));
   }
 
   public class TestRotateResponder implements TouchInput.RotateResponder {
