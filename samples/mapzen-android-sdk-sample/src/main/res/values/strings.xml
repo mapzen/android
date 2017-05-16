@@ -30,6 +30,7 @@
   <string-array name="overlay_array">
     <item>(Select Overlay)</item>
     <item>Transit</item>
+    <item>Bike</item>
     <item>None</item>
   </string-array>
   <string name="on_single_tap_up">Single Tap Up</string>

@@ -19,6 +19,7 @@ import java.util.Locale;
 
 import static com.mapzen.TestHelper.getMockContext;
 import static com.mapzen.android.graphics.SceneUpdateManager.STYLE_GLOBAL_VAR_API_KEY;
+import static com.mapzen.android.graphics.SceneUpdateManager.STYLE_GLOBAL_VAR_BIKE_OVERLAY;
 import static com.mapzen.android.graphics.SceneUpdateManager.STYLE_GLOBAL_VAR_LANGUAGE;
 import static com.mapzen.android.graphics.SceneUpdateManager.STYLE_GLOBAL_VAR_TRANSIT_OVERLAY;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -72,6 +73,8 @@ public class MapInitializerTest {
     ArrayList<SceneUpdate> expected = new ArrayList<>();
     expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_API_KEY, "fake-mapzen-api-key"));
     expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_LANGUAGE, Locale.getDefault().getLanguage()));
+    expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "false"));
+    expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false"));
     verify(tangramMapView).getMapAsync(any(com.mapzen.tangram.MapView.OnMapReadyCallback.class),
         anyString(), argThat(new SceneUpdatesMatcher(expected)));
   }
@@ -90,6 +93,8 @@ public class MapInitializerTest {
     ArrayList<SceneUpdate> expected = new ArrayList<>();
     expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_API_KEY, "fake-mapzen-api-key"));
     expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_LANGUAGE, Locale.FRENCH.getLanguage()));
+    expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "false"));
+    expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false"));
     verify(tangramMapView).getMapAsync(any(com.mapzen.tangram.MapView.OnMapReadyCallback.class),
         anyString(), argThat(new SceneUpdatesMatcher(expected)));
   }
@@ -109,6 +114,7 @@ public class MapInitializerTest {
     expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_API_KEY, "fake-mapzen-api-key"));
     expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_LANGUAGE, Locale.getDefault().getLanguage()));
     expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "false"));
+    expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false"));
     verify(tangramMapView).getMapAsync(any(com.mapzen.tangram.MapView.OnMapReadyCallback.class),
         anyString(), argThat(new SceneUpdatesMatcher(expected)));
   }

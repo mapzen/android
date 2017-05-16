@@ -184,7 +184,7 @@ public class MapzenMap {
     mapStateManager.setMapStyle(mapStyle);
     String apiKey = mapzenManager.getApiKey();
     List<SceneUpdate> globalSceneUpdates = sceneUpdateManager.getUpdatesFor(apiKey, locale,
-        mapStateManager.isTransitOverlayEnabled());
+        mapStateManager.isTransitOverlayEnabled(), mapStateManager.isBikeOverlayEnabled());
     mapController.loadSceneFile(mapStyle.getSceneFile(), globalSceneUpdates);
   }
 
@@ -866,13 +866,25 @@ public class MapzenMap {
   }
 
   /**
-   * All mapzen basemap styles support a transit overlay. This method toggles its visibility.
+   * All Mapzen basemap styles support a transit overlay. This method toggles its visibility.
    * @param transitOverlayEnabled whether or not the transit overlay should be enabled.
    */
   public void setTransitOverlayEnabled(boolean transitOverlayEnabled) {
     mapStateManager.setTransitOverlayEnabled(transitOverlayEnabled);
     mapController.queueSceneUpdate(sceneUpdateManager.getTransitOverlayUpdate(
         transitOverlayEnabled));
+    mapController.applySceneUpdates();
+  }
+
+  /**
+   * The {@link com.mapzen.android.graphics.model.WalkaboutStyle} supports a bike overlay. This
+   * method toggles its visibility.
+   * @param bikeOverlayEnabled whether or not the bike overlay should be enabled.
+   */
+  public void setBikeOverlayEnabled(boolean bikeOverlayEnabled) {
+    mapStateManager.setBikeOverlayEnabled(bikeOverlayEnabled);
+    mapController.queueSceneUpdate(sceneUpdateManager.getBikeOverlayUpdate(
+        bikeOverlayEnabled));
     mapController.applySceneUpdates();
   }
 
@@ -890,6 +902,7 @@ public class MapzenMap {
     setTilt(mapStateManager.getTilt());
     setCameraType(mapStateManager.getCameraType());
     setTransitOverlayEnabled(mapStateManager.isTransitOverlayEnabled());
+    setBikeOverlayEnabled(mapStateManager.isBikeOverlayEnabled());
   }
 
   /**

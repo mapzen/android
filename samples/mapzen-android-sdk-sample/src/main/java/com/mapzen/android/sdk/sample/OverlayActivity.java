@@ -23,6 +23,9 @@ public class OverlayActivity extends SwitchStyleActivity {
           enableTransitOverlay();
           break;
         case 2:
+          enableBikeOverlay();
+          break;
+        case 3:
           disableOverlays();
           break;
         default:
@@ -71,6 +74,16 @@ public class OverlayActivity extends SwitchStyleActivity {
   }
 
   /**
+   * Enables transit overlay on the map.
+   */
+  void enableBikeOverlay() {
+    if (mapzenMap == null) {
+      return;
+    }
+    mapzenMap.setBikeOverlayEnabled(true);
+  }
+
+  /**
    * Disables transit overlay on the map.
    */
   void disableOverlays() {
@@ -78,5 +91,6 @@ public class OverlayActivity extends SwitchStyleActivity {
       return;
     }
     mapzenMap.setTransitOverlayEnabled(false);
+    mapzenMap.setBikeOverlayEnabled(false);
   }
 }

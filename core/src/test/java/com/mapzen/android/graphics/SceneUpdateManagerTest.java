@@ -23,19 +23,27 @@ public class SceneUpdateManagerTest {
   }
 
   @Test public void getUpdatesFor_shouldReturnCorrectKeysAndValues() {
-    List<SceneUpdate> updates = manager.getUpdatesFor(apiKey, locale, false);
-    assertThat(updates.size()).isEqualTo(3);
+    List<SceneUpdate> updates = manager.getUpdatesFor(apiKey, locale, false, false);
+    assertThat(updates.size()).isEqualTo(4);
     assertThat(updates.get(0).getPath()).isEqualTo("global.sdk_mapzen_api_key");
     assertThat(updates.get(0).getValue()).isEqualTo(apiKey);
     assertThat(updates.get(1).getPath()).isEqualTo("global.ux_language");
     assertThat(updates.get(1).getValue()).isEqualTo(locale.getLanguage());
     assertThat(updates.get(2).getPath()).isEqualTo("global.sdk_transit_overlay");
     assertThat(updates.get(2).getValue()).isEqualTo("false");
+    assertThat(updates.get(3).getPath()).isEqualTo("global.sdk_bike_overlay");
+    assertThat(updates.get(3).getValue()).isEqualTo("false");
   }
 
-  @Test public void shouldReturnCorrectKeysAndValues() {
+  @Test public void getTransitOverlayUpdate_shouldReturnCorrectKeysAndValues() {
     SceneUpdate update = manager.getTransitOverlayUpdate(true);
     assertThat(update.getPath()).isEqualTo("global.sdk_transit_overlay");
+    assertThat(update.getValue()).isEqualTo("true");
+  }
+
+  @Test public void getBikeOverlayUpdate_shouldReturnCorrectKeysAndValues() {
+    SceneUpdate update = manager.getBikeOverlayUpdate(true);
+    assertThat(update.getPath()).isEqualTo("global.sdk_bike_overlay");
     assertThat(update.getValue()).isEqualTo("true");
   }
 }

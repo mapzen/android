@@ -18,6 +18,9 @@ class SceneUpdatesMatcher extends ArgumentMatcher<List<SceneUpdate>> {
 
   @Override public boolean matches(Object argument) {
     List<SceneUpdate> otherObject = (List<SceneUpdate>) argument;
+    if (updates.size() != otherObject.size()) {
+      return false;
+    }
     for (int i = 0; i < updates.size(); i++) {
       if (!SceneUpdateMatcher.updateEqualToUpdate(updates.get(i), otherObject.get(i))) {
         return false;

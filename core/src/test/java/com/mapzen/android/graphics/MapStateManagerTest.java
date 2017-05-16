@@ -86,4 +86,13 @@ public class MapStateManagerTest {
     stateManager.setTransitOverlayEnabled(true);
     assertThat(stateManager.isTransitOverlayEnabled()).isEqualTo(true);
   }
+
+  @Test public void isBikeOverlayEnabled_shouldDefaultToFalse() {
+    assertThat(stateManager.isBikeOverlayEnabled()).isEqualTo(false);
+  }
+
+  @Test public void setBikeOverlayEnabled_shouldUpdateBikeOverlayEnabled() {
+    stateManager.setBikeOverlayEnabled(true);
+    assertThat(stateManager.isBikeOverlayEnabled()).isEqualTo(true);
+  }
 }
