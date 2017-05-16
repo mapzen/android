@@ -26,8 +26,10 @@ public class OverlayActivity extends SwitchStyleActivity {
           enableBikeOverlay();
           break;
         case 3:
-          disableOverlays();
+          enablePathOverlay();
           break;
+        case 4:
+          disableOverlays();
         default:
           break;
       }
@@ -74,13 +76,23 @@ public class OverlayActivity extends SwitchStyleActivity {
   }
 
   /**
-   * Enables transit overlay on the map.
+   * Enables bike overlay on the map.
    */
   void enableBikeOverlay() {
     if (mapzenMap == null) {
       return;
     }
     mapzenMap.setBikeOverlayEnabled(true);
+  }
+
+  /**
+   * Enables path overlay on the map.
+   */
+  void enablePathOverlay() {
+    if (mapzenMap == null) {
+      return;
+    }
+    mapzenMap.setPathOverlayEnabled(true);
   }
 
   /**
@@ -92,5 +104,6 @@ public class OverlayActivity extends SwitchStyleActivity {
     }
     mapzenMap.setTransitOverlayEnabled(false);
     mapzenMap.setBikeOverlayEnabled(false);
+    mapzenMap.setPathOverlayEnabled(false);
   }
 }

@@ -34,6 +34,7 @@ import java.util.Map;
 import static com.mapzen.android.graphics.SceneUpdateManager.STYLE_GLOBAL_VAR_API_KEY;
 import static com.mapzen.android.graphics.SceneUpdateManager.STYLE_GLOBAL_VAR_BIKE_OVERLAY;
 import static com.mapzen.android.graphics.SceneUpdateManager.STYLE_GLOBAL_VAR_LANGUAGE;
+import static com.mapzen.android.graphics.SceneUpdateManager.STYLE_GLOBAL_VAR_PATH_OVERLAY;
 import static com.mapzen.android.graphics.SceneUpdateManager.STYLE_GLOBAL_VAR_TRANSIT_OVERLAY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
@@ -571,7 +572,7 @@ public class MapzenMapTest {
 
   @Test public void applySceneUpdates_shouldInvokeMapController() {
     map.applySceneUpdates();
-    verify(mapController, times(3)).applySceneUpdates();
+    verify(mapController, times(4)).applySceneUpdates();
   }
 
   @Test public void onDestroy_shouldPersistMapPosition() throws Exception {
@@ -629,13 +630,18 @@ public class MapzenMapTest {
     verify(mapController).queueSceneUpdate(argThat(new SceneUpdateMatcher(sceneUpdate)));
   }
 
+  @Test public void restoreMapState_shouldPersistPathOverlayEnabled() throws Exception {
+    SceneUpdate sceneUpdate = new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "false");
+    verify(mapController).queueSceneUpdate(argThat(new SceneUpdateMatcher(sceneUpdate)));
+  }
+
   @Test public void setStyle_shouldSetStyleAndGlobalVariables() throws Exception {
     map.setStyle(new WalkaboutStyle());
     verify(mapController).loadSceneFile(
         anyString(), any(List.class));
   }
 
-  @Test public void setTransitOverlayEnabled_shouldBeDisabledByDefault() throws Exception {
+  @Test public void overlays_shouldBeDisabledByDefault() throws Exception {
     when(mapzenManager.getApiKey()).thenReturn("test-api-key");
     map.setStyle(new BubbleWrapStyle());
     List<SceneUpdate> sceneUpdates = new ArrayList<>();
@@ -643,6 +649,7 @@ public class MapzenMapTest {
     sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_LANGUAGE, locale.getLanguage()));
     sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "false"));
     sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false"));
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "false"));
     verify(mapController).loadSceneFile(anyString(), argThat(
         new SceneUpdatesMatcher(sceneUpdates)));
   }
@@ -653,19 +660,7 @@ public class MapzenMapTest {
     verify(mapController).queueSceneUpdate(argThat(new SceneUpdateMatcher(falseSceneUpdate)));
     SceneUpdate sceneUpdate = new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "true");
     verify(mapController).queueSceneUpdate(argThat(new SceneUpdateMatcher(sceneUpdate)));
-    verify(mapController, times(3)).applySceneUpdates();
-  }
-
-  @Test public void setBikeOverlayEnabled_shouldBeDisabledByDefault() throws Exception {
-    when(mapzenManager.getApiKey()).thenReturn("test-api-key");
-    map.setStyle(new BubbleWrapStyle());
-    List<SceneUpdate> sceneUpdates = new ArrayList<>();
-    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_API_KEY, "test-api-key"));
-    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_LANGUAGE, locale.getLanguage()));
-    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "false"));
-    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false"));
-    verify(mapController).loadSceneFile(anyString(), argThat(
-        new SceneUpdatesMatcher(sceneUpdates)));
+    verify(mapController, times(4)).applySceneUpdates();
   }
 
   @Test public void setBikeOverlayEnabled_shouldCallSceneUpdates() throws Exception {
@@ -674,7 +669,16 @@ public class MapzenMapTest {
     verify(mapController).queueSceneUpdate(argThat(new SceneUpdateMatcher(falseSceneUpdate)));
     SceneUpdate sceneUpdate = new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "true");
     verify(mapController).queueSceneUpdate(argThat(new SceneUpdateMatcher(sceneUpdate)));
-    verify(mapController, times(3)).applySceneUpdates();
+    verify(mapController, times(4)).applySceneUpdates();
+  }
+
+  @Test public void setPathOverlayEnabled_shouldCallSceneUpdates() throws Exception {
+    map.setPathOverlayEnabled(true);
+    SceneUpdate falseSceneUpdate = new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "false");
+    verify(mapController).queueSceneUpdate(argThat(new SceneUpdateMatcher(falseSceneUpdate)));
+    SceneUpdate sceneUpdate = new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "true");
+    verify(mapController).queueSceneUpdate(argThat(new SceneUpdateMatcher(sceneUpdate)));
+    verify(mapController, times(4)).applySceneUpdates();
   }
 
   public class TestRotateResponder implements TouchInput.RotateResponder {

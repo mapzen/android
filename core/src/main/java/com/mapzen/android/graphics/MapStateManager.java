@@ -20,6 +20,7 @@ class MapStateManager {
   private CameraType cameraType = CameraType.ISOMETRIC;
   private boolean transitOverlayEnabled = false;
   private boolean bikeOverlayEnabled = false;
+  private boolean pathOverlayEnabled = false;
 
   public void setPersistMapState(boolean persistMapState) {
     this.persistMapState = persistMapState;
@@ -91,5 +92,13 @@ class MapStateManager {
 
   public boolean isBikeOverlayEnabled() {
     return this.bikeOverlayEnabled;
+  }
+
+  public void setPathOverlayEnabled(boolean pathOverlayEnabled) {
+    this.pathOverlayEnabled = pathOverlayEnabled;
+  }
+
+  public boolean isPathOverlayEnabled() {
+    return this.pathOverlayEnabled;
   }
 }

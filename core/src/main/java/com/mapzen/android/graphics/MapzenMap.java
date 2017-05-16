@@ -184,7 +184,8 @@ public class MapzenMap {
     mapStateManager.setMapStyle(mapStyle);
     String apiKey = mapzenManager.getApiKey();
     List<SceneUpdate> globalSceneUpdates = sceneUpdateManager.getUpdatesFor(apiKey, locale,
-        mapStateManager.isTransitOverlayEnabled(), mapStateManager.isBikeOverlayEnabled());
+        mapStateManager.isTransitOverlayEnabled(), mapStateManager.isBikeOverlayEnabled(),
+        mapStateManager.isPathOverlayEnabled());
     mapController.loadSceneFile(mapStyle.getSceneFile(), globalSceneUpdates);
   }
 
@@ -889,6 +890,18 @@ public class MapzenMap {
   }
 
   /**
+   * The {@link com.mapzen.android.graphics.model.WalkaboutStyle} supports a path overlay. This
+   * method toggles its visibility.
+   * @param pathOverlayEnabled whether or not the path overlay should be enabled.
+   */
+  public void setPathOverlayEnabled(boolean pathOverlayEnabled) {
+    mapStateManager.setPathOverlayEnabled(pathOverlayEnabled);
+    mapController.queueSceneUpdate(sceneUpdateManager.getPathOverlayUpdate(
+        pathOverlayEnabled));
+    mapController.applySceneUpdates();
+  }
+
+  /**
    * Restores all aspects of the map EXCEPT the style, this is restored in the
    * {@link MapInitializer}.
    */
@@ -903,6 +916,7 @@ public class MapzenMap {
     setCameraType(mapStateManager.getCameraType());
     setTransitOverlayEnabled(mapStateManager.isTransitOverlayEnabled());
     setBikeOverlayEnabled(mapStateManager.isBikeOverlayEnabled());
+    setPathOverlayEnabled(mapStateManager.isPathOverlayEnabled());
   }
 
   /**
