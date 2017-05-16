@@ -2,6 +2,7 @@ package com.mapzen.android.graphics;
 
 import com.mapzen.android.core.MapzenManager;
 import com.mapzen.android.graphics.model.BitmapMarker;
+import com.mapzen.android.graphics.model.BubbleWrapStyle;
 import com.mapzen.android.graphics.model.CameraType;
 import com.mapzen.android.graphics.model.EaseType;
 import com.mapzen.android.graphics.model.Marker;
@@ -30,10 +31,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import static com.mapzen.android.graphics.SceneUpdateManager.STYLE_GLOBAL_VAR_API_KEY;
+import static com.mapzen.android.graphics.SceneUpdateManager.STYLE_GLOBAL_VAR_LANGUAGE;
+import static com.mapzen.android.graphics.SceneUpdateManager.STYLE_GLOBAL_VAR_TRANSIT_OVERLAY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyFloat;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -597,6 +602,24 @@ public class MapzenMapTest {
     map.setStyle(new WalkaboutStyle());
     verify(mapController).loadSceneFile(
         anyString(), any(List.class));
+  }
+
+  @Test public void setTransitOverlayEnabled_shouldBeDisabledByDefault() throws Exception {
+    when(mapzenManager.getApiKey()).thenReturn("test-api-key");
+    map.setStyle(new BubbleWrapStyle());
+    List<SceneUpdate> sceneUpdates = new ArrayList<>();
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_API_KEY, "test-api-key"));
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_LANGUAGE, locale.getLanguage()));
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "false"));
+    verify(mapController).loadSceneFile(anyString(), argThat(
+        new SceneUpdatesMatcher(sceneUpdates)));
+  }
+
+  @Test public void setTransitOverlayEnabled_shouldCallSceneUpdates() throws Exception {
+    map.setTransitOverlayEnabled(true);
+    SceneUpdate sceneUpdate = new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "true");
+    verify(mapController).queueSceneUpdate(argThat(new SceneUpdateMatcher(sceneUpdate)));
+    verify(mapController).applySceneUpdates();
   }
 
   public class TestRotateResponder implements TouchInput.RotateResponder {

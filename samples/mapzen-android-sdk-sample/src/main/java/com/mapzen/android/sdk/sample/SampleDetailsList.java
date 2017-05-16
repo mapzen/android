@@ -59,6 +59,9 @@ public final class SampleDetailsList {
           MapzenSearchViewActivity.class),
       new SampleDetails(R.string.custom_marker_demo_label,
           R.string.custom_marker_demo_description,
-          CustomMarkerActivity.class)
+          CustomMarkerActivity.class),
+      new SampleDetails(R.string.overlay_demo_label,
+          R.string.overlay_demo_description,
+          OverlayActivity.class)
   };
 }

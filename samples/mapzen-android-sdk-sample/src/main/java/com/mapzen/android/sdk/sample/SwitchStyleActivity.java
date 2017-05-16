@@ -24,7 +24,7 @@ public class SwitchStyleActivity extends BaseDemoActivity
     implements AdapterView.OnItemSelectedListener {
 
   private MapFragment mapFragment;
-  private MapzenMap mapzenMap;
+  MapzenMap mapzenMap;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -49,9 +49,16 @@ public class SwitchStyleActivity extends BaseDemoActivity
         if (state == null) {
           mapzenMap.setStyle(new BubbleWrapStyle());
         }
-        mapzenMap.setPersistMapState(true);
+        configureMap();
       }
     });
+  }
+
+  /**
+   * Configure the map after it has loaded the style. Override in subclass.
+   */
+  void configureMap() {
+    mapzenMap.setPersistMapState(true);
   }
 
   private void changeMapStyle(MapStyle style) {

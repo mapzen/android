@@ -80,4 +80,6 @@
   <string name="label_listener_map_demo_description">Adds a label pick listener to the map</string>
   <string name="custom_marker_demo_label">Custom Marker</string>
   <string name="custom_marker_demo_description">Adds a custom bitmap marker</string>
+  <string name="overlay_demo_label">Overlays</string>
+  <string name="overlay_demo_description">Toggle transit, bike, and path overlays</string>
 </resources>
