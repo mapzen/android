@@ -20,8 +20,8 @@ import java.util.List;
 import java.util.Locale;
 
 import static com.mapzen.TestHelper.getMockContext;
-import static com.mapzen.android.graphics.MapInitializer.STYLE_GLOBAL_VAR_API_KEY;
-import static com.mapzen.android.graphics.MapInitializer.STYLE_GLOBAL_VAR_LANGUAGE;
+import static com.mapzen.android.graphics.SceneUpdateManager.STYLE_GLOBAL_VAR_API_KEY;
+import static com.mapzen.android.graphics.SceneUpdateManager.STYLE_GLOBAL_VAR_LANGUAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -40,7 +40,7 @@ public class MapInitializerTest {
   @Before public void setUp() throws Exception {
     CoreDI.init(getMockContext());
     mapInitializer = new MapInitializer(mock(Context.class), mock(TileHttpHandler.class),
-        new MapDataManager(), new MapStateManager());
+        new MapDataManager(), new MapStateManager(), new SceneUpdateManager());
   }
 
   @Test public void shouldNotBeNull() throws Exception {

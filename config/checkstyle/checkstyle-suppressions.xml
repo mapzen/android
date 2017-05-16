@@ -17,4 +17,5 @@
     <suppress checks="LineLength" files="OkHttp3TestUtils.java"/>
     <suppress checks="TypeName" files="R.java" />
     <suppress checks="ConstantName" files="R.java" />
+    <suppress checks="ParameterNumberCheck" files="src/main/java/com/mapzen/android/graphics/MapzenMap.java"/>
 </suppressions>
