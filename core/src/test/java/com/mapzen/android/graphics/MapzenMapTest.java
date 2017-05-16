@@ -674,7 +674,8 @@ public class MapzenMapTest {
     sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "false"));
     sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false"));
     sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "false"));
-    verify(mapController, times(2)).queueSceneUpdate(argThat(new SceneUpdatesMatcher(sceneUpdates)));
+    verify(mapController, times(2)).queueSceneUpdate(
+        argThat(new SceneUpdatesMatcher(sceneUpdates)));
     verify(mapController, times(2)).applySceneUpdates();
   }
 
