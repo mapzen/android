@@ -28,7 +28,7 @@ public class SwitchStyleActivity extends BaseDemoActivity
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_spinner);
+    setContentView(getLayoutId());
 
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
@@ -52,6 +52,10 @@ public class SwitchStyleActivity extends BaseDemoActivity
         configureMap();
       }
     });
+  }
+
+  int getLayoutId() {
+    return R.layout.activity_spinner;
   }
 
   /**

@@ -26,6 +26,11 @@
     <item>Walkabout</item>
     <item>Zinc</item>
   </string-array>
+  <string-array name="overlay_array">
+    <item></item>
+    <item>Transit</item>
+    <item>None</item>
+  </string-array>
   <string name="on_single_tap_up">Single Tap Up</string>
   <string name="on_single_tap_confirmed">Single Tap Confirmed</string>
   <string name="on_shove">Shove</string>
