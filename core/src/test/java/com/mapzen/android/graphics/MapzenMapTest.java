@@ -572,7 +572,7 @@ public class MapzenMapTest {
 
   @Test public void applySceneUpdates_shouldInvokeMapController() {
     map.applySceneUpdates();
-    verify(mapController, times(4)).applySceneUpdates();
+    verify(mapController, times(2)).applySceneUpdates();
   }
 
   @Test public void onDestroy_shouldPersistMapPosition() throws Exception {
@@ -620,19 +620,12 @@ public class MapzenMapTest {
     verify(mapController).setCameraType(MapController.CameraType.ISOMETRIC);
   }
 
-  @Test public void restoreMapState_shouldPersistTransitOverlayEnabled() throws Exception {
-    SceneUpdate sceneUpdate = new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "false");
-    verify(mapController).queueSceneUpdate(argThat(new SceneUpdateMatcher(sceneUpdate)));
-  }
-
-  @Test public void restoreMapState_shouldPersistBikeOverlayEnabled() throws Exception {
-    SceneUpdate sceneUpdate = new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false");
-    verify(mapController).queueSceneUpdate(argThat(new SceneUpdateMatcher(sceneUpdate)));
-  }
-
-  @Test public void restoreMapState_shouldPersistPathOverlayEnabled() throws Exception {
-    SceneUpdate sceneUpdate = new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "false");
-    verify(mapController).queueSceneUpdate(argThat(new SceneUpdateMatcher(sceneUpdate)));
+  @Test public void restoreMapState_shouldPersistOverlaysEnabled() throws Exception {
+    ArrayList<SceneUpdate> updates = new ArrayList<>();
+    updates.add(new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "false"));
+    updates.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false"));
+    updates.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "false"));
+    verify(mapController).queueSceneUpdate(argThat(new SceneUpdatesMatcher(updates)));
   }
 
   @Test public void setStyle_shouldSetStyleAndGlobalVariables() throws Exception {
@@ -656,29 +649,43 @@ public class MapzenMapTest {
 
   @Test public void setTransitOverlayEnabled_shouldCallSceneUpdates() throws Exception {
     map.setTransitOverlayEnabled(true);
-    SceneUpdate falseSceneUpdate = new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "false");
-    verify(mapController).queueSceneUpdate(argThat(new SceneUpdateMatcher(falseSceneUpdate)));
     SceneUpdate sceneUpdate = new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "true");
     verify(mapController).queueSceneUpdate(argThat(new SceneUpdateMatcher(sceneUpdate)));
-    verify(mapController, times(4)).applySceneUpdates();
+    verify(mapController, times(2)).applySceneUpdates();
   }
 
   @Test public void setBikeOverlayEnabled_shouldCallSceneUpdates() throws Exception {
     map.setBikeOverlayEnabled(true);
-    SceneUpdate falseSceneUpdate = new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false");
-    verify(mapController).queueSceneUpdate(argThat(new SceneUpdateMatcher(falseSceneUpdate)));
     SceneUpdate sceneUpdate = new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "true");
     verify(mapController).queueSceneUpdate(argThat(new SceneUpdateMatcher(sceneUpdate)));
-    verify(mapController, times(4)).applySceneUpdates();
+    verify(mapController, times(2)).applySceneUpdates();
   }
 
   @Test public void setPathOverlayEnabled_shouldCallSceneUpdates() throws Exception {
     map.setPathOverlayEnabled(true);
-    SceneUpdate falseSceneUpdate = new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "false");
-    verify(mapController).queueSceneUpdate(argThat(new SceneUpdateMatcher(falseSceneUpdate)));
     SceneUpdate sceneUpdate = new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "true");
     verify(mapController).queueSceneUpdate(argThat(new SceneUpdateMatcher(sceneUpdate)));
-    verify(mapController, times(4)).applySceneUpdates();
+    verify(mapController, times(2)).applySceneUpdates();
+  }
+
+  @Test public void setOverlaysEnabled_fff_shouldCallSceneUpdates() throws Exception {
+    map.setOverlaysEnabled(false, false, false);
+    List<SceneUpdate> sceneUpdates = new ArrayList<>();
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "false"));
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false"));
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "false"));
+    verify(mapController, times(2)).queueSceneUpdate(argThat(new SceneUpdatesMatcher(sceneUpdates)));
+    verify(mapController, times(2)).applySceneUpdates();
+  }
+
+  @Test public void setOverlaysEnabled_ttt_shouldCallSceneUpdates() throws Exception {
+    map.setOverlaysEnabled(true, true, true);
+    List<SceneUpdate> sceneUpdates = new ArrayList<>();
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "true"));
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "true"));
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "true"));
+    verify(mapController).queueSceneUpdate(argThat(new SceneUpdatesMatcher(sceneUpdates)));
+    verify(mapController, times(2)).applySceneUpdates();
   }
 
   public class TestRotateResponder implements TouchInput.RotateResponder {

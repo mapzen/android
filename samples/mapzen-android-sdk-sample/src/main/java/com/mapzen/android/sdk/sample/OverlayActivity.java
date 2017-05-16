@@ -102,8 +102,6 @@ public class OverlayActivity extends SwitchStyleActivity {
     if (mapzenMap == null) {
       return;
     }
-    mapzenMap.setTransitOverlayEnabled(false);
-    mapzenMap.setBikeOverlayEnabled(false);
-    mapzenMap.setPathOverlayEnabled(false);
+    mapzenMap.setOverlaysEnabled(false, false, false);
   }
 }
