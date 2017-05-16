@@ -77,4 +77,13 @@ public class MapStateManagerTest {
     stateManager.setCameraType(CameraType.PERSPECTIVE);
     assertThat(stateManager.getCameraType()).isEqualTo(CameraType.PERSPECTIVE);
   }
+
+  @Test public void isTransitOverlayEnabled_shouldDefaultToFalse() {
+    assertThat(stateManager.isTransitOverlayEnabled()).isEqualTo(false);
+  }
+
+  @Test public void setTransitOverlayEnabled_shouldUpdateTransitOverlayEnabled() {
+    stateManager.setTransitOverlayEnabled(true);
+    assertThat(stateManager.isTransitOverlayEnabled()).isEqualTo(true);
+  }
 }

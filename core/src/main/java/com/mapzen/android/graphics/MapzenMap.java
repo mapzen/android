@@ -46,7 +46,6 @@ public class MapzenMap {
   private final SceneUpdateManager sceneUpdateManager;
   private final MapzenManager mapzenManager;
   private Locale locale;
-  private boolean transitOverlayEnabled = false;
 
   boolean pickFeatureOnSingleTapConfirmed = false;
   boolean pickLabelOnSingleTapConfirmed = false;
@@ -185,7 +184,7 @@ public class MapzenMap {
     mapStateManager.setMapStyle(mapStyle);
     String apiKey = mapzenManager.getApiKey();
     List<SceneUpdate> globalSceneUpdates = sceneUpdateManager.getUpdatesFor(apiKey, locale,
-        transitOverlayEnabled);
+        mapStateManager.isTransitOverlayEnabled());
     mapController.loadSceneFile(mapStyle.getSceneFile(), globalSceneUpdates);
   }
 
@@ -871,7 +870,7 @@ public class MapzenMap {
    * @param transitOverlayEnabled whether or not the transit overlay should be enabled.
    */
   public void setTransitOverlayEnabled(boolean transitOverlayEnabled) {
-    this.transitOverlayEnabled = transitOverlayEnabled;
+    mapStateManager.setTransitOverlayEnabled(transitOverlayEnabled);
     mapController.queueSceneUpdate(sceneUpdateManager.getTransitOverlayUpdate(
         transitOverlayEnabled));
     mapController.applySceneUpdates();
@@ -890,6 +889,7 @@ public class MapzenMap {
     setRotation(mapStateManager.getRotation());
     setTilt(mapStateManager.getTilt());
     setCameraType(mapStateManager.getCameraType());
+    setTransitOverlayEnabled(mapStateManager.isTransitOverlayEnabled());
   }
 
   /**

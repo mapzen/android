@@ -43,12 +43,9 @@ public class SwitchStyleActivity extends BaseDemoActivity
 
     final Bundle state = savedInstanceState;
     mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
-    mapFragment.getMapAsync(new BubbleWrapStyle(), new OnMapReadyCallback() {
+    mapFragment.getMapAsync(new OnMapReadyCallback() {
       @Override public void onMapReady(MapzenMap mapzenMap) {
         SwitchStyleActivity.this.mapzenMap = mapzenMap;
-        if (state == null) {
-          mapzenMap.setStyle(new BubbleWrapStyle());
-        }
         configureMap();
       }
     });
@@ -74,18 +71,21 @@ public class SwitchStyleActivity extends BaseDemoActivity
   @Override public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
     switch (position) {
       case 0:
-        changeMapStyle(new BubbleWrapStyle());
+        // do nothing
         break;
       case 1:
-        changeMapStyle(new CinnabarStyle());
+        changeMapStyle(new BubbleWrapStyle());
         break;
       case 2:
-        changeMapStyle(new RefillStyle());
+        changeMapStyle(new CinnabarStyle());
         break;
       case 3:
-        changeMapStyle(new WalkaboutStyle());
+        changeMapStyle(new RefillStyle());
         break;
       case 4:
+        changeMapStyle(new WalkaboutStyle());
+        break;
+      case 5:
         changeMapStyle(new ZincStyle());
         break;
       default:

@@ -570,7 +570,7 @@ public class MapzenMapTest {
 
   @Test public void applySceneUpdates_shouldInvokeMapController() {
     map.applySceneUpdates();
-    verify(mapController).applySceneUpdates();
+    verify(mapController, times(2)).applySceneUpdates();
   }
 
   @Test public void onDestroy_shouldPersistMapPosition() throws Exception {
@@ -598,6 +598,31 @@ public class MapzenMapTest {
     assertThat(mapStateManager.getTilt()).isEqualTo(1.57f);
   }
 
+  @Test public void restoreMapState_shouldPersistPosition() throws Exception {
+    verify(mapController).setPosition(new LngLat(0, 0));
+  }
+
+  @Test public void restoreMapState_shouldPersistZoom() throws Exception {
+    verify(mapController).setZoom(0);
+  }
+
+  @Test public void restoreMapState_shouldPersistRotation() throws Exception {
+    verify(mapController).setRotation(0);
+  }
+
+  @Test public void restoreMapState_shouldPersistTilt() throws Exception {
+    verify(mapController).setTilt(0);
+  }
+
+  @Test public void restoreMapState_shouldPersistCameraType() throws Exception {
+    verify(mapController).setCameraType(MapController.CameraType.ISOMETRIC);
+  }
+
+  @Test public void restoreMapState_shouldPersistTransitOverlayEnabled() throws Exception {
+    SceneUpdate sceneUpdate = new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "false");
+    verify(mapController).queueSceneUpdate(argThat(new SceneUpdateMatcher(sceneUpdate)));
+  }
+
   @Test public void setStyle_shouldSetStyleAndGlobalVariables() throws Exception {
     map.setStyle(new WalkaboutStyle());
     verify(mapController).loadSceneFile(
@@ -617,9 +642,11 @@ public class MapzenMapTest {
 
   @Test public void setTransitOverlayEnabled_shouldCallSceneUpdates() throws Exception {
     map.setTransitOverlayEnabled(true);
+    SceneUpdate falseSceneUpdate = new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "false");
+    verify(mapController).queueSceneUpdate(argThat(new SceneUpdateMatcher(falseSceneUpdate)));
     SceneUpdate sceneUpdate = new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "true");
     verify(mapController).queueSceneUpdate(argThat(new SceneUpdateMatcher(sceneUpdate)));
-    verify(mapController).applySceneUpdates();
+    verify(mapController, times(2)).applySceneUpdates();
   }
 
   public class TestRotateResponder implements TouchInput.RotateResponder {

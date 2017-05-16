@@ -53,7 +53,6 @@ public class OverlayActivity extends SwitchStyleActivity {
 
   @Override protected void onDestroy() {
     mapzenMap.setMyLocationEnabled(false);
-    mapzenMap.setTransitOverlayEnabled(false);
     super.onDestroy();
   }
 
