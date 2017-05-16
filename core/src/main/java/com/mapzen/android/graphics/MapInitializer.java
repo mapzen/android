@@ -87,8 +87,9 @@ public class MapInitializer {
 
   private void loadMap(final MapView mapView, String sceneFile, final OnMapReadyCallback callback) {
     final String apiKey = MapzenManager.instance(context).getApiKey();
-    final List<SceneUpdate> sceneUpdates = sceneUpdateManager.getUpdatesFor(apiKey, locale, false,
-        false, false);
+    final List<SceneUpdate> sceneUpdates = sceneUpdateManager.getUpdatesFor(apiKey, locale,
+        mapStateManager.isTransitOverlayEnabled(), mapStateManager.isBikeOverlayEnabled(),
+        mapStateManager.isPathOverlayEnabled());
     getTangramView(mapView).getMapAsync(new com.mapzen.tangram.MapView.OnMapReadyCallback() {
       @Override public void onMapReady(MapController mapController) {
         mapController.setHttpHandler(tileHttpHandler);

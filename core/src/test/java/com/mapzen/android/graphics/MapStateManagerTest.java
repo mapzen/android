@@ -96,8 +96,8 @@ public class MapStateManagerTest {
     assertThat(stateManager.isBikeOverlayEnabled()).isEqualTo(true);
   }
 
-  @Test public void isPathOverlayEnabled_shouldDefaultToFalse() {
-    assertThat(stateManager.isPathOverlayEnabled()).isEqualTo(false);
+  @Test public void isPathOverlayEnabled_shouldDefaultToTrue() {
+    assertThat(stateManager.isPathOverlayEnabled()).isEqualTo(true);
   }
 
   @Test public void setPathOverlayEnabled_shouldUpdatePathOverlayEnabled() {

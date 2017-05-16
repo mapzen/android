@@ -624,7 +624,7 @@ public class MapzenMapTest {
     ArrayList<SceneUpdate> updates = new ArrayList<>();
     updates.add(new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "false"));
     updates.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false"));
-    updates.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "false"));
+    updates.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "true"));
     verify(mapController).queueSceneUpdate(argThat(new SceneUpdatesMatcher(updates)));
   }
 
@@ -634,7 +634,7 @@ public class MapzenMapTest {
         anyString(), any(List.class));
   }
 
-  @Test public void overlays_shouldBeDisabledByDefault() throws Exception {
+  @Test public void overlays_shouldBeDisabledByDefaultExceptPath() throws Exception {
     when(mapzenManager.getApiKey()).thenReturn("test-api-key");
     map.setStyle(new BubbleWrapStyle());
     List<SceneUpdate> sceneUpdates = new ArrayList<>();
@@ -642,7 +642,7 @@ public class MapzenMapTest {
     sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_LANGUAGE, locale.getLanguage()));
     sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "false"));
     sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false"));
-    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "false"));
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "true"));
     verify(mapController).loadSceneFile(anyString(), argThat(
         new SceneUpdatesMatcher(sceneUpdates)));
   }
@@ -674,8 +674,7 @@ public class MapzenMapTest {
     sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "false"));
     sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false"));
     sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "false"));
-    verify(mapController, times(2)).queueSceneUpdate(
-        argThat(new SceneUpdatesMatcher(sceneUpdates)));
+    verify(mapController).queueSceneUpdate(argThat(new SceneUpdatesMatcher(sceneUpdates)));
     verify(mapController, times(2)).applySceneUpdates();
   }
 
