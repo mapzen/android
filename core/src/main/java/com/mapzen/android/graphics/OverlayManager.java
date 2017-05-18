@@ -1,6 +1,5 @@
 package com.mapzen.android.graphics;
 
-import com.mapzen.R;
 import com.mapzen.android.graphics.model.Marker;
 import com.mapzen.android.graphics.model.Polygon;
 import com.mapzen.android.graphics.model.Polyline;
