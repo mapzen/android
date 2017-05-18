@@ -8,7 +8,6 @@ import com.mapzen.tangram.SceneUpdate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentMatcher;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.SuppressStaticInitializationFor;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -16,12 +15,14 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import android.content.Context;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import static com.mapzen.TestHelper.getMockContext;
 import static com.mapzen.android.graphics.SceneUpdateManager.STYLE_GLOBAL_VAR_API_KEY;
+import static com.mapzen.android.graphics.SceneUpdateManager.STYLE_GLOBAL_VAR_BIKE_OVERLAY;
 import static com.mapzen.android.graphics.SceneUpdateManager.STYLE_GLOBAL_VAR_LANGUAGE;
+import static com.mapzen.android.graphics.SceneUpdateManager.STYLE_GLOBAL_VAR_PATH_OVERLAY;
+import static com.mapzen.android.graphics.SceneUpdateManager.STYLE_GLOBAL_VAR_TRANSIT_OVERLAY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -73,8 +74,11 @@ public class MapInitializerTest {
     ArrayList<SceneUpdate> expected = new ArrayList<>();
     expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_API_KEY, "fake-mapzen-api-key"));
     expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_LANGUAGE, Locale.getDefault().getLanguage()));
+    expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "false"));
+    expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false"));
+    expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "true"));
     verify(tangramMapView).getMapAsync(any(com.mapzen.tangram.MapView.OnMapReadyCallback.class),
-        anyString(), argThat(new SceneUpdateMatcher(expected)));
+        anyString(), argThat(new SceneUpdatesMatcher(expected)));
   }
 
   @Test public void init_shouldSetGivenMapLocale() throws Exception {
@@ -91,32 +95,31 @@ public class MapInitializerTest {
     ArrayList<SceneUpdate> expected = new ArrayList<>();
     expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_API_KEY, "fake-mapzen-api-key"));
     expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_LANGUAGE, Locale.FRENCH.getLanguage()));
+    expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "false"));
+    expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false"));
+    expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "true"));
     verify(tangramMapView).getMapAsync(any(com.mapzen.tangram.MapView.OnMapReadyCallback.class),
-        anyString(), argThat(new SceneUpdateMatcher(expected)));
+        anyString(), argThat(new SceneUpdatesMatcher(expected)));
   }
 
-  /**
-   * Custom Mockito matcher for a list of SceneUpdates. Verifies paths and values are all equal.
-   */
-  private class SceneUpdateMatcher extends ArgumentMatcher<List<SceneUpdate>> {
-    List<SceneUpdate> thisObject;
+  @Test public void init_shouldDefaultToOverlaysDisabledExceptPath() throws Exception {
+    // Arrange
+    MapView mapView = mock(MapView.class);
+    TangramMapView tangramMapView = mock(TangramMapView.class);
+    when(mapView.getTangramMapView()).thenReturn(tangramMapView);
+    MapzenManager.instance(getMockContext()).setApiKey("fake-mapzen-api-key");
 
-    public SceneUpdateMatcher(List<SceneUpdate> thisObject) {
-      this.thisObject = thisObject;
-    }
+    // Act
+    mapInitializer.init(mapView, new BubbleWrapStyle(), null);
 
-    @Override public boolean matches(Object argument) {
-      List<SceneUpdate> otherObject = (List<SceneUpdate>) argument;
-      for (int i = 0; i < thisObject.size(); i++) {
-        if (!thisObject.get(i).getPath().equals(otherObject.get(i).getPath())) {
-          return false;
-        }
-        if (!thisObject.get(i).getValue().equals(otherObject.get(i).getValue())) {
-          return false;
-        }
-      }
-
-      return true;
-    }
+    // Assert
+    ArrayList<SceneUpdate> expected = new ArrayList<>();
+    expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_API_KEY, "fake-mapzen-api-key"));
+    expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_LANGUAGE, Locale.getDefault().getLanguage()));
+    expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "false"));
+    expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false"));
+    expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "true"));
+    verify(tangramMapView).getMapAsync(any(com.mapzen.tangram.MapView.OnMapReadyCallback.class),
+        anyString(), argThat(new SceneUpdatesMatcher(expected)));
   }
 }

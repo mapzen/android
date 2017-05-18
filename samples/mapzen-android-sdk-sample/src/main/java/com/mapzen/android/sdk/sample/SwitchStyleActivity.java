@@ -24,11 +24,11 @@ public class SwitchStyleActivity extends BaseDemoActivity
     implements AdapterView.OnItemSelectedListener {
 
   private MapFragment mapFragment;
-  private MapzenMap mapzenMap;
+  MapzenMap mapzenMap;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_spinner);
+    setContentView(getLayoutId());
 
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
@@ -43,15 +43,23 @@ public class SwitchStyleActivity extends BaseDemoActivity
 
     final Bundle state = savedInstanceState;
     mapFragment = (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
-    mapFragment.getMapAsync(new BubbleWrapStyle(), new OnMapReadyCallback() {
+    mapFragment.getMapAsync(new OnMapReadyCallback() {
       @Override public void onMapReady(MapzenMap mapzenMap) {
         SwitchStyleActivity.this.mapzenMap = mapzenMap;
-        if (state == null) {
-          mapzenMap.setStyle(new BubbleWrapStyle());
-        }
-        mapzenMap.setPersistMapState(true);
+        configureMap();
       }
     });
+  }
+
+  int getLayoutId() {
+    return R.layout.activity_spinner;
+  }
+
+  /**
+   * Configure the map after it has loaded the style. Override in subclass.
+   */
+  void configureMap() {
+    mapzenMap.setPersistMapState(true);
   }
 
   private void changeMapStyle(MapStyle style) {
@@ -63,18 +71,21 @@ public class SwitchStyleActivity extends BaseDemoActivity
   @Override public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
     switch (position) {
       case 0:
-        changeMapStyle(new BubbleWrapStyle());
+        // do nothing
         break;
       case 1:
-        changeMapStyle(new CinnabarStyle());
+        changeMapStyle(new BubbleWrapStyle());
         break;
       case 2:
-        changeMapStyle(new RefillStyle());
+        changeMapStyle(new CinnabarStyle());
         break;
       case 3:
-        changeMapStyle(new WalkaboutStyle());
+        changeMapStyle(new RefillStyle());
         break;
       case 4:
+        changeMapStyle(new WalkaboutStyle());
+        break;
+      case 5:
         changeMapStyle(new ZincStyle());
         break;
       default:

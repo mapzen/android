@@ -44,6 +44,9 @@
         android:name=".CustomMarkerActivity"
         android:label="@string/custom_marker_demo_label"
         />
+    <activity
+        android:name=".OverlayActivity"
+        android:theme="@style/AppTheme.NoActionBar"/>
   </application>
 
 </manifest>

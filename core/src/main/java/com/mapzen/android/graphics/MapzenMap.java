@@ -24,6 +24,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -183,7 +184,9 @@ public class MapzenMap {
   public void setStyle(MapStyle mapStyle) {
     mapStateManager.setMapStyle(mapStyle);
     String apiKey = mapzenManager.getApiKey();
-    List<SceneUpdate> globalSceneUpdates = sceneUpdateManager.getUpdatesFor(apiKey, locale);
+    List<SceneUpdate> globalSceneUpdates = sceneUpdateManager.getUpdatesFor(apiKey, locale,
+        mapStateManager.isTransitOverlayEnabled(), mapStateManager.isBikeOverlayEnabled(),
+        mapStateManager.isPathOverlayEnabled());
     mapController.loadSceneFile(mapStyle.getSceneFile(), globalSceneUpdates);
   }
 
@@ -865,6 +868,60 @@ public class MapzenMap {
   }
 
   /**
+   * All Mapzen basemap styles support a transit overlay. This method toggles its visibility.
+   * @param transitOverlayEnabled whether or not the transit overlay should be enabled.
+   */
+  public void setTransitOverlayEnabled(boolean transitOverlayEnabled) {
+    mapStateManager.setTransitOverlayEnabled(transitOverlayEnabled);
+    mapController.queueSceneUpdate(sceneUpdateManager.getTransitOverlayUpdate(
+        transitOverlayEnabled));
+    mapController.applySceneUpdates();
+  }
+
+  /**
+   * The {@link com.mapzen.android.graphics.model.WalkaboutStyle} supports a bike overlay. This
+   * method toggles its visibility.
+   * @param bikeOverlayEnabled whether or not the bike overlay should be enabled.
+   */
+  public void setBikeOverlayEnabled(boolean bikeOverlayEnabled) {
+    mapStateManager.setBikeOverlayEnabled(bikeOverlayEnabled);
+    mapController.queueSceneUpdate(sceneUpdateManager.getBikeOverlayUpdate(
+        bikeOverlayEnabled));
+    mapController.applySceneUpdates();
+  }
+
+  /**
+   * The {@link com.mapzen.android.graphics.model.WalkaboutStyle} supports a path overlay. This
+   * method toggles its visibility.
+   * @param pathOverlayEnabled whether or not the path overlay should be enabled.
+   */
+  public void setPathOverlayEnabled(boolean pathOverlayEnabled) {
+    mapStateManager.setPathOverlayEnabled(pathOverlayEnabled);
+    mapController.queueSceneUpdate(sceneUpdateManager.getPathOverlayUpdate(
+        pathOverlayEnabled));
+    mapController.applySceneUpdates();
+  }
+
+  /**
+   * Method to facilitate enabling/disabling multiple overlays at once.
+   * @param transitOverlayEnabled whether or not the transit overlay should be enabled.
+   * @param bikeOverlayEnabled whether or not the bike overlay should be enabled.
+   * @param pathOverlayEnabled whether or not the path overlay should be enabled.
+   */
+  public void setOverlaysEnabled(boolean transitOverlayEnabled, boolean bikeOverlayEnabled,
+      boolean pathOverlayEnabled) {
+    mapStateManager.setTransitOverlayEnabled(transitOverlayEnabled);
+    mapStateManager.setBikeOverlayEnabled(bikeOverlayEnabled);
+    mapStateManager.setPathOverlayEnabled(pathOverlayEnabled);
+    List<SceneUpdate> updates = new ArrayList<>();
+    updates.add(sceneUpdateManager.getTransitOverlayUpdate(transitOverlayEnabled));
+    updates.add(sceneUpdateManager.getBikeOverlayUpdate(bikeOverlayEnabled));
+    updates.add(sceneUpdateManager.getPathOverlayUpdate(pathOverlayEnabled));
+    mapController.queueSceneUpdate(updates);
+    mapController.applySceneUpdates();
+  }
+
+  /**
    * Restores all aspects of the map EXCEPT the style, this is restored in the
    * {@link MapInitializer}.
    */
@@ -877,6 +934,8 @@ public class MapzenMap {
     setRotation(mapStateManager.getRotation());
     setTilt(mapStateManager.getTilt());
     setCameraType(mapStateManager.getCameraType());
+    setOverlaysEnabled(mapStateManager.isTransitOverlayEnabled(),
+        mapStateManager.isBikeOverlayEnabled(), mapStateManager.isPathOverlayEnabled());
   }
 
   /**
