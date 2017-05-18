@@ -526,12 +526,14 @@ import static org.powermock.api.mockito.PowerMockito.mock;
   }
 
   @Test public void onPan_shouldDeactivateFindMe() throws Exception {
+    when(mapView.getFindMe()).thenReturn(findMeButton);
     findMeButton.setActivated(true);
     overlayManager.onPan(1f, 2f, 3f, 4f);
     assertThat(findMeButton.isActivated()).isFalse();
   }
 
   @Test public void onFling_shouldDeactivateFindMe() throws Exception {
+    when(mapView.getFindMe()).thenReturn(findMeButton);
     findMeButton.setActivated(true);
     overlayManager.onFling(1f, 2f, 3f, 4f);
     assertThat(findMeButton.isActivated()).isFalse();
