@@ -1,6 +1,5 @@
 package com.mapzen.android.graphics;
 
-import com.mapzen.R;
 import com.mapzen.android.graphics.model.Marker;
 import com.mapzen.android.graphics.model.Polygon;
 import com.mapzen.android.graphics.model.Polyline;
@@ -936,13 +935,13 @@ public class OverlayManager implements TouchInput.PanResponder, TouchInput.Rotat
   }
 
   @Override public boolean onPan(float startX, float startY, float endX, float endY) {
-    final View findMe = mapView.findViewById(R.id.mz_find_me);
+    final View findMe = mapView.getFindMe();
     findMe.setActivated(false);
     return false;
   }
 
   @Override public boolean onFling(float posX, float posY, float velocityX, float velocityY) {
-    final View findMe = mapView.findViewById(R.id.mz_find_me);
+    final View findMe = mapView.getFindMe();
     findMe.setActivated(false);
     return false;
   }
