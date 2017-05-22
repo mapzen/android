@@ -1,5 +1,7 @@
 # Creating and Monitoring Geofences
 
+A geofence is a geographic boundary defined by a set of geographic coordinates.
+
 With Lost you can create `Geofence`s to monitor when a user enters or exits an area and get notifications when this occurs.
 
 First create a `Geofence` object:
