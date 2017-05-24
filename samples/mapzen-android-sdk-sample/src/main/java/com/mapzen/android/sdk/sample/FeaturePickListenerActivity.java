@@ -35,7 +35,9 @@ public class FeaturePickListenerActivity extends BaseDemoActivity {
       } else {
         title = properties.get(PROP_NAME);
       }
-      Toast.makeText(FeaturePickListenerActivity.this, title, Toast.LENGTH_SHORT).show();
+      if (title != null && !title.isEmpty()) {
+        Toast.makeText(FeaturePickListenerActivity.this, title, Toast.LENGTH_SHORT).show();
+      }
     }
   };
 
