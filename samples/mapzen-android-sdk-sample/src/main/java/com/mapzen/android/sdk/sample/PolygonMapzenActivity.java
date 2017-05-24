@@ -34,6 +34,7 @@ public class PolygonMapzenActivity extends BaseDemoActivity {
         .add(new LngLat(-73.984770, 40.734807))
         .add(new LngLat(-73.998674, 40.732172))
         .add(new LngLat(-73.996142, 40.741050))
+        .add(new LngLat(-73.9903, 40.74433))
         .build();
     map.addPolygon(polygon);
 
