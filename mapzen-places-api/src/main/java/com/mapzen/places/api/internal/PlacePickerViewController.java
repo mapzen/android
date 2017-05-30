@@ -9,15 +9,15 @@ import com.mapzen.places.api.Place;
 interface PlacePickerViewController {
   /**
    * Show an alert dialog to represent the place selected by the user.
-   * @param id
-   * @param title
+   * @param id the selected {@link Place}'s id.
+   * @param title the dialog title.
    */
   void showDialog(String id, String title);
 
   /**
    * Update the visible dialog with more details about the selected place.
-   * @param id
-   * @param message
+   * @param id the selected {@link Place}'s id.
+   * @param message the dialog message.
    */
   void updateDialog(String id, String message);
 

@@ -3,10 +3,12 @@ package com.mapzen.places.api.internal;
 import com.mapzen.android.lost.api.LocationServices;
 import com.mapzen.android.lost.api.LostApiClient;
 import com.mapzen.pelias.BoundingBox;
+import com.mapzen.pelias.gson.Feature;
 import com.mapzen.pelias.gson.Properties;
 import com.mapzen.pelias.gson.Result;
 import com.mapzen.places.api.AutocompleteFilter;
 import com.mapzen.places.api.LatLngBounds;
+import com.mapzen.places.api.Place;
 
 import android.location.Location;
 import android.util.Log;
@@ -22,6 +24,7 @@ class PlaceAutocompletePresenter {
   private static final double LON_DEFAULT = 0.0;
 
   private final PlaceDetailFetcher detailFetcher;
+  private final PeliasFeatureConverter featureConverter;
   private final OnPlaceDetailsFetchedListener detailFetchListener;
   private final FilterMapper filterMapper;
   private final PointToBoundsConverter pointConverter;
@@ -33,8 +36,10 @@ class PlaceAutocompletePresenter {
    * Creates a new instance.
    */
   PlaceAutocompletePresenter(PlaceDetailFetcher detailFetcher,
+      PeliasFeatureConverter featureConverter,
       OnPlaceDetailsFetchedListener detailFetchListener, FilterMapper filterMapper) {
     this.detailFetcher = detailFetcher;
+    this.featureConverter = featureConverter;
     this.detailFetchListener = detailFetchListener;
     this.filterMapper = filterMapper;
     this.pointConverter = new PointToBoundsConverter();
@@ -64,9 +69,16 @@ class PlaceAutocompletePresenter {
    * @param response parsed result returned by the service.
    */
   void onResponse(Response<Result> response) {
-    Properties properties = response.body().getFeatures().get(0).properties;
+    Feature feature = response.body().getFeatures().get(0);
+    Properties properties = feature.properties;
     String gid = properties.gid;
-    detailFetcher.fetchDetails(gid, detailFetchListener);
+    if (gid.isEmpty()) {
+      Place place = featureConverter.getFetchedPlace(feature);
+      String details = featureConverter.getDetails(feature);
+      detailFetchListener.onFetchSuccess(place, details);
+    } else {
+      detailFetcher.fetchDetails(gid, detailFetchListener);
+    }
   }
 
   /**
