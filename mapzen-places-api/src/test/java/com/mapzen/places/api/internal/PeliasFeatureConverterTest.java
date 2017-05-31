@@ -12,9 +12,9 @@ import static com.mapzen.places.api.Place.TYPE_ESTABLISHMENT;
 import static com.mapzen.places.api.Place.TYPE_POINT_OF_INTEREST;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class PeliasFeatureToPlaceConverterTest {
+public class PeliasFeatureConverterTest {
 
-  PeliasFeatureToPlaceConverter converter = new PeliasFeatureToPlaceConverter();
+  PeliasFeatureConverter converter = new PeliasFeatureConverter();
 
   @Test
   public void getFetchedPlace_shouldHaveCorrectAddress() throws Exception {

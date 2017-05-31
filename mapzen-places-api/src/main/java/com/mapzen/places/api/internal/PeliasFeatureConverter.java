@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Handles converting Pelias {@link Feature} objects into {@link Place} objects for
- * {@link PeliasCallbackHandler}.
+ * Handles converting Pelias {@link Feature} objects into {@link Place} objects and detail strings
+ * for {@link PeliasCallbackHandler}.
  */
-class PeliasFeatureToPlaceConverter {
+class PeliasFeatureConverter {
 
   private PeliasLayerToPlaceTypeConverter layerConverter;
   private PointToBoundsConverter pointConverter;
@@ -21,7 +21,7 @@ class PeliasFeatureToPlaceConverter {
   /**
    * Constructor.
    */
-  PeliasFeatureToPlaceConverter() {
+  PeliasFeatureConverter() {
     layerConverter = new PeliasLayerToPlaceTypeConverter();
     pointConverter = new PointToBoundsConverter();
   }
@@ -58,5 +58,27 @@ class PeliasFeatureToPlaceConverter {
         .setViewPort(viewport)
         .setWebsiteUri(null)
         .build();
+  }
+
+  /**
+   * Constructs a detail string from a {@link Feature}.
+   * @param feature
+   * @return
+   */
+  String getDetails(Feature feature) {
+    String title = feature.properties.name;
+    return getDetails(feature, title);
+  }
+
+  /**
+   * Constructs a detail string from a {@link Feature} and title.
+   * @param feature
+   * @param title
+   * @return
+   */
+  String getDetails(Feature feature, String title) {
+    String label = feature.properties.label;
+    label = label.replace(title + ",", "").trim();
+    return title + "\n" + label;
   }
 }

@@ -87,9 +87,11 @@ public class PlaceAutocompleteActivity extends AppCompatActivity
     PeliasCallbackHandler callbackHandler = new PeliasCallbackHandler();
     PlaceDetailFetcher detailFetcher = new PeliasPlaceDetailFetcher(mapzenSearch.getPelias(),
         callbackHandler);
+    PeliasFeatureConverter featureConverter = new PeliasFeatureConverter();
     OnPlaceDetailsFetchedListener detailFetchListener = new AutocompleteDetailFetchListener(this);
     FilterMapper filterMapper = new PeliasFilterMapper();
-    presenter = new PlaceAutocompletePresenter(detailFetcher, detailFetchListener, filterMapper);
+    presenter = new PlaceAutocompletePresenter(detailFetcher, featureConverter, detailFetchListener,
+        filterMapper);
     presenter.setBounds((LatLngBounds) safeGetExtra(EXTRA_BOUNDS));
     presenter.setFilter((AutocompleteFilter) safeGetExtra(EXTRA_FILTER));
     LostApiClient client = new LostApiClient.Builder(this).build();

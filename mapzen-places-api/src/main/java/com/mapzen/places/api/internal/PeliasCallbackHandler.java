@@ -13,13 +13,13 @@ import retrofit2.Response;
  */
 class PeliasCallbackHandler {
 
-  private PeliasFeatureToPlaceConverter converter;
+  private PeliasFeatureConverter converter;
 
   /**
    * Constructor.
    */
   PeliasCallbackHandler() {
-    converter = new PeliasFeatureToPlaceConverter();
+    converter = new PeliasFeatureConverter();
   }
 
   /**
@@ -41,7 +41,7 @@ class PeliasCallbackHandler {
     for (Feature feature : response.body().getFeatures()) {
       if (feature.properties.name.equals(title)) {
         Place place = converter.getFetchedPlace(feature);
-        String details = getDetails(feature, title);
+        String details = converter.getDetails(feature, title);
         listener.onFetchSuccess(place, details);
       }
     }
@@ -63,9 +63,8 @@ class PeliasCallbackHandler {
     }
 
     Feature feature = response.body().getFeatures().get(0);
-    String title = feature.properties.name;
     Place place = converter.getFetchedPlace(feature);
-    String details = getDetails(feature, title);
+    String details = converter.getDetails(feature);
     listener.onFetchSuccess(place, details);
   }
 
@@ -87,11 +86,5 @@ class PeliasCallbackHandler {
    */
   void handleFailure(OnPlaceDetailsFetchedListener listener) {
     listener.onFetchFailure();
-  }
-
-  private String getDetails(Feature feature, String title) {
-    String label = feature.properties.label;
-    label = label.replace(title + ",", "").trim();
-    return title + "\n" + label;
   }
 }

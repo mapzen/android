@@ -11,6 +11,7 @@ import com.mapzen.pelias.gson.Properties;
 import com.mapzen.pelias.gson.Result;
 import com.mapzen.places.api.LatLng;
 import com.mapzen.places.api.LatLngBounds;
+import com.mapzen.places.api.Place;
 
 import org.junit.Test;
 
@@ -19,6 +20,7 @@ import android.support.annotation.NonNull;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import retrofit2.Response;
@@ -26,10 +28,11 @@ import retrofit2.Response;
 public class PlaceAutocompletePresenterTest {
 
   private PlaceDetailFetcher detailFetcher = mock(PlaceDetailFetcher.class);
+  private PeliasFeatureConverter featureConverter = mock(PeliasFeatureConverter.class);
   private OnPlaceDetailsFetchedListener detailFetchListener = mock(
       OnPlaceDetailsFetchedListener.class);
   private PlaceAutocompletePresenter presenter = new PlaceAutocompletePresenter(detailFetcher,
-      detailFetchListener, null);
+      featureConverter, detailFetchListener, null);
 
   @Test
   public void shouldNotBeNull() throws Exception {
@@ -41,6 +44,25 @@ public class PlaceAutocompletePresenterTest {
     Response<Result> response = getTestResponse();
     presenter.onResponse(response);
     verify(detailFetcher).fetchDetails("123abc", detailFetchListener);
+  }
+
+  @Test
+  public void onResponse_noGid_shouldNotFetchDetails() throws Exception {
+    Response<Result> response = getTestResponseNoGid();
+    presenter.onResponse(response);
+    verify(detailFetcher, times(0)).fetchDetails("123abc", detailFetchListener);
+  }
+
+  @Test
+  public void onResponse_noGid_shouldReturnPlaceFromResponse() throws Exception {
+    Response<Result> response = getTestResponseNoGid();
+    Place place = mock(Place.class);
+    String details = "Test detail";
+    Feature feature = response.body().getFeatures().get(0);
+    when(featureConverter.getFetchedPlace(feature)).thenReturn(place);
+    when(featureConverter.getDetails(feature)).thenReturn(details);
+    presenter.onResponse(response);
+    verify(detailFetchListener).onFetchSuccess(place, details);
   }
 
   @Test
@@ -115,6 +137,17 @@ public class PlaceAutocompletePresenterTest {
     Properties properties = new Properties();
     properties.gid = "123abc";
     properties.name = "Test Name";
+    feature.properties = properties;
+    result.getFeatures().add(feature);
+    return Response.success(result);
+  }
+
+  @NonNull private Response<Result> getTestResponseNoGid() {
+    Result result = new Result();
+    Feature feature = new Feature();
+    Properties properties = new Properties();
+    properties.gid = "";
+    properties.name = "Test Name No Gid";
     feature.properties = properties;
     result.getFeatures().add(feature);
     return Response.success(result);

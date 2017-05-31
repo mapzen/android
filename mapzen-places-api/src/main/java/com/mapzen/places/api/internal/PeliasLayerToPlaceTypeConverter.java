@@ -31,7 +31,7 @@ import static com.mapzen.places.api.internal.PeliasLayerConsts.PELIAS_LAYER_VENU
 
 /**
  * Converts a "layer" returned from Pelias into a list of {@link com.mapzen.places.api.Place} types
- * for {@link PeliasFeatureToPlaceConverter}.
+ * for {@link PeliasFeatureConverter}.
  */
 class PeliasLayerToPlaceTypeConverter {
 
