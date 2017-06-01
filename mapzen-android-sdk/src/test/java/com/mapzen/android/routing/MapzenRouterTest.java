@@ -77,7 +77,7 @@ public class MapzenRouterTest {
     double[] point = {70.0, 30.0};
     router.setLocation(point);
     verify(router.getRouter()).setLocation(point);
-    float heading = 1.5f;
+    int heading = 1;
     router.setLocation(point, heading);
     verify(router.getRouter()).setLocation(point, heading);
     String name = "Num Pang Sandwich";
