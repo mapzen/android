@@ -125,7 +125,7 @@ public class MapzenRouter {
    * @param point
    * @return
    */
-  public MapzenRouter setLocation(double[] point, float heading) {
+  public MapzenRouter setLocation(double[] point, int heading) {
     internalRouter.setLocation(point, heading);
     return this;
   }
