@@ -7,7 +7,12 @@ import java.util.Map;
  */
 public interface FeaturePickListener {
   /**
-   * Receive information about features found in a call to {@link #pickFeature(float, float)}.
+   * Receive information about features found in a call to
+   * {@link com.mapzen.tangram.MapController#pickFeature(float, float)}. Note that a feature refers
+   * to a {@link com.mapzen.android.graphics.model.Polygon} or
+   * {@link com.mapzen.android.graphics.model.Polyline} and is any
+   * {@link com.mapzen.tangram.MapData} drawn using non-point style. To receive pick information for
+   * points, use the {@link LabelPickListener} interface.
    *
    * @param properties A mapping of string keys to string or number values
    * @param positionX The horizontal screen coordinate of the center of the feature
