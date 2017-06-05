@@ -12,7 +12,8 @@ public interface FeaturePickListener {
    * to a {@link com.mapzen.android.graphics.model.Polygon} or
    * {@link com.mapzen.android.graphics.model.Polyline} and is any
    * {@link com.mapzen.tangram.MapData} drawn using non-point style. To receive pick information for
-   * points, use the {@link LabelPickListener} interface.
+   * points, including MapData drawn using points style, use the {@link LabelPickListener}
+   * interface.
    *
    * @param properties A mapping of string keys to string or number values
    * @param positionX The horizontal screen coordinate of the center of the feature
