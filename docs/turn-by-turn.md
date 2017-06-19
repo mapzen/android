@@ -2,18 +2,18 @@
 
 ## Getting Started
 
-To start using Mapzen Turn-by-turn in your apps, you need a Mapzen developer API key. After you [sign up for an API key](https://mapzen.com/developers/sign_in) you will need to include it in your application through the Java API or in a `mapzen.xml` properties file in your app resources folder.
+To start using Mapzen Turn-by-turn in your apps, you need a Mapzen API key. After you [sign up for an API key](https://mapzen.com/documentation/overview/) you will need to include it in your application through the Java API or in a `mapzen.xml` properties file in your app resources folder.
 
 **Java API**
 ```java
-MapzenRouter router = new MapzenRouter(this, [YOUR_MAPZEN_API_KEY]);
+MapzenRouter router = new MapzenRouter(this, your-mapzen-api-key);
 ```
 
 -or-
 
 **mapzen.xml**
 ```xml
-<string name="mapzen_api_key">[YOUR_MAPZEN_API_KEY]</string>
+<string name="mapzen_api_key">your-mapzen-api-key</string>
 ```
 
 ```java
@@ -119,7 +119,7 @@ After the listener is set, the engine is ready to receive a route:
 engine.setRoute(route);
 ```
 
-The next thing you need to do is retrieve the device’s current location. We won’t detail out how to do this here but we recommend using a library like [Lost](https://github.com/mapzen/LOST) to facilitate this task. As you receive location updates, you need to notify the `RouteEngine` of the new current location. You can do this by converting your `Location` objects into `ValhallaLocation` objects and simply calling:
+The next thing you need to do is retrieve the device’s current location. Without detailing how to do this here, but it is recommended using a library like [Lost](https://github.com/mapzen/LOST) to facilitate this task. As you receive location updates, you need to notify the `RouteEngine` of the new current location. You can do this by converting your `Location` objects into `ValhallaLocation` objects and simply calling:
 
 ```java
 ValhallaLocation valhallaLocation = new ValhallaLocation();
@@ -131,4 +131,3 @@ engine.onLocationChanged(valhallaLocation);
 ```
 
 Every time this method is called, `RouteEngine` will do the heavy lifting to determine whether the user has started the route, reached a milestone or instruction, gotten lost, or ended the route. Your `RouteListener` will be called on each of these events, allowing you to appropriately request a new route if the user is lost or speak instructions upon the approach of a milestone or instruction.
-
