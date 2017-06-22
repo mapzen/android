@@ -1,11 +1,12 @@
 package com.mapzen.android.core;
 
-import com.mapzen.android.graphics.BaseMapzenMapHttpHandler;
 import com.mapzen.android.graphics.MapzenMapHttpHandler;
 import com.mapzen.android.search.SearchInitializer;
 
 import android.content.Context;
 import android.content.res.Resources;
+
+import java.util.Map;
 
 import javax.inject.Singleton;
 
@@ -46,7 +47,15 @@ import dagger.Provides;
    * Provides HTTP handler to configure User-Agent for outgoing vector tile requests.
    */
   @Provides @Singleton public MapzenMapHttpHandler provideTileHttpHandler() {
-    return new BaseMapzenMapHttpHandler();
+    return new MapzenMapHttpHandler() {
+      @Override public Map<String, String> queryParamsForRequest() {
+        return null;
+      }
+
+      @Override public Map<String, String> headersForRequest() {
+        return null;
+      }
+    };
   }
 
   /**

@@ -8,6 +8,8 @@ import java.util.Map;
 
 import static com.mapzen.android.core.GenericHttpHandler.HEADER_USER_AGENT;
 import static com.mapzen.android.core.GenericHttpHandler.USER_AGENT;
+import static com.mapzen.android.core.TestVals.testHeaders;
+import static com.mapzen.android.core.TestVals.testParams;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import static org.mockito.Matchers.any;
@@ -43,19 +45,5 @@ public class MapzenMapHttpHandlerTest {
     headers.put(HEADER_USER_AGENT, USER_AGENT);
     verify(enqueuer).enqueueRequest(any(OkHttpClient.class), any(Callback.class), eq(url),
         eq(headers));
-  }
-
-  private Map<String, String> testParams() {
-    Map<String, String> map = new HashMap<>();
-    map.put("param1", "val1");
-    map.put("param2", "val2");
-    return map;
-  }
-
-  private Map<String, String> testHeaders() {
-    Map<String, String> map = new HashMap<>();
-    map.put("header1", "val1");
-    map.put("header2", "val2");
-    return map;
   }
 }
