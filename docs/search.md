@@ -2,14 +2,14 @@
 
 ## Getting Started
 
-To start using Mapzen Search in your apps, you need a Mapzen developer API key. After you [sign up for an API key](https://mapzen.com/developers/sign_in) you will need to include it in your application through the Java API or in a `mapzen.xml` properties file in your app resources folder.
+To start using Mapzen Search in your apps, you need a Mapzen API key. After you [sign up for an API key](https://mapzen.com/documentation/overview/) you will need to include it in your application through the Java API or in a `mapzen.xml` properties file in your app resources folder.
 
 **MySearchActivity.java**
 
 ```java
 public class MySearchActivity extends Activity {
   @Override protected void onCreate(Bundle icicle) {
-    MapzenSearch mapzenSearch = new MapzenSearch(this, “YOUR_MAPZEN_API_KEY”);
+    MapzenSearch mapzenSearch = new MapzenSearch(this, “your-mapzen-api-key”);
     ...
   }
 ```
@@ -18,7 +18,7 @@ public class MySearchActivity extends Activity {
 
 ```xml
 <resources>
-  <string name="mapzen_api_key">[YOUR_MAPZEN_API_KEY]</string>
+  <string name="mapzen_api_key">your-mapzen-api-key</string>
 </resources>
 ```
 
@@ -86,7 +86,7 @@ AutoCompleteAdapter adapter = new AutoCompleteAdapter(this,
 listView.setAdapter(autocompleteAdapter);
 
 // Configure search service
-MapzenSearch mapzenSearch = new MapzenSearch(this, “YOUR_MAPZEN_API_KEY”);
+MapzenSearch mapzenSearch = new MapzenSearch(this, “your-mapzen-api-key”);
 
 // Tying it all together
 peliasSearchView.setAutoCompleteListView(listView);
