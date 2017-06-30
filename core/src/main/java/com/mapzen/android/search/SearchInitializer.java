@@ -4,15 +4,25 @@ import com.mapzen.android.core.MapzenManager;
 
 import android.content.Context;
 
+import java.util.Map;
+
 /**
  * Handles setting the api key and a request handler for given {@link MapzenSearch} objects.
  */
 public class SearchInitializer {
-  private SearchRequestHandler requestHandler = new SearchRequestHandler();
+  private MapzenSearchHttpHandler requestHandler = new MapzenSearchHttpHandler() {
+    @Override public Map<String, String> queryParamsForRequest() {
+      return null;
+    }
+
+    @Override public Map<String, String> headersForRequest() {
+      return null;
+    }
+  };
 
   /**
    * Initialize the {@link MapzenSearch}'s api key from mapzen.xml and set it's
-   * {@link SearchRequestHandler}.
+   * {@link MapzenSearchHttpHandler}.
    * @param search
    * @param context
    */
@@ -22,20 +32,20 @@ public class SearchInitializer {
 
   /**
    * Initialize the {@link MapzenSearch}'s api key in code and set it's
-   * {@link SearchRequestHandler}.
+   * {@link MapzenSearchHttpHandler}.
    * @param search
    * @param apiKey
    */
   public void initSearch(MapzenSearch search, String apiKey) {
-    requestHandler.setApiKey(apiKey);
-    search.getPelias().setRequestHandler(requestHandler);
+    requestHandler.searchHandler().setApiKey(apiKey);
+    search.getPelias().setRequestHandler(requestHandler.searchHandler());
   }
 
   /**
    * Returns the request handler.
    * @return
    */
-  public SearchRequestHandler getRequestHandler() {
+  public MapzenSearchHttpHandler getRequestHandler() {
     return requestHandler;
   }
 }

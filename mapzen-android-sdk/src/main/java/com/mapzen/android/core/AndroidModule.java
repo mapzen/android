@@ -1,6 +1,6 @@
 package com.mapzen.android.core;
 
-import com.mapzen.android.routing.TurnByTurnHttpHandler;
+import com.mapzen.android.routing.RouterInitializer;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -43,9 +43,7 @@ import dagger.Provides;
   /**
    * Provides HTTP handler to append API key to outgoing turn-by-turn requests.
    */
-  @Provides @Singleton public TurnByTurnHttpHandler provideTurnByTurnHttpHandler() {
-    final TurnByTurnHttpHandler handler = new TurnByTurnHttpHandler();
-    handler.setApiKey(MapzenManager.instance(context).getApiKey());
-    return handler;
+  @Provides @Singleton public RouterInitializer provideRouterInitializer() {
+    return new RouterInitializer();
   }
 }

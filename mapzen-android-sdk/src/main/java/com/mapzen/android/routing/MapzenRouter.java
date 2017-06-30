@@ -19,14 +19,14 @@ public class MapzenRouter {
 
   private Router internalRouter = new ValhallaRouter();
 
-  @Inject TurnByTurnHttpHandler httpHandler;
+  @Inject RouterInitializer routerInitializer;
 
   /**
    * Creates a new {@link MapzenRouter} with api key set from mapzen.xml.
    */
   public MapzenRouter(Context context) {
     initDI(context);
-    internalRouter.setHttpHandler(httpHandler);
+    routerInitializer.initRouter(this, context);
   }
 
   private void initDI(Context context) {

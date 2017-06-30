@@ -25,6 +25,7 @@ public class SearchInitializerTest {
 
   @Test public void initSearch_shouldSetApiKey() {
     searchInitializer.initSearch(search, "TEST_API_KEY");
-    assertThat(searchInitializer.getRequestHandler().getApiKey()).isEqualTo("TEST_API_KEY");
+    assertThat(searchInitializer.getRequestHandler().searchHandler().getApiKey()).isEqualTo(
+        "TEST_API_KEY");
   }
 }

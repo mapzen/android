@@ -21,7 +21,7 @@ public class MapInitializer {
 
   private Context context;
 
-  private TileHttpHandler tileHttpHandler;
+  private MapzenMapHttpHandler mapzenMapHttpHandler;
 
   private MapDataManager mapDataManager;
 
@@ -34,11 +34,11 @@ public class MapInitializer {
   /**
    * Creates a new instance.
    */
-  @Inject MapInitializer(Context context, TileHttpHandler tileHttpHandler,
+  @Inject MapInitializer(Context context, MapzenMapHttpHandler mapzenMapHttpHandler,
       MapDataManager mapDataManager, MapStateManager mapStateManager,
       SceneUpdateManager sceneUpdateManager) {
     this.context = context;
-    this.tileHttpHandler = tileHttpHandler;
+    this.mapzenMapHttpHandler = mapzenMapHttpHandler;
     this.mapDataManager = mapDataManager;
     this.mapStateManager = mapStateManager;
     this.sceneUpdateManager = sceneUpdateManager;
@@ -92,7 +92,7 @@ public class MapInitializer {
         mapStateManager.isPathOverlayEnabled());
     getTangramView(mapView).getMapAsync(new com.mapzen.tangram.MapView.OnMapReadyCallback() {
       @Override public void onMapReady(MapController mapController) {
-        mapController.setHttpHandler(tileHttpHandler);
+        mapController.setHttpHandler(mapzenMapHttpHandler.httpHandler());
         MapzenManager mapzenManager = MapzenManager.instance(mapView.getContext());
         callback.onMapReady(
             new MapzenMap(mapView, mapController, new OverlayManager(mapView, mapController,

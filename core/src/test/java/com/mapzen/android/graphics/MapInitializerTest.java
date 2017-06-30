@@ -40,7 +40,7 @@ public class MapInitializerTest {
 
   @Before public void setUp() throws Exception {
     CoreDI.init(getMockContext());
-    mapInitializer = new MapInitializer(mock(Context.class), mock(TileHttpHandler.class),
+    mapInitializer = new MapInitializer(mock(Context.class), mock(MapzenMapHttpHandler.class),
         new MapDataManager(), new MapStateManager(), new SceneUpdateManager());
   }
 
