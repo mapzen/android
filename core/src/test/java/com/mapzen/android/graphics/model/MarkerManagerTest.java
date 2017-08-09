@@ -1,5 +1,6 @@
 package com.mapzen.android.graphics.model;
 
+import com.mapzen.android.graphics.internal.StyleStringGenerator;
 import com.mapzen.tangram.LngLat;
 import com.mapzen.tangram.MapController;
 
@@ -19,7 +20,8 @@ import static org.powermock.api.mockito.PowerMockito.when;
 public class MarkerManagerTest {
   private MapController mapController = mock(MapController.class);
   private com.mapzen.tangram.Marker tangramMarker = mock(com.mapzen.tangram.Marker.class);
-  private MarkerManager markerManager = new MarkerManager(mapController);
+  private MarkerManager markerManager = new MarkerManager(mapController,
+      mock(StyleStringGenerator.class));
 
   @Before public void setUp() throws Exception {
     when(mapController.addMarker()).thenReturn(tangramMarker);

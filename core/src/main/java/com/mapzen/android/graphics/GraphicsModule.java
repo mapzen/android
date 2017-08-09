@@ -1,5 +1,7 @@
 package com.mapzen.android.graphics;
 
+import com.mapzen.android.graphics.internal.StyleStringGenerator;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -33,5 +35,13 @@ import dagger.Provides;
    */
   @Provides @Singleton public SceneUpdateManager providesSceneUpdateManager() {
     return new SceneUpdateManager();
+  }
+
+  /**
+   * Returns the object used to generate the underlying style string.
+   * @return
+   */
+  @Provides @Singleton public StyleStringGenerator providesStyleStringGenerator() {
+    return new StyleStringGenerator();
   }
 }

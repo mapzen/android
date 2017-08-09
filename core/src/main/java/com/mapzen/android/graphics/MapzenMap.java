@@ -1,6 +1,7 @@
 package com.mapzen.android.graphics;
 
 import com.mapzen.android.core.MapzenManager;
+import com.mapzen.android.graphics.internal.StyleStringGenerator;
 import com.mapzen.android.graphics.model.BitmapMarker;
 import com.mapzen.android.graphics.model.CameraType;
 import com.mapzen.android.graphics.model.EaseType;
@@ -30,6 +31,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import static com.mapzen.android.graphics.internal.EaseTypeConverter.
+    EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE;
+
 /**
  * This is the main class of the Mapzen Android API and is the entry point for all methods related
  * to the map. You cannot instantiate a {@link MapzenMap} object directly. Rather you must obtain
@@ -46,6 +50,7 @@ public class MapzenMap {
   private final MarkerManager markerManager;
   private final SceneUpdateManager sceneUpdateManager;
   private final MapzenManager mapzenManager;
+  private final StyleStringGenerator styleStringGenerator;
   private Locale locale;
 
   boolean pickFeatureOnSingleTapConfirmed = false;
@@ -84,16 +89,6 @@ public class MapzenMap {
   private TouchInput.RotateResponder rotateResponder;
   private TouchInput.ScaleResponder scaleResponder;
   private TouchInput.ShoveResponder shoveResponder;
-
-  private static final HashMap<EaseType, MapController.EaseType>
-      EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE = new HashMap();
-
-  static {
-    EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.put(EaseType.LINEAR, MapController.EaseType.LINEAR);
-    EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.put(EaseType.CUBIC, MapController.EaseType.CUBIC);
-    EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.put(EaseType.QUINT, MapController.EaseType.QUINT);
-    EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.put(EaseType.SINE, MapController.EaseType.SINE);
-  }
 
   private static final HashMap<CameraType, MapController.CameraType>
       CAMERA_TYPE_TO_MAP_CONTROLLER_CAMERA_TYPE = new HashMap<>();
@@ -147,7 +142,7 @@ public class MapzenMap {
   MapzenMap(MapView mapView, MapController mapController, OverlayManager overlayManager,
       MapStateManager mapStateManager, LabelPickHandler labelPickHandler,
       MarkerManager markerManager, SceneUpdateManager sceneUpdateManager, Locale locale,
-      MapzenManager mapzenManager) {
+      MapzenManager mapzenManager, StyleStringGenerator styleStringGenerator) {
     this.mapView = mapView;
     this.mapController = mapController;
     this.overlayManager = overlayManager;
@@ -157,6 +152,7 @@ public class MapzenMap {
     this.sceneUpdateManager = sceneUpdateManager;
     this.locale = locale;
     this.mapzenManager = mapzenManager;
+    this.styleStringGenerator = styleStringGenerator;
     mapView.setMapzenMap(this);
     mapController.setPanResponder(internalPanResponder);
     mapController.setRotateResponder(internalRotateResponder);
@@ -649,7 +645,8 @@ public class MapzenMap {
         mapView.post(new Runnable() {
           @Override public void run() {
             if (markerPickResult != null) {
-              listener.onMarkerPick(new BitmapMarker(markerManager, markerPickResult.getMarker()));
+              listener.onMarkerPick(new BitmapMarker(markerManager, markerPickResult.getMarker(),
+                  styleStringGenerator));
             }
           }
         });

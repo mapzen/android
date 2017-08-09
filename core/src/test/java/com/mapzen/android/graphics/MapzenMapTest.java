@@ -1,6 +1,7 @@
 package com.mapzen.android.graphics;
 
 import com.mapzen.android.core.MapzenManager;
+import com.mapzen.android.graphics.internal.StyleStringGenerator;
 import com.mapzen.android.graphics.model.BitmapMarker;
 import com.mapzen.android.graphics.model.BubbleWrapStyle;
 import com.mapzen.android.graphics.model.CameraType;
@@ -86,12 +87,13 @@ public class MapzenMapTest {
     overlayManager = mock(OverlayManager.class);
     mapStateManager = new MapStateManager();
     labelPickHandler = new LabelPickHandler(mapView);
-    markerManager = new MarkerManager(mapController);
+    StyleStringGenerator styleStringGenerator = new StyleStringGenerator();
+    markerManager = new MarkerManager(mapController, styleStringGenerator);
     sceneUpdateManager = new SceneUpdateManager();
     locale = new Locale("en_us");
     mapzenManager = mock(MapzenManager.class);
     map = new MapzenMap(mapView, mapController, overlayManager, mapStateManager, labelPickHandler,
-        markerManager, sceneUpdateManager, locale, mapzenManager);
+        markerManager, sceneUpdateManager, locale, mapzenManager, styleStringGenerator);
   }
 
   @Test public void shouldNotBeNull() throws Exception {

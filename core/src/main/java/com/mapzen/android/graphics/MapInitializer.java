@@ -1,6 +1,7 @@
 package com.mapzen.android.graphics;
 
 import com.mapzen.android.core.MapzenManager;
+import com.mapzen.android.graphics.internal.StyleStringGenerator;
 import com.mapzen.android.graphics.model.BubbleWrapStyle;
 import com.mapzen.android.graphics.model.MapStyle;
 import com.mapzen.android.graphics.model.MarkerManager;
@@ -29,6 +30,8 @@ public class MapInitializer {
 
   private SceneUpdateManager sceneUpdateManager;
 
+  private StyleStringGenerator styleStringGenerator;
+
   private Locale locale = Locale.getDefault();
 
   /**
@@ -36,12 +39,13 @@ public class MapInitializer {
    */
   @Inject MapInitializer(Context context, MapzenMapHttpHandler mapzenMapHttpHandler,
       MapDataManager mapDataManager, MapStateManager mapStateManager,
-      SceneUpdateManager sceneUpdateManager) {
+      SceneUpdateManager sceneUpdateManager, StyleStringGenerator styleStringGenerator) {
     this.context = context;
     this.mapzenMapHttpHandler = mapzenMapHttpHandler;
     this.mapDataManager = mapDataManager;
     this.mapStateManager = mapStateManager;
     this.sceneUpdateManager = sceneUpdateManager;
+    this.styleStringGenerator = styleStringGenerator;
   }
 
   /**
@@ -97,7 +101,8 @@ public class MapInitializer {
         callback.onMapReady(
             new MapzenMap(mapView, mapController, new OverlayManager(mapView, mapController,
                 mapDataManager, mapStateManager), mapStateManager, new LabelPickHandler(mapView),
-                new MarkerManager(mapController), sceneUpdateManager, locale, mapzenManager));
+                new MarkerManager(mapController, styleStringGenerator), sceneUpdateManager, locale,
+                mapzenManager, styleStringGenerator));
       }
     }, sceneFile, sceneUpdates);
   }
