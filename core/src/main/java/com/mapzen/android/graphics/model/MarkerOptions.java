@@ -9,12 +9,16 @@ import com.mapzen.tangram.LngLat;
 public class MarkerOptions {
   private static final LngLat DEFAULT_POSITION = new LngLat(-73.985428, 40.748817);
   private static final int DEFAULT_DRAWABLE = R.drawable.mapzen;
-  private static final String DEFAULT_STYLE = "{ style: 'points', color: 'white',"
-      + "size: [50px, 50px], collide: false, interactive: true }";
+  //private static final String DEFAULT_STYLE = "{ style: 'points', color: 'white',"
+  //    + "size: [50px, 50px], collide: false, interactive: true }";
+  private static final int DEFAULT_WIDTH = 50;
+  private static final int DEFAULT_HEIGHT = 50;
 
   private LngLat position = DEFAULT_POSITION;
   private int resId = DEFAULT_DRAWABLE;
-  private String style = DEFAULT_STYLE;
+  //private String style = DEFAULT_STYLE;
+  private int width = DEFAULT_WIDTH;
+  private int height = DEFAULT_HEIGHT;
 
   // Setters
 
@@ -41,13 +45,15 @@ public class MarkerOptions {
   }
 
   /**
-   * Set the marker icon style string.
+   * Set the marker size.
    *
-   * @param style Tangram style string used to define the marker appearance.
+   * @param width in pixels
+   * @param height in pixels
    * @return this marker options instance.
    */
-  public MarkerOptions style(String style) {
-    this.style = style;
+  public MarkerOptions size(int width, int height) {
+    this.width = width;
+    this.height = height;
     return this;
   }
 
@@ -61,7 +67,11 @@ public class MarkerOptions {
     return resId;
   }
 
-  public String getStyle() {
-    return style;
+  public int getWidth() {
+    return width;
+  }
+
+  public int getHeight() {
+    return height;
   }
 }

@@ -20,8 +20,4 @@ public class MarkerOptionsTest {
   @Test public void shouldSetIcon() throws Exception {
     assertThat(markerOptions.icon(123).getIcon()).isEqualTo(123);
   }
-
-  @Test public void shouldSetStyle() throws Exception {
-    assertThat(markerOptions.style("style string").getStyle()).isEqualTo("style string");
-  }
 }

@@ -50,7 +50,6 @@ public class MapzenMap {
   private final MarkerManager markerManager;
   private final SceneUpdateManager sceneUpdateManager;
   private final MapzenManager mapzenManager;
-  private final StyleStringGenerator styleStringGenerator;
   private Locale locale;
 
   boolean pickFeatureOnSingleTapConfirmed = false;
@@ -142,7 +141,7 @@ public class MapzenMap {
   MapzenMap(MapView mapView, MapController mapController, OverlayManager overlayManager,
       MapStateManager mapStateManager, LabelPickHandler labelPickHandler,
       MarkerManager markerManager, SceneUpdateManager sceneUpdateManager, Locale locale,
-      MapzenManager mapzenManager, StyleStringGenerator styleStringGenerator) {
+      MapzenManager mapzenManager) {
     this.mapView = mapView;
     this.mapController = mapController;
     this.overlayManager = overlayManager;
@@ -152,7 +151,6 @@ public class MapzenMap {
     this.sceneUpdateManager = sceneUpdateManager;
     this.locale = locale;
     this.mapzenManager = mapzenManager;
-    this.styleStringGenerator = styleStringGenerator;
     mapView.setMapzenMap(this);
     mapController.setPanResponder(internalPanResponder);
     mapController.setRotateResponder(internalRotateResponder);
@@ -646,7 +644,7 @@ public class MapzenMap {
           @Override public void run() {
             if (markerPickResult != null) {
               listener.onMarkerPick(new BitmapMarker(markerManager, markerPickResult.getMarker(),
-                  styleStringGenerator));
+                  new StyleStringGenerator()));
             }
           }
         });

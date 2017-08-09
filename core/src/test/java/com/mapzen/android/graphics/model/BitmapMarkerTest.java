@@ -24,8 +24,8 @@ import static org.mockito.Mockito.verify;
 public class BitmapMarkerTest {
   private Marker tangramMarker = mock(Marker.class);
   private MapController mapController = mock(MapController.class);
+  private MarkerManager markerManager = new MarkerManager(mapController);
   private StyleStringGenerator styleStringGenerator  = mock(StyleStringGenerator.class);
-  private MarkerManager markerManager = new MarkerManager(mapController, styleStringGenerator);
   private BitmapMarker bitmapMarker = new BitmapMarker(markerManager, tangramMarker,
       styleStringGenerator);
 

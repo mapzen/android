@@ -9,16 +9,14 @@ import com.mapzen.tangram.Marker;
  */
 public class MarkerManager {
   private final MapController mapController;
-  private final StyleStringGenerator styleStringGenerator;
 
   /**
    * Constructor.
    *
    * @param mapController Tangram map controller used to generate markers.
    */
-  public MarkerManager(MapController mapController, StyleStringGenerator styleStringGenerator) {
+  public MarkerManager(MapController mapController) {
     this.mapController = mapController;
-    this.styleStringGenerator = styleStringGenerator;
   }
 
   /**
@@ -31,7 +29,9 @@ public class MarkerManager {
     final Marker marker = mapController.addMarker();
     marker.setPoint(markerOptions.getPosition());
     marker.setDrawable(markerOptions.getIcon());
-    marker.setStylingFromString(markerOptions.getStyle());
+    StyleStringGenerator styleStringGenerator = new StyleStringGenerator();
+    styleStringGenerator.setSize(markerOptions.getWidth(), markerOptions.getHeight());
+    marker.setStylingFromString(styleStringGenerator.getStyleString());
     return new BitmapMarker(this, marker, styleStringGenerator);
   }
 

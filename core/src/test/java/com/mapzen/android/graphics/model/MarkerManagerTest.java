@@ -11,6 +11,7 @@ import org.powermock.core.classloader.annotations.SuppressStaticInitializationFo
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.when;
@@ -20,8 +21,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 public class MarkerManagerTest {
   private MapController mapController = mock(MapController.class);
   private com.mapzen.tangram.Marker tangramMarker = mock(com.mapzen.tangram.Marker.class);
-  private MarkerManager markerManager = new MarkerManager(mapController,
-      mock(StyleStringGenerator.class));
+  private MarkerManager markerManager = new MarkerManager(mapController);
 
   @Before public void setUp() throws Exception {
     when(mapController.addMarker()).thenReturn(tangramMarker);
@@ -51,10 +51,16 @@ public class MarkerManagerTest {
   }
 
   @Test public void addMarker_shouldSetStyling() throws Exception {
-    String style = "style string";
-    MarkerOptions markerOptions = new MarkerOptions().style(style);
+    MarkerOptions markerOptions = new MarkerOptions();
     markerManager.addMarker(markerOptions);
-    verify(tangramMarker).setStylingFromString(style);
+    verify(tangramMarker).setStylingFromString(anyString());
+  }
+
+  @Test public void addMarker_shouldSetSize() throws Exception {
+    MarkerOptions markerOptions = new MarkerOptions().size(100, 100);
+    markerManager.addMarker(markerOptions);
+    verify(tangramMarker).setStylingFromString("{ style: 'points', color: '#FFFFFF', "
+        + "size: [100px, 100px], collide: false, interactive: true }");
   }
 
   @Test public void addMarker_shouldReturnBitmapMarker() throws Exception {
