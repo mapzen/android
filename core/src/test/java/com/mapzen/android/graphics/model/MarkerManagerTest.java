@@ -1,6 +1,5 @@
 package com.mapzen.android.graphics.model;
 
-import com.mapzen.android.graphics.internal.StyleStringGenerator;
 import com.mapzen.tangram.LngLat;
 import com.mapzen.tangram.MapController;
 
@@ -10,9 +9,14 @@ import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.SuppressStaticInitializationFor;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import android.graphics.drawable.Drawable;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.when;
 
@@ -43,11 +47,20 @@ public class MarkerManagerTest {
     verify(tangramMarker).setPoint(lngLat);
   }
 
-  @Test public void addMarker_shouldSetDrawable() throws Exception {
+  @Test public void addMarker_resId_shouldSetDrawable() throws Exception {
     int resId = 123;
     MarkerOptions markerOptions = new MarkerOptions().icon(resId);
     markerManager.addMarker(markerOptions);
     verify(tangramMarker).setDrawable(resId);
+    verify(tangramMarker, never()).setDrawable(any(Drawable.class));
+  }
+
+  @Test public void addMarker_res_shouldSetDrawable() throws Exception {
+    Drawable res = mock(Drawable.class);
+    MarkerOptions markerOptions = new MarkerOptions().icon(res);
+    markerManager.addMarker(markerOptions);
+    verify(tangramMarker).setDrawable(res);
+    verify(tangramMarker, never()).setDrawable(anyInt());
   }
 
   @Test public void addMarker_shouldSetStyling() throws Exception {

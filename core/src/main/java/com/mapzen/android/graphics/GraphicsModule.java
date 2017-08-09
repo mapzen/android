@@ -34,5 +34,4 @@ import dagger.Provides;
   @Provides @Singleton public SceneUpdateManager providesSceneUpdateManager() {
     return new SceneUpdateManager();
   }
-
 }

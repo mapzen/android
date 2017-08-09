@@ -3,6 +3,8 @@ package com.mapzen.android.graphics.model;
 import com.mapzen.R;
 import com.mapzen.tangram.LngLat;
 
+import android.graphics.drawable.Drawable;
+
 /**
  * Defines options for a {@link BitmapMarker}.
  */
@@ -11,9 +13,11 @@ public class MarkerOptions {
   private static final int DEFAULT_DRAWABLE = R.drawable.mapzen;
   private static final int DEFAULT_WIDTH = 50;
   private static final int DEFAULT_HEIGHT = 50;
+  private static final int RES_NONE = Integer.MIN_VALUE;
 
   private LngLat position = DEFAULT_POSITION;
   private int resId = DEFAULT_DRAWABLE;
+  private Drawable res = null;
   private int width = DEFAULT_WIDTH;
   private int height = DEFAULT_HEIGHT;
 
@@ -31,13 +35,28 @@ public class MarkerOptions {
   }
 
   /**
-   * Set the marker icon resource ID.
+   * Set the marker icon resource ID. Setting this property will override previously set resource
+   * ids set in the call to {@link MarkerOptions#icon(Drawable)}.
    *
    * @param resId drawable resource ID for the marker to display.
    * @return this marker options instance.
    */
   public MarkerOptions icon(int resId) {
     this.resId = resId;
+    this.res = null;
+    return this;
+  }
+
+  /**
+   * Set the marker icon resource. Setting this property will override previously set resource ids
+   * set in the call to {@link MarkerOptions#icon(int)}.
+   *
+   * @param res drawable resource for the marker to display.
+   * @return this marker options instance.
+   */
+  public MarkerOptions icon(Drawable res) {
+    this.res = res;
+    this.resId = RES_NONE;
     return this;
   }
 
@@ -62,6 +81,10 @@ public class MarkerOptions {
 
   public int getIcon() {
     return resId;
+  }
+
+  public Drawable getIconDrawable() {
+    return res;
   }
 
   public int getWidth() {

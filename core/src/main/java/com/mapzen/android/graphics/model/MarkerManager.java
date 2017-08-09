@@ -28,7 +28,11 @@ public class MarkerManager {
   public BitmapMarker addMarker(MarkerOptions markerOptions) {
     final Marker marker = mapController.addMarker();
     marker.setPoint(markerOptions.getPosition());
-    marker.setDrawable(markerOptions.getIcon());
+    if (markerOptions.getIconDrawable() != null) {
+      marker.setDrawable(markerOptions.getIconDrawable());
+    } else {
+      marker.setDrawable(markerOptions.getIcon());
+    }
     StyleStringGenerator styleStringGenerator = new StyleStringGenerator();
     styleStringGenerator.setSize(markerOptions.getWidth(), markerOptions.getHeight());
     marker.setStylingFromString(styleStringGenerator.getStyleString());

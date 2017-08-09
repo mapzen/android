@@ -97,8 +97,7 @@ public class MapInitializer {
         callback.onMapReady(
             new MapzenMap(mapView, mapController, new OverlayManager(mapView, mapController,
                 mapDataManager, mapStateManager), mapStateManager, new LabelPickHandler(mapView),
-                new MarkerManager(mapController), sceneUpdateManager, locale,
-                mapzenManager));
+                new MarkerManager(mapController), sceneUpdateManager, locale, mapzenManager));
       }
     }, sceneFile, sceneUpdates);
   }
