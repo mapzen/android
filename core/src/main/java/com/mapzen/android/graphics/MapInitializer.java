@@ -3,7 +3,6 @@ package com.mapzen.android.graphics;
 import com.mapzen.android.core.MapzenManager;
 import com.mapzen.android.graphics.model.BubbleWrapStyle;
 import com.mapzen.android.graphics.model.MapStyle;
-import com.mapzen.android.graphics.model.MarkerManager;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.SceneError;
 import com.mapzen.tangram.SceneUpdate;
@@ -32,6 +31,8 @@ public class MapInitializer {
 
   private Locale locale = Locale.getDefault();
 
+  MapReadyInitializer mapReadyInitializer;
+
   /**
    * Creates a new instance.
    */
@@ -43,6 +44,7 @@ public class MapInitializer {
     this.mapDataManager = mapDataManager;
     this.mapStateManager = mapStateManager;
     this.sceneUpdateManager = sceneUpdateManager;
+    mapReadyInitializer = new MapReadyInitializer();
   }
 
   /**
@@ -72,10 +74,6 @@ public class MapInitializer {
     loadMap(mapView, mapStyle, true, callback);
   }
 
-  private TangramMapView getTangramView(final MapView mapView) {
-    return mapView.getTangramMapView();
-  }
-
   private void loadMap(final MapView mapView, MapStyle mapStyle, boolean styleExplicitlySet,
       final OnMapReadyCallback callback) {
     if (mapStateManager.getPersistMapState() && !styleExplicitlySet) {
@@ -91,17 +89,11 @@ public class MapInitializer {
     final List<SceneUpdate> sceneUpdates = sceneUpdateManager.getUpdatesFor(apiKey, locale,
         mapStateManager.isTransitOverlayEnabled(), mapStateManager.isBikeOverlayEnabled(),
         mapStateManager.isPathOverlayEnabled());
-    MapController controller = getTangramView(mapView).getMap(
+    MapController controller = mapView.getTangramMapView().getMap(
         new MapController.SceneLoadListener() {
       @Override public void onSceneReady(int sceneId, SceneError sceneError) {
-        MapController mapController = getTangramView(mapView).getMap(null);
-        mapController.setSceneLoadListener(null);
-        mapController.setHttpHandler(mapzenMapHttpHandler.httpHandler());
-        MapzenManager mapzenManager = MapzenManager.instance(mapView.getContext());
-        callback.onMapReady(
-            new MapzenMap(mapView, mapController, new OverlayManager(mapView, mapController,
-                mapDataManager, mapStateManager), mapStateManager, new LabelPickHandler(mapView),
-                new MarkerManager(mapController), sceneUpdateManager, locale, mapzenManager));
+        mapReadyInitializer.onMapReady(mapView, mapzenMapHttpHandler, callback, mapDataManager,
+            mapStateManager, sceneUpdateManager, locale);
       }
     });
     controller.loadSceneFileAsync(sceneFile, sceneUpdates);
