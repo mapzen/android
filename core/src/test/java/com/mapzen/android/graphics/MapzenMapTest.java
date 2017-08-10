@@ -73,8 +73,7 @@ public class MapzenMapTest {
     doCallRealMethod().when(mapController)
         .setMarkerPickListener(any(MapController.MarkerPickListener.class));
     doCallRealMethod().when(mapController).pickMarker(anyFloat(), anyFloat());
-    doCallRealMethod().when(mapController).queueSceneUpdate(any(SceneUpdate.class));
-    doCallRealMethod().when(mapController).getSceneUpdate();
+    doCallRealMethod().when(mapController).updateSceneAsync(any(List.class));
     doCallRealMethod().when(mapController).setPosition(any(LngLat.class));
     doCallRealMethod().when(mapController).getPosition();
     doCallRealMethod().when(mapController).setZoom(anyFloat());
@@ -564,17 +563,6 @@ public class MapzenMapTest {
     verify(mapController).queueEvent(r);
   }
 
-  @Test public void queueSceneUpdate_shouldInvokeMapController() {
-    map.queueSceneUpdate("test", "true");
-    assertThat(mapController.getSceneUpdate().getPath()).isEqualTo("test");
-    assertThat(mapController.getSceneUpdate().getValue()).isEqualTo("true");
-  }
-
-  @Test public void applySceneUpdates_shouldInvokeMapController() {
-    map.applySceneUpdates();
-    verify(mapController, times(2)).applySceneUpdates();
-  }
-
   @Test public void onDestroy_shouldPersistMapPosition() throws Exception {
     LngLat position = new LngLat(1, 2);
     mapController.setPosition(position);
@@ -625,7 +613,7 @@ public class MapzenMapTest {
     updates.add(new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "false"));
     updates.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false"));
     updates.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "true"));
-    verify(mapController).queueSceneUpdate(argThat(new SceneUpdatesMatcher(updates)));
+    verify(mapController).updateSceneAsync(argThat(new SceneUpdatesMatcher(updates)));
   }
 
   @Test public void setStyle_shouldSetStyleAndGlobalVariables() throws Exception {
@@ -650,22 +638,19 @@ public class MapzenMapTest {
   @Test public void setTransitOverlayEnabled_shouldCallSceneUpdates() throws Exception {
     map.setTransitOverlayEnabled(true);
     SceneUpdate sceneUpdate = new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "true");
-    verify(mapController).queueSceneUpdate(argThat(new SceneUpdateMatcher(sceneUpdate)));
-    verify(mapController, times(2)).applySceneUpdates();
+    verify(mapController).updateSceneAsync(argThat(new SceneUpdatesMatcher(sceneUpdate)));
   }
 
   @Test public void setBikeOverlayEnabled_shouldCallSceneUpdates() throws Exception {
     map.setBikeOverlayEnabled(true);
     SceneUpdate sceneUpdate = new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "true");
-    verify(mapController).queueSceneUpdate(argThat(new SceneUpdateMatcher(sceneUpdate)));
-    verify(mapController, times(2)).applySceneUpdates();
+    verify(mapController).updateSceneAsync(argThat(new SceneUpdatesMatcher(sceneUpdate)));
   }
 
   @Test public void setPathOverlayEnabled_shouldCallSceneUpdates() throws Exception {
     map.setPathOverlayEnabled(true);
     SceneUpdate sceneUpdate = new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "true");
-    verify(mapController).queueSceneUpdate(argThat(new SceneUpdateMatcher(sceneUpdate)));
-    verify(mapController, times(2)).applySceneUpdates();
+    verify(mapController).updateSceneAsync(argThat(new SceneUpdatesMatcher(sceneUpdate)));
   }
 
   @Test public void setOverlaysEnabled_fff_shouldCallSceneUpdates() throws Exception {
@@ -674,8 +659,7 @@ public class MapzenMapTest {
     sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "false"));
     sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false"));
     sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "false"));
-    verify(mapController).queueSceneUpdate(argThat(new SceneUpdatesMatcher(sceneUpdates)));
-    verify(mapController, times(2)).applySceneUpdates();
+    verify(mapController).updateSceneAsync(argThat(new SceneUpdatesMatcher(sceneUpdates)));
   }
 
   @Test public void setOverlaysEnabled_ttt_shouldCallSceneUpdates() throws Exception {
@@ -684,8 +668,7 @@ public class MapzenMapTest {
     sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "true"));
     sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "true"));
     sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "true"));
-    verify(mapController).queueSceneUpdate(argThat(new SceneUpdatesMatcher(sceneUpdates)));
-    verify(mapController, times(2)).applySceneUpdates();
+    verify(mapController).updateSceneAsync(argThat(new SceneUpdatesMatcher(sceneUpdates)));
   }
 
   public class TestRotateResponder implements TouchInput.RotateResponder {

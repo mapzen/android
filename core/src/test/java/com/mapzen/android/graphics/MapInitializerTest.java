@@ -3,6 +3,7 @@ package com.mapzen.android.graphics;
 import com.mapzen.android.core.CoreDI;
 import com.mapzen.android.core.MapzenManager;
 import com.mapzen.android.graphics.model.BubbleWrapStyle;
+import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.SceneUpdate;
 
 import org.junit.Before;
@@ -50,11 +51,7 @@ public class MapInitializerTest {
 
   @Test public void init_shouldReturnMapzenMap() throws Exception {
     final TestCallback callback = new TestCallback();
-    final TestMapView mapView = mock(TestMapView.class);
-    Context context = mock(Context.class);
-    when(context.getApplicationContext()).thenReturn(mock(Context.class));
-    when(mapView.getContext()).thenReturn(context);
-    when(mapView.getTangramMapView()).thenCallRealMethod();
+    final TestMapView mapView = new TestMapView(callback);
     MapzenManager.instance(getMockContext()).setApiKey("fake-mapzen-api-key");
     mapInitializer.init(mapView, callback);
     assertThat(callback.map).isInstanceOf(MapzenMap.class);
@@ -62,8 +59,14 @@ public class MapInitializerTest {
 
   @Test public void init_shouldSetDefaultMapLocale() throws Exception {
     // Arrange
-    MapView mapView = mock(MapView.class);
-    TangramMapView tangramMapView = mock(TangramMapView.class);
+    TestCallback callback = mock(TestCallback.class);
+    TestMapView mapView = mock(TestMapView.class);
+    TestTangramMapView tangramMapView = mock(TestTangramMapView.class);
+    MapController mapController = mock(MapController.class);
+    when(tangramMapView.getMap(any(MapController.SceneLoadListener.class))).thenReturn(
+        mapController);
+    tangramMapView.mapView = mapView;
+    tangramMapView.callback = callback;
     when(mapView.getTangramMapView()).thenReturn(tangramMapView);
     MapzenManager.instance(getMockContext()).setApiKey("fake-mapzen-api-key");
 
@@ -77,14 +80,21 @@ public class MapInitializerTest {
     expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "false"));
     expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false"));
     expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "true"));
-    verify(tangramMapView).getMapAsync(any(com.mapzen.tangram.MapView.OnMapReadyCallback.class),
-        anyString(), argThat(new SceneUpdatesMatcher(expected)));
+    verify(tangramMapView).getMap(any(MapController.SceneLoadListener.class));
+    verify(mapController).loadSceneFileAsync(anyString(), argThat(
+        new SceneUpdatesMatcher(expected)));
   }
 
   @Test public void init_shouldSetGivenMapLocale() throws Exception {
     // Arrange
-    MapView mapView = mock(MapView.class);
-    TangramMapView tangramMapView = mock(TangramMapView.class);
+    TestCallback callback = mock(TestCallback.class);
+    TestMapView mapView = mock(TestMapView.class);
+    TestTangramMapView tangramMapView = mock(TestTangramMapView.class);
+    MapController mapController = mock(MapController.class);
+    when(tangramMapView.getMap(any(MapController.SceneLoadListener.class))).thenReturn(
+        mapController);
+    tangramMapView.mapView = mapView;
+    tangramMapView.callback = callback;
     when(mapView.getTangramMapView()).thenReturn(tangramMapView);
     MapzenManager.instance(getMockContext()).setApiKey("fake-mapzen-api-key");
 
@@ -98,14 +108,21 @@ public class MapInitializerTest {
     expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "false"));
     expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false"));
     expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "true"));
-    verify(tangramMapView).getMapAsync(any(com.mapzen.tangram.MapView.OnMapReadyCallback.class),
-        anyString(), argThat(new SceneUpdatesMatcher(expected)));
+    verify(tangramMapView).getMap(any(MapController.SceneLoadListener.class));
+    verify(mapController).loadSceneFileAsync(anyString(), argThat(
+        new SceneUpdatesMatcher(expected)));
   }
 
   @Test public void init_shouldDefaultToOverlaysDisabledExceptPath() throws Exception {
     // Arrange
-    MapView mapView = mock(MapView.class);
-    TangramMapView tangramMapView = mock(TangramMapView.class);
+    TestCallback callback = mock(TestCallback.class);
+    TestMapView mapView = mock(TestMapView.class);
+    TestTangramMapView tangramMapView = mock(TestTangramMapView.class);
+    MapController mapController = mock(MapController.class);
+    when(tangramMapView.getMap(any(MapController.SceneLoadListener.class))).thenReturn(
+        mapController);
+    tangramMapView.mapView = mapView;
+    tangramMapView.callback = callback;
     when(mapView.getTangramMapView()).thenReturn(tangramMapView);
     MapzenManager.instance(getMockContext()).setApiKey("fake-mapzen-api-key");
 
@@ -119,7 +136,8 @@ public class MapInitializerTest {
     expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "false"));
     expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false"));
     expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "true"));
-    verify(tangramMapView).getMapAsync(any(com.mapzen.tangram.MapView.OnMapReadyCallback.class),
-        anyString(), argThat(new SceneUpdatesMatcher(expected)));
+    verify(tangramMapView).getMap(any(MapController.SceneLoadListener.class));
+    verify(mapController).loadSceneFileAsync(anyString(), argThat(
+        new SceneUpdatesMatcher(expected)));
   }
 }

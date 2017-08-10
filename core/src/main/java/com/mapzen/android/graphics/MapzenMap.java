@@ -26,6 +26,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -688,23 +689,6 @@ public class MapzenMap {
   }
 
   /**
-   * Enqueue a scene component update with its corresponding YAML node value.
-   *
-   * @param componentPath The YAML component path delimited by a '.' (example "scene.animated")
-   * @param value A YAML valid string (example "{ property: true }" or "true")
-   */
-  public void queueSceneUpdate(String componentPath, String value) {
-    mapController.queueSceneUpdate(new SceneUpdate(componentPath, value));
-  }
-
-  /**
-   * Apply updates queued by queueSceneUpdate; this empties the current queue of updates.
-   */
-  public void applySceneUpdates() {
-    mapController.applySceneUpdates();
-  }
-
-  /**
    * Sets zoom buttons enabled.
    * @param enabled if true zoom buttonswill be showed, otherwise they will be hidden.
    */
@@ -868,9 +852,8 @@ public class MapzenMap {
    */
   public void setTransitOverlayEnabled(boolean transitOverlayEnabled) {
     mapStateManager.setTransitOverlayEnabled(transitOverlayEnabled);
-    mapController.queueSceneUpdate(sceneUpdateManager.getTransitOverlayUpdate(
-        transitOverlayEnabled));
-    mapController.applySceneUpdates();
+    mapController.updateSceneAsync(Arrays.asList(sceneUpdateManager.getTransitOverlayUpdate(
+        transitOverlayEnabled)));
   }
 
   /**
@@ -880,9 +863,8 @@ public class MapzenMap {
    */
   public void setBikeOverlayEnabled(boolean bikeOverlayEnabled) {
     mapStateManager.setBikeOverlayEnabled(bikeOverlayEnabled);
-    mapController.queueSceneUpdate(sceneUpdateManager.getBikeOverlayUpdate(
-        bikeOverlayEnabled));
-    mapController.applySceneUpdates();
+    mapController.updateSceneAsync(Arrays.asList(sceneUpdateManager.getBikeOverlayUpdate(
+        bikeOverlayEnabled)));
   }
 
   /**
@@ -892,9 +874,8 @@ public class MapzenMap {
    */
   public void setPathOverlayEnabled(boolean pathOverlayEnabled) {
     mapStateManager.setPathOverlayEnabled(pathOverlayEnabled);
-    mapController.queueSceneUpdate(sceneUpdateManager.getPathOverlayUpdate(
-        pathOverlayEnabled));
-    mapController.applySceneUpdates();
+    mapController.updateSceneAsync(Arrays.asList(sceneUpdateManager.getPathOverlayUpdate(
+        pathOverlayEnabled)));
   }
 
   /**
@@ -912,8 +893,7 @@ public class MapzenMap {
     updates.add(sceneUpdateManager.getTransitOverlayUpdate(transitOverlayEnabled));
     updates.add(sceneUpdateManager.getBikeOverlayUpdate(bikeOverlayEnabled));
     updates.add(sceneUpdateManager.getPathOverlayUpdate(pathOverlayEnabled));
-    mapController.queueSceneUpdate(updates);
-    mapController.applySceneUpdates();
+    mapController.updateSceneAsync(updates);
   }
 
   /**

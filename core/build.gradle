@@ -19,7 +19,7 @@ group = GROUP
 version = VERSION_NAME
 project.archivesBaseName = POM_ARTIFACT_ID
 
-ext.tangram_version = "0.6.3"
+ext.tangram_version = "0.8.0-RC2"
 
 def SDK_VERSION = hasProperty('version') ? '"' + version + '"' : "null";
 

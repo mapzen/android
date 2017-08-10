@@ -17,7 +17,12 @@ public class TestMapView extends MapView {
   private Runnable action;
 
   TestMapView() {
+    this(null);
+  }
+
+  TestMapView(OnMapReadyCallback callback) {
     super(getMockContext());
+    tangramMapView = new TestTangramMapView(mock(Context.class), this, callback);
   }
 
   @Override public void getMapAsync(@NonNull OnMapReadyCallback callback) {
@@ -35,7 +40,7 @@ public class TestMapView extends MapView {
   }
 
   @Override public TangramMapView getTangramMapView() {
-    return new TestTangramMapView(mock(Context.class));
+    return tangramMapView;
   }
 
   @Override public boolean post(Runnable action) {

@@ -5,6 +5,7 @@ import com.mapzen.android.graphics.model.BubbleWrapStyle;
 import com.mapzen.android.graphics.model.MapStyle;
 import com.mapzen.android.graphics.model.MarkerManager;
 import com.mapzen.tangram.MapController;
+import com.mapzen.tangram.SceneError;
 import com.mapzen.tangram.SceneUpdate;
 
 import android.content.Context;
@@ -90,8 +91,11 @@ public class MapInitializer {
     final List<SceneUpdate> sceneUpdates = sceneUpdateManager.getUpdatesFor(apiKey, locale,
         mapStateManager.isTransitOverlayEnabled(), mapStateManager.isBikeOverlayEnabled(),
         mapStateManager.isPathOverlayEnabled());
-    getTangramView(mapView).getMapAsync(new com.mapzen.tangram.MapView.OnMapReadyCallback() {
-      @Override public void onMapReady(MapController mapController) {
+    MapController controller = getTangramView(mapView).getMap(
+        new MapController.SceneLoadListener() {
+      @Override public void onSceneReady(int sceneId, SceneError sceneError) {
+        MapController mapController = getTangramView(mapView).getMap(null);
+        mapController.setSceneLoadListener(null);
         mapController.setHttpHandler(mapzenMapHttpHandler.httpHandler());
         MapzenManager mapzenManager = MapzenManager.instance(mapView.getContext());
         callback.onMapReady(
@@ -99,6 +103,7 @@ public class MapInitializer {
                 mapDataManager, mapStateManager), mapStateManager, new LabelPickHandler(mapView),
                 new MarkerManager(mapController), sceneUpdateManager, locale, mapzenManager));
       }
-    }, sceneFile, sceneUpdates);
+    });
+    controller.loadSceneFileAsync(sceneFile, sceneUpdates);
   }
 }
