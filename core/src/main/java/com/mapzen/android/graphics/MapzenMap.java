@@ -90,6 +90,8 @@ public class MapzenMap {
   private TouchInput.ScaleResponder scaleResponder;
   private TouchInput.ShoveResponder shoveResponder;
 
+  private List<SceneUpdate> queuedSceneUpdates = new ArrayList<>();
+
   private static final HashMap<CameraType, MapController.CameraType>
       CAMERA_TYPE_TO_MAP_CONTROLLER_CAMERA_TYPE = new HashMap<>();
   private static final HashMap<MapController.CameraType, CameraType>
@@ -686,6 +688,29 @@ public class MapzenMap {
    */
   public void queueEvent(Runnable r) {
     mapController.queueEvent(r);
+  }
+
+  /**
+   * Enqueue a scene component update with its corresponding YAML node value.
+   *
+   * @param componentPath The YAML component path delimited by a '.' (example "scene.animated")
+   * @param value A YAML valid string (example "{ property: true }" or "true")
+   */
+  @Deprecated
+  public void queueSceneUpdate(String componentPath, String value) {
+    queuedSceneUpdates.add(new SceneUpdate(componentPath, value));
+  }
+
+  /**
+   * Apply updates queued by queueSceneUpdate; this empties the current queue of updates.
+   */
+  @Deprecated
+  public void applySceneUpdates() {
+    if (queuedSceneUpdates.isEmpty()) {
+      return;
+    }
+    mapController.updateSceneAsync(queuedSceneUpdates);
+    queuedSceneUpdates = new ArrayList<>();
   }
 
   /**

@@ -44,6 +44,7 @@ import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -73,7 +74,6 @@ public class MapzenMapTest {
     doCallRealMethod().when(mapController)
         .setMarkerPickListener(any(MapController.MarkerPickListener.class));
     doCallRealMethod().when(mapController).pickMarker(anyFloat(), anyFloat());
-    doCallRealMethod().when(mapController).updateSceneAsync(any(List.class));
     doCallRealMethod().when(mapController).setPosition(any(LngLat.class));
     doCallRealMethod().when(mapController).getPosition();
     doCallRealMethod().when(mapController).setZoom(anyFloat());
@@ -561,6 +561,39 @@ public class MapzenMapTest {
     };
     map.queueEvent(r);
     verify(mapController).queueEvent(r);
+  }
+
+  @Test
+  public void queueSceneUpdate_shouldNotCallMapController() throws Exception {
+    // Reset because updateSceneAsync called in MapzenMap constructor
+    reset(mapController);
+
+    map.queueSceneUpdate("test", "test");
+    verify(mapController, never()).updateSceneAsync(any(List.class));
+  }
+
+  @Test
+  public void applySceneUpdates_shouldApplyQueuedUpdates() throws Exception {
+    // Reset because updateSceneAsync called in MapzenMap constructor
+    reset(mapController);
+
+    map.queueSceneUpdate("test", "test");
+    map.applySceneUpdates();
+    SceneUpdate update = new SceneUpdate("test", "test");
+    verify(mapController).updateSceneAsync(argThat(new SceneUpdatesMatcher(update)));
+  }
+
+  @Test
+  public void applySceneUpdates_shouldClearQueuedUpdates() throws Exception {
+    // Reset because updateSceneAsync called in MapzenMap constructor
+    reset(mapController);
+
+    map.queueSceneUpdate("test", "test");
+    map.applySceneUpdates();
+    SceneUpdate update = new SceneUpdate("test", "test");
+    verify(mapController).updateSceneAsync(argThat(new SceneUpdatesMatcher(update)));
+    map.applySceneUpdates();
+    verify(mapController, times(1)).updateSceneAsync(any(List.class));
   }
 
   @Test public void onDestroy_shouldPersistMapPosition() throws Exception {
