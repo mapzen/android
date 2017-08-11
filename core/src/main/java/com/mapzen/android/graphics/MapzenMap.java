@@ -605,7 +605,7 @@ public class MapzenMap {
   /**
    * Set a listener for feature pick events.
    *
-   * @param listener Listener to call
+   * @param listener Listener to call when {@link Marker}s are selected.
    */
   public void setFeaturePickListener(final FeaturePickListener listener) {
     mapController.setFeaturePickListener(new MapController.FeaturePickListener() {
@@ -633,7 +633,7 @@ public class MapzenMap {
   /**
    * Set a listener for marker pick events.
    *
-   * @param listener Listener to receive callback when markers are selected.
+   * @param listener Listener to receive callback when {@link BitmapMarker}s are selected.
    */
   public void setMarkerPickListener(final MarkerPickListener listener) {
     mapController.setMarkerPickListener(new MapController.MarkerPickListener() {

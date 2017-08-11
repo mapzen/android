@@ -56,7 +56,7 @@ public class BitmapMarker {
   }
 
   /**
-   * Sets the resource id displayed as the marker's icon.
+   * Sets the drawable resource id displayed as the marker's icon.
    * @param resourceId
    */
   public void setIcon(int resourceId) {
