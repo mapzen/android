@@ -98,14 +98,14 @@ public class BitmapMarkerTest {
   }
 
   @Test public void setBackgroundColor_colorInt_shouldCallTangramMarker() throws Exception {
-    bitmapMarker.setBackgroundColor(Color.BLUE);
-    verify(styleStringGenerator).setBackgroundColor("#ff0000ff");
+    bitmapMarker.setColor(Color.BLUE);
+    verify(styleStringGenerator).setColor("#ff0000ff");
     verify(tangramMarker).setStylingFromString(styleStringGenerator.getStyleString());
   }
 
   @Test public void setBackgroundColor_hex_shouldCallTangramMarker() throws Exception {
-    bitmapMarker.setBackgroundColor("#222222");
-    verify(styleStringGenerator).setBackgroundColor("#222222");
+    bitmapMarker.setColor("#222222");
+    verify(styleStringGenerator).setColor("#222222");
     verify(tangramMarker).setStylingFromString(styleStringGenerator.getStyleString());
   }
 }

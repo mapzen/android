@@ -114,21 +114,21 @@ public class BitmapMarker {
   }
 
   /**
-   * Sets background color of marker given a color int ie {@code android.graphics.Color.BLUE}.
+   * Sets color of marker given a color int ie {@code android.graphics.Color.BLUE}.
    * @param colorInt
    */
-  public void setBackgroundColor(int colorInt) {
+  public void setColor(int colorInt) {
     String hex = "#" + Integer.toHexString(colorInt);
-    styleStringGenerator.setBackgroundColor(hex);
+    styleStringGenerator.setColor(hex);
     updateStyleString();
   }
 
   /**
-   * Sets background color of marker given a color hex string.
+   * Sets color of marker given a color hex string.
    * @param hex
    */
-  public void setBackgroundColor(String hex) {
-    styleStringGenerator.setBackgroundColor(hex);
+  public void setColor(String hex) {
+    styleStringGenerator.setColor(hex);
     updateStyleString();
   }
 

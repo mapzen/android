@@ -26,7 +26,7 @@ public class StyleStringGeneratorTest {
   }
 
   @Test public void setBackgroundColor_updatesStyleString() throws Exception {
-    generator.setBackgroundColor("#0000FF");
+    generator.setColor("#0000FF");
     assertThat(generator.getStyleString()).isEqualTo("{ style: 'points', color: '#0000FF', "
         + "size: [50px, 50px], collide: false, interactive: true }");
   }

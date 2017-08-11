@@ -10,7 +10,7 @@ public class StyleStringGenerator {
   private int width = 50;
   private int height = 50;
   private boolean interactive = true;
-  private String bgHex = "#FFFFFF";
+  private String colorHex = "#FFFFFF";
 
   /**
    * Set the width and height in pixels.
@@ -31,11 +31,11 @@ public class StyleStringGenerator {
   }
 
   /**
-   * Sets the hex value for background color to be used.
+   * Sets the hex value for color to be used.
    * @param hex
    */
-  public void setBackgroundColor(String hex) {
-    this.bgHex = hex;
+  public void setColor(String hex) {
+    this.colorHex = hex;
   }
 
   /**
@@ -45,7 +45,7 @@ public class StyleStringGenerator {
   public String getStyleString() {
     return new StringBuilder()
         .append("{ style: 'points', color: '")
-        .append(bgHex)
+        .append(colorHex)
         .append("', size: [")
         .append(width)
         .append("px, ")
