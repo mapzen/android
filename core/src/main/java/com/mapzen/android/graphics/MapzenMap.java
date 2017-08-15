@@ -1,6 +1,7 @@
 package com.mapzen.android.graphics;
 
 import com.mapzen.android.core.MapzenManager;
+import com.mapzen.android.graphics.internal.StyleStringGenerator;
 import com.mapzen.android.graphics.model.BitmapMarker;
 import com.mapzen.android.graphics.model.CameraType;
 import com.mapzen.android.graphics.model.EaseType;
@@ -29,6 +30,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import static com.mapzen.android.graphics.internal.EaseTypeConverter.
+    EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE;
 
 /**
  * This is the main class of the Mapzen Android API and is the entry point for all methods related
@@ -84,16 +88,6 @@ public class MapzenMap {
   private TouchInput.RotateResponder rotateResponder;
   private TouchInput.ScaleResponder scaleResponder;
   private TouchInput.ShoveResponder shoveResponder;
-
-  private static final HashMap<EaseType, MapController.EaseType>
-      EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE = new HashMap();
-
-  static {
-    EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.put(EaseType.LINEAR, MapController.EaseType.LINEAR);
-    EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.put(EaseType.CUBIC, MapController.EaseType.CUBIC);
-    EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.put(EaseType.QUINT, MapController.EaseType.QUINT);
-    EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.put(EaseType.SINE, MapController.EaseType.SINE);
-  }
 
   private static final HashMap<CameraType, MapController.CameraType>
       CAMERA_TYPE_TO_MAP_CONTROLLER_CAMERA_TYPE = new HashMap<>();
@@ -611,7 +605,7 @@ public class MapzenMap {
   /**
    * Set a listener for feature pick events.
    *
-   * @param listener Listener to call
+   * @param listener Listener to call when {@link Marker}s are selected.
    */
   public void setFeaturePickListener(final FeaturePickListener listener) {
     mapController.setFeaturePickListener(new MapController.FeaturePickListener() {
@@ -639,7 +633,7 @@ public class MapzenMap {
   /**
    * Set a listener for marker pick events.
    *
-   * @param listener Listener to receive callback when markers are selected.
+   * @param listener Listener to receive callback when {@link BitmapMarker}s are selected.
    */
   public void setMarkerPickListener(final MarkerPickListener listener) {
     mapController.setMarkerPickListener(new MapController.MarkerPickListener() {
@@ -649,7 +643,8 @@ public class MapzenMap {
         mapView.post(new Runnable() {
           @Override public void run() {
             if (markerPickResult != null) {
-              listener.onMarkerPick(new BitmapMarker(markerManager, markerPickResult.getMarker()));
+              listener.onMarkerPick(new BitmapMarker(markerManager, markerPickResult.getMarker(),
+                  new StyleStringGenerator()));
             }
           }
         });

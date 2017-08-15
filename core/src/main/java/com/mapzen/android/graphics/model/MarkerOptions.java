@@ -3,18 +3,23 @@ package com.mapzen.android.graphics.model;
 import com.mapzen.R;
 import com.mapzen.tangram.LngLat;
 
+import android.graphics.drawable.Drawable;
+
 /**
  * Defines options for a {@link BitmapMarker}.
  */
 public class MarkerOptions {
   private static final LngLat DEFAULT_POSITION = new LngLat(-73.985428, 40.748817);
   private static final int DEFAULT_DRAWABLE = R.drawable.mapzen;
-  private static final String DEFAULT_STYLE = "{ style: 'points', color: 'white',"
-      + "size: [50px, 50px], collide: false, interactive: true }";
+  private static final int DEFAULT_WIDTH = 50;
+  private static final int DEFAULT_HEIGHT = 50;
+  private static final int RES_NONE = Integer.MIN_VALUE;
 
   private LngLat position = DEFAULT_POSITION;
   private int resId = DEFAULT_DRAWABLE;
-  private String style = DEFAULT_STYLE;
+  private Drawable res = null;
+  private int width = DEFAULT_WIDTH;
+  private int height = DEFAULT_HEIGHT;
 
   // Setters
 
@@ -30,24 +35,41 @@ public class MarkerOptions {
   }
 
   /**
-   * Set the marker icon resource ID.
+   * Set the marker icon resource ID. Setting this property will override previously set resource
+   * ids set in the call to {@link MarkerOptions#icon(Drawable)}.
    *
    * @param resId drawable resource ID for the marker to display.
    * @return this marker options instance.
    */
   public MarkerOptions icon(int resId) {
     this.resId = resId;
+    this.res = null;
     return this;
   }
 
   /**
-   * Set the marker icon style string.
+   * Set the marker icon resource. Setting this property will override previously set resource ids
+   * set in the call to {@link MarkerOptions#icon(int)}.
    *
-   * @param style Tangram style string used to define the marker appearance.
+   * @param res drawable resource for the marker to display.
    * @return this marker options instance.
    */
-  public MarkerOptions style(String style) {
-    this.style = style;
+  public MarkerOptions icon(Drawable res) {
+    this.res = res;
+    this.resId = RES_NONE;
+    return this;
+  }
+
+  /**
+   * Set the marker size.
+   *
+   * @param width in pixels
+   * @param height in pixels
+   * @return this marker options instance.
+   */
+  public MarkerOptions size(int width, int height) {
+    this.width = width;
+    this.height = height;
     return this;
   }
 
@@ -61,7 +83,15 @@ public class MarkerOptions {
     return resId;
   }
 
-  public String getStyle() {
-    return style;
+  public Drawable getIconDrawable() {
+    return res;
+  }
+
+  public int getWidth() {
+    return width;
+  }
+
+  public int getHeight() {
+    return height;
   }
 }

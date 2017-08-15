@@ -1,5 +1,6 @@
 package com.mapzen.android.graphics.model;
 
+import com.mapzen.android.graphics.internal.StyleStringGenerator;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.Marker;
 
@@ -27,9 +28,15 @@ public class MarkerManager {
   public BitmapMarker addMarker(MarkerOptions markerOptions) {
     final Marker marker = mapController.addMarker();
     marker.setPoint(markerOptions.getPosition());
-    marker.setDrawable(markerOptions.getIcon());
-    marker.setStylingFromString(markerOptions.getStyle());
-    return new BitmapMarker(this, marker);
+    if (markerOptions.getIconDrawable() != null) {
+      marker.setDrawable(markerOptions.getIconDrawable());
+    } else {
+      marker.setDrawable(markerOptions.getIcon());
+    }
+    StyleStringGenerator styleStringGenerator = new StyleStringGenerator();
+    styleStringGenerator.setSize(markerOptions.getWidth(), markerOptions.getHeight());
+    marker.setStylingFromString(styleStringGenerator.getStyleString());
+    return new BitmapMarker(this, marker, styleStringGenerator);
   }
 
   /**

@@ -3,7 +3,7 @@ package com.mapzen.android.graphics.model;
 import com.mapzen.tangram.LngLat;
 
 /**
- * Represents a pin marker on a map.
+ * Represents a pin marker on a map backed by {@link com.mapzen.tangram.MapData} objects.
  */
 public class Marker {
 
