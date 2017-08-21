@@ -7,42 +7,11 @@ package com.mapzen.android.graphics.internal;
  */
 public class StyleStringGenerator {
 
-  private int width = 50;
-  private int height = 50;
-  private boolean interactive = true;
-  private String colorHex = "#FFFFFF";
-
-  /**
-   * Set the width and height in pixels.
-   * @param width
-   * @param height
-   */
-  public void setSize(int width, int height) {
-    this.width = width;
-    this.height = height;
-  }
-
-  /**
-   * Set whether or not the marker can be selected.
-   * @param interactive
-   */
-  public void setInteractive(boolean interactive) {
-    this.interactive = interactive;
-  }
-
-  /**
-   * Sets the hex value for color to be used.
-   * @param hex
-   */
-  public void setColor(String hex) {
-    this.colorHex = hex;
-  }
-
   /**
    * Return the style string given the current property configurations.
    * @return
    */
-  public String getStyleString() {
+  public String getStyleString(int width, int height, boolean interactive, String colorHex) {
     return new StringBuilder()
         .append("{ style: 'points', color: '")
         .append(colorHex)

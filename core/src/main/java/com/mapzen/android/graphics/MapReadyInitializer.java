@@ -1,6 +1,8 @@
 package com.mapzen.android.graphics;
 
 import com.mapzen.android.core.MapzenManager;
+import com.mapzen.android.graphics.internal.StyleStringGenerator;
+import com.mapzen.android.graphics.model.BitmapMarkerFactory;
 import com.mapzen.android.graphics.model.MarkerManager;
 import com.mapzen.tangram.MapController;
 
@@ -24,7 +26,8 @@ class MapReadyInitializer {
    */
   void onMapReady(MapView mapView, MapzenMapHttpHandler mapzenMapHttpHandler,
       OnMapReadyCallback callback, MapDataManager mapDataManager, MapStateManager mapStateManager,
-      SceneUpdateManager sceneUpdateManager, Locale locale) {
+      SceneUpdateManager sceneUpdateManager, Locale locale, BitmapMarkerFactory bitmapMarkerFactory,
+      StyleStringGenerator styleStringGenerator) {
     MapController mapController = mapView.getTangramMapView().getMap(null);
     mapController.setSceneLoadListener(null);
     mapController.setHttpHandler(mapzenMapHttpHandler.httpHandler());
@@ -32,6 +35,7 @@ class MapReadyInitializer {
     callback.onMapReady(
         new MapzenMap(mapView, mapController, new OverlayManager(mapView, mapController,
             mapDataManager, mapStateManager), mapStateManager, new LabelPickHandler(mapView),
-            new MarkerManager(mapController), sceneUpdateManager, locale, mapzenManager));
+            new MarkerManager(mapController, bitmapMarkerFactory, styleStringGenerator),
+            sceneUpdateManager, locale, mapzenManager));
   }
 }

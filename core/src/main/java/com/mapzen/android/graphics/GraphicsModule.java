@@ -1,5 +1,8 @@
 package com.mapzen.android.graphics;
 
+import com.mapzen.android.graphics.internal.StyleStringGenerator;
+import com.mapzen.android.graphics.model.BitmapMarkerFactory;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -33,5 +36,21 @@ import dagger.Provides;
    */
   @Provides @Singleton public SceneUpdateManager providesSceneUpdateManager() {
     return new SceneUpdateManager();
+  }
+
+  /**
+   * Returns the object used create {@link com.mapzen.android.graphics.model.BitmapMarker}s.
+   * @return
+   */
+  @Provides @Singleton public BitmapMarkerFactory providesBitmapMarkerFactory() {
+    return new BitmapMarkerFactory();
+  }
+
+  /**
+   * Returns the object used to generate a style string for a Tangram
+   * {@link com.mapzen.tangram.Marker}.
+   */
+  @Provides @Singleton public StyleStringGenerator providesStyleStringGenerator() {
+    return new StyleStringGenerator();
   }
 }

@@ -1,22 +1,35 @@
 package com.mapzen.android.graphics.model;
 
 import com.mapzen.android.graphics.internal.StyleStringGenerator;
+import com.mapzen.tangram.LngLat;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.Marker;
+
+import android.graphics.drawable.Drawable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Manages {@link BitmapMarker} instances on the map.
  */
 public class MarkerManager {
   private final MapController mapController;
+  private final BitmapMarkerFactory bitmapMarkerFactory;
+  private final StyleStringGenerator styleStringGenerator;
+  private List<BitmapMarker> restorableMarkers;
 
   /**
    * Constructor.
    *
    * @param mapController Tangram map controller used to generate markers.
    */
-  public MarkerManager(MapController mapController) {
+  public MarkerManager(MapController mapController, BitmapMarkerFactory bitmapMarkerFactory,
+      StyleStringGenerator styleStringGenerator) {
     this.mapController = mapController;
+    this.bitmapMarkerFactory = bitmapMarkerFactory;
+    this.styleStringGenerator = styleStringGenerator;
+    this.restorableMarkers = new ArrayList<>();
   }
 
   /**
@@ -27,16 +40,13 @@ public class MarkerManager {
    */
   public BitmapMarker addMarker(MarkerOptions markerOptions) {
     final Marker marker = mapController.addMarker();
-    marker.setPoint(markerOptions.getPosition());
-    if (markerOptions.getIconDrawable() != null) {
-      marker.setDrawable(markerOptions.getIconDrawable());
-    } else {
-      marker.setDrawable(markerOptions.getIcon());
-    }
-    StyleStringGenerator styleStringGenerator = new StyleStringGenerator();
-    styleStringGenerator.setSize(markerOptions.getWidth(), markerOptions.getHeight());
-    marker.setStylingFromString(styleStringGenerator.getStyleString());
-    return new BitmapMarker(this, marker, styleStringGenerator);
+    configureTangramMarker(marker, styleStringGenerator, markerOptions.getPosition(),
+        markerOptions.getIconDrawable(), markerOptions.getIcon(), markerOptions.getWidth(),
+        markerOptions.getHeight());
+    BitmapMarker bitmapMarker = bitmapMarkerFactory.createMarker(this, marker,
+        styleStringGenerator);
+    restorableMarkers.add(bitmapMarker);
+    return bitmapMarker;
   }
 
   /**
@@ -44,7 +54,33 @@ public class MarkerManager {
    *
    * @param marker Tangram marker to be removed.
    */
-  public void removeMarker(Marker marker) {
-    mapController.removeMarker(marker);
+  public void removeMarker(BitmapMarker marker) {
+    restorableMarkers.remove(marker);
+    mapController.removeMarker(marker.getTangramMarker());
+  }
+
+  /**
+   * Restores underlying Tangram marker for all {@link BitmapMarker}s when scene updates occur.
+   */
+  public void restoreMarkers() {
+    for (BitmapMarker restorableMarker : restorableMarkers) {
+      Marker tangramMarker = mapController.addMarker();
+      configureTangramMarker(tangramMarker, restorableMarker.getStyleStringGenerator(),
+          restorableMarker.getPosition(), restorableMarker.getIconDrawable(),
+          restorableMarker.getIcon(), restorableMarker.getWidth(), restorableMarker.getHeight());
+      restorableMarker.setTangramMarker(tangramMarker);
+    }
+  }
+
+  private void configureTangramMarker(Marker marker, StyleStringGenerator styleStringGenerator,
+      LngLat position, Drawable drawable, int drawableId, int width, int height) {
+    marker.setPoint(position);
+    if (drawable != null) {
+      marker.setDrawable(drawable);
+    } else {
+      marker.setDrawable(drawableId);
+    }
+    //TODO add missing properties to MarkerOptions
+    marker.setStylingFromString(styleStringGenerator.getStyleString(width, height, true, "#fff"));
   }
 }

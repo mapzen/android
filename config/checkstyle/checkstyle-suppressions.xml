@@ -19,4 +19,5 @@
     <suppress checks="ConstantName" files="R.java" />
     <suppress checks="ParameterNumberCheck" files="src/main/java/com/mapzen/android/graphics/MapzenMap.java"/>
     <suppress checks="[a-zA-Z0-9]*" files="src/main/java/com/mapzen/android/graphics/TmpHttpHandler.java"/>
+    <suppress checks="ParameterNumberCheck" files="src/main/java/com/mapzen/android/graphics/MapReadyInitializer.java"/>
 </suppressions>

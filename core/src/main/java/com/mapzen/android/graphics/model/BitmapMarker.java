@@ -13,7 +13,7 @@ import android.graphics.drawable.Drawable;
 public class BitmapMarker {
 
   private final MarkerManager markerManager;
-  private final Marker tangramMarker;
+  private Marker tangramMarker;
   private final StyleStringGenerator styleStringGenerator;
   private LngLat position;
   private int resourceId;
@@ -121,7 +121,6 @@ public class BitmapMarker {
   public void setSize(int width, int height) {
     this.width = width;
     this.height = height;
-    styleStringGenerator.setSize(width, height);
     updateStyleString();
   }
 
@@ -198,9 +197,7 @@ public class BitmapMarker {
    */
   public void setColor(int colorInt) {
     this.colorInt = colorInt;
-    this.colorHex = null;
-    String hex = "#" + Integer.toHexString(colorInt);
-    styleStringGenerator.setColor(hex);
+    this.colorHex = "#" + Integer.toHexString(colorInt);
     updateStyleString();
   }
 
@@ -220,7 +217,6 @@ public class BitmapMarker {
   public void setColor(String hex) {
     this.colorHex = hex;
     this.colorInt = Integer.MIN_VALUE;
-    styleStringGenerator.setColor(hex);
     updateStyleString();
   }
 
@@ -238,7 +234,6 @@ public class BitmapMarker {
    */
   public void setInteractive(boolean interactive) {
     this.isInteractive = interactive;
-    styleStringGenerator.setInteractive(interactive);
     updateStyleString();
   }
 
@@ -251,6 +246,14 @@ public class BitmapMarker {
   }
 
   /**
+   * Allows setting the tangram marker, useful when restoring markers.
+   * @param tangramMarker
+   */
+  void setTangramMarker(Marker tangramMarker) {
+    this.tangramMarker = tangramMarker;
+  }
+
+  /**
    * Returns the underlying Tangram {@link Marker}.
    * @return
    */
@@ -258,8 +261,17 @@ public class BitmapMarker {
     return tangramMarker;
   }
 
+  /**
+   * Returns the object used to generate style string.
+   * @return
+   */
+  StyleStringGenerator getStyleStringGenerator() {
+    return styleStringGenerator;
+  }
+
   private void updateStyleString() {
-    tangramMarker.setStylingFromString(styleStringGenerator.getStyleString());
+    tangramMarker.setStylingFromString(styleStringGenerator.getStyleString(width, height,
+        isInteractive, colorHex));
   }
 
 }

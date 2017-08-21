@@ -16,6 +16,7 @@ import android.graphics.drawable.Drawable;
 import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -24,7 +25,8 @@ import static org.mockito.Mockito.verify;
 public class BitmapMarkerTest {
   private Marker tangramMarker = mock(Marker.class);
   private MapController mapController = mock(MapController.class);
-  private MarkerManager markerManager = new MarkerManager(mapController);
+  private MarkerManager markerManager = new MarkerManager(mapController, new BitmapMarkerFactory(),
+      new StyleStringGenerator());
   private StyleStringGenerator styleStringGenerator  = mock(StyleStringGenerator.class);
   private BitmapMarker bitmapMarker = new BitmapMarker(markerManager, tangramMarker,
       styleStringGenerator);
@@ -100,12 +102,11 @@ public class BitmapMarkerTest {
     assertThat(bitmapMarker.getIcon()).isEqualTo(Integer.MIN_VALUE);
   }
 
-  @Test public void setSize_shouldCallTangramMarkerAndStyleStringGenerator() throws Exception {
+  @Test public void setSize_shouldCallTangramMarker() throws Exception {
     int width = 10;
     int height = 5;
     bitmapMarker.setSize(width, height);
-    verify(styleStringGenerator).setSize(width, height);
-    verify(tangramMarker).setStylingFromString(styleStringGenerator.getStyleString());
+    verify(tangramMarker).setStylingFromString(anyString());
   }
 
   @Test public void setSize_shouldSetWidth() throws Exception {
@@ -157,8 +158,7 @@ public class BitmapMarkerTest {
 
   @Test public void setInteractive_shouldCallTangramMarker() throws Exception {
     bitmapMarker.setInteractive(true);
-    verify(styleStringGenerator).setInteractive(true);
-    verify(tangramMarker).setStylingFromString(styleStringGenerator.getStyleString());
+    verify(tangramMarker).setStylingFromString(anyString());
   }
 
   @Test public void setInteractive_shouldSetInteractive() throws Exception {
@@ -170,8 +170,7 @@ public class BitmapMarkerTest {
 
   @Test public void setColor_colorInt_shouldCallTangramMarker() throws Exception {
     bitmapMarker.setColor(Color.BLUE);
-    verify(styleStringGenerator).setColor("#ff0000ff");
-    verify(tangramMarker).setStylingFromString(styleStringGenerator.getStyleString());
+    verify(tangramMarker).setStylingFromString(anyString());
   }
 
   @Test public void setColor_shouldSetColor() throws Exception {
@@ -179,16 +178,15 @@ public class BitmapMarkerTest {
     assertThat(bitmapMarker.getColor()).isEqualTo(Color.BLUE);
   }
 
-  @Test public void setIcon_shouldNullColorHex() throws Exception {
+  @Test public void setColor_shouldUpdateColorHex() throws Exception {
     bitmapMarker.setColor("test");
     bitmapMarker.setColor(Color.BLUE);
-    assertThat(bitmapMarker.getColorHex()).isNull();
+    assertThat(bitmapMarker.getColorHex()).isEqualTo("#ff0000ff");
   }
 
   @Test public void setColor_hex_shouldCallTangramMarker() throws Exception {
     bitmapMarker.setColor("#222222");
-    verify(styleStringGenerator).setColor("#222222");
-    verify(tangramMarker).setStylingFromString(styleStringGenerator.getStyleString());
+    verify(tangramMarker).setStylingFromString(anyString());
   }
 
   @Test public void setColor_hex_shouldSetColor() throws Exception {
@@ -200,5 +198,11 @@ public class BitmapMarkerTest {
     bitmapMarker.setColor(Color.BLUE);
     bitmapMarker.setColor("test");
     assertThat(bitmapMarker.getColor()).isEqualTo(Integer.MIN_VALUE);
+  }
+
+  @Test public void getTangramMarker_shouldReturnMarker() throws Exception {
+    Marker marker = mock(Marker.class);
+    bitmapMarker.setTangramMarker(marker);
+    assertThat(bitmapMarker.getTangramMarker()).isEqualTo(marker);
   }
 }
