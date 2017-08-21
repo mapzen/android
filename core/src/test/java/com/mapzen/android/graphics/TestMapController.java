@@ -12,6 +12,8 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.opengl.GLSurfaceView;
 
+import java.util.List;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -24,7 +26,7 @@ public class TestMapController extends MapController {
   private float mapTilt = 0;
   private FeaturePickListener featurePickListener;
   private MarkerPickListener markerPickListener;
-  private SceneUpdate sceneUpdate;
+  private List<SceneUpdate> sceneUpdates;
 
   public TestMapController() {
     super(new GLSurfaceView(getMockContext()));
@@ -95,12 +97,13 @@ public class TestMapController extends MapController {
     }
   }
 
-  @Override public void queueSceneUpdate(SceneUpdate sceneUpdate) {
-    this.sceneUpdate = sceneUpdate;
+  @Override public int updateSceneAsync(List<SceneUpdate> sceneUpdates) {
+    this.sceneUpdates = sceneUpdates;
+    return 1;
   }
 
-  public SceneUpdate getSceneUpdate() {
-    return sceneUpdate;
+  public List<SceneUpdate> getSceneUpdates() {
+    return sceneUpdates;
   }
 
   private static Context getMockContext() {

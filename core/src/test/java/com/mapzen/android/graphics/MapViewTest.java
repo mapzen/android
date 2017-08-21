@@ -4,11 +4,16 @@ import com.mapzen.R;
 import com.mapzen.android.core.MapzenManager;
 import com.mapzen.android.graphics.model.BubbleWrapStyle;
 import com.mapzen.android.graphics.model.MapStyle;
+import com.mapzen.tangram.MapController;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
+import org.powermock.core.classloader.annotations.SuppressStaticInitializationFor;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -27,12 +32,18 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@RunWith(PowerMockRunner.class)
+@PowerMockIgnore("javax.net.ssl.*")
+@SuppressStaticInitializationFor("com.mapzen.tangram.MapController")
 public class MapViewTest {
   private MapView mapView;
 
   @Before public void setup() throws Exception {
     mapView = PowerMockito.spy(new MapView(getMockContext()));
-    when(mapView.getTangramMapView()).thenReturn(mock(TangramMapView.class));
+    TangramMapView tangramMapView = mock(TangramMapView.class);
+    when(mapView.getTangramMapView()).thenReturn(tangramMapView);
+    when(tangramMapView.getMap(any(MapController.SceneLoadListener.class))).thenReturn(mock(
+        MapController.class));
     MapzenManager.instance(getMockContext()).setApiKey("fake-mapzen-api-key");
   }
 

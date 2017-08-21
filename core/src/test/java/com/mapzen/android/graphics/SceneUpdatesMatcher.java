@@ -4,6 +4,7 @@ import com.mapzen.tangram.SceneUpdate;
 
 import org.mockito.ArgumentMatcher;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -11,6 +12,10 @@ import java.util.List;
  */
 class SceneUpdatesMatcher extends ArgumentMatcher<List<SceneUpdate>> {
   List<SceneUpdate> updates;
+
+  public SceneUpdatesMatcher(SceneUpdate update) {
+    this.updates = Arrays.asList(update);
+  }
 
   public SceneUpdatesMatcher(List<SceneUpdate> updates) {
     this.updates = updates;
@@ -22,9 +27,19 @@ class SceneUpdatesMatcher extends ArgumentMatcher<List<SceneUpdate>> {
       return false;
     }
     for (int i = 0; i < updates.size(); i++) {
-      if (!SceneUpdateMatcher.updateEqualToUpdate(updates.get(i), otherObject.get(i))) {
+      if (!updateEqualToUpdate(updates.get(i), otherObject.get(i))) {
         return false;
       }
+    }
+    return true;
+  }
+
+  private boolean updateEqualToUpdate(SceneUpdate update, SceneUpdate otherUpdate) {
+    if (!update.getPath().equals(otherUpdate.getPath())) {
+      return false;
+    }
+    if (!update.getValue().equals(otherUpdate.getValue())) {
+      return false;
     }
     return true;
   }
