@@ -1,51 +1,40 @@
 package com.mapzen.android.sdk.sample;
 
-import com.mapzen.android.graphics.MapFragment;
-import com.mapzen.android.graphics.MapzenMap;
 import com.mapzen.android.graphics.MarkerPickListener;
-import com.mapzen.android.graphics.OnMapReadyCallback;
 import com.mapzen.android.graphics.model.BitmapMarker;
 import com.mapzen.android.graphics.model.MarkerOptions;
 import com.mapzen.tangram.LngLat;
 
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
 /**
  * Custom marker demo.
  */
-public class CustomMarkerActivity extends BaseDemoActivity implements MarkerPickListener {
+public class CustomMarkerActivity extends SwitchStyleActivity implements MarkerPickListener {
 
-  private MapzenMap map;
   private BitmapMarker bitmapMarker;
 
-  @Override protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_custom_marker);
-    final MapFragment mapFragment =
-        (MapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
-    mapFragment.getMapAsync(new OnMapReadyCallback() {
-      @Override public void onMapReady(MapzenMap map) {
-        CustomMarkerActivity.this.map = map;
-        configureMap();
-      }
-    });
+  int getLayoutId() {
+    return R.layout.activity_custom_marker;
   }
 
-  private void configureMap() {
-    map.setCompassButtonEnabled(true);
-    map.setPersistMapState(true);
-    map.setPosition(new LngLat(-73.985428, 40.748817));
-    map.setZoom(16);
-    map.setMarkerPickListener(this);
+  /**
+   * Configure map position and zoom. Also setup buttons to add/rm custom marker.
+   */
+  void configureMap() {
+    mapzenMap.setCompassButtonEnabled(true);
+    mapzenMap.setPersistMapState(true);
+    mapzenMap.setPosition(new LngLat(-73.985428, 40.748817));
+    mapzenMap.setZoom(16);
+    mapzenMap.setMarkerPickListener(this);
 
     findViewById(R.id.add_marker_btn).setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         final MarkerOptions markerOptions = new MarkerOptions()
             .position(new LngLat(-73.985428, 40.748817))
             .icon(R.drawable.mapzen);
-        bitmapMarker = map.addBitmapMarker(markerOptions);
+        bitmapMarker = mapzenMap.addBitmapMarker(markerOptions);
       }
     });
 

@@ -1,9 +1,7 @@
 package com.mapzen.android.graphics;
 
 import com.mapzen.android.core.MapzenManager;
-import com.mapzen.android.graphics.internal.StyleStringGenerator;
 import com.mapzen.android.graphics.model.BitmapMarker;
-import com.mapzen.android.graphics.model.BitmapMarkerFactory;
 import com.mapzen.android.graphics.model.BubbleWrapStyle;
 import com.mapzen.android.graphics.model.CameraType;
 import com.mapzen.android.graphics.model.EaseType;
@@ -87,8 +85,7 @@ public class MapzenMapTest {
     overlayManager = mock(OverlayManager.class);
     mapStateManager = new MapStateManager();
     labelPickHandler = new LabelPickHandler(mapView);
-    markerManager = new MarkerManager(mapController, new BitmapMarkerFactory(),
-        new StyleStringGenerator());
+    markerManager = mock(MarkerManager.class);
     sceneUpdateManager = new SceneUpdateManager();
     locale = new Locale("en_us");
     mapzenManager = mock(MapzenManager.class);
@@ -705,6 +702,11 @@ public class MapzenMapTest {
     sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "true"));
     sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "true"));
     verify(mapController).updateSceneAsync(argThat(new SceneUpdatesMatcher(sceneUpdates)));
+  }
+
+  @Test public void onSceneReady_restoresMarkers() throws Exception {
+    map.internalSceneLoadListener.onSceneReady(1, null);
+    verify(markerManager).restoreMarkers();
   }
 
   public class TestRotateResponder implements TouchInput.RotateResponder {

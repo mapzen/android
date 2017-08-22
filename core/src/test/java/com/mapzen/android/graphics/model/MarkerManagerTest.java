@@ -3,7 +3,6 @@ package com.mapzen.android.graphics.model;
 import com.mapzen.android.graphics.internal.StyleStringGenerator;
 import com.mapzen.tangram.LngLat;
 import com.mapzen.tangram.MapController;
-import com.mapzen.tangram.Marker;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +19,6 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;

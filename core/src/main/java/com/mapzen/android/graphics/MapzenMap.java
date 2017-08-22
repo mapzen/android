@@ -15,6 +15,7 @@ import com.mapzen.tangram.LngLat;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.MapData;
 import com.mapzen.tangram.MarkerPickResult;
+import com.mapzen.tangram.SceneError;
 import com.mapzen.tangram.SceneUpdate;
 import com.mapzen.tangram.TouchInput;
 
@@ -138,6 +139,13 @@ public class MapzenMap {
     }
   };
 
+  MapController.SceneLoadListener internalSceneLoadListener
+      = new MapController.SceneLoadListener() {
+    @Override public void onSceneReady(int sceneId, SceneError sceneError) {
+      markerManager.restoreMarkers();
+    }
+  };
+
   /**
    * Creates a new map based on the given {@link MapView} and {@link MapController}.
    */
@@ -147,6 +155,7 @@ public class MapzenMap {
       MapzenManager mapzenManager) {
     this.mapView = mapView;
     this.mapController = mapController;
+    this.mapController.setSceneLoadListener(internalSceneLoadListener);
     this.overlayManager = overlayManager;
     this.mapStateManager = mapStateManager;
     this.labelPickHandler = labelPickHandler;
