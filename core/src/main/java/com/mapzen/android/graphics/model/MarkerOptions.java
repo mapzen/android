@@ -5,6 +5,7 @@ import com.mapzen.tangram.LngLat;
 
 import android.graphics.drawable.Drawable;
 
+
 /**
  * Defines options for a {@link BitmapMarker}.
  */
@@ -20,6 +21,12 @@ public class MarkerOptions {
   private Drawable res = null;
   private int width = DEFAULT_WIDTH;
   private int height = DEFAULT_HEIGHT;
+  private boolean isVisible = true;
+  private int drawOrder = 1;
+  private Object userData;
+  private int colorInt = Integer.MIN_VALUE;
+  private String colorHex = "#fff";
+  private boolean isInteractive = true;
 
   // Setters
 
@@ -73,6 +80,68 @@ public class MarkerOptions {
     return this;
   }
 
+  /**
+   * Sets the marker visibility.
+   * @param isVisible
+   * @return
+   */
+  public MarkerOptions visible(boolean isVisible) {
+    this.isVisible = isVisible;
+    return this;
+  }
+
+  /**
+   * Sets marker z-axis draw order.
+   */
+  public MarkerOptions drawOrder(int drawOrder) {
+    this.drawOrder = drawOrder;
+    return this;
+  }
+
+  /**
+   * Sets extra data to be associated with the marker.
+   * @param userData
+   * @return
+   */
+  public MarkerOptions userData(Object userData) {
+    this.userData = userData;
+    return this;
+  }
+
+  /**
+   * Sets color resource int. Setting the color in overrides previous set color hex values set via
+   * {@link MarkerOptions#colorHex(String)}.
+   * @param colorInt
+   * @return
+   */
+  public MarkerOptions colorInt(int colorInt) {
+    this.colorInt = colorInt;
+    this.colorHex = null;
+    return this;
+  }
+
+  /**
+   * Sets color hex value. Setting the color in overrides previous set color int values set via
+   * {@link MarkerOptions#colorInt(int)}.
+   * @param colorHex
+   * @return
+   */
+  public MarkerOptions colorHex(String colorHex) {
+    this.colorHex = colorHex;
+    this.colorInt = Integer.MIN_VALUE;
+    return this;
+  }
+
+  /**
+   * Sets whether or not the marker is interactive.
+   * @param isInteractive
+   * @return
+   */
+  public MarkerOptions isInteractive(boolean isInteractive) {
+    this.isInteractive = isInteractive;
+    return this;
+  }
+
   // Getters
 
   public LngLat getPosition() {
@@ -93,5 +162,29 @@ public class MarkerOptions {
 
   public int getHeight() {
     return height;
+  }
+
+  public boolean isVisible() {
+    return isVisible;
+  }
+
+  public int getDrawOrder() {
+    return drawOrder;
+  }
+
+  public Object getUserData() {
+    return userData;
+  }
+
+  public int getColorInt() {
+    return colorInt;
+  }
+
+  public String getColorHex() {
+    return colorHex;
+  }
+
+  public boolean isInteractive() {
+    return isInteractive;
   }
 }

@@ -118,10 +118,10 @@ public class MarkerManagerTest {
     verify(tangramMarker).setStylingFromString("{ style: 'points', color: '#fff', "
         + "size: [10px, 20px], collide: false, interactive: true }");
     verify(marker).setTangramMarker(any(Marker.class));
-    //TODO: add other props for verification, make test fail
-    //verify(tangramMarker).setVisible(true);
-    //verify(tangramMarker).setDrawOrder(drawOrder);
-    //verify(tangramMarker).setUserData(userData);
+    //TODO: make tests pass
+    verify(tangramMarker).setVisible(true);
+    verify(tangramMarker).setDrawOrder(drawOrder);
+    verify(tangramMarker).setUserData(userData);
   }
 
   @Test public void restoreMarkers_shouldProperlyRestoreAllManagedMarkers() throws Exception {
@@ -154,10 +154,10 @@ public class MarkerManagerTest {
     verify(tangramMarker, times(4)).setStylingFromString(anyString());
     verify(marker).setTangramMarker(any(Marker.class));
     verify(anotherMarker).setTangramMarker(any(Marker.class));
-    //TODO: add other props for verification, make test fail
-    //verify(tangramMarker).setVisible(true);
-    //verify(tangramMarker).setDrawOrder(drawOrder);
-    //verify(tangramMarker).setUserData(userData);
+    //TODO: make tests pass
+    verify(tangramMarker).setVisible(true);
+    verify(tangramMarker).setDrawOrder(drawOrder);
+    verify(tangramMarker).setUserData(userData);
   }
 
 }
