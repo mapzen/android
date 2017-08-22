@@ -31,10 +31,11 @@ public class MarkerManagerTest {
   private MapController mapController = mock(MapController.class);
   private com.mapzen.tangram.Marker tangramMarker = mock(com.mapzen.tangram.Marker.class);
   private BitmapMarkerFactory markerFactory = mock(BitmapMarkerFactory.class);
-  private MarkerManager markerManager = new MarkerManager(mapController, markerFactory,
+  private MarkerManager markerManager = new MarkerManager(markerFactory,
       new StyleStringGenerator());
 
   @Before public void setUp() throws Exception {
+    markerManager.setMapController(mapController);
     when(mapController.addMarker()).thenReturn(tangramMarker);
     when(markerFactory.createMarker(any(MarkerManager.class), any(com.mapzen.tangram.Marker.class),
         any(StyleStringGenerator.class))).thenReturn(mock(BitmapMarker.class));

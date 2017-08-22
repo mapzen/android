@@ -5,6 +5,7 @@ import com.mapzen.tangram.LngLat;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.Marker;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.SuppressStaticInitializationFor;
@@ -25,11 +26,15 @@ import static org.mockito.Mockito.verify;
 public class BitmapMarkerTest {
   private Marker tangramMarker = mock(Marker.class);
   private MapController mapController = mock(MapController.class);
-  private MarkerManager markerManager = new MarkerManager(mapController, new BitmapMarkerFactory(),
+  private MarkerManager markerManager = new MarkerManager(new BitmapMarkerFactory(),
       new StyleStringGenerator());
   private StyleStringGenerator styleStringGenerator  = mock(StyleStringGenerator.class);
   private BitmapMarker bitmapMarker = new BitmapMarker(markerManager, tangramMarker,
       styleStringGenerator);
+
+  @Before public void setup() throws Exception {
+    markerManager.setMapController(mapController);
+  }
 
   @Test public void shouldNotBeNull() throws Exception {
     assertThat(bitmapMarker).isNotNull();

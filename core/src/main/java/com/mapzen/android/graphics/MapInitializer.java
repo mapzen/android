@@ -1,10 +1,9 @@
 package com.mapzen.android.graphics;
 
 import com.mapzen.android.core.MapzenManager;
-import com.mapzen.android.graphics.internal.StyleStringGenerator;
-import com.mapzen.android.graphics.model.BitmapMarkerFactory;
 import com.mapzen.android.graphics.model.BubbleWrapStyle;
 import com.mapzen.android.graphics.model.MapStyle;
+import com.mapzen.android.graphics.model.MarkerManager;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.SceneError;
 import com.mapzen.tangram.SceneUpdate;
@@ -35,25 +34,21 @@ public class MapInitializer {
 
   MapReadyInitializer mapReadyInitializer;
 
-  private BitmapMarkerFactory bitmapMarkerFactory;
-
-  private StyleStringGenerator styleStringGenerator;
+  private MarkerManager markerManager;
 
   /**
    * Creates a new instance.
    */
   @Inject MapInitializer(Context context, MapzenMapHttpHandler mapzenMapHttpHandler,
       MapDataManager mapDataManager, MapStateManager mapStateManager,
-      SceneUpdateManager sceneUpdateManager, BitmapMarkerFactory bitmapMarkerFactory,
-      StyleStringGenerator styleStringGenerator) {
+      SceneUpdateManager sceneUpdateManager, MarkerManager markerManager) {
     this.context = context;
     this.mapzenMapHttpHandler = mapzenMapHttpHandler;
     this.mapDataManager = mapDataManager;
     this.mapStateManager = mapStateManager;
     this.sceneUpdateManager = sceneUpdateManager;
     mapReadyInitializer = new MapReadyInitializer();
-    this.bitmapMarkerFactory = bitmapMarkerFactory;
-    this.styleStringGenerator = styleStringGenerator;
+    this.markerManager = markerManager;
   }
 
   /**
@@ -102,7 +97,7 @@ public class MapInitializer {
         new MapController.SceneLoadListener() {
       @Override public void onSceneReady(int sceneId, SceneError sceneError) {
         mapReadyInitializer.onMapReady(mapView, mapzenMapHttpHandler, callback, mapDataManager,
-            mapStateManager, sceneUpdateManager, locale, bitmapMarkerFactory, styleStringGenerator);
+            mapStateManager, sceneUpdateManager, locale, markerManager);
       }
     });
     controller.loadSceneFileAsync(sceneFile, sceneUpdates);

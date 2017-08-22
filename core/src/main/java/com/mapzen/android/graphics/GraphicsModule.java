@@ -2,6 +2,7 @@ package com.mapzen.android.graphics;
 
 import com.mapzen.android.graphics.internal.StyleStringGenerator;
 import com.mapzen.android.graphics.model.BitmapMarkerFactory;
+import com.mapzen.android.graphics.model.MarkerManager;
 
 import javax.inject.Singleton;
 
@@ -52,5 +53,14 @@ import dagger.Provides;
    */
   @Provides @Singleton public StyleStringGenerator providesStyleStringGenerator() {
     return new StyleStringGenerator();
+  }
+
+  /**
+   * Returns the object used to manager markers.
+   * {@link com.mapzen.tangram.Marker}.
+   */
+  @Provides @Singleton public MarkerManager providesMarkerManager(
+      BitmapMarkerFactory bitmapMarkerFactory, StyleStringGenerator styleStringGenerator) {
+    return new MarkerManager(bitmapMarkerFactory, styleStringGenerator);
   }
 }

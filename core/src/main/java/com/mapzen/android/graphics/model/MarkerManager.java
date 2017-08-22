@@ -14,22 +14,27 @@ import java.util.List;
  * Manages {@link BitmapMarker} instances on the map.
  */
 public class MarkerManager {
-  private final MapController mapController;
+  private MapController mapController;
   private final BitmapMarkerFactory bitmapMarkerFactory;
   private final StyleStringGenerator styleStringGenerator;
   private List<BitmapMarker> restorableMarkers;
 
   /**
    * Constructor.
-   *
-   * @param mapController Tangram map controller used to generate markers.
    */
-  public MarkerManager(MapController mapController, BitmapMarkerFactory bitmapMarkerFactory,
+  public MarkerManager(BitmapMarkerFactory bitmapMarkerFactory,
       StyleStringGenerator styleStringGenerator) {
-    this.mapController = mapController;
     this.bitmapMarkerFactory = bitmapMarkerFactory;
     this.styleStringGenerator = styleStringGenerator;
     this.restorableMarkers = new ArrayList<>();
+  }
+
+  /**
+   * Sets the manager's tangram map. Reset upon orientation changes.
+   * @param mapController
+   */
+  public void setMapController(MapController mapController) {
+    this.mapController = mapController;
   }
 
   /**

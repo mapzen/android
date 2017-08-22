@@ -13,7 +13,7 @@ import android.widget.Toast;
  */
 public class CustomMarkerActivity extends SwitchStyleActivity implements MarkerPickListener {
 
-  private BitmapMarker bitmapMarker;
+  private static BitmapMarker bitmapMarker;
 
   int getLayoutId() {
     return R.layout.activity_custom_marker;
