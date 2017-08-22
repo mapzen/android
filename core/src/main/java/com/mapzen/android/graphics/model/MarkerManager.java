@@ -40,13 +40,13 @@ public class MarkerManager {
    */
   public BitmapMarker addMarker(MarkerOptions markerOptions) {
     final Marker marker = mapController.addMarker();
-    configureTangramMarker(marker, styleStringGenerator, markerOptions.getPosition(),
-        markerOptions.getIconDrawable(), markerOptions.getIcon(), markerOptions.getWidth(),
+    BitmapMarker bitmapMarker = bitmapMarkerFactory.createMarker(this, marker,
+        styleStringGenerator);
+    configureMarker(bitmapMarker, markerOptions.getPosition(), markerOptions.getIconDrawable(),
+        markerOptions.getIcon(), markerOptions.getWidth(),
         markerOptions.getHeight(), markerOptions.isInteractive(), markerOptions.getColorHex(),
         markerOptions.getColorInt(), markerOptions.isVisible(), markerOptions.getDrawOrder(),
         markerOptions.getUserData());
-    BitmapMarker bitmapMarker = bitmapMarkerFactory.createMarker(this, marker,
-        styleStringGenerator);
     restorableMarkers.add(bitmapMarker);
     return bitmapMarker;
   }
@@ -67,36 +67,34 @@ public class MarkerManager {
   public void restoreMarkers() {
     for (BitmapMarker restorableMarker : restorableMarkers) {
       Marker tangramMarker = mapController.addMarker();
-      configureTangramMarker(tangramMarker, restorableMarker.getStyleStringGenerator(),
-          restorableMarker.getPosition(), restorableMarker.getIconDrawable(),
-          restorableMarker.getIcon(), restorableMarker.getWidth(), restorableMarker.getHeight(),
+      restorableMarker.setTangramMarker(tangramMarker);
+      configureMarker(restorableMarker, restorableMarker.getPosition(),
+          restorableMarker.getIconDrawable(), restorableMarker.getIcon(),
+          restorableMarker.getWidth(), restorableMarker.getHeight(),
           restorableMarker.isInteractive(), restorableMarker.getColorHex(),
           restorableMarker.getColor(), restorableMarker.isVisible(),
           restorableMarker.getDrawOrder(), restorableMarker.getUserData());
-      restorableMarker.setTangramMarker(tangramMarker);
     }
   }
 
-  private void configureTangramMarker(Marker marker, StyleStringGenerator styleStringGenerator,
-      LngLat position, Drawable drawable, int drawableId, int width, int height,
-      boolean interactive, String colorHex, int colorInt, boolean visible, int drawOrder,
-      Object userData) {
-    marker.setPoint(position);
+  private void configureMarker(BitmapMarker marker, LngLat position, Drawable drawable,
+      int drawableId, int width, int height, boolean interactive, String colorHex, int colorInt,
+      boolean visible, int drawOrder, Object userData) {
+    marker.setPosition(position);
     if (drawable != null) {
-      marker.setDrawable(drawable);
+      marker.setIcon(drawable);
     } else {
-      marker.setDrawable(drawableId);
+      marker.setIcon(drawableId);
     }
     marker.setVisible(visible);
     marker.setDrawOrder(drawOrder);
     marker.setUserData(userData);
-    String color;
     if (colorHex != null) {
-      color = colorHex;
+      marker.setColor(colorHex);
     } else {
-      color = "#" + Integer.toHexString(colorInt);
+      marker.setColor(colorInt);
     }
-    marker.setStylingFromString(styleStringGenerator.getStyleString(width, height, interactive,
-        color));
+    marker.setSize(width, height);
+    marker.setInteractive(interactive);
   }
 }

@@ -54,41 +54,71 @@ public class MarkerManagerTest {
   @Test public void addMarker_shouldSetPosition() throws Exception {
     LngLat lngLat = new LngLat();
     MarkerOptions markerOptions = new MarkerOptions().position(lngLat);
-    markerManager.addMarker(markerOptions);
-    verify(tangramMarker).setPoint(lngLat);
+    BitmapMarker marker = markerManager.addMarker(markerOptions);
+    verify(marker).setPosition(lngLat);
   }
 
   @Test public void addMarker_resId_shouldSetDrawable() throws Exception {
     int resId = 123;
     MarkerOptions markerOptions = new MarkerOptions().icon(resId);
-    markerManager.addMarker(markerOptions);
-    verify(tangramMarker).setDrawable(resId);
-    verify(tangramMarker, never()).setDrawable(any(Drawable.class));
+    BitmapMarker marker = markerManager.addMarker(markerOptions);
+    verify(marker).setIcon(resId);
+    verify(marker, never()).setIcon(any(Drawable.class));
   }
 
   @Test public void addMarker_res_shouldSetDrawable() throws Exception {
     Drawable res = mock(Drawable.class);
     MarkerOptions markerOptions = new MarkerOptions().icon(res);
-    markerManager.addMarker(markerOptions);
-    verify(tangramMarker).setDrawable(res);
-    verify(tangramMarker, never()).setDrawable(anyInt());
-  }
-
-  @Test public void addMarker_shouldSetStyling() throws Exception {
-    MarkerOptions markerOptions = new MarkerOptions();
-    markerManager.addMarker(markerOptions);
-    verify(tangramMarker).setStylingFromString(anyString());
+    BitmapMarker marker = markerManager.addMarker(markerOptions);
+    verify(marker).setIcon(res);
+    verify(marker, never()).setIcon(anyInt());
   }
 
   @Test public void addMarker_shouldSetSize() throws Exception {
     MarkerOptions markerOptions = new MarkerOptions().size(100, 100);
-    markerManager.addMarker(markerOptions);
-    verify(tangramMarker).setStylingFromString("{ style: 'points', color: '#fff', "
-        + "size: [100px, 100px], collide: false, interactive: true }");
+    BitmapMarker marker = markerManager.addMarker(markerOptions);
+    verify(marker).setSize(100, 100);
   }
 
   @Test public void addMarker_shouldReturnBitmapMarker() throws Exception {
     assertThat(markerManager.addMarker(new MarkerOptions())).isNotNull();
+  }
+
+  @Test public void addMarker_shouldSetVisibile() throws Exception {
+    MarkerOptions markerOptions = new MarkerOptions().visible(false);
+    BitmapMarker marker = markerManager.addMarker(markerOptions);
+    verify(marker).setVisible(false);
+  }
+
+  @Test public void addMarker_shouldSetUserData() throws Exception {
+    Object data = mock(Object.class);
+    MarkerOptions markerOptions = new MarkerOptions().userData(data);
+        BitmapMarker marker = markerManager.addMarker(markerOptions);
+    verify(marker).setUserData(data);
+  }
+
+  @Test public void addMarker_shouldSetDrawOrder() throws Exception {
+    MarkerOptions markerOptions = new MarkerOptions().drawOrder(8);
+        BitmapMarker marker = markerManager.addMarker(markerOptions);
+    verify(marker).setDrawOrder(8);
+  }
+
+  @Test public void addMarker_shouldSetColorHex() throws Exception {
+    MarkerOptions markerOptions = new MarkerOptions().colorHex("#fff");
+        BitmapMarker marker = markerManager.addMarker(markerOptions);
+    verify(marker).setColor("#fff");
+  }
+
+  @Test public void addMarker_shouldSetColorInt() throws Exception {
+    MarkerOptions markerOptions = new MarkerOptions().colorInt(Color.RED);
+        BitmapMarker marker = markerManager.addMarker(markerOptions);
+    verify(marker).setColor(Color.RED);
+  }
+
+  @Test public void addMarker_shouldSetInteractive() throws Exception {
+    MarkerOptions markerOptions = new MarkerOptions().interactive(false);
+        BitmapMarker marker = markerManager.addMarker(markerOptions);
+    verify(marker).setInteractive(false);
   }
 
   @Test public void restoreMarkers_shouldProperlyRestoreManagedMarkers() throws Exception {
@@ -110,20 +140,18 @@ public class MarkerManagerTest {
         .visible(isVisible)
         .userData(userData)
         .interactive(isInteractive);
-
     BitmapMarker marker = markerManager.addMarker(options);
-    when(marker.getStyleStringGenerator()).thenReturn(new StyleStringGenerator());
-
     markerManager.restoreMarkers();
 
-    verify(tangramMarker).setPoint(point);
-    verify(tangramMarker).setDrawable(drawable);
-    verify(tangramMarker).setStylingFromString("{ style: 'points', color: '#ff00ff', "
-        + "size: [10px, 20px], collide: false, interactive: true }");
-    verify(marker).setTangramMarker(any(Marker.class));
-    verify(tangramMarker).setVisible(isVisible);
-    verify(tangramMarker).setDrawOrder(drawOrder);
-    verify(tangramMarker).setUserData(userData);
+    verify(marker).setTangramMarker(tangramMarker);
+    verify(marker).setPosition(point);
+    verify(marker).setIcon(drawable);
+    verify(marker).setSize(width, height);
+    verify(marker).setColor(colorHex);
+    verify(marker).setInteractive(isInteractive);
+    verify(marker).setVisible(isVisible);
+    verify(marker).setDrawOrder(drawOrder);
+    verify(marker).setUserData(userData);
   }
 
   @Test public void restoreMarkers_shouldProperlyRestoreAllManagedMarkers() throws Exception {
@@ -146,42 +174,34 @@ public class MarkerManagerTest {
         .colorInt(colorInt)
         .interactive(isInteractive);
 
-    BitmapMarker marker = markerManager.addMarker(options);
-    BitmapMarker anotherMarker = markerManager.addMarker(options);
-    StyleStringGenerator styleStringGenerator = new StyleStringGenerator();
-    when(marker.getStyleStringGenerator()).thenReturn(styleStringGenerator);
-    when(anotherMarker.getStyleStringGenerator()).thenReturn(styleStringGenerator);
+    BitmapMarker marker = mock(BitmapMarker.class);
+    when(markerFactory.createMarker(any(MarkerManager.class), any(com.mapzen.tangram.Marker.class),
+        any(StyleStringGenerator.class))).thenReturn(marker);
     when(marker.getPosition()).thenReturn(point);
-    when(anotherMarker.getPosition()).thenReturn(point);
     when(marker.getIconDrawable()).thenReturn(drawable);
-    when(anotherMarker.getIconDrawable()).thenReturn(drawable);
     when(marker.getWidth()).thenReturn(width);
-    when(anotherMarker.getWidth()).thenReturn(width);
     when(marker.getHeight()).thenReturn(height);
-    when(anotherMarker.getHeight()).thenReturn(height);
     when(marker.isInteractive()).thenReturn(isInteractive);
-    when(anotherMarker.isInteractive()).thenReturn(isInteractive);
     when(marker.getColor()).thenReturn(colorInt);
-    when(anotherMarker.getColor()).thenReturn(colorInt);
     when(marker.isVisible()).thenReturn(isVisible);
-    when(anotherMarker.isVisible()).thenReturn(isVisible);
     when(marker.getDrawOrder()).thenReturn(drawOrder);
-    when(anotherMarker.getDrawOrder()).thenReturn(drawOrder);
     when(marker.getUserData()).thenReturn(userData);
-    when(anotherMarker.getUserData()).thenReturn(userData);
 
+    markerManager.addMarker(options);
+    markerManager.addMarker(options);
     markerManager.restoreMarkers();
 
-    //times(4) instead of times(2) because 1x for adding each marker, 1x when restoring
-    verify(tangramMarker, times(4)).setPoint(point);
-    verify(tangramMarker, times(4)).setDrawable(drawable);
-    verify(tangramMarker, times(4)).setStylingFromString(styleStringGenerator.getStyleString(
-        width, height, isInteractive, "#ff0000ff"));
+    //times(2) 2 markers and 1x 1x when restoring
     verify(marker, times(2)).setTangramMarker(tangramMarker);
-    verify(anotherMarker, times(2)).setTangramMarker(tangramMarker);
-    verify(tangramMarker, times(4)).setVisible(isVisible);
-    verify(tangramMarker, times(4)).setDrawOrder(drawOrder);
-    verify(tangramMarker, times(4)).setUserData(userData);
+    //times(4) 2 markers and 1x for when adding each marker, 1x when restoring
+    verify(marker, times(4)).setPosition(point);
+    verify(marker, times(4)).setIcon(drawable);
+    verify(marker, times(4)).setSize(width, height);
+    verify(marker, times(4)).setColor(Color.BLUE);
+    verify(marker, times(4)).setInteractive(isInteractive);
+    verify(marker, times(4)).setVisible(isVisible);
+    verify(marker, times(4)).setDrawOrder(drawOrder);
+    verify(marker, times(4)).setUserData(userData);
   }
 
 }
