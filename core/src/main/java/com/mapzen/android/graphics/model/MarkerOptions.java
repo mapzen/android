@@ -137,7 +137,7 @@ public class MarkerOptions {
    * @param isInteractive
    * @return
    */
-  public MarkerOptions isInteractive(boolean isInteractive) {
+  public MarkerOptions interactive(boolean isInteractive) {
     this.isInteractive = isInteractive;
     return this;
   }

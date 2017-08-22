@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.SuppressStaticInitializationFor;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 
 import java.util.HashMap;
@@ -95,18 +96,20 @@ public class MarkerManagerTest {
     LngLat point = new LngLat(40, 70);
     int width = 10;
     int height = 20;
-    //TODO: add these props to MarkerOptions
     boolean isVisible = true;
     int drawOrder = 20;
     Map userData = mock(HashMap.class);
-    int colorInt = Integer.MIN_VALUE;
-    String colorHex = "#fff";
+    String colorHex = "#ff00ff";
     boolean isInteractive = true;
-    //end TODO
     MarkerOptions options = new MarkerOptions()
         .icon(drawable)
         .position(point)
-        .size(width, height);
+        .size(width, height)
+        .colorHex(colorHex)
+        .drawOrder(drawOrder)
+        .visible(isVisible)
+        .userData(userData)
+        .interactive(isInteractive);
 
     BitmapMarker marker = markerManager.addMarker(options);
     when(marker.getStyleStringGenerator()).thenReturn(new StyleStringGenerator());
@@ -115,11 +118,10 @@ public class MarkerManagerTest {
 
     verify(tangramMarker).setPoint(point);
     verify(tangramMarker).setDrawable(drawable);
-    verify(tangramMarker).setStylingFromString("{ style: 'points', color: '#fff', "
+    verify(tangramMarker).setStylingFromString("{ style: 'points', color: '#ff00ff', "
         + "size: [10px, 20px], collide: false, interactive: true }");
     verify(marker).setTangramMarker(any(Marker.class));
-    //TODO: make tests pass
-    verify(tangramMarker).setVisible(true);
+    verify(tangramMarker).setVisible(isVisible);
     verify(tangramMarker).setDrawOrder(drawOrder);
     verify(tangramMarker).setUserData(userData);
   }
@@ -129,35 +131,57 @@ public class MarkerManagerTest {
     LngLat point = new LngLat(40, 70);
     int width = 10;
     int height = 20;
-    //TODO: add these props to MarkerOptions
     boolean isVisible = true;
     int drawOrder = 20;
     Map userData = mock(HashMap.class);
-    int colorInt = Integer.MIN_VALUE;
-    String colorHex = "#fff";
+    int colorInt = Color.BLUE;
     boolean isInteractive = true;
     MarkerOptions options = new MarkerOptions()
         .icon(drawable)
         .position(point)
-        .size(width, height);
+        .size(width, height)
+        .visible(isVisible)
+        .drawOrder(drawOrder)
+        .userData(userData)
+        .colorInt(colorInt)
+        .interactive(isInteractive);
 
     BitmapMarker marker = markerManager.addMarker(options);
     BitmapMarker anotherMarker = markerManager.addMarker(options);
-    when(marker.getStyleStringGenerator()).thenReturn(new StyleStringGenerator());
-    when(anotherMarker.getStyleStringGenerator()).thenReturn(new StyleStringGenerator());
+    StyleStringGenerator styleStringGenerator = new StyleStringGenerator();
+    when(marker.getStyleStringGenerator()).thenReturn(styleStringGenerator);
+    when(anotherMarker.getStyleStringGenerator()).thenReturn(styleStringGenerator);
+    when(marker.getPosition()).thenReturn(point);
+    when(anotherMarker.getPosition()).thenReturn(point);
+    when(marker.getIconDrawable()).thenReturn(drawable);
+    when(anotherMarker.getIconDrawable()).thenReturn(drawable);
+    when(marker.getWidth()).thenReturn(width);
+    when(anotherMarker.getWidth()).thenReturn(width);
+    when(marker.getHeight()).thenReturn(height);
+    when(anotherMarker.getHeight()).thenReturn(height);
+    when(marker.isInteractive()).thenReturn(isInteractive);
+    when(anotherMarker.isInteractive()).thenReturn(isInteractive);
+    when(marker.getColor()).thenReturn(colorInt);
+    when(anotherMarker.getColor()).thenReturn(colorInt);
+    when(marker.isVisible()).thenReturn(isVisible);
+    when(anotherMarker.isVisible()).thenReturn(isVisible);
+    when(marker.getDrawOrder()).thenReturn(drawOrder);
+    when(anotherMarker.getDrawOrder()).thenReturn(drawOrder);
+    when(marker.getUserData()).thenReturn(userData);
+    when(anotherMarker.getUserData()).thenReturn(userData);
 
     markerManager.restoreMarkers();
 
     //times(4) instead of times(2) because 1x for adding each marker, 1x when restoring
-    verify(tangramMarker, times(4)).setPoint(any(LngLat.class));
-    verify(tangramMarker, times(4)).setDrawable(any(Drawable.class));
-    verify(tangramMarker, times(4)).setStylingFromString(anyString());
-    verify(marker).setTangramMarker(any(Marker.class));
-    verify(anotherMarker).setTangramMarker(any(Marker.class));
-    //TODO: make tests pass
-    verify(tangramMarker).setVisible(true);
-    verify(tangramMarker).setDrawOrder(drawOrder);
-    verify(tangramMarker).setUserData(userData);
+    verify(tangramMarker, times(4)).setPoint(point);
+    verify(tangramMarker, times(4)).setDrawable(drawable);
+    verify(tangramMarker, times(4)).setStylingFromString(styleStringGenerator.getStyleString(
+        width, height, isInteractive, "#ff0000ff"));
+    verify(marker, times(2)).setTangramMarker(tangramMarker);
+    verify(anotherMarker, times(2)).setTangramMarker(tangramMarker);
+    verify(tangramMarker, times(4)).setVisible(isVisible);
+    verify(tangramMarker, times(4)).setDrawOrder(drawOrder);
+    verify(tangramMarker, times(4)).setUserData(userData);
   }
 
 }

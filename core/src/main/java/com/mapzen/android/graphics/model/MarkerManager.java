@@ -42,7 +42,9 @@ public class MarkerManager {
     final Marker marker = mapController.addMarker();
     configureTangramMarker(marker, styleStringGenerator, markerOptions.getPosition(),
         markerOptions.getIconDrawable(), markerOptions.getIcon(), markerOptions.getWidth(),
-        markerOptions.getHeight());
+        markerOptions.getHeight(), markerOptions.isInteractive(), markerOptions.getColorHex(),
+        markerOptions.getColorInt(), markerOptions.isVisible(), markerOptions.getDrawOrder(),
+        markerOptions.getUserData());
     BitmapMarker bitmapMarker = bitmapMarkerFactory.createMarker(this, marker,
         styleStringGenerator);
     restorableMarkers.add(bitmapMarker);
@@ -67,20 +69,34 @@ public class MarkerManager {
       Marker tangramMarker = mapController.addMarker();
       configureTangramMarker(tangramMarker, restorableMarker.getStyleStringGenerator(),
           restorableMarker.getPosition(), restorableMarker.getIconDrawable(),
-          restorableMarker.getIcon(), restorableMarker.getWidth(), restorableMarker.getHeight());
+          restorableMarker.getIcon(), restorableMarker.getWidth(), restorableMarker.getHeight(),
+          restorableMarker.isInteractive(), restorableMarker.getColorHex(),
+          restorableMarker.getColor(), restorableMarker.isVisible(),
+          restorableMarker.getDrawOrder(), restorableMarker.getUserData());
       restorableMarker.setTangramMarker(tangramMarker);
     }
   }
 
   private void configureTangramMarker(Marker marker, StyleStringGenerator styleStringGenerator,
-      LngLat position, Drawable drawable, int drawableId, int width, int height) {
+      LngLat position, Drawable drawable, int drawableId, int width, int height,
+      boolean interactive, String colorHex, int colorInt, boolean visible, int drawOrder,
+      Object userData) {
     marker.setPoint(position);
     if (drawable != null) {
       marker.setDrawable(drawable);
     } else {
       marker.setDrawable(drawableId);
     }
-    //TODO add missing properties to MarkerOptions
-    marker.setStylingFromString(styleStringGenerator.getStyleString(width, height, true, "#fff"));
+    marker.setVisible(visible);
+    marker.setDrawOrder(drawOrder);
+    marker.setUserData(userData);
+    String color;
+    if (colorHex != null) {
+      color = colorHex;
+    } else {
+      color = "#" + Integer.toHexString(colorInt);
+    }
+    marker.setStylingFromString(styleStringGenerator.getStyleString(width, height, interactive,
+        color));
   }
 }
