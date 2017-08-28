@@ -37,8 +37,9 @@ public class BitmapMarkerManagerTest {
   @Before public void setUp() throws Exception {
     bitmapMarkerManager.setMapController(mapController);
     when(mapController.addMarker()).thenReturn(tangramMarker);
-    when(markerFactory.createMarker(any(BitmapMarkerManager.class), any(com.mapzen.tangram.Marker.class),
-        any(StyleStringGenerator.class))).thenReturn(mock(BitmapMarker.class));
+    when(markerFactory.createMarker(any(BitmapMarkerManager.class),
+        any(com.mapzen.tangram.Marker.class), any(StyleStringGenerator.class))).thenReturn(
+            mock(BitmapMarker.class));
   }
 
   @Test public void shouldNotBeNull() throws Exception {
@@ -174,8 +175,8 @@ public class BitmapMarkerManagerTest {
         .interactive(isInteractive);
 
     BitmapMarker marker = mock(BitmapMarker.class);
-    when(markerFactory.createMarker(any(BitmapMarkerManager.class), any(com.mapzen.tangram.Marker.class),
-        any(StyleStringGenerator.class))).thenReturn(marker);
+    when(markerFactory.createMarker(any(BitmapMarkerManager.class),
+        any(com.mapzen.tangram.Marker.class), any(StyleStringGenerator.class))).thenReturn(marker);
     when(marker.getPosition()).thenReturn(point);
     when(marker.getIconDrawable()).thenReturn(drawable);
     when(marker.getWidth()).thenReturn(width);

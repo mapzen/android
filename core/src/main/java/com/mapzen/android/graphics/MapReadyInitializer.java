@@ -24,7 +24,8 @@ class MapReadyInitializer {
    */
   void onMapReady(MapView mapView, MapzenMapHttpHandler mapzenMapHttpHandler,
       OnMapReadyCallback callback, MapDataManager mapDataManager, MapStateManager mapStateManager,
-      SceneUpdateManager sceneUpdateManager, Locale locale, BitmapMarkerManager bitmapMarkerManager) {
+      SceneUpdateManager sceneUpdateManager, Locale locale,
+      BitmapMarkerManager bitmapMarkerManager) {
     MapController mapController = mapView.getTangramMapView().getMap(null);
     mapController.setSceneLoadListener(null);
     mapController.setHttpHandler(mapzenMapHttpHandler.httpHandler());
