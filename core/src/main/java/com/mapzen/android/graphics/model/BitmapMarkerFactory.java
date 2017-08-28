@@ -14,7 +14,7 @@ public class BitmapMarkerFactory {
    * @param styleStringGenerator
    * @return
    */
-  BitmapMarker createMarker(MarkerManager manager, com.mapzen.tangram.Marker marker,
+  BitmapMarker createMarker(BitmapMarkerManager manager, com.mapzen.tangram.Marker marker,
       StyleStringGenerator styleStringGenerator) {
     return new BitmapMarker(manager, marker, styleStringGenerator);
   }

@@ -3,7 +3,7 @@ package com.mapzen.android.graphics;
 import com.mapzen.android.core.MapzenManager;
 import com.mapzen.android.graphics.model.BubbleWrapStyle;
 import com.mapzen.android.graphics.model.MapStyle;
-import com.mapzen.android.graphics.model.MarkerManager;
+import com.mapzen.android.graphics.model.BitmapMarkerManager;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.SceneError;
 import com.mapzen.tangram.SceneUpdate;
@@ -34,21 +34,21 @@ public class MapInitializer {
 
   MapReadyInitializer mapReadyInitializer;
 
-  private MarkerManager markerManager;
+  private BitmapMarkerManager bitmapMarkerManager;
 
   /**
    * Creates a new instance.
    */
   @Inject MapInitializer(Context context, MapzenMapHttpHandler mapzenMapHttpHandler,
       MapDataManager mapDataManager, MapStateManager mapStateManager,
-      SceneUpdateManager sceneUpdateManager, MarkerManager markerManager) {
+      SceneUpdateManager sceneUpdateManager, BitmapMarkerManager bitmapMarkerManager) {
     this.context = context;
     this.mapzenMapHttpHandler = mapzenMapHttpHandler;
     this.mapDataManager = mapDataManager;
     this.mapStateManager = mapStateManager;
     this.sceneUpdateManager = sceneUpdateManager;
     mapReadyInitializer = new MapReadyInitializer();
-    this.markerManager = markerManager;
+    this.bitmapMarkerManager = bitmapMarkerManager;
   }
 
   /**
@@ -97,7 +97,7 @@ public class MapInitializer {
         new MapController.SceneLoadListener() {
       @Override public void onSceneReady(int sceneId, SceneError sceneError) {
         mapReadyInitializer.onMapReady(mapView, mapzenMapHttpHandler, callback, mapDataManager,
-            mapStateManager, sceneUpdateManager, locale, markerManager);
+            mapStateManager, sceneUpdateManager, locale, bitmapMarkerManager);
       }
     });
     controller.loadSceneFileAsync(sceneFile, sceneUpdates);

@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Manages {@link BitmapMarker} instances on the map.
  */
-public class MarkerManager {
+public class BitmapMarkerManager {
   private MapController mapController;
   private final BitmapMarkerFactory bitmapMarkerFactory;
   private final StyleStringGenerator styleStringGenerator;
@@ -23,7 +23,7 @@ public class MarkerManager {
   /**
    * Constructor.
    */
-  public MarkerManager(BitmapMarkerFactory bitmapMarkerFactory,
+  public BitmapMarkerManager(BitmapMarkerFactory bitmapMarkerFactory,
       StyleStringGenerator styleStringGenerator) {
     this.bitmapMarkerFactory = bitmapMarkerFactory;
     this.styleStringGenerator = styleStringGenerator;

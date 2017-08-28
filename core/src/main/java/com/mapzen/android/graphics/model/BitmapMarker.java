@@ -12,7 +12,7 @@ import android.graphics.drawable.Drawable;
  */
 public class BitmapMarker {
 
-  private final MarkerManager markerManager;
+  private final BitmapMarkerManager bitmapMarkerManager;
   private Marker tangramMarker;
   private final StyleStringGenerator styleStringGenerator;
   private LngLat position;
@@ -31,9 +31,9 @@ public class BitmapMarker {
    *
    * @param tangramMarker the underlying Tangram marker object.
    */
-  public BitmapMarker(MarkerManager markerManager, Marker tangramMarker,
+  public BitmapMarker(BitmapMarkerManager bitmapMarkerManager, Marker tangramMarker,
       StyleStringGenerator styleStringGenerator) {
-    this.markerManager = markerManager;
+    this.bitmapMarkerManager = bitmapMarkerManager;
     this.tangramMarker = tangramMarker;
     this.styleStringGenerator = styleStringGenerator;
   }
@@ -43,7 +43,7 @@ public class BitmapMarker {
    * methods is undefined.
    */
   public void remove() {
-    markerManager.removeMarker(this);
+    bitmapMarkerManager.removeMarker(this);
   }
 
   /**

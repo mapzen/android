@@ -3,11 +3,11 @@ package com.mapzen.android.graphics;
 import com.mapzen.android.core.MapzenManager;
 import com.mapzen.android.graphics.internal.StyleStringGenerator;
 import com.mapzen.android.graphics.model.BitmapMarker;
+import com.mapzen.android.graphics.model.BitmapMarkerManager;
 import com.mapzen.android.graphics.model.CameraType;
 import com.mapzen.android.graphics.model.EaseType;
 import com.mapzen.android.graphics.model.MapStyle;
 import com.mapzen.android.graphics.model.Marker;
-import com.mapzen.android.graphics.model.MarkerManager;
 import com.mapzen.android.graphics.model.MarkerOptions;
 import com.mapzen.android.graphics.model.Polygon;
 import com.mapzen.android.graphics.model.Polyline;
@@ -49,7 +49,7 @@ public class MapzenMap {
   private final OverlayManager overlayManager;
   private final MapStateManager mapStateManager;
   private final LabelPickHandler labelPickHandler;
-  private final MarkerManager markerManager;
+  private final BitmapMarkerManager bitmapMarkerManager;
   private final SceneUpdateManager sceneUpdateManager;
   private final MapzenManager mapzenManager;
   private Locale locale;
@@ -142,7 +142,7 @@ public class MapzenMap {
   MapController.SceneLoadListener internalSceneLoadListener
       = new MapController.SceneLoadListener() {
     @Override public void onSceneReady(int sceneId, SceneError sceneError) {
-      markerManager.restoreMarkers();
+      bitmapMarkerManager.restoreMarkers();
     }
   };
 
@@ -151,7 +151,7 @@ public class MapzenMap {
    */
   MapzenMap(MapView mapView, MapController mapController, OverlayManager overlayManager,
       MapStateManager mapStateManager, LabelPickHandler labelPickHandler,
-      MarkerManager markerManager, SceneUpdateManager sceneUpdateManager, Locale locale,
+      BitmapMarkerManager bitmapMarkerManager, SceneUpdateManager sceneUpdateManager, Locale locale,
       MapzenManager mapzenManager) {
     this.mapView = mapView;
     this.mapController = mapController;
@@ -159,7 +159,7 @@ public class MapzenMap {
     this.overlayManager = overlayManager;
     this.mapStateManager = mapStateManager;
     this.labelPickHandler = labelPickHandler;
-    this.markerManager = markerManager;
+    this.bitmapMarkerManager = bitmapMarkerManager;
     this.sceneUpdateManager = sceneUpdateManager;
     this.locale = locale;
     this.mapzenManager = mapzenManager;
@@ -655,7 +655,7 @@ public class MapzenMap {
         mapView.post(new Runnable() {
           @Override public void run() {
             if (markerPickResult != null) {
-              listener.onMarkerPick(new BitmapMarker(markerManager, markerPickResult.getMarker(),
+              listener.onMarkerPick(new BitmapMarker(bitmapMarkerManager, markerPickResult.getMarker(),
                   new StyleStringGenerator()));
             }
           }
@@ -964,6 +964,6 @@ public class MapzenMap {
    * @return a new bitmap marker instance.
    */
   public BitmapMarker addBitmapMarker(MarkerOptions markerOptions) {
-    return markerManager.addMarker(markerOptions);
+    return bitmapMarkerManager.addMarker(markerOptions);
   }
 }

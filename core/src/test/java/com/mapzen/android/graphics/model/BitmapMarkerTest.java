@@ -26,14 +26,14 @@ import static org.mockito.Mockito.verify;
 public class BitmapMarkerTest {
   private Marker tangramMarker = mock(Marker.class);
   private MapController mapController = mock(MapController.class);
-  private MarkerManager markerManager = new MarkerManager(new BitmapMarkerFactory(),
+  private BitmapMarkerManager bitmapMarkerManager = new BitmapMarkerManager(new BitmapMarkerFactory(),
       new StyleStringGenerator());
   private StyleStringGenerator styleStringGenerator  = mock(StyleStringGenerator.class);
-  private BitmapMarker bitmapMarker = new BitmapMarker(markerManager, tangramMarker,
+  private BitmapMarker bitmapMarker = new BitmapMarker(bitmapMarkerManager, tangramMarker,
       styleStringGenerator);
 
   @Before public void setup() throws Exception {
-    markerManager.setMapController(mapController);
+    bitmapMarkerManager.setMapController(mapController);
   }
 
   @Test public void shouldNotBeNull() throws Exception {

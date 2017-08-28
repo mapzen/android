@@ -2,7 +2,7 @@ package com.mapzen.android.graphics;
 
 import com.mapzen.android.core.MapzenManager;
 import com.mapzen.android.graphics.model.MapStyle;
-import com.mapzen.android.graphics.model.MarkerManager;
+import com.mapzen.android.graphics.model.BitmapMarkerManager;
 import com.mapzen.tangram.MapController;
 
 import android.content.Context;
@@ -28,14 +28,14 @@ public class TestMapView extends MapView {
   @Override public void getMapAsync(@NonNull OnMapReadyCallback callback) {
     callback.onMapReady(new MapzenMap(mock(MapView.class), mock(MapController.class),
         mock(OverlayManager.class), mock(MapStateManager.class), mock(LabelPickHandler.class),
-        mock(MarkerManager.class), mock(SceneUpdateManager.class), new Locale("en_us"), mock(
+        mock(BitmapMarkerManager.class), mock(SceneUpdateManager.class), new Locale("en_us"), mock(
         MapzenManager.class)));
   }
 
   @Override public void getMapAsync(MapStyle mapStyle, @NonNull OnMapReadyCallback callback) {
     callback.onMapReady(new MapzenMap(mock(MapView.class), mock(MapController.class),
         mock(OverlayManager.class), mock(MapStateManager.class), mock(LabelPickHandler.class),
-        mock(MarkerManager.class), mock(SceneUpdateManager.class), new Locale("en_us"), mock(
+        mock(BitmapMarkerManager.class), mock(SceneUpdateManager.class), new Locale("en_us"), mock(
         MapzenManager.class)));
   }
 
