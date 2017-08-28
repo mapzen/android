@@ -1,7 +1,7 @@
 package com.mapzen.android.graphics;
 
 import com.mapzen.android.core.MapzenManager;
-import com.mapzen.android.graphics.model.MarkerManager;
+import com.mapzen.android.graphics.model.BitmapMarkerManager;
 import com.mapzen.tangram.MapController;
 
 import java.util.Locale;
@@ -24,14 +24,16 @@ class MapReadyInitializer {
    */
   void onMapReady(MapView mapView, MapzenMapHttpHandler mapzenMapHttpHandler,
       OnMapReadyCallback callback, MapDataManager mapDataManager, MapStateManager mapStateManager,
-      SceneUpdateManager sceneUpdateManager, Locale locale) {
+      SceneUpdateManager sceneUpdateManager, Locale locale,
+      BitmapMarkerManager bitmapMarkerManager) {
     MapController mapController = mapView.getTangramMapView().getMap(null);
     mapController.setSceneLoadListener(null);
     mapController.setHttpHandler(mapzenMapHttpHandler.httpHandler());
     MapzenManager mapzenManager = MapzenManager.instance(mapView.getContext());
+    bitmapMarkerManager.setMapController(mapController);
     callback.onMapReady(
         new MapzenMap(mapView, mapController, new OverlayManager(mapView, mapController,
             mapDataManager, mapStateManager), mapStateManager, new LabelPickHandler(mapView),
-            new MarkerManager(mapController), sceneUpdateManager, locale, mapzenManager));
+            bitmapMarkerManager, sceneUpdateManager, locale, mapzenManager));
   }
 }

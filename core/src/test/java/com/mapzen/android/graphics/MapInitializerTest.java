@@ -3,6 +3,7 @@ package com.mapzen.android.graphics;
 import com.mapzen.android.core.CoreDI;
 import com.mapzen.android.core.MapzenManager;
 import com.mapzen.android.graphics.model.BubbleWrapStyle;
+import com.mapzen.android.graphics.model.BitmapMarkerManager;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.SceneUpdate;
 
@@ -42,7 +43,8 @@ public class MapInitializerTest {
   @Before public void setUp() throws Exception {
     CoreDI.init(getMockContext());
     mapInitializer = new MapInitializer(mock(Context.class), mock(MapzenMapHttpHandler.class),
-        new MapDataManager(), new MapStateManager(), new SceneUpdateManager());
+        new MapDataManager(), new MapStateManager(), new SceneUpdateManager(),
+        new BitmapMarkerManager(null, null));
   }
 
   @Test public void shouldNotBeNull() throws Exception {

@@ -11,8 +11,10 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
-public class MarkerOptionsTest {
-  private MarkerOptions markerOptions = new MarkerOptions();
+
+public class BitmapMarkerOptionsTest {
+
+  private BitmapMarkerOptions markerOptions = new BitmapMarkerOptions();
 
   @Test public void shouldNotBeNull() throws Exception {
     assertThat(markerOptions).isNotNull();
@@ -62,3 +64,4 @@ public class MarkerOptionsTest {
     assertThat(markerOptions.getColorInt()).isEqualTo(Integer.MIN_VALUE);
   }
 }
+

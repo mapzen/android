@@ -2,11 +2,11 @@ package com.mapzen.android.graphics;
 
 import com.mapzen.android.core.MapzenManager;
 import com.mapzen.android.graphics.model.BitmapMarker;
+import com.mapzen.android.graphics.model.BitmapMarkerManager;
 import com.mapzen.android.graphics.model.BubbleWrapStyle;
 import com.mapzen.android.graphics.model.CameraType;
 import com.mapzen.android.graphics.model.EaseType;
 import com.mapzen.android.graphics.model.Marker;
-import com.mapzen.android.graphics.model.MarkerManager;
 import com.mapzen.android.graphics.model.Polygon;
 import com.mapzen.android.graphics.model.Polyline;
 import com.mapzen.android.graphics.model.WalkaboutStyle;
@@ -60,7 +60,7 @@ public class MapzenMapTest {
   private OverlayManager overlayManager;
   private LabelPickHandler labelPickHandler;
   private MapStateManager mapStateManager;
-  private MarkerManager markerManager;
+  private BitmapMarkerManager bitmapMarkerManager;
   private SceneUpdateManager sceneUpdateManager;
   private Locale locale;
   private MapzenManager mapzenManager;
@@ -85,12 +85,12 @@ public class MapzenMapTest {
     overlayManager = mock(OverlayManager.class);
     mapStateManager = new MapStateManager();
     labelPickHandler = new LabelPickHandler(mapView);
-    markerManager = new MarkerManager(mapController);
+    bitmapMarkerManager = mock(BitmapMarkerManager.class);
     sceneUpdateManager = new SceneUpdateManager();
     locale = new Locale("en_us");
     mapzenManager = mock(MapzenManager.class);
     map = new MapzenMap(mapView, mapController, overlayManager, mapStateManager, labelPickHandler,
-        markerManager, sceneUpdateManager, locale, mapzenManager);
+        bitmapMarkerManager, sceneUpdateManager, locale, mapzenManager);
   }
 
   @Test public void shouldNotBeNull() throws Exception {
@@ -702,6 +702,11 @@ public class MapzenMapTest {
     sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "true"));
     sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "true"));
     verify(mapController).updateSceneAsync(argThat(new SceneUpdatesMatcher(sceneUpdates)));
+  }
+
+  @Test public void onSceneReady_restoresMarkers() throws Exception {
+    map.internalSceneLoadListener.onSceneReady(1, null);
+    verify(bitmapMarkerManager).restoreMarkers();
   }
 
   public class TestRotateResponder implements TouchInput.RotateResponder {

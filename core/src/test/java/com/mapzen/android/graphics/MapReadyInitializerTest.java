@@ -1,5 +1,6 @@
 package com.mapzen.android.graphics;
 
+import com.mapzen.android.graphics.model.BitmapMarkerManager;
 import com.mapzen.tangram.HttpHandler;
 import com.mapzen.tangram.MapController;
 
@@ -37,7 +38,7 @@ public class MapReadyInitializerTest {
         mapController);
     initializer.onMapReady(mapView, mock(MapzenMapHttpHandler.class),
         mock(OnMapReadyCallback.class), mock(MapDataManager.class), mock(MapStateManager.class),
-        mock(SceneUpdateManager.class), new Locale("en_us"));
+        mock(SceneUpdateManager.class), new Locale("en_us"), mock(BitmapMarkerManager.class));
     verify(mapController).setSceneLoadListener(null);
   }
 
@@ -56,7 +57,7 @@ public class MapReadyInitializerTest {
     when(mapzenHttpHandler.httpHandler()).thenReturn(httpHandler);
     initializer.onMapReady(mapView, mapzenHttpHandler,
         mock(OnMapReadyCallback.class), mock(MapDataManager.class), mock(MapStateManager.class),
-        mock(SceneUpdateManager.class), new Locale("en_us"));
+        mock(SceneUpdateManager.class), new Locale("en_us"), mock(BitmapMarkerManager.class));
     verify(mapController).setHttpHandler(httpHandler);
   }
 
@@ -73,7 +74,7 @@ public class MapReadyInitializerTest {
     OnMapReadyCallback callback = mock(OnMapReadyCallback.class);
     initializer.onMapReady(mapView, mock(MapzenMapHttpHandler.class),
         callback, mock(MapDataManager.class), mock(MapStateManager.class),
-        mock(SceneUpdateManager.class), new Locale("en_us"));
+        mock(SceneUpdateManager.class), new Locale("en_us"), mock(BitmapMarkerManager.class));
     verify(callback).onMapReady(any(MapzenMap.class));
   }
 }
