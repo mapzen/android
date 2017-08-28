@@ -8,6 +8,7 @@ import com.mapzen.tangram.Marker;
 import android.graphics.drawable.Drawable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -52,7 +53,7 @@ public class MarkerManager {
         markerOptions.getHeight(), markerOptions.isInteractive(), markerOptions.getColorHex(),
         markerOptions.getColorInt(), markerOptions.isVisible(), markerOptions.getDrawOrder(),
         markerOptions.getUserData());
-    restorableMarkers.add(bitmapMarker);
+    Collections.synchronizedList(restorableMarkers).add(bitmapMarker);
     return bitmapMarker;
   }
 
@@ -62,7 +63,7 @@ public class MarkerManager {
    * @param marker Tangram marker to be removed.
    */
   public void removeMarker(BitmapMarker marker) {
-    restorableMarkers.remove(marker);
+    Collections.synchronizedList(restorableMarkers).remove(marker);
     mapController.removeMarker(marker.getTangramMarker());
   }
 
@@ -70,7 +71,7 @@ public class MarkerManager {
    * Restores underlying Tangram marker for all {@link BitmapMarker}s when scene updates occur.
    */
   public void restoreMarkers() {
-    for (BitmapMarker restorableMarker : restorableMarkers) {
+    for (BitmapMarker restorableMarker : Collections.synchronizedList(restorableMarkers)) {
       Marker tangramMarker = mapController.addMarker();
       restorableMarker.setTangramMarker(tangramMarker);
       configureMarker(restorableMarker, restorableMarker.getPosition(),
