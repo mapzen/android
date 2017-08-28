@@ -41,10 +41,28 @@ public class BitmapMarkerManager {
   /**
    * Adds a new marker to the map.
    *
+   * Deprecated in favor of {@link BitmapMarkerManager#addMarker(BitmapMarkerOptions)}.
+   *
    * @param markerOptions options that define the appearance of the marker.
    * @return a new bitmap marker wrapper for the Tangram marker object.
    */
+  @Deprecated
   public BitmapMarker addMarker(MarkerOptions markerOptions) {
+    final Marker marker = mapController.addMarker();
+    BitmapMarker bitmapMarker = bitmapMarkerFactory.createMarker(this, marker,
+        styleStringGenerator);
+    configureMarker(bitmapMarker, markerOptions);
+    Collections.synchronizedList(restorableMarkers).add(bitmapMarker);
+    return bitmapMarker;
+  }
+
+  /**
+   * Adds a new marker to the map.
+   *
+   * @param markerOptions options that define the appearance of the marker.
+   * @return a new bitmap marker wrapper for the Tangram marker object.
+   */
+  public BitmapMarker addMarker(BitmapMarkerOptions markerOptions) {
     final Marker marker = mapController.addMarker();
     BitmapMarker bitmapMarker = bitmapMarkerFactory.createMarker(this, marker,
         styleStringGenerator);
@@ -83,6 +101,15 @@ public class BitmapMarkerManager {
         bitmapMarker.getDrawOrder(), bitmapMarker.getUserData());
   }
 
+  private void configureMarker(BitmapMarker bitmapMarker, BitmapMarkerOptions markerOptions) {
+    configureMarker(bitmapMarker, markerOptions.getPosition(), markerOptions.getIconDrawable(),
+        markerOptions.getIcon(), markerOptions.getWidth(),
+        markerOptions.getHeight(), markerOptions.isInteractive(), markerOptions.getColorHex(),
+        markerOptions.getColorInt(), markerOptions.isVisible(), markerOptions.getDrawOrder(),
+        markerOptions.getUserData());
+  }
+
+  @Deprecated
   private void configureMarker(BitmapMarker bitmapMarker, MarkerOptions markerOptions) {
     configureMarker(bitmapMarker, markerOptions.getPosition(), markerOptions.getIconDrawable(),
         markerOptions.getIcon(), markerOptions.getWidth(),

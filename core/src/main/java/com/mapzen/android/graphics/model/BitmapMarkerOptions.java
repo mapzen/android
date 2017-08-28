@@ -5,16 +5,10 @@ import com.mapzen.tangram.LngLat;
 
 import android.graphics.drawable.Drawable;
 
-
 /**
  * Defines options for a {@link BitmapMarker}.
- *
- * This class has been deprecated in favor of
- * {@link com.mapzen.android.graphics.model.BitmapMarkerOptions} which replaces this class'
- * behavior exactly.
  */
-@Deprecated
-public class MarkerOptions {
+public class BitmapMarkerOptions {
   private static final LngLat DEFAULT_POSITION = new LngLat(-73.985428, 40.748817);
   private static final int DEFAULT_DRAWABLE = R.drawable.mapzen;
   private static final int DEFAULT_WIDTH = 50;
@@ -41,19 +35,19 @@ public class MarkerOptions {
    * @param position coordinate to display the marker.
    * @return this marker options instance.
    */
-  public MarkerOptions position(LngLat position) {
+  public BitmapMarkerOptions position(LngLat position) {
     this.position = position;
     return this;
   }
 
   /**
    * Set the marker icon resource ID. Setting this property will override previously set resource
-   * ids set in the call to {@link MarkerOptions#icon(Drawable)}.
+   * ids set in the call to {@link BitmapMarkerOptions#icon(Drawable)}.
    *
    * @param resId drawable resource ID for the marker to display.
    * @return this marker options instance.
    */
-  public MarkerOptions icon(int resId) {
+  public BitmapMarkerOptions icon(int resId) {
     this.resId = resId;
     this.res = null;
     return this;
@@ -61,12 +55,12 @@ public class MarkerOptions {
 
   /**
    * Set the marker icon resource. Setting this property will override previously set resource ids
-   * set in the call to {@link MarkerOptions#icon(int)}.
+   * set in the call to {@link BitmapMarkerOptions#icon(int)}.
    *
    * @param res drawable resource for the marker to display.
    * @return this marker options instance.
    */
-  public MarkerOptions icon(Drawable res) {
+  public BitmapMarkerOptions icon(Drawable res) {
     this.res = res;
     this.resId = RES_NONE;
     return this;
@@ -79,7 +73,7 @@ public class MarkerOptions {
    * @param height in pixels
    * @return this marker options instance.
    */
-  public MarkerOptions size(int width, int height) {
+  public BitmapMarkerOptions size(int width, int height) {
     this.width = width;
     this.height = height;
     return this;
@@ -90,7 +84,7 @@ public class MarkerOptions {
    * @param isVisible
    * @return
    */
-  public MarkerOptions visible(boolean isVisible) {
+  public BitmapMarkerOptions visible(boolean isVisible) {
     this.isVisible = isVisible;
     return this;
   }
@@ -98,7 +92,7 @@ public class MarkerOptions {
   /**
    * Sets marker z-axis draw order.
    */
-  public MarkerOptions drawOrder(int drawOrder) {
+  public BitmapMarkerOptions drawOrder(int drawOrder) {
     this.drawOrder = drawOrder;
     return this;
   }
@@ -108,18 +102,18 @@ public class MarkerOptions {
    * @param userData
    * @return
    */
-  public MarkerOptions userData(Object userData) {
+  public BitmapMarkerOptions userData(Object userData) {
     this.userData = userData;
     return this;
   }
 
   /**
    * Sets color resource int. Setting the color in overrides previous set color hex values set via
-   * {@link MarkerOptions#colorHex(String)}.
+   * {@link BitmapMarkerOptions#colorHex(String)}.
    * @param colorInt
    * @return
    */
-  public MarkerOptions colorInt(int colorInt) {
+  public BitmapMarkerOptions colorInt(int colorInt) {
     this.colorInt = colorInt;
     this.colorHex = null;
     return this;
@@ -127,11 +121,11 @@ public class MarkerOptions {
 
   /**
    * Sets color hex value. Setting the color in overrides previous set color int values set via
-   * {@link MarkerOptions#colorInt(int)}.
+   * {@link BitmapMarkerOptions#colorInt(int)}.
    * @param colorHex
    * @return
    */
-  public MarkerOptions colorHex(String colorHex) {
+  public BitmapMarkerOptions colorHex(String colorHex) {
     this.colorHex = colorHex;
     this.colorInt = Integer.MIN_VALUE;
     return this;
@@ -142,7 +136,7 @@ public class MarkerOptions {
    * @param isInteractive
    * @return
    */
-  public MarkerOptions interactive(boolean isInteractive) {
+  public BitmapMarkerOptions interactive(boolean isInteractive) {
     this.isInteractive = isInteractive;
     return this;
   }

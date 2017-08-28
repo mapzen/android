@@ -4,6 +4,7 @@ import com.mapzen.android.core.MapzenManager;
 import com.mapzen.android.graphics.internal.StyleStringGenerator;
 import com.mapzen.android.graphics.model.BitmapMarker;
 import com.mapzen.android.graphics.model.BitmapMarkerManager;
+import com.mapzen.android.graphics.model.BitmapMarkerOptions;
 import com.mapzen.android.graphics.model.CameraType;
 import com.mapzen.android.graphics.model.EaseType;
 import com.mapzen.android.graphics.model.MapStyle;
@@ -963,7 +964,18 @@ public class MapzenMap {
    * @param markerOptions options used to define marker appearance.
    * @return a new bitmap marker instance.
    */
+  @Deprecated
   public BitmapMarker addBitmapMarker(MarkerOptions markerOptions) {
+    return bitmapMarkerManager.addMarker(markerOptions);
+  }
+
+  /**
+   * Adds a custom bitmap marker to the map.
+   *
+   * @param markerOptions options used to define marker appearance.
+   * @return a new bitmap marker instance.
+   */
+  public BitmapMarker addBitmapMarker(BitmapMarkerOptions markerOptions) {
     return bitmapMarkerManager.addMarker(markerOptions);
   }
 }
