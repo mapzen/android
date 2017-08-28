@@ -48,11 +48,7 @@ public class MarkerManager {
     final Marker marker = mapController.addMarker();
     BitmapMarker bitmapMarker = bitmapMarkerFactory.createMarker(this, marker,
         styleStringGenerator);
-    configureMarker(bitmapMarker, markerOptions.getPosition(), markerOptions.getIconDrawable(),
-        markerOptions.getIcon(), markerOptions.getWidth(),
-        markerOptions.getHeight(), markerOptions.isInteractive(), markerOptions.getColorHex(),
-        markerOptions.getColorInt(), markerOptions.isVisible(), markerOptions.getDrawOrder(),
-        markerOptions.getUserData());
+    configureMarker(bitmapMarker, markerOptions);
     Collections.synchronizedList(restorableMarkers).add(bitmapMarker);
     return bitmapMarker;
   }
@@ -74,13 +70,25 @@ public class MarkerManager {
     for (BitmapMarker restorableMarker : Collections.synchronizedList(restorableMarkers)) {
       Marker tangramMarker = mapController.addMarker();
       restorableMarker.setTangramMarker(tangramMarker);
-      configureMarker(restorableMarker, restorableMarker.getPosition(),
-          restorableMarker.getIconDrawable(), restorableMarker.getIcon(),
-          restorableMarker.getWidth(), restorableMarker.getHeight(),
-          restorableMarker.isInteractive(), restorableMarker.getColorHex(),
-          restorableMarker.getColor(), restorableMarker.isVisible(),
-          restorableMarker.getDrawOrder(), restorableMarker.getUserData());
+      configureMarker(restorableMarker);
     }
+  }
+
+  private void configureMarker(BitmapMarker bitmapMarker) {
+    configureMarker(bitmapMarker, bitmapMarker.getPosition(),
+        bitmapMarker.getIconDrawable(), bitmapMarker.getIcon(),
+        bitmapMarker.getWidth(), bitmapMarker.getHeight(),
+        bitmapMarker.isInteractive(), bitmapMarker.getColorHex(),
+        bitmapMarker.getColor(), bitmapMarker.isVisible(),
+        bitmapMarker.getDrawOrder(), bitmapMarker.getUserData());
+  }
+
+  private void configureMarker(BitmapMarker bitmapMarker, MarkerOptions markerOptions) {
+    configureMarker(bitmapMarker, markerOptions.getPosition(), markerOptions.getIconDrawable(),
+        markerOptions.getIcon(), markerOptions.getWidth(),
+        markerOptions.getHeight(), markerOptions.isInteractive(), markerOptions.getColorHex(),
+        markerOptions.getColorInt(), markerOptions.isVisible(), markerOptions.getDrawOrder(),
+        markerOptions.getUserData());
   }
 
   private void configureMarker(BitmapMarker marker, LngLat position, Drawable drawable,
