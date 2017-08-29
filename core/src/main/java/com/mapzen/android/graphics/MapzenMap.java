@@ -681,15 +681,6 @@ public class MapzenMap {
     mapController.setTapResponder(internalTapResponder);
   }
 
-  private void postFeaturePickRunnable(final Map<String, String> properties, final float positionX,
-      final float positionY, final FeaturePickListener listener) {
-    mapView.post(new Runnable() {
-      @Override public void run() {
-        listener.onFeaturePick(properties, positionX, positionY);
-      }
-    });
-  }
-
   /**
    * Set a listener for when view is fully loaded and no ease or label animations running.
    */
@@ -954,6 +945,45 @@ public class MapzenMap {
   }
 
   /**
+   * Adds a custom bitmap marker to the map.
+   *
+   * @param markerOptions options used to define marker appearance.
+   * @return a new bitmap marker instance.
+   */
+  public BitmapMarker addBitmapMarker(MarkerOptions markerOptions) {
+    return bitmapMarkerManager.addMarker(markerOptions);
+  }
+
+  /**
+   * Adds a custom bitmap marker to the map.
+   *
+   * @param markerOptions options used to define marker appearance.
+   * @return a new bitmap marker instance.
+   */
+  public BitmapMarker addBitmapMarker(BitmapMarkerOptions markerOptions) {
+    return bitmapMarkerManager.addMarker(markerOptions);
+  }
+
+  /**
+   * Invoked by {@link MapView} when the parent activity or fragment is destroyed.
+   */
+  void onDestroy() {
+    mapStateManager.setPosition(mapController.getPosition());
+    mapStateManager.setZoom(mapController.getZoom());
+    mapStateManager.setRotation(mapController.getRotation());
+    mapStateManager.setTilt(mapController.getTilt());
+  }
+
+  private void postFeaturePickRunnable(final Map<String, String> properties, final float positionX,
+      final float positionY, final FeaturePickListener listener) {
+    mapView.post(new Runnable() {
+      @Override public void run() {
+        listener.onFeaturePick(properties, positionX, positionY);
+      }
+    });
+  }
+
+  /**
    * Restores all aspects of the map EXCEPT the style, this is restored in the
    * {@link MapInitializer}.
    */
@@ -970,34 +1000,4 @@ public class MapzenMap {
         mapStateManager.isBikeOverlayEnabled(), mapStateManager.isPathOverlayEnabled());
   }
 
-  /**
-   * Invoked by {@link MapView} when the parent activity or fragment is destroyed.
-   */
-  void onDestroy() {
-    mapStateManager.setPosition(mapController.getPosition());
-    mapStateManager.setZoom(mapController.getZoom());
-    mapStateManager.setRotation(mapController.getRotation());
-    mapStateManager.setTilt(mapController.getTilt());
-  }
-
-  /**
-   * Adds a custom bitmap marker to the map.
-   *
-   * @param markerOptions options used to define marker appearance.
-   * @return a new bitmap marker instance.
-   */
-  @Deprecated
-  public BitmapMarker addBitmapMarker(MarkerOptions markerOptions) {
-    return bitmapMarkerManager.addMarker(markerOptions);
-  }
-
-  /**
-   * Adds a custom bitmap marker to the map.
-   *
-   * @param markerOptions options used to define marker appearance.
-   * @return a new bitmap marker instance.
-   */
-  public BitmapMarker addBitmapMarker(BitmapMarkerOptions markerOptions) {
-    return bitmapMarkerManager.addMarker(markerOptions);
-  }
 }
