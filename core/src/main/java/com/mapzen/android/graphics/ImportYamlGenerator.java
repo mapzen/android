@@ -1,60 +1,42 @@
 package com.mapzen.android.graphics;
 
+import com.mapzen.android.graphics.model.ThemeColor;
 import com.mapzen.android.graphics.model.ThemedMapStyle;
 
 /**
  * Handles creating fully qualified import yaml for a given {@link ThemedMapStyle} so that
  * it can be applied by {@link MapzenMap}.
  */
-class MapStyleThemeYamlGenerator {
+class ImportYamlGenerator {
 
   /**
-   * Creates import yaml string for a given theme and label level.
+   * Creates import yaml string for a given theme, label level, detail level, and color.
    * @param themedMapStyle
    * @param labelLevel
    * @return
    */
-  String getLabelThemeYaml(ThemedMapStyle themedMapStyle, int labelLevel) {
-    String themeFileName = new StringBuilder()
+  String getImportYaml(ThemedMapStyle themedMapStyle, int labelLevel, int detailLevel,
+      ThemeColor color) {
+    String labelFileName = new StringBuilder()
         .append("label-")
         .append(labelLevel)
         .append(".yaml")
         .toString();
-    return getThemeYaml(themedMapStyle, themeFileName);
-  }
-
-  /**
-   * Creates import yaml string for a given theme and detail level.
-   * @param themedMapStyle
-   * @param detailLevel
-   * @return
-   */
-  String getDetailThemeYaml(ThemedMapStyle themedMapStyle, int detailLevel) {
-    String themeFileName = new StringBuilder()
+    String detailFileName = new StringBuilder()
         .append("detail-")
         .append(detailLevel)
         .append(".yaml")
         .toString();
-    return getThemeYaml(themedMapStyle, themeFileName);
-  }
-
-  /**
-   * Creates import yaml string for a given theme and color.
-   * @param themedMapStyle
-   * @param color
-   * @return
-   */
-  String getColorThemeYaml(ThemedMapStyle themedMapStyle, String color) {
-    String themeFileName = new StringBuilder()
+    String colorFileName = new StringBuilder()
         .append("color-")
-        .append(color)
+        .append(color.toString())
         .append(".yaml")
         .toString();
-    return getThemeYaml(themedMapStyle, themeFileName);
-  }
-
-  private String getThemeYaml(ThemedMapStyle themedMapStyle, String themeFileName) {
-    return "{ import: [ " + themedMapStyle.getSceneFile() + ", "
-        + themedMapStyle.getThemesPath() + themeFileName + "] }";
+    return "{ import: [ "
+        + themedMapStyle.getBaseStyleFilename() + ", "
+        + themedMapStyle.getThemesPath() + labelFileName + ", "
+        + themedMapStyle.getThemesPath() + detailFileName + ", "
+        + themedMapStyle.getThemesPath() + colorFileName
+        + " ] }";
   }
 }
