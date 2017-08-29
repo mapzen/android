@@ -61,7 +61,7 @@ public class RefillStyleTest {
   }
 
   @Test public void getColors_shouldReturnCorrectValue() throws Exception {
-    Set colors = new HashSet<ThemeColor>() {{
+    Set colors = new HashSet<ThemeColor>() { {
       add(BLACK);
       add(BLUE);
       add(BLUEGRAY);
@@ -75,7 +75,7 @@ public class RefillStyleTest {
       add(PINKYELLOW);
       add(PURPLEGREEN);
       add(SEPIA);
-    }};
+    } };
     assertThat(style.getColors()).isEqualTo(colors);
   }
 }

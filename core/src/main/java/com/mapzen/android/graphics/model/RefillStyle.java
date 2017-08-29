@@ -22,7 +22,7 @@ import static com.mapzen.android.graphics.model.ThemeColor.SEPIA;
  */
 public class RefillStyle extends ThemedMapStyle {
 
-  private final Set<ThemeColor> supportedColors = new HashSet<ThemeColor>() {{
+  private final Set<ThemeColor> supportedColors = new HashSet<ThemeColor>() { {
     add(BLACK);
     add(BLUE);
     add(BLUEGRAY);
@@ -36,7 +36,7 @@ public class RefillStyle extends ThemedMapStyle {
     add(PINKYELLOW);
     add(PURPLEGREEN);
     add(SEPIA);
-  }};
+  } };
 
   /**
    * Creates a new instance.

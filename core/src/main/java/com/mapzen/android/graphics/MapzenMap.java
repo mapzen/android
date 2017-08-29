@@ -36,7 +36,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import static com.mapzen.android.graphics.internal.EaseTypeConverter.EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE;
+import static
+    com.mapzen.android.graphics.internal.EaseTypeConverter.EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE;
 
 /**
  * This is the main class of the Mapzen Android API and is the entry point for all methods related
