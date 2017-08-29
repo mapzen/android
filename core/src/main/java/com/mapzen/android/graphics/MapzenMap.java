@@ -36,8 +36,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import static com.mapzen.android.graphics.internal.EaseTypeConverter.
-    EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE;
+import static com.mapzen.android.graphics.internal.EaseTypeConverter.EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE;
 
 /**
  * This is the main class of the Mapzen Android API and is the entry point for all methods related
@@ -56,6 +55,7 @@ public class MapzenMap {
   private final SceneUpdateManager sceneUpdateManager;
   private final MapzenManager mapzenManager;
   private Locale locale;
+  private ImportYamlGenerator yamlGenerator;
 
   boolean pickFeatureOnSingleTapConfirmed = false;
   boolean pickLabelOnSingleTapConfirmed = false;
@@ -164,7 +164,7 @@ public class MapzenMap {
   MapzenMap(MapView mapView, MapController mapController, OverlayManager overlayManager,
       MapStateManager mapStateManager, LabelPickHandler labelPickHandler,
       BitmapMarkerManager bitmapMarkerManager, SceneUpdateManager sceneUpdateManager, Locale locale,
-      MapzenManager mapzenManager) {
+      MapzenManager mapzenManager, ImportYamlGenerator yamlGenerator) {
     this.mapView = mapView;
     this.mapController = mapController;
     this.mapController.setSceneLoadListener(internalSceneLoadListener);
@@ -176,6 +176,7 @@ public class MapzenMap {
     this.locale = locale;
     this.mapzenManager = mapzenManager;
     this.mapzenManager.addApiKeyChangeListener(apiKeyChangeListener);
+    this.yamlGenerator = yamlGenerator;
     mapView.setMapzenMap(this);
     mapController.setPanResponder(internalPanResponder);
     mapController.setRotateResponder(internalRotateResponder);

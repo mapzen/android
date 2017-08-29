@@ -36,12 +36,15 @@ public class MapInitializer {
 
   private BitmapMarkerManager bitmapMarkerManager;
 
+  private ImportYamlGenerator yamlGenerator;
+
   /**
    * Creates a new instance.
    */
   @Inject MapInitializer(Context context, MapzenMapHttpHandler mapzenMapHttpHandler,
       MapDataManager mapDataManager, MapStateManager mapStateManager,
-      SceneUpdateManager sceneUpdateManager, BitmapMarkerManager bitmapMarkerManager) {
+      SceneUpdateManager sceneUpdateManager, BitmapMarkerManager bitmapMarkerManager,
+      ImportYamlGenerator yamlGenerator) {
     this.context = context;
     this.mapzenMapHttpHandler = mapzenMapHttpHandler;
     this.mapDataManager = mapDataManager;
@@ -49,6 +52,7 @@ public class MapInitializer {
     this.sceneUpdateManager = sceneUpdateManager;
     mapReadyInitializer = new MapReadyInitializer();
     this.bitmapMarkerManager = bitmapMarkerManager;
+    this.yamlGenerator = yamlGenerator;
   }
 
   /**
@@ -97,7 +101,7 @@ public class MapInitializer {
         new MapController.SceneLoadListener() {
       @Override public void onSceneReady(int sceneId, SceneError sceneError) {
         mapReadyInitializer.onMapReady(mapView, mapzenMapHttpHandler, callback, mapDataManager,
-            mapStateManager, sceneUpdateManager, locale, bitmapMarkerManager);
+            mapStateManager, sceneUpdateManager, locale, bitmapMarkerManager, yamlGenerator);
       }
     });
     controller.loadSceneFileAsync(sceneFile, sceneUpdates);

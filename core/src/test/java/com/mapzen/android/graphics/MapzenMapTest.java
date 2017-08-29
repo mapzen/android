@@ -66,6 +66,7 @@ public class MapzenMapTest {
   private SceneUpdateManager sceneUpdateManager;
   private Locale locale;
   private MapzenManager mapzenManager;
+  private ImportYamlGenerator yamlGenerator;
 
   @Before public void setUp() throws Exception {
     mapView = new TestMapView();
@@ -91,8 +92,9 @@ public class MapzenMapTest {
     sceneUpdateManager = new SceneUpdateManager();
     locale = new Locale("en_us");
     mapzenManager = mock(MapzenManager.class);
+    yamlGenerator = mock(ImportYamlGenerator.class);
     map = new MapzenMap(mapView, mapController, overlayManager, mapStateManager, labelPickHandler,
-        bitmapMarkerManager, sceneUpdateManager, locale, mapzenManager);
+        bitmapMarkerManager, sceneUpdateManager, locale, mapzenManager, yamlGenerator);
   }
 
   @Test public void shouldNotBeNull() throws Exception {

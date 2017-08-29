@@ -63,4 +63,13 @@ import dagger.Provides;
       BitmapMarkerFactory bitmapMarkerFactory, StyleStringGenerator styleStringGenerator) {
     return new BitmapMarkerManager(bitmapMarkerFactory, styleStringGenerator);
   }
+
+  /**
+   * Returns the object used to generate import yaml for use loading
+   * {@link com.mapzen.android.graphics.model.ThemedMapStyle}s.
+   * @return
+   */
+  @Provides @Singleton public ImportYamlGenerator providesImportYamlGenerator() {
+    return new ImportYamlGenerator();
+  }
 }

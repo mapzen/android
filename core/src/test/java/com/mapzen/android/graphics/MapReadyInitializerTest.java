@@ -38,7 +38,8 @@ public class MapReadyInitializerTest {
         mapController);
     initializer.onMapReady(mapView, mock(MapzenMapHttpHandler.class),
         mock(OnMapReadyCallback.class), mock(MapDataManager.class), mock(MapStateManager.class),
-        mock(SceneUpdateManager.class), new Locale("en_us"), mock(BitmapMarkerManager.class));
+        mock(SceneUpdateManager.class), new Locale("en_us"), mock(BitmapMarkerManager.class),
+        mock(ImportYamlGenerator.class));
     verify(mapController).setSceneLoadListener(null);
   }
 
@@ -57,7 +58,8 @@ public class MapReadyInitializerTest {
     when(mapzenHttpHandler.httpHandler()).thenReturn(httpHandler);
     initializer.onMapReady(mapView, mapzenHttpHandler,
         mock(OnMapReadyCallback.class), mock(MapDataManager.class), mock(MapStateManager.class),
-        mock(SceneUpdateManager.class), new Locale("en_us"), mock(BitmapMarkerManager.class));
+        mock(SceneUpdateManager.class), new Locale("en_us"), mock(BitmapMarkerManager.class),
+        mock(ImportYamlGenerator.class));
     verify(mapController).setHttpHandler(httpHandler);
   }
 
@@ -74,7 +76,8 @@ public class MapReadyInitializerTest {
     OnMapReadyCallback callback = mock(OnMapReadyCallback.class);
     initializer.onMapReady(mapView, mock(MapzenMapHttpHandler.class),
         callback, mock(MapDataManager.class), mock(MapStateManager.class),
-        mock(SceneUpdateManager.class), new Locale("en_us"), mock(BitmapMarkerManager.class));
+        mock(SceneUpdateManager.class), new Locale("en_us"), mock(BitmapMarkerManager.class),
+        mock(ImportYamlGenerator.class));
     verify(callback).onMapReady(any(MapzenMap.class));
   }
 }

@@ -29,14 +29,14 @@ public class TestMapView extends MapView {
     callback.onMapReady(new MapzenMap(mock(MapView.class), mock(MapController.class),
         mock(OverlayManager.class), mock(MapStateManager.class), mock(LabelPickHandler.class),
         mock(BitmapMarkerManager.class), mock(SceneUpdateManager.class), new Locale("en_us"), mock(
-        MapzenManager.class)));
+        MapzenManager.class), mock(ImportYamlGenerator.class)));
   }
 
   @Override public void getMapAsync(MapStyle mapStyle, @NonNull OnMapReadyCallback callback) {
     callback.onMapReady(new MapzenMap(mock(MapView.class), mock(MapController.class),
         mock(OverlayManager.class), mock(MapStateManager.class), mock(LabelPickHandler.class),
         mock(BitmapMarkerManager.class), mock(SceneUpdateManager.class), new Locale("en_us"), mock(
-        MapzenManager.class)));
+        MapzenManager.class), mock(ImportYamlGenerator.class)));
   }
 
   @Override public TangramMapView getTangramMapView() {
