@@ -1,5 +1,7 @@
 package com.mapzen.android.core;
 
+import com.mapzen.BuildConfig;
+
 import android.content.Context;
 import android.content.res.Resources;
 
@@ -78,5 +80,13 @@ public class MapzenManager {
    */
   public void setApiKey(String apiKey) {
     this.apiKey = apiKey;
+  }
+
+  /**
+   * Returns the maven artifact version.
+   * @return
+   */
+  public static String getSdkVersion() {
+    return BuildConfig.SDK_VERSION;
   }
 }

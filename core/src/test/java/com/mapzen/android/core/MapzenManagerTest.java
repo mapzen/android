@@ -71,6 +71,10 @@ public class MapzenManagerTest {
     assertThat(mapzenManager.getApiKey()).isEqualTo("mapzen-fake-api-key-2");
   }
 
+  @Test public void getSdkVersion() throws Exception {
+    assertThat(MapzenManager.getSdkVersion()).isNotEmpty();
+  }
+
   private class TestResources extends Resources {
     private String testApiKey;
 

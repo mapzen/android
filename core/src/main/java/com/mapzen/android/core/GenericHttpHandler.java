@@ -1,7 +1,5 @@
 package com.mapzen.android.core;
 
-import com.mapzen.BuildConfig;
-
 import android.os.Build;
 
 import java.util.Map;
@@ -12,7 +10,7 @@ import java.util.Map;
 public interface GenericHttpHandler {
 
   String HEADER_USER_AGENT = "User-Agent";
-  String USER_AGENT = "android-sdk;" + BuildConfig.SDK_VERSION + ";" + Build.VERSION.RELEASE;
+  String USER_AGENT = "android-sdk;" + MapzenManager.getSdkVersion() + ";" + Build.VERSION.RELEASE;
 
   /**
    * Return query parameters to be appended to every request.
