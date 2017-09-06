@@ -10,6 +10,7 @@ import com.mapzen.android.graphics.model.Marker;
 import com.mapzen.android.graphics.model.Polygon;
 import com.mapzen.android.graphics.model.Polyline;
 import com.mapzen.android.graphics.model.WalkaboutStyle;
+import com.mapzen.tangram.HttpHandler;
 import com.mapzen.tangram.LabelPickResult;
 import com.mapzen.tangram.LngLat;
 import com.mapzen.tangram.MapController;
@@ -707,6 +708,14 @@ public class MapzenMapTest {
   @Test public void onSceneReady_restoresMarkers() throws Exception {
     map.internalSceneLoadListener.onSceneReady(1, null);
     verify(bitmapMarkerManager).restoreMarkers();
+  }
+
+  @Test public void setHttpHandler_shouldCallMapController() throws Exception {
+    MapzenMapHttpHandler mapzenMapHandler = mock(MapzenMapHttpHandler.class);
+    HttpHandler handler = mock(HttpHandler.class);
+    when(mapzenMapHandler.httpHandler()).thenReturn(handler);
+    map.setHttpHandler(mapzenMapHandler);
+    verify(mapController).setHttpHandler(handler);
   }
 
   public class TestRotateResponder implements TouchInput.RotateResponder {

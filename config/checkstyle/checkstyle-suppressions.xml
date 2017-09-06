@@ -22,4 +22,5 @@
     <suppress checks="ParameterNumberCheck" files="src/main/java/com/mapzen/android/graphics/MapReadyInitializer.java"/>
     <suppress checks="ParameterNumberCheck" files="src/main/java/com/mapzen/android/graphics/model/MarkerManager.java"/>
     <suppress checks="ParameterNumberCheck" files="src/main/java/com/mapzen/android/graphics/model/BitmapMarkerManager.java"/>
+    <suppress checks="[a-zA-Z0-9]*" files="src/main/java/com/mapzen/android/routing/MapzenRouterHttpHandler"/>
 </suppressions>

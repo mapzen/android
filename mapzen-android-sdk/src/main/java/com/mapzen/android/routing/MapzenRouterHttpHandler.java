@@ -7,6 +7,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.mapzen.android.core.GenericHttpHandler.LogLevel.BASIC;
+import static com.mapzen.android.core.GenericHttpHandler.LogLevel.BODY;
+import static com.mapzen.android.core.GenericHttpHandler.LogLevel.HEADERS;
+import static com.mapzen.android.core.GenericHttpHandler.LogLevel.NONE;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.Request;
@@ -18,6 +22,8 @@ import okhttp3.logging.HttpLoggingInterceptor;
  */
 public abstract class MapzenRouterHttpHandler implements GenericHttpHandler {
 
+  public static final String DEFAULT_URL = "https://valhalla.mapzen.com/";
+  public static final LogLevel DEFAULT_LOG_LEVEL = MapzenRouterHttpHandler.getDefaultLogLevel();
   private TurnByTurnHttpHandler handler;
   ChainProceder chainProceder = new ChainProceder();
 
@@ -25,7 +31,14 @@ public abstract class MapzenRouterHttpHandler implements GenericHttpHandler {
    * Construct handler with default url and log levels.
    */
   public MapzenRouterHttpHandler() {
-    handler = new TurnByTurnHttpHandler(HttpLoggingInterceptor.Level.BODY);
+    handler = new TurnByTurnHttpHandler(DEFAULT_URL, DEFAULT_LOG_LEVEL);
+  }
+
+  /**
+   * Construct handler with custom url and log levels.
+   */
+  public MapzenRouterHttpHandler(String url, LogLevel logLevel) {
+    handler = new TurnByTurnHttpHandler(url, logLevel);
   }
 
   /**
@@ -34,6 +47,10 @@ public abstract class MapzenRouterHttpHandler implements GenericHttpHandler {
    */
   TurnByTurnHttpHandler turnByTurnHandler() {
     return handler;
+  }
+
+  private static LogLevel getDefaultLogLevel() {
+    return BASIC;
   }
 
   /**
@@ -45,32 +62,20 @@ public abstract class MapzenRouterHttpHandler implements GenericHttpHandler {
 
     private String apiKey;
 
-    /**
-     * Construct handler with default url and log levels.
-     */
-    public TurnByTurnHttpHandler() {
-      configure(DEFAULT_URL, DEFAULT_LOG_LEVEL);
-    }
-
-    /**
-     * Construct handler with url and default log levels.
-     */
-    public TurnByTurnHttpHandler(String endpoint) {
-      configure(endpoint, DEFAULT_LOG_LEVEL);
-    }
-
-    /**
-     * Construct handler with log levels and default url.
-     */
-    public TurnByTurnHttpHandler(HttpLoggingInterceptor.Level logLevel) {
-      configure(DEFAULT_URL, logLevel);
-    }
+    private final Map<LogLevel, HttpLoggingInterceptor.Level> TO_INTERNAL_LEVEL = new HashMap() {
+      {
+        put(NONE, HttpLoggingInterceptor.Level.NONE);
+        put(BASIC, HttpLoggingInterceptor.Level.BASIC);
+        put(HEADERS, HttpLoggingInterceptor.Level.HEADERS);
+        put(BODY, HttpLoggingInterceptor.Level.BODY);
+      }
+    };
 
     /**
      * Construct handler with url and log levels.
      */
-    public TurnByTurnHttpHandler(String endpoint, HttpLoggingInterceptor.Level logLevel) {
-      configure(endpoint, logLevel);
+    public TurnByTurnHttpHandler(String endpoint, LogLevel logLevel) {
+      configure(endpoint, TO_INTERNAL_LEVEL.get(logLevel));
     }
 
     /**

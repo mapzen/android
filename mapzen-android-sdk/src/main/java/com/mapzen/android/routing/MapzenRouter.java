@@ -150,6 +150,15 @@ public class MapzenRouter {
     return this;
   }
 
+  /**
+   * Sets the router's http handler for adding custom headers and parameters to
+   * requests.
+   * @param handler
+   */
+  public void setHttpHandler(MapzenRouterHttpHandler handler) {
+    internalRouter.setHttpHandler(handler.turnByTurnHandler());
+  }
+
   public Router getRouter() {
     return internalRouter;
   }

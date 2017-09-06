@@ -932,6 +932,14 @@ public class MapzenMap {
   }
 
   /**
+   * Sets the object used to add query parameters and headers to each request.
+   * @param handler
+   */
+  public void setHttpHandler(MapzenMapHttpHandler handler) {
+    mapController.setHttpHandler(handler.httpHandler());
+  }
+
+  /**
    * Restores all aspects of the map EXCEPT the style, this is restored in the
    * {@link MapInitializer}.
    */

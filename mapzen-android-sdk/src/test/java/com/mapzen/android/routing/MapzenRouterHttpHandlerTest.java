@@ -1,5 +1,8 @@
 package com.mapzen.android.routing;
 
+import com.mapzen.android.core.GenericHttpHandler;
+import com.mapzen.valhalla.TestHttpHandlerHelper;
+
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -9,6 +12,8 @@ import static com.mapzen.android.core.GenericHttpHandler.HEADER_USER_AGENT;
 import static com.mapzen.android.core.GenericHttpHandler.USER_AGENT;
 import static com.mapzen.android.routing.MapzenRouterHttpHandler.TurnByTurnHttpHandler.NAME_API_KEY;
 import okhttp3.Interceptor;
+import okhttp3.logging.HttpLoggingInterceptor;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -63,5 +68,23 @@ public class MapzenRouterHttpHandlerTest {
     headers.putAll(testHeaders);
 
     verify(proceder).proceed(chain, params, headers);
+  }
+
+  @Test public void initWithCustomUrlAndLogLevelShouldCallConstructor() throws Exception {
+    MapzenRouterHttpHandler handler = new MapzenRouterHttpHandler("http://test.com",
+        GenericHttpHandler.LogLevel.BODY) {
+      @Override public Map<String, String> queryParamsForRequest() {
+        return null;
+      }
+
+      @Override public Map<String, String> headersForRequest() {
+        return null;
+      }
+    };
+    String endpoint = TestHttpHandlerHelper.getEndpoint(handler.turnByTurnHandler());
+    assertThat(endpoint).isEqualTo("http://test.com");
+    HttpLoggingInterceptor.Level level = TestHttpHandlerHelper.getLogLevel(
+        handler.turnByTurnHandler());
+    assertThat(level).isEqualTo(HttpLoggingInterceptor.Level.BODY);
   }
 }
