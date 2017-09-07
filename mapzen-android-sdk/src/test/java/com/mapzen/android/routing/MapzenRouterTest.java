@@ -16,6 +16,7 @@ import static com.mapzen.android.TestHelper.getMockContext;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class MapzenRouterTest {
 
@@ -94,6 +95,15 @@ public class MapzenRouterTest {
 
   @Test public void distanceUnitsToString_shouldReturnKilometers() throws Exception {
     assertThat(MapzenRouter.DistanceUnits.KILOMETERS.toString()).isEqualTo("kilometers");
+  }
+
+  @Test public void setHttpHandler_shouldCallInternalRouter() throws Exception {
+    MapzenRouterHttpHandler mapzenRouterHandler = mock(MapzenRouterHttpHandler.class);
+    MapzenRouterHttpHandler.TurnByTurnHttpHandler handler = mock(
+        MapzenRouterHttpHandler.TurnByTurnHttpHandler.class);
+    when(mapzenRouterHandler.turnByTurnHandler()).thenReturn(handler);
+    router.setHttpHandler(mapzenRouterHandler);
+    verify(router.getRouter()).setHttpHandler(handler);
   }
 
   class TestRouteCallback implements RouteCallback {

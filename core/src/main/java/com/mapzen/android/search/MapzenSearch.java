@@ -130,6 +130,15 @@ public class MapzenSearch {
   }
 
   /**
+   * Sets the router's http handler for adding custom headers and parameters to
+   * requests.
+   * @param handler
+   */
+  public void setHttpHandler(MapzenSearchHttpHandler handler) {
+    internalSearch.setRequestHandler(handler.searchHandler());
+  }
+
+  /**
    * Return the underlying {@link Pelias} object.
    * @return
    */

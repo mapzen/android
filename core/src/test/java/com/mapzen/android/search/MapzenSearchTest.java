@@ -16,6 +16,7 @@ import static com.mapzen.TestHelper.getMockContext;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -83,6 +84,15 @@ public class MapzenSearchTest {
     TestPeliasLocationProvider provider = new TestPeliasLocationProvider();
     search.setLocationProvider(provider);
     verify(search.getPelias()).setLocationProvider(provider);
+  }
+
+  @Test public void setHttpHandler_shouldCallInternalSearch() throws Exception {
+    MapzenSearchHttpHandler mapzenSearchHandler = mock(MapzenSearchHttpHandler.class);
+    MapzenSearchHttpHandler.SearchRequestHandler handler = mock(
+        MapzenSearchHttpHandler.SearchRequestHandler.class);
+    when(mapzenSearchHandler.searchHandler()).thenReturn(handler);
+    search.setHttpHandler(mapzenSearchHandler);
+    verify(search.getPelias()).setRequestHandler(handler);
   }
 
   private class TestCallback implements Callback<Result> {
