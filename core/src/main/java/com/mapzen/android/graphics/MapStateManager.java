@@ -3,6 +3,7 @@ package com.mapzen.android.graphics;
 import com.mapzen.android.graphics.model.BubbleWrapStyle;
 import com.mapzen.android.graphics.model.CameraType;
 import com.mapzen.android.graphics.model.MapStyle;
+import com.mapzen.android.graphics.model.ThemeColor;
 import com.mapzen.tangram.LngLat;
 
 /**
@@ -14,6 +15,9 @@ class MapStateManager {
   private boolean persistMapState = true;
   private LngLat position = new LngLat(0, 0);
   private MapStyle mapStyle = new BubbleWrapStyle();
+  private int labelLevel = 0;
+  private int detailLevel = 0;
+  private ThemeColor themeColor = null;
   private float zoom = 0;
   private float rotation = 0;
   private float tilt = 0;
@@ -44,6 +48,30 @@ class MapStateManager {
 
   public MapStyle getMapStyle() {
     return this.mapStyle;
+  }
+
+  public void setLabelLevel(int labelLevel) {
+    this.labelLevel = labelLevel;
+  }
+
+  public int getLabelLevel() {
+    return this.labelLevel;
+  }
+
+  public void setDetailLevel(int detailLevel) {
+    this.detailLevel = detailLevel;
+  }
+
+  public int getDetailLevel() {
+    return this.detailLevel;
+  }
+
+  public void setThemeColor(ThemeColor color) {
+    this.themeColor = color;
+  }
+
+  public ThemeColor getThemeColor() {
+    return this.themeColor;
   }
 
   public void setZoom(float zoom) {

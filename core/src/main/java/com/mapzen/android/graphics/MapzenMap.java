@@ -13,6 +13,8 @@ import com.mapzen.android.graphics.model.Marker;
 import com.mapzen.android.graphics.model.MarkerOptions;
 import com.mapzen.android.graphics.model.Polygon;
 import com.mapzen.android.graphics.model.Polyline;
+import com.mapzen.android.graphics.model.ThemeColor;
+import com.mapzen.android.graphics.model.ThemedMapStyle;
 import com.mapzen.tangram.LngLat;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.MapData;
@@ -204,11 +206,138 @@ public class MapzenMap {
    */
   public void setStyle(MapStyle mapStyle) {
     mapStateManager.setMapStyle(mapStyle);
-    String apiKey = mapzenManager.getApiKey();
-    List<SceneUpdate> globalSceneUpdates = sceneUpdateManager.getUpdatesFor(apiKey, locale,
-        mapStateManager.isTransitOverlayEnabled(), mapStateManager.isBikeOverlayEnabled(),
-        mapStateManager.isPathOverlayEnabled());
-    mapController.loadSceneFile(mapStyle.getSceneFile(), globalSceneUpdates);
+    if (currentMapStyleIsThemed()) {
+      mapStateManager.setLabelLevel(getThemedMapStyle().getDefaultLabelLevel());
+      mapStateManager.setDetailLevel(getThemedMapStyle().getDefaultDetailLevel());
+      mapStateManager.setThemeColor(getThemedMapStyle().getDefaultColor());
+      loadSceneYaml();
+    } else {
+      loadSceneFile();
+    }
+  }
+
+  /**
+   * Sets the map style with given label level and default detail and theme color values. If the
+   * label level is not supported by this theme then this method throws an
+   * {@link IllegalArgumentException}.
+   * @param themedMapStyle
+   * @param labelLevel
+   */
+  public void setStyleAndLabelLevel(ThemedMapStyle themedMapStyle, int labelLevel) {
+    setStyleLabelDetailLevelThemeColor(themedMapStyle, labelLevel,
+        themedMapStyle.getDefaultDetailLevel(), themedMapStyle.getDefaultColor());
+  }
+
+  /**
+   * Sets the map style with given detail level and default label and theme color values. If the
+   * detail level is not supported by this theme then this method throws an
+   * {@link IllegalArgumentException}.
+   * @param themedMapStyle
+   * @param detailLevel
+   */
+  public void setStyleAndDetailLevel(ThemedMapStyle themedMapStyle, int detailLevel) {
+    setStyleLabelDetailLevelThemeColor(themedMapStyle, themedMapStyle.getDefaultLabelLevel(),
+        detailLevel, themedMapStyle.getDefaultColor());
+  }
+
+  /**
+   * Sets the map style with given theme color and default label and detail levels.
+   * @param themedMapStyle
+   * @param color
+   */
+  public void setStyleAndThemeColor(ThemedMapStyle themedMapStyle, ThemeColor color) {
+    setStyleLabelDetailLevelThemeColor(themedMapStyle, themedMapStyle.getDefaultLabelLevel(),
+        themedMapStyle.getDefaultDetailLevel(), color);
+  }
+
+  /**
+   * Sets the map style with given label level, detail level, and theme color. If either the label
+   * or detail level are not supported, this method will throw an {@link IllegalArgumentException}.
+   * @param themedMapStyle
+   * @param labelLevel
+   * @param detailLevel
+   * @param color
+   */
+  public void setStyleLabelDetailLevelThemeColor(ThemedMapStyle themedMapStyle, int labelLevel,
+      int detailLevel, ThemeColor color) {
+    mapStateManager.setMapStyle(themedMapStyle);
+    setLabelDetailLevelThemeColor(labelLevel, detailLevel, color);
+  }
+
+  /**
+   * Sets the label level when the current style is of type {@link ThemedMapStyle}. If the label
+   * level is not supported by the current style, this method will throw an
+   * {@link IllegalArgumentException}. If the current map style is not {@link ThemedMapStyle} then
+   * this method does nothing.
+   * @param labelLevel
+   */
+  public void setLabelLevel(int labelLevel) {
+    if (!currentMapStyleIsThemed()) {
+      return;
+    }
+    setLabelDetailLevelThemeColor(labelLevel, getThemedMapStyle().getDefaultDetailLevel(),
+        getThemedMapStyle().getDefaultColor());
+  }
+
+  /**
+   * Sets the detail level when the current style is of type {@link ThemedMapStyle}. If the detail
+   * level is not supported by the current style, this method will throw an
+   * {@link IllegalArgumentException}. If the current map style is not {@link ThemedMapStyle} then
+   * this method does nothing.
+   * @param detailLevel
+   */
+  public void setDetailLevel(int detailLevel) {
+    if (!currentMapStyleIsThemed()) {
+      return;
+    }
+    setLabelDetailLevelThemeColor(getThemedMapStyle().getDefaultLabelLevel(), detailLevel,
+        getThemedMapStyle().getDefaultColor());
+  }
+
+  /**
+   * Sets the theme color when the current style is of type {@link ThemedMapStyle}. If the theme
+   * color is not supported by the current style, this method will throw an
+   * {@link IllegalArgumentException}. If the current map style is not {@link ThemedMapStyle} then
+   * this method does nothing.
+   * @param color
+   */
+  public void setThemeColor(ThemeColor color) {
+    if (!currentMapStyleIsThemed()) {
+      return;
+    }
+    setLabelDetailLevelThemeColor(getThemedMapStyle().getDefaultLabelLevel(),
+        getThemedMapStyle().getDefaultDetailLevel(), color);
+  }
+
+  /**
+   * Sets the label level, detail level, and theme color when the current style is of type
+   * {@link ThemedMapStyle}. If the label level, detail level, or theme color are not supported by
+   * the current style, this method will throw an {@link IllegalArgumentException}. If the current
+   * map style is not {@link ThemedMapStyle} then this method does nothing.
+   * @param labelLevel
+   * @param detailLevel
+   * @param color
+   */
+  public void setLabelDetailLevelThemeColor(int labelLevel, int detailLevel, ThemeColor color) {
+    if (!currentMapStyleIsThemed()) {
+      return;
+    }
+    if (!isValidLabelLevel(labelLevel)) {
+      throw new IllegalArgumentException("Invalid label level for " +
+          getThemedMapStyle().getClass().getSimpleName());
+    }
+    if (!isValidDetailLevel(detailLevel)) {
+      throw new IllegalArgumentException("Invalid detail level for " +
+          getThemedMapStyle().getClass().getSimpleName());
+    }
+    if (!isValidColor(color)) {
+      throw new IllegalArgumentException("Invalid theme color for " +
+          getThemedMapStyle().getClass().getSimpleName());
+    }
+    mapStateManager.setLabelLevel(labelLevel);
+    mapStateManager.setDetailLevel(detailLevel);
+    mapStateManager.setThemeColor(color);
+    loadSceneYaml();
   }
 
   /**
@@ -1000,4 +1129,87 @@ public class MapzenMap {
         mapStateManager.isBikeOverlayEnabled(), mapStateManager.isPathOverlayEnabled());
   }
 
+  /**
+   * Returns all {@link SceneUpdate}s that should be applied when a new map style is set.
+   * @return
+   */
+  private List<SceneUpdate> getGlobalSceneUpdates() {
+    String apiKey = mapzenManager.getApiKey();
+    return sceneUpdateManager.getUpdatesFor(apiKey, locale,
+        mapStateManager.isTransitOverlayEnabled(), mapStateManager.isBikeOverlayEnabled(),
+        mapStateManager.isPathOverlayEnabled());
+  }
+
+  /**
+   * Internal convenience method for loading scene file when the current style is a
+   * {@link MapStyle}.
+   * Applies all global scene updates.
+   */
+  private void loadSceneFile() {
+    mapController.loadSceneFile(mapStateManager.getMapStyle().getSceneFile(),
+        getGlobalSceneUpdates());
+  }
+
+  /**
+   * Internal convenience method for loading scene yaml when the current style is a
+   * {@link ThemedMapStyle}. Applies all global scene updates.
+   * applied.
+   */
+  private void loadSceneYaml() {
+    String yaml = yamlGenerator.getImportYaml(getThemedMapStyle(), mapStateManager.getLabelLevel(),
+        mapStateManager.getDetailLevel(), mapStateManager.getThemeColor());
+    String resourceRoot = getThemedMapStyle().getStyleRootPath();
+    mapController.loadSceneYaml(yaml, resourceRoot, getGlobalSceneUpdates());
+  }
+
+  /**
+   * Queries the {@link MapStateManager} to determine if the current style supports themes. Use to
+   * determine if scene yaml or simply scene file should be loaded.
+   * @return
+   */
+  private boolean currentMapStyleIsThemed() {
+    return mapStateManager.getMapStyle() instanceof ThemedMapStyle;
+  }
+
+  /**
+   * Internal convenience method. Returns the current style downcasted to {@link ThemedMapStyle}.
+   * Users of this method should first check that the style is a {@link ThemedMapStyle}.
+   * @return
+   */
+  private ThemedMapStyle getThemedMapStyle() {
+    return (ThemedMapStyle) mapStateManager.getMapStyle();
+  }
+
+  /**
+   * Checks the given label level against the current map style to determine if the level is
+   * supported by the theme. Users of this method should first check that the style is a
+   * {@link ThemedMapStyle}.
+   * @param labelLevel
+   * @return
+   */
+  private boolean isValidLabelLevel(int labelLevel) {
+    return labelLevel >= 0 && labelLevel < getThemedMapStyle().getLabelCount();
+  }
+
+  /**
+   * Checks the given detail level against the current map style to determine if the level is
+   * supported by the theme. Users of this method should first check that the style is a
+   * {@link ThemedMapStyle}.
+   * @param detailLevel
+   * @return
+   */
+  private boolean isValidDetailLevel(int detailLevel) {
+    return detailLevel >= 0 && detailLevel < getThemedMapStyle().getDetailCount();
+  }
+
+  /**
+   * Checks the given theme color against the current map style to determine if the color is
+   * supported by the theme. Users of this method should first check that the style is a
+   * {@link ThemedMapStyle}.
+   * @param color
+   * @return
+   */
+  private boolean isValidColor(ThemeColor color) {
+    return getThemedMapStyle().getColors().contains(color);
+  }
 }

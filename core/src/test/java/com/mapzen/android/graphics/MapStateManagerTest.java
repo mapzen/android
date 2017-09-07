@@ -3,6 +3,7 @@ package com.mapzen.android.graphics;
 import com.mapzen.android.graphics.model.BubbleWrapStyle;
 import com.mapzen.android.graphics.model.CameraType;
 import com.mapzen.android.graphics.model.RefillStyle;
+import com.mapzen.android.graphics.model.ThemeColor;
 import com.mapzen.tangram.LngLat;
 
 import org.junit.Test;
@@ -103,5 +104,32 @@ public class MapStateManagerTest {
   @Test public void setPathOverlayEnabled_shouldUpdatePathOverlayEnabled() {
     stateManager.setPathOverlayEnabled(true);
     assertThat(stateManager.isPathOverlayEnabled()).isEqualTo(true);
+  }
+
+  @Test public void getLabelLevel_shouldDefaultToZero() {
+    assertThat(stateManager.getLabelLevel()).isEqualTo(0);
+  }
+
+  @Test public void setLabelLevel_shouldUpdateLabelLevel() {
+    stateManager.setLabelLevel(4);
+    assertThat(stateManager.getLabelLevel()).isEqualTo(4);
+  }
+
+  @Test public void getDetailLevel_shouldDefaultToZero() {
+    assertThat(stateManager.getDetailLevel()).isEqualTo(0);
+  }
+
+  @Test public void setDetailLevel_shouldUpdateDetailLevel() {
+    stateManager.setDetailLevel(8);
+    assertThat(stateManager.getDetailLevel()).isEqualTo(8);
+  }
+
+  @Test public void getThemeColor_shouldDefaultToNull() {
+    assertThat(stateManager.getThemeColor()).isNull();
+  }
+
+  @Test public void setThemeColor_shouldUpdateThemeColor() {
+    stateManager.setThemeColor(ThemeColor.GRAY);
+    assertThat(stateManager.getThemeColor()).isEqualTo(ThemeColor.GRAY);
   }
 }
