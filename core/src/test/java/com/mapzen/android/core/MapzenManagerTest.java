@@ -75,6 +75,14 @@ public class MapzenManagerTest {
     assertThat(MapzenManager.getSdkVersion()).isNotEmpty();
   }
 
+  @Test public void weakAddApiKeyChangeListener_shouldAddListener() throws Exception {
+    MapzenManager manager = MapzenManager.instance(getMockContext());
+    TestApiKeyListener listener = new TestApiKeyListener();
+    manager.weakAddApiKeyChangeListener(listener);
+    manager.setApiKey("key");
+    assertThat(listener.key).isEqualTo("key");
+  }
+
   private class TestResources extends Resources {
     private String testApiKey;
 
@@ -110,6 +118,15 @@ public class MapzenManagerTest {
 
     @NonNull @Override public String getString(int id) throws NotFoundException {
       throw new NotFoundException();
+    }
+  }
+
+  private class TestApiKeyListener implements ApiKeyChangeListener {
+
+    String key;
+
+    @Override public void onApiKeyChanged(String apiKey) {
+      key = apiKey;
     }
   }
 }
