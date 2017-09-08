@@ -1,7 +1,12 @@
 package com.mapzen.android.routing;
 
+import com.mapzen.android.core.ApiKeyChangeListener;
+import com.mapzen.android.core.DI;
 import com.mapzen.android.core.GenericHttpHandler;
+import com.mapzen.android.core.MapzenManager;
 import com.mapzen.valhalla.HttpHandler;
+
+import android.content.Context;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -26,19 +31,28 @@ public abstract class MapzenRouterHttpHandler implements GenericHttpHandler {
   public static final LogLevel DEFAULT_LOG_LEVEL = MapzenRouterHttpHandler.getDefaultLogLevel();
   private TurnByTurnHttpHandler handler;
   ChainProceder chainProceder = new ChainProceder();
+  MapzenManager mapzenManager;
+  ApiKeyChangeListener apiKeyChangeListener = new ApiKeyChangeListener() {
+    @Override public void onApiKeyChanged(String apiKey) {
+      handler.setApiKey(apiKey);
+    }
+  };
 
   /**
    * Construct handler with default url and log levels.
    */
-  public MapzenRouterHttpHandler() {
-    handler = new TurnByTurnHttpHandler(DEFAULT_URL, DEFAULT_LOG_LEVEL);
+  public MapzenRouterHttpHandler(Context context) {
+    this(context, DEFAULT_URL, DEFAULT_LOG_LEVEL);
   }
 
   /**
    * Construct handler with custom url and log levels.
    */
-  public MapzenRouterHttpHandler(String url, LogLevel logLevel) {
+  public MapzenRouterHttpHandler(Context context, String url, LogLevel logLevel) {
     handler = new TurnByTurnHttpHandler(url, logLevel);
+    mapzenManager = MapzenManager.instance(context);
+    mapzenManager.weakAddApiKeyChangeListener(apiKeyChangeListener);
+    handler.setApiKey(mapzenManager.getApiKey());
   }
 
   /**
