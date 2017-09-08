@@ -62,7 +62,7 @@ import dagger.Provides;
    * Provide initializer for configuring {@link com.mapzen.android.search.MapzenSearch} objects.
    * @return
    */
-  @Provides @Singleton public SearchInitializer provideSearchInitializer() {
-    return new SearchInitializer();
+  @Provides @Singleton public SearchInitializer provideSearchInitializer(Context context) {
+    return new SearchInitializer(context);
   }
 }

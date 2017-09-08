@@ -27,7 +27,7 @@ public class MapzenSearch {
   public MapzenSearch(Context context) {
     initDI(context);
     internalSearch = new Pelias();
-    searchInitializer.initSearch(this, context);
+    searchInitializer.initSearch(this);
   }
 
   /**
@@ -37,7 +37,7 @@ public class MapzenSearch {
   public MapzenSearch(Context context, Pelias pelias) {
     initDI(context);
     internalSearch = pelias;
-    searchInitializer.initSearch(this, context);
+    searchInitializer.initSearch(this);
   }
 
   private void initDI(Context context) {

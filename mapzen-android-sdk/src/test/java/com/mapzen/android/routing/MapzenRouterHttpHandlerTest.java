@@ -62,6 +62,20 @@ public class MapzenRouterHttpHandlerTest {
     verify(proceder).proceed(chain, params, headers);
   }
 
+  @Test public void init_shouldUpdateApiKey() throws Exception {
+    MapzenManager.instance(context).setApiKey("updated-mapzen-api-key");
+    MapzenRouterHttpHandler.ChainProceder proceder = mock(
+        MapzenRouterHttpHandler.ChainProceder.class);
+    httpHandler.chainProceder = proceder;
+    Interceptor.Chain chain = mock(Interceptor.Chain.class);
+    httpHandler.turnByTurnHandler().onRequest(chain);
+    Map params = new HashMap();
+    params.put(NAME_API_KEY, "updated-mapzen-api-key");
+    Map headers = new HashMap();
+    headers.put(HEADER_USER_AGENT, USER_AGENT);
+    verify(proceder).proceed(chain, params, headers);
+  }
+
   @Test public void onRequest_shouldProceedWithDefaultParamsAndHeaders() throws Exception {
     httpHandler.turnByTurnHandler().setApiKey("test-key");
     MapzenRouterHttpHandler.ChainProceder proceder = mock(

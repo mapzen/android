@@ -31,7 +31,6 @@ public abstract class MapzenRouterHttpHandler implements GenericHttpHandler {
   public static final LogLevel DEFAULT_LOG_LEVEL = MapzenRouterHttpHandler.getDefaultLogLevel();
   private TurnByTurnHttpHandler handler;
   ChainProceder chainProceder = new ChainProceder();
-  MapzenManager mapzenManager;
   ApiKeyChangeListener apiKeyChangeListener = new ApiKeyChangeListener() {
     @Override public void onApiKeyChanged(String apiKey) {
       handler.setApiKey(apiKey);
@@ -50,7 +49,7 @@ public abstract class MapzenRouterHttpHandler implements GenericHttpHandler {
    */
   public MapzenRouterHttpHandler(Context context, String url, LogLevel logLevel) {
     handler = new TurnByTurnHttpHandler(url, logLevel);
-    mapzenManager = MapzenManager.instance(context);
+    MapzenManager mapzenManager = MapzenManager.instance(context);
     mapzenManager.weakAddApiKeyChangeListener(apiKeyChangeListener);
     handler.setApiKey(mapzenManager.getApiKey());
   }
