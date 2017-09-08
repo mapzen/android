@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import static com.mapzen.TestHelper.getMockContext;
 import static com.mapzen.android.graphics.SceneUpdateManager.STYLE_GLOBAL_VAR_API_KEY;
 import static com.mapzen.android.graphics.SceneUpdateManager.STYLE_GLOBAL_VAR_BIKE_OVERLAY;
 import static com.mapzen.android.graphics.SceneUpdateManager.STYLE_GLOBAL_VAR_LANGUAGE;
@@ -716,6 +717,17 @@ public class MapzenMapTest {
     when(mapzenMapHandler.httpHandler()).thenReturn(handler);
     map.setHttpHandler(mapzenMapHandler);
     verify(mapController).setHttpHandler(handler);
+  }
+
+  @Test public void updatedApiKey_shouldCreateSceneUpdate() throws Exception {
+    MapzenManager manager = MapzenManager.instance(getMockContext());
+    manager.setApiKey("key");
+    new MapzenMap(mapView, mapController, overlayManager, mapStateManager, labelPickHandler,
+        bitmapMarkerManager, sceneUpdateManager, locale, manager);
+    manager.setApiKey("updated-key");
+    List<SceneUpdate> updates = new ArrayList<>();
+    updates.add(new SceneUpdate(STYLE_GLOBAL_VAR_API_KEY, "updated-key"));
+    verify(mapController).updateSceneAsync(argThat(new SceneUpdatesMatcher(updates)));
   }
 
   public class TestRotateResponder implements TouchInput.RotateResponder {

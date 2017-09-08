@@ -54,4 +54,10 @@ public class SceneUpdateManagerTest {
     assertThat(update.getPath()).isEqualTo("global.sdk_path_overlay");
     assertThat(update.getValue()).isEqualTo("true");
   }
+
+  @Test public void getApiKeyUpdate_shouldReturnCorrectKeysAndValues() {
+    SceneUpdate update = manager.getApiKeyUpdate("api-key");
+    assertThat(update.getPath()).isEqualTo("global.sdk_mapzen_api_key");
+    assertThat(update.getValue()).isEqualTo("api-key");
+  }
 }

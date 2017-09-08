@@ -26,7 +26,7 @@ class SceneUpdateManager {
   List<SceneUpdate> getUpdatesFor(String apiKey, Locale locale, boolean transitOverlayEnabled,
       boolean bikeOverlayEnabled, boolean pathOverlayEnabled) {
     final ArrayList<SceneUpdate> sceneUpdates = new ArrayList<>(2);
-    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_API_KEY, apiKey));
+    sceneUpdates.add(getApiKeyUpdate(apiKey));
     sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_LANGUAGE, locale.getLanguage()));
     sceneUpdates.add(getTransitOverlayUpdate(transitOverlayEnabled));
     sceneUpdates.add(getBikeOverlayUpdate(bikeOverlayEnabled));
@@ -62,5 +62,14 @@ class SceneUpdateManager {
   SceneUpdate getPathOverlayUpdate(boolean pathOverlayEnabled) {
     return new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, String.valueOf(
         pathOverlayEnabled));
+  }
+
+  /**
+   * Creates a {@link SceneUpdate} for the API key.
+   * @param apiKey
+   * @return
+   */
+  SceneUpdate getApiKeyUpdate(String apiKey) {
+    return new SceneUpdate(STYLE_GLOBAL_VAR_API_KEY, apiKey);
   }
 }

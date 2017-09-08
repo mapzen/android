@@ -1,5 +1,6 @@
 package com.mapzen.android.graphics;
 
+import com.mapzen.android.core.ApiKeyChangeListener;
 import com.mapzen.android.core.MapzenManager;
 import com.mapzen.android.graphics.internal.StyleStringGenerator;
 import com.mapzen.android.graphics.model.BitmapMarker;
@@ -147,6 +148,14 @@ public class MapzenMap {
     }
   };
 
+  ApiKeyChangeListener apiKeyChangeListener = new ApiKeyChangeListener() {
+    @Override public void onApiKeyChanged(String apiKey) {
+      List<SceneUpdate> updates = new ArrayList<>();
+      updates.add(sceneUpdateManager.getApiKeyUpdate(apiKey));
+      mapController.updateSceneAsync(updates);
+    }
+  };
+
   /**
    * Creates a new map based on the given {@link MapView} and {@link MapController}.
    */
@@ -164,6 +173,7 @@ public class MapzenMap {
     this.sceneUpdateManager = sceneUpdateManager;
     this.locale = locale;
     this.mapzenManager = mapzenManager;
+    this.mapzenManager.weakAddApiKeyChangeListener(apiKeyChangeListener);
     mapView.setMapzenMap(this);
     mapController.setPanResponder(internalPanResponder);
     mapController.setRotateResponder(internalRotateResponder);
