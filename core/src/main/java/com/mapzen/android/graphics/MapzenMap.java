@@ -28,6 +28,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -148,13 +149,14 @@ public class MapzenMap {
     }
   };
 
-  ApiKeyChangeListener apiKeyChangeListener = new ApiKeyChangeListener() {
-    @Override public void onApiKeyChanged(String apiKey) {
-      List<SceneUpdate> updates = new ArrayList<>();
-      updates.add(sceneUpdateManager.getApiKeyUpdate(apiKey));
-      mapController.updateSceneAsync(updates);
-    }
-  };
+  WeakReference<ApiKeyChangeListener> apiKeyChangeListener = new WeakReference(
+      new ApiKeyChangeListener() {
+        @Override public void onApiKeyChanged(String apiKey) {
+          List<SceneUpdate> updates = new ArrayList<>();
+          updates.add(sceneUpdateManager.getApiKeyUpdate(apiKey));
+          mapController.updateSceneAsync(updates);
+        }
+      });
 
   /**
    * Creates a new map based on the given {@link MapView} and {@link MapController}.
@@ -173,7 +175,7 @@ public class MapzenMap {
     this.sceneUpdateManager = sceneUpdateManager;
     this.locale = locale;
     this.mapzenManager = mapzenManager;
-    this.mapzenManager.weakAddApiKeyChangeListener(apiKeyChangeListener);
+    this.mapzenManager.addApiKeyChangeListener(apiKeyChangeListener);
     mapView.setMapzenMap(this);
     mapController.setPanResponder(internalPanResponder);
     mapController.setRotateResponder(internalRotateResponder);

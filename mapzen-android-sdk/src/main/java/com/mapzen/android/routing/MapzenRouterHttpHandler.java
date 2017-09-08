@@ -9,6 +9,7 @@ import com.mapzen.valhalla.HttpHandler;
 import android.content.Context;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,11 +32,12 @@ public abstract class MapzenRouterHttpHandler implements GenericHttpHandler {
   public static final LogLevel DEFAULT_LOG_LEVEL = MapzenRouterHttpHandler.getDefaultLogLevel();
   private TurnByTurnHttpHandler handler;
   ChainProceder chainProceder = new ChainProceder();
-  ApiKeyChangeListener apiKeyChangeListener = new ApiKeyChangeListener() {
-    @Override public void onApiKeyChanged(String apiKey) {
-      handler.setApiKey(apiKey);
-    }
-  };
+  WeakReference<ApiKeyChangeListener> apiKeyChangeListener = new WeakReference(
+      new ApiKeyChangeListener() {
+        @Override public void onApiKeyChanged(String apiKey) {
+          handler.setApiKey(apiKey);
+        }
+      });
 
   /**
    * Construct handler with default url and log levels.
@@ -50,7 +52,7 @@ public abstract class MapzenRouterHttpHandler implements GenericHttpHandler {
   public MapzenRouterHttpHandler(Context context, String url, LogLevel logLevel) {
     handler = new TurnByTurnHttpHandler(url, logLevel);
     MapzenManager mapzenManager = MapzenManager.instance(context);
-    mapzenManager.weakAddApiKeyChangeListener(apiKeyChangeListener);
+    mapzenManager.addApiKeyChangeListener(apiKeyChangeListener);
     handler.setApiKey(mapzenManager.getApiKey());
   }
 

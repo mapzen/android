@@ -99,11 +99,12 @@ public class MapzenManager {
   }
 
   /**
-   * Adds a weak reference to the listener so that it can be notified when API key changes occur.
-   * @param listener
+   * Adds listener to list of managed callbacks so that it can be notified when API key changes
+   * occur.
+   * @param listenerReference
    */
-  public void weakAddApiKeyChangeListener(ApiKeyChangeListener listener) {
-    Collections.synchronizedList(listeners).add(new WeakReference(listener));
+  public void addApiKeyChangeListener(WeakReference<ApiKeyChangeListener> listenerReference) {
+    Collections.synchronizedList(listeners).add(listenerReference);
   }
 
   private void notifyListeners() {
