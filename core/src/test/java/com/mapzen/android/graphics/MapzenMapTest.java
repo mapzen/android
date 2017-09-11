@@ -736,7 +736,7 @@ public class MapzenMapTest {
     updates.add(new SceneUpdate(STYLE_GLOBAL_VAR_API_KEY, "updated-key"));
     verify(mapController).updateSceneAsync(argThat(new SceneUpdatesMatcher(updates)));
   }
-  
+
   @Test public void setStyle_themedStyle_shouldCallLoadYamlWithThemeDefaults() throws Exception {
     when(mapzenManager.getApiKey()).thenReturn("apiKey");
 
@@ -995,7 +995,6 @@ public class MapzenMapTest {
       throws Exception {
     mapStateManager.setMapStyle(new RefillStyle());
     map.setLabelDetailLevelThemeColor(2, 12, ThemeColor.BLUE);
->>>>>>> Add theme methods to MapzenMap
   }
 
   public class TestRotateResponder implements TouchInput.RotateResponder {
