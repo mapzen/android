@@ -26,7 +26,7 @@ public class MapzenRouter {
    */
   public MapzenRouter(Context context) {
     initDI(context);
-    routerInitializer.initRouter(this, context);
+    routerInitializer.initRouter(this);
   }
 
   private void initDI(Context context) {

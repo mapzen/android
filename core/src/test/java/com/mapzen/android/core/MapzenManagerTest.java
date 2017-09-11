@@ -13,6 +13,8 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 
+import java.lang.ref.WeakReference;
+
 import static com.mapzen.TestHelper.getMockContext;
 import static com.mapzen.android.core.MapzenManager.API_KEY_RES_NAME;
 import static com.mapzen.android.core.MapzenManager.API_KEY_RES_TYPE;
@@ -75,6 +77,15 @@ public class MapzenManagerTest {
     assertThat(MapzenManager.getSdkVersion()).isNotEmpty();
   }
 
+  @Test public void weakAddApiKeyChangeListener_shouldAddListener() throws Exception {
+    MapzenManager manager = MapzenManager.instance(getMockContext());
+    TestApiKeyListener listener = new TestApiKeyListener();
+    WeakReference<ApiKeyChangeListener> listenerReference = new WeakReference(listener);
+    manager.addApiKeyChangeListener(listenerReference);
+    manager.setApiKey("key");
+    assertThat(listener.key).isEqualTo("key");
+  }
+
   private class TestResources extends Resources {
     private String testApiKey;
 
@@ -110,6 +121,15 @@ public class MapzenManagerTest {
 
     @NonNull @Override public String getString(int id) throws NotFoundException {
       throw new NotFoundException();
+    }
+  }
+
+  private class TestApiKeyListener implements ApiKeyChangeListener {
+
+    String key;
+
+    @Override public void onApiKeyChanged(String apiKey) {
+      key = apiKey;
     }
   }
 }

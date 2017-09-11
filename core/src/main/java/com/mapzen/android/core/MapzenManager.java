@@ -5,6 +5,11 @@ import com.mapzen.BuildConfig;
 import android.content.Context;
 import android.content.res.Resources;
 
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * {@code MapzenManager} assists with Mapzen API key management. When created it reads the API key
  * set in string resources if one has been declared by the application.
@@ -32,6 +37,8 @@ public class MapzenManager {
   public static final String API_KEY_DEFAULT_VALUE = "[YOUR_MAPZEN_API_KEY]";
 
   static MapzenManager instance;
+
+  private List<WeakReference<ApiKeyChangeListener>> listeners = new ArrayList<>();
 
   /**
    * Get singleton instance.
@@ -80,6 +87,7 @@ public class MapzenManager {
    */
   public void setApiKey(String apiKey) {
     this.apiKey = apiKey;
+    notifyListeners();
   }
 
   /**
@@ -88,5 +96,24 @@ public class MapzenManager {
    */
   public static String getSdkVersion() {
     return BuildConfig.SDK_VERSION;
+  }
+
+  /**
+   * Adds listener to list of managed callbacks so that it can be notified when API key changes
+   * occur.
+   * @param listenerReference
+   */
+  public void addApiKeyChangeListener(WeakReference<ApiKeyChangeListener> listenerReference) {
+    Collections.synchronizedList(listeners).add(listenerReference);
+  }
+
+  private void notifyListeners() {
+    for (WeakReference<ApiKeyChangeListener> weakReference : Collections.synchronizedList(
+        listeners)) {
+      ApiKeyChangeListener listener = weakReference.get();
+      if (listener != null) {
+        listener.onApiKeyChanged(apiKey);
+      }
+    }
   }
 }

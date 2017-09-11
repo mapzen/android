@@ -45,7 +45,7 @@ public abstract class MapzenMapHttpHandler implements GenericHttpHandler {
     return httpHandler;
   }
 
-  private class InternalHttpHandler extends TmpHttpHandler {
+  private class InternalHttpHandler extends HttpHandler {
 
     public InternalHttpHandler(File directory, long maxSize) {
       super(directory, maxSize);

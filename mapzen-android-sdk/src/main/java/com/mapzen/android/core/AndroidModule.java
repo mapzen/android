@@ -43,7 +43,7 @@ import dagger.Provides;
   /**
    * Provides HTTP handler to append API key to outgoing turn-by-turn requests.
    */
-  @Provides @Singleton public RouterInitializer provideRouterInitializer() {
-    return new RouterInitializer();
+  @Provides @Singleton public RouterInitializer provideRouterInitializer(Context context) {
+    return new RouterInitializer(context);
   }
 }
