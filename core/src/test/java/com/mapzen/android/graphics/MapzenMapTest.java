@@ -730,7 +730,7 @@ public class MapzenMapTest {
     MapzenManager manager = MapzenManager.instance(getMockContext());
     manager.setApiKey("key");
     new MapzenMap(mapView, mapController, overlayManager, mapStateManager, labelPickHandler,
-        bitmapMarkerManager, sceneUpdateManager, locale, manager);
+        bitmapMarkerManager, sceneUpdateManager, locale, manager, yamlGenerator);
     manager.setApiKey("updated-key");
     List<SceneUpdate> updates = new ArrayList<>();
     updates.add(new SceneUpdate(STYLE_GLOBAL_VAR_API_KEY, "updated-key"));
