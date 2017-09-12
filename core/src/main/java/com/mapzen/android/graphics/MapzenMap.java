@@ -149,6 +149,13 @@ public class MapzenMap {
       = new MapController.SceneLoadListener() {
     @Override public void onSceneReady(int sceneId, SceneError sceneError) {
       bitmapMarkerManager.restoreMarkers();
+      if (sceneId == currSceneId) {
+        if (styleLoadedListener != null) {
+          styleLoadedListener.onStyleLoaded();
+          styleLoadedListener = null;
+        }
+        currSceneId = Integer.MIN_VALUE;
+      }
     }
   };
 
@@ -160,6 +167,9 @@ public class MapzenMap {
           mapController.updateSceneAsync(updates);
         }
       });
+
+  OnStyleLoadedListener styleLoadedListener = null;
+  int currSceneId = Integer.MIN_VALUE;
 
   /**
    * Creates a new map based on the given {@link MapView} and {@link MapController}.
@@ -205,15 +215,15 @@ public class MapzenMap {
    * Sets the map's underlying stylesheet.
    */
   public void setStyle(MapStyle mapStyle) {
-    mapStateManager.setMapStyle(mapStyle);
-    if (currentMapStyleIsThemed()) {
-      mapStateManager.setLabelLevel(getThemedMapStyle().getDefaultLabelLevel());
-      mapStateManager.setLod(getThemedMapStyle().getDefaultLod());
-      mapStateManager.setThemeColor(getThemedMapStyle().getDefaultColor());
-      loadSceneYaml();
-    } else {
-      loadSceneFile();
-    }
+    internalSetStyle(mapStyle, false);
+  }
+
+  /**
+   * Sets the map's underlying stylesheet asynchronously.
+   */
+  public void setStyleAsync(MapStyle mapStyle, OnStyleLoadedListener listener) {
+    styleLoadedListener = listener;
+    currSceneId = internalSetStyle(mapStyle, true);
   }
 
   /**
@@ -1065,25 +1075,54 @@ public class MapzenMap {
   }
 
   /**
+   * Sets the {@link MapStyle} and relevant theme configuration for {@link ThemedMapStyle}s. Loads
+   * the scene file either synchronously or asynchronously and returns the sceneId.
+   * @param mapStyle
+   * @param async
+   * @return
+   */
+  private int internalSetStyle(MapStyle mapStyle, boolean async) {
+    mapStateManager.setMapStyle(mapStyle);
+    if (currentMapStyleIsThemed()) {
+      mapStateManager.setLabelLevel(getThemedMapStyle().getDefaultLabelLevel());
+      mapStateManager.setLod(getThemedMapStyle().getDefaultLod());
+      mapStateManager.setThemeColor(getThemedMapStyle().getDefaultColor());
+      return loadSceneYaml(async);
+    } else {
+      return loadSceneFile(async);
+    }
+  }
+
+  /**
    * Internal convenience method for loading scene file when the current style is a
    * {@link MapStyle}.
-   * Applies all global scene updates.
+   * Applies all global scene updates. Loads asynchronously or
+   * synchronously. Returns the sceneId for the {@link MapController} scene update.
    */
-  private void loadSceneFile() {
-    mapController.loadSceneFile(mapStateManager.getMapStyle().getSceneFile(),
-        getGlobalSceneUpdates());
+  private int loadSceneFile(boolean async) {
+    if (async) {
+      return mapController.loadSceneFileAsync(mapStateManager.getMapStyle().getSceneFile(),
+          getGlobalSceneUpdates());
+    } else {
+      return mapController.loadSceneFile(mapStateManager.getMapStyle().getSceneFile(),
+          getGlobalSceneUpdates());
+    }
   }
 
   /**
    * Internal convenience method for loading scene yaml when the current style is a
-   * {@link ThemedMapStyle}. Applies all global scene updates.
-   * applied.
+   * {@link ThemedMapStyle}. Applies all global scene updates. Loads asynchronously or
+   * synchronously. Returns the sceneId for the {@link MapController} scene update.
    */
-  private void loadSceneYaml() {
+  private int loadSceneYaml(boolean async) {
     String yaml = yamlGenerator.getImportYaml(getThemedMapStyle(), mapStateManager.getLabelLevel(),
         mapStateManager.getLod(), mapStateManager.getThemeColor());
     String resourceRoot = getThemedMapStyle().getStyleRootPath();
-    mapController.loadSceneYaml(yaml, resourceRoot, getGlobalSceneUpdates());
+    if (async) {
+      return mapController.loadSceneYamlAsync(yaml, resourceRoot, getGlobalSceneUpdates());
+    } else {
+      return mapController.loadSceneYaml(yaml, resourceRoot, getGlobalSceneUpdates());
+    }
   }
 
   /**
@@ -1164,6 +1203,6 @@ public class MapzenMap {
     mapStateManager.setLabelLevel(labelLevel);
     mapStateManager.setLod(detailLevel);
     mapStateManager.setThemeColor(color);
-    loadSceneYaml();
+    loadSceneYaml(false);
   }
 }

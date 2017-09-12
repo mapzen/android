@@ -43,6 +43,7 @@ import static com.mapzen.android.graphics.SceneUpdateManager.STYLE_GLOBAL_VAR_TR
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyFloat;
+import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Matchers.eq;
@@ -658,8 +659,31 @@ public class MapzenMapTest {
 
   @Test public void setStyle_shouldSetStyleAndGlobalVariables() throws Exception {
     map.setStyle(new WalkaboutStyle());
-    verify(mapController).loadSceneFile(
-        anyString(), any(List.class));
+    verify(mapController).loadSceneFile(anyString(), any(List.class));
+  }
+
+  @Test public void setStyle_shouldNotCallMapControllerAsyncMethod() throws Exception {
+    map.setStyle(new WalkaboutStyle());
+    verify(mapController, never()).loadSceneFileAsync(anyString(), any(List.class));
+  }
+
+  @Test public void setStyleAsync_shouldSetStyleAndGlobalVariables() throws Exception {
+    map.setStyleAsync(new WalkaboutStyle(), null);
+    verify(mapController).loadSceneFileAsync(anyString(), any(List.class));
+  }
+
+  @Test public void setStyleAsync_shouldCallListenerOnSceneLoaded() throws Exception {
+    int sceneId = 1;
+    when(mapController.loadSceneFileAsync(anyString(), anyList())).thenReturn(sceneId);
+    TestOnStyleLoadedListener listener = new TestOnStyleLoadedListener();
+    map.setStyleAsync(new WalkaboutStyle(), listener);
+    map.internalSceneLoadListener.onSceneReady(sceneId, null);
+    assertThat(listener.loaded).isTrue();
+  }
+
+  @Test public void setStyleAsync_shouldNotCallMapControllerSyncMethod() throws Exception {
+    map.setStyleAsync(new WalkaboutStyle(), null);
+    verify(mapController, never()).loadSceneFile(anyString(), any(List.class));
   }
 
   @Test public void overlays_shouldBeDisabledByDefaultExceptPath() throws Exception {
@@ -916,6 +940,15 @@ public class MapzenMapTest {
 
     @Override public void onViewComplete() {
       viewComplete = true;
+    }
+  }
+
+  private class TestOnStyleLoadedListener implements OnStyleLoadedListener {
+
+    boolean loaded = false;
+
+    @Override public void onStyleLoaded() {
+      loaded = true;
     }
   }
 }
