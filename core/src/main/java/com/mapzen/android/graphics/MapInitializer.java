@@ -109,7 +109,7 @@ public class MapInitializer {
     if (mapStyle instanceof ThemedMapStyle) {
       ThemedMapStyle themedMapStyle = (ThemedMapStyle) mapStyle;
       String yaml = yamlGenerator.getImportYaml(themedMapStyle, mapStateManager.getLabelLevel(),
-          mapStateManager.getDetailLevel(), mapStateManager.getThemeColor());
+          mapStateManager.getLod(), mapStateManager.getThemeColor());
       controller.loadSceneYamlAsync(yaml, themedMapStyle.getStyleRootPath(), sceneUpdates);
     } else {
       controller.loadSceneFileAsync(mapStyle.getSceneFile(), sceneUpdates);

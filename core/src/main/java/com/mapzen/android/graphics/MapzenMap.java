@@ -208,7 +208,7 @@ public class MapzenMap {
     mapStateManager.setMapStyle(mapStyle);
     if (currentMapStyleIsThemed()) {
       mapStateManager.setLabelLevel(getThemedMapStyle().getDefaultLabelLevel());
-      mapStateManager.setDetailLevel(getThemedMapStyle().getDefaultDetailLevel());
+      mapStateManager.setLod(getThemedMapStyle().getDefaultLod());
       mapStateManager.setThemeColor(getThemedMapStyle().getDefaultColor());
       loadSceneYaml();
     } else {
@@ -224,8 +224,8 @@ public class MapzenMap {
    * @param labelLevel
    */
   public void setStyleAndLabelLevel(ThemedMapStyle themedMapStyle, int labelLevel) {
-    setStyleLabelDetailLevelThemeColor(themedMapStyle, labelLevel,
-        themedMapStyle.getDefaultDetailLevel(), themedMapStyle.getDefaultColor());
+    setStyleLabelLevelLodThemeColor(themedMapStyle, labelLevel,
+        themedMapStyle.getDefaultLod(), themedMapStyle.getDefaultColor());
   }
 
   /**
@@ -235,8 +235,8 @@ public class MapzenMap {
    * @param themedMapStyle
    * @param detailLevel
    */
-  public void setStyleAndDetailLevel(ThemedMapStyle themedMapStyle, int detailLevel) {
-    setStyleLabelDetailLevelThemeColor(themedMapStyle, themedMapStyle.getDefaultLabelLevel(),
+  public void setStyleAndLod(ThemedMapStyle themedMapStyle, int detailLevel) {
+    setStyleLabelLevelLodThemeColor(themedMapStyle, themedMapStyle.getDefaultLabelLevel(),
         detailLevel, themedMapStyle.getDefaultColor());
   }
 
@@ -246,8 +246,8 @@ public class MapzenMap {
    * @param color
    */
   public void setStyleAndThemeColor(ThemedMapStyle themedMapStyle, ThemeColor color) {
-    setStyleLabelDetailLevelThemeColor(themedMapStyle, themedMapStyle.getDefaultLabelLevel(),
-        themedMapStyle.getDefaultDetailLevel(), color);
+    setStyleLabelLevelLodThemeColor(themedMapStyle, themedMapStyle.getDefaultLabelLevel(),
+        themedMapStyle.getDefaultLod(), color);
   }
 
   /**
@@ -258,10 +258,10 @@ public class MapzenMap {
    * @param detailLevel
    * @param color
    */
-  public void setStyleLabelDetailLevelThemeColor(ThemedMapStyle themedMapStyle, int labelLevel,
+  public void setStyleLabelLevelLodThemeColor(ThemedMapStyle themedMapStyle, int labelLevel,
       int detailLevel, ThemeColor color) {
     mapStateManager.setMapStyle(themedMapStyle);
-    setLabelDetailLevelThemeColor(labelLevel, detailLevel, color);
+    setLabelLevelLodThemeColor(labelLevel, detailLevel, color);
   }
 
   /**
@@ -1081,7 +1081,7 @@ public class MapzenMap {
    */
   private void loadSceneYaml() {
     String yaml = yamlGenerator.getImportYaml(getThemedMapStyle(), mapStateManager.getLabelLevel(),
-        mapStateManager.getDetailLevel(), mapStateManager.getThemeColor());
+        mapStateManager.getLod(), mapStateManager.getThemeColor());
     String resourceRoot = getThemedMapStyle().getStyleRootPath();
     mapController.loadSceneYaml(yaml, resourceRoot, getGlobalSceneUpdates());
   }
@@ -1119,11 +1119,11 @@ public class MapzenMap {
    * Checks the given detail level against the current map style to determine if the level is
    * supported by the theme. Users of this method should first check that the style is a
    * {@link ThemedMapStyle}.
-   * @param detailLevel
+   * @param lod
    * @return
    */
-  private boolean isValidDetailLevel(int detailLevel) {
-    return detailLevel >= 0 && detailLevel < getThemedMapStyle().getDetailCount();
+  private boolean isValidLod(int lod) {
+    return lod >= 0 && lod < getThemedMapStyle().getLodCount();
   }
 
   /**
@@ -1147,13 +1147,13 @@ public class MapzenMap {
    * @param detailLevel
    * @param color
    */
-  private void setLabelDetailLevelThemeColor(int labelLevel, int detailLevel,
+  private void setLabelLevelLodThemeColor(int labelLevel, int detailLevel,
       ThemeColor color) {
     if (!isValidLabelLevel(labelLevel)) {
       throw new IllegalArgumentException("Invalid label level for " +
           getThemedMapStyle().getClass().getSimpleName());
     }
-    if (!isValidDetailLevel(detailLevel)) {
+    if (!isValidLod(detailLevel)) {
       throw new IllegalArgumentException("Invalid detail level for " +
           getThemedMapStyle().getClass().getSimpleName());
     }
@@ -1162,7 +1162,7 @@ public class MapzenMap {
           getThemedMapStyle().getClass().getSimpleName());
     }
     mapStateManager.setLabelLevel(labelLevel);
-    mapStateManager.setDetailLevel(detailLevel);
+    mapStateManager.setLod(detailLevel);
     mapStateManager.setThemeColor(color);
     loadSceneYaml();
   }

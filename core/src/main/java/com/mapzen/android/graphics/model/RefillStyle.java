@@ -57,11 +57,11 @@ public class RefillStyle extends ThemedMapStyle {
     return "themes/";
   }
 
-  @Override public int getDefaultDetailLevel() {
+  @Override public int getDefaultLod() {
     return 10;
   }
 
-  @Override public int getDetailCount() {
+  @Override public int getLodCount() {
     return 12;
   }
 

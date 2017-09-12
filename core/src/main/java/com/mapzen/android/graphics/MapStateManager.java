@@ -16,7 +16,7 @@ class MapStateManager {
   private LngLat position = new LngLat(0, 0);
   private MapStyle mapStyle = new BubbleWrapStyle();
   private int labelLevel = 0;
-  private int detailLevel = 0;
+  private int lod = 0;
   private ThemeColor themeColor = null;
   private float zoom = 0;
   private float rotation = 0;
@@ -58,12 +58,12 @@ class MapStateManager {
     return this.labelLevel;
   }
 
-  public void setDetailLevel(int detailLevel) {
-    this.detailLevel = detailLevel;
+  public void setLod(int lod) {
+    this.lod = lod;
   }
 
-  public int getDetailLevel() {
-    return this.detailLevel;
+  public int getLod() {
+    return this.lod;
   }
 
   public void setThemeColor(ThemeColor color) {

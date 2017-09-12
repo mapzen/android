@@ -40,7 +40,7 @@ public abstract class ThemedMapStyle extends MapStyle {
    * Returns the default detail level for the style.
    * @return
    */
-  public abstract int getDefaultDetailLevel();
+  public abstract int getDefaultLod();
 
   /**
    * Returns the total number of detail levels for the style. Detail theme filenames should be
@@ -48,7 +48,7 @@ public abstract class ThemedMapStyle extends MapStyle {
    * ie "detail-8.yaml"
    * @return
    */
-  public abstract int getDetailCount();
+  public abstract int getLodCount();
 
   /**
    * Returns the default label level for the style.

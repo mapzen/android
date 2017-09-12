@@ -40,12 +40,12 @@ public class RefillStyleTest {
     assertThat(style.getThemesPath()).isEqualTo("themes/");
   }
 
-  @Test public void getDefaultDetailLevel_shouldReturnCorrectValue() throws Exception {
-    assertThat(style.getDefaultDetailLevel()).isEqualTo(10);
+  @Test public void getDefaultLod_shouldReturnCorrectValue() throws Exception {
+    assertThat(style.getDefaultLod()).isEqualTo(10);
   }
 
-  @Test public void getDetailCount_shouldReturnCorrectValue() throws Exception {
-    assertThat(style.getDetailCount()).isEqualTo(12);
+  @Test public void getLodCount_shouldReturnCorrectValue() throws Exception {
+    assertThat(style.getLodCount()).isEqualTo(12);
   }
 
   @Test public void getDefaultLabelLevel_shouldReturnCorrectValue() throws Exception {

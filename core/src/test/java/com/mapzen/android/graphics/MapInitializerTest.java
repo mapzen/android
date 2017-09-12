@@ -162,7 +162,7 @@ public class MapInitializerTest {
     MapzenManager.instance(getMockContext()).setApiKey("fake-mapzen-api-key");
     mapStateManager.setThemeColor(ThemeColor.BLACK);
     mapStateManager.setLabelLevel(10);
-    mapStateManager.setDetailLevel(10);
+    mapStateManager.setLod(10);
 
     // Act
     RefillStyle refillStyle = new RefillStyle();

@@ -743,10 +743,10 @@ public class MapzenMapTest {
 
     assertThat(mapStateManager.getThemeColor()).isEqualTo(refillStyle.getDefaultColor());
     assertThat(mapStateManager.getLabelLevel()).isEqualTo(refillStyle.getDefaultLabelLevel());
-    assertThat(mapStateManager.getDetailLevel()).isEqualTo(refillStyle.getDefaultDetailLevel());
+    assertThat(mapStateManager.getLod()).isEqualTo(refillStyle.getDefaultLod());
 
     String yaml = yamlGenerator.getImportYaml(refillStyle, mapStateManager.getLabelLevel(),
-        mapStateManager.getDetailLevel(), mapStateManager.getThemeColor());
+        mapStateManager.getLod(), mapStateManager.getThemeColor());
     String resourceRoot = refillStyle.getStyleRootPath();
     List<SceneUpdate> sceneUpdates = new ArrayList<>();
     sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_API_KEY, "apiKey"));
@@ -766,10 +766,10 @@ public class MapzenMapTest {
 
     assertThat(mapStateManager.getThemeColor()).isEqualTo(refillStyle.getDefaultColor());
     assertThat(mapStateManager.getLabelLevel()).isEqualTo(8);
-    assertThat(mapStateManager.getDetailLevel()).isEqualTo(refillStyle.getDefaultDetailLevel());
+    assertThat(mapStateManager.getLod()).isEqualTo(refillStyle.getDefaultLod());
 
     String yaml = yamlGenerator.getImportYaml(refillStyle, 8,
-        mapStateManager.getDetailLevel(), mapStateManager.getThemeColor());
+        mapStateManager.getLod(), mapStateManager.getThemeColor());
     String resourceRoot = refillStyle.getStyleRootPath();
     List<SceneUpdate> sceneUpdates = new ArrayList<>();
     sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_API_KEY, "apiKey"));
@@ -791,15 +791,15 @@ public class MapzenMapTest {
     map.setStyleAndLabelLevel(new RefillStyle(), 12);
   }
 
-  @Test public void setStyleAndDetailLevel_shouldCallLoadYamlWithCorrectValues() throws Exception {
+  @Test public void setStyleAndLod_shouldCallLoadYamlWithCorrectValues() throws Exception {
     when(mapzenManager.getApiKey()).thenReturn("apiKey");
 
     RefillStyle refillStyle = new RefillStyle();
-    map.setStyleAndDetailLevel(refillStyle, 8);
+    map.setStyleAndLod(refillStyle, 8);
 
     assertThat(mapStateManager.getThemeColor()).isEqualTo(refillStyle.getDefaultColor());
     assertThat(mapStateManager.getLabelLevel()).isEqualTo(refillStyle.getDefaultLabelLevel());
-    assertThat(mapStateManager.getDetailLevel()).isEqualTo(8);
+    assertThat(mapStateManager.getLod()).isEqualTo(8);
 
     String yaml = yamlGenerator.getImportYaml(refillStyle, mapStateManager.getLabelLevel(),
         8, mapStateManager.getThemeColor());
@@ -815,13 +815,13 @@ public class MapzenMapTest {
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void setStyleAndDetailLevel_shouldVerifyLowValue() throws Exception {
-    map.setStyleAndDetailLevel(new RefillStyle(), -1);
+  public void setStyleAndLod_shouldVerifyLowValue() throws Exception {
+    map.setStyleAndLod(new RefillStyle(), -1);
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void setStyleAndDetailLevel_shouldVerifyHighValue() throws Exception {
-    map.setStyleAndDetailLevel(new RefillStyle(), 12);
+  public void setStyleAndLod_shouldVerifyHighValue() throws Exception {
+    map.setStyleAndLod(new RefillStyle(), 12);
   }
 
   @Test public void setStyleAndThemeColor_shouldCallLoadYamlWithCorrectValues() throws Exception {
@@ -832,10 +832,10 @@ public class MapzenMapTest {
 
     assertThat(mapStateManager.getThemeColor()).isEqualTo(ThemeColor.PINK);
     assertThat(mapStateManager.getLabelLevel()).isEqualTo(refillStyle.getDefaultLabelLevel());
-    assertThat(mapStateManager.getDetailLevel()).isEqualTo(refillStyle.getDefaultDetailLevel());
+    assertThat(mapStateManager.getLod()).isEqualTo(refillStyle.getDefaultLod());
 
     String yaml = yamlGenerator.getImportYaml(refillStyle, mapStateManager.getLabelLevel(),
-        mapStateManager.getDetailLevel(), ThemeColor.PINK);
+        mapStateManager.getLod(), ThemeColor.PINK);
     String resourceRoot = refillStyle.getStyleRootPath();
     List<SceneUpdate> sceneUpdates = new ArrayList<>();
     sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_API_KEY, "apiKey"));
@@ -852,11 +852,11 @@ public class MapzenMapTest {
     when(mapzenManager.getApiKey()).thenReturn("apiKey");
 
     RefillStyle refillStyle = new RefillStyle();
-    map.setStyleLabelDetailLevelThemeColor(refillStyle, 3, 4, ThemeColor.BLUE);
+    map.setStyleLabelLevelLodThemeColor(refillStyle, 3, 4, ThemeColor.BLUE);
 
     assertThat(mapStateManager.getThemeColor()).isEqualTo(ThemeColor.BLUE);
     assertThat(mapStateManager.getLabelLevel()).isEqualTo(3);
-    assertThat(mapStateManager.getDetailLevel()).isEqualTo(4);
+    assertThat(mapStateManager.getLod()).isEqualTo(4);
 
     String yaml = yamlGenerator.getImportYaml(refillStyle, 3, 4, ThemeColor.BLUE);
     String resourceRoot = refillStyle.getStyleRootPath();

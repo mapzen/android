@@ -115,13 +115,13 @@ public class MapStateManagerTest {
     assertThat(stateManager.getLabelLevel()).isEqualTo(4);
   }
 
-  @Test public void getDetailLevel_shouldDefaultToZero() {
-    assertThat(stateManager.getDetailLevel()).isEqualTo(0);
+  @Test public void getLod_shouldDefaultToZero() {
+    assertThat(stateManager.getLod()).isEqualTo(0);
   }
 
   @Test public void setDetailLevel_shouldUpdateDetailLevel() {
-    stateManager.setDetailLevel(8);
-    assertThat(stateManager.getDetailLevel()).isEqualTo(8);
+    stateManager.setLod(8);
+    assertThat(stateManager.getLod()).isEqualTo(8);
   }
 
   @Test public void getThemeColor_shouldDefaultToNull() {
