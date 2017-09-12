@@ -41,7 +41,7 @@ public class RefillStyleTest {
   }
 
   @Test public void getDefaultLod_shouldReturnCorrectValue() throws Exception {
-    assertThat(style.getDefaultLod()).isEqualTo(10);
+    assertThat(style.getDefaultLod()).isEqualTo(5);
   }
 
   @Test public void getLodCount_shouldReturnCorrectValue() throws Exception {
@@ -49,7 +49,7 @@ public class RefillStyleTest {
   }
 
   @Test public void getDefaultLabelLevel_shouldReturnCorrectValue() throws Exception {
-    assertThat(style.getDefaultLabelLevel()).isEqualTo(10);
+    assertThat(style.getDefaultLabelLevel()).isEqualTo(5);
   }
 
   @Test public void getLabelCount_shouldReturnCorrectValue() throws Exception {

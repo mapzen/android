@@ -58,7 +58,7 @@ public class RefillStyle extends ThemedMapStyle {
   }
 
   @Override public int getDefaultLod() {
-    return 10;
+    return 5;
   }
 
   @Override public int getLodCount() {
@@ -66,7 +66,7 @@ public class RefillStyle extends ThemedMapStyle {
   }
 
   @Override public int getDefaultLabelLevel() {
-    return 10;
+    return 5;
   }
 
   @Override public int getLabelCount() {
