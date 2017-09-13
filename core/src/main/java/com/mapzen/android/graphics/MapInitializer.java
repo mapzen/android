@@ -4,6 +4,7 @@ import com.mapzen.android.core.MapzenManager;
 import com.mapzen.android.graphics.model.BubbleWrapStyle;
 import com.mapzen.android.graphics.model.MapStyle;
 import com.mapzen.android.graphics.model.BitmapMarkerManager;
+import com.mapzen.android.graphics.model.ThemedMapStyle;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.SceneError;
 import com.mapzen.tangram.SceneUpdate;
@@ -36,12 +37,15 @@ public class MapInitializer {
 
   private BitmapMarkerManager bitmapMarkerManager;
 
+  private ImportYamlGenerator yamlGenerator;
+
   /**
    * Creates a new instance.
    */
   @Inject MapInitializer(Context context, MapzenMapHttpHandler mapzenMapHttpHandler,
       MapDataManager mapDataManager, MapStateManager mapStateManager,
-      SceneUpdateManager sceneUpdateManager, BitmapMarkerManager bitmapMarkerManager) {
+      SceneUpdateManager sceneUpdateManager, BitmapMarkerManager bitmapMarkerManager,
+      ImportYamlGenerator yamlGenerator) {
     this.context = context;
     this.mapzenMapHttpHandler = mapzenMapHttpHandler;
     this.mapDataManager = mapDataManager;
@@ -49,6 +53,7 @@ public class MapInitializer {
     this.sceneUpdateManager = sceneUpdateManager;
     mapReadyInitializer = new MapReadyInitializer();
     this.bitmapMarkerManager = bitmapMarkerManager;
+    this.yamlGenerator = yamlGenerator;
   }
 
   /**
@@ -85,10 +90,11 @@ public class MapInitializer {
       mapStyle = restoredMapStyle;
     }
     mapStateManager.setMapStyle(mapStyle);
-    loadMap(mapView, mapStyle.getSceneFile(), callback);
+    loadMap(mapView, mapStyle, callback);
   }
 
-  private void loadMap(final MapView mapView, String sceneFile, final OnMapReadyCallback callback) {
+  private void loadMap(final MapView mapView, MapStyle mapStyle,
+      final OnMapReadyCallback callback) {
     final String apiKey = MapzenManager.instance(context).getApiKey();
     final List<SceneUpdate> sceneUpdates = sceneUpdateManager.getUpdatesFor(apiKey, locale,
         mapStateManager.isTransitOverlayEnabled(), mapStateManager.isBikeOverlayEnabled(),
@@ -97,9 +103,16 @@ public class MapInitializer {
         new MapController.SceneLoadListener() {
       @Override public void onSceneReady(int sceneId, SceneError sceneError) {
         mapReadyInitializer.onMapReady(mapView, mapzenMapHttpHandler, callback, mapDataManager,
-            mapStateManager, sceneUpdateManager, locale, bitmapMarkerManager);
+            mapStateManager, sceneUpdateManager, locale, bitmapMarkerManager, yamlGenerator);
       }
     });
-    controller.loadSceneFileAsync(sceneFile, sceneUpdates);
+    if (mapStyle instanceof ThemedMapStyle) {
+      ThemedMapStyle themedMapStyle = (ThemedMapStyle) mapStyle;
+      String yaml = yamlGenerator.getImportYaml(themedMapStyle, mapStateManager.getLabelLevel(),
+          mapStateManager.getLod(), mapStateManager.getThemeColor());
+      controller.loadSceneYamlAsync(yaml, themedMapStyle.getStyleRootPath(), sceneUpdates);
+    } else {
+      controller.loadSceneFileAsync(mapStyle.getSceneFile(), sceneUpdates);
+    }
   }
 }

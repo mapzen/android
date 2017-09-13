@@ -9,6 +9,8 @@ import com.mapzen.android.graphics.model.EaseType;
 import com.mapzen.android.graphics.model.Marker;
 import com.mapzen.android.graphics.model.Polygon;
 import com.mapzen.android.graphics.model.Polyline;
+import com.mapzen.android.graphics.model.RefillStyle;
+import com.mapzen.android.graphics.model.ThemeColor;
 import com.mapzen.android.graphics.model.WalkaboutStyle;
 import com.mapzen.tangram.HttpHandler;
 import com.mapzen.tangram.LabelPickResult;
@@ -43,6 +45,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyFloat;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.argThat;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -66,6 +69,7 @@ public class MapzenMapTest {
   private SceneUpdateManager sceneUpdateManager;
   private Locale locale;
   private MapzenManager mapzenManager;
+  private ImportYamlGenerator yamlGenerator;
 
   @Before public void setUp() throws Exception {
     mapView = new TestMapView();
@@ -91,8 +95,9 @@ public class MapzenMapTest {
     sceneUpdateManager = new SceneUpdateManager();
     locale = new Locale("en_us");
     mapzenManager = mock(MapzenManager.class);
+    yamlGenerator = mock(ImportYamlGenerator.class);
     map = new MapzenMap(mapView, mapController, overlayManager, mapStateManager, labelPickHandler,
-        bitmapMarkerManager, sceneUpdateManager, locale, mapzenManager);
+        bitmapMarkerManager, sceneUpdateManager, locale, mapzenManager, yamlGenerator);
   }
 
   @Test public void shouldNotBeNull() throws Exception {
@@ -723,11 +728,146 @@ public class MapzenMapTest {
     MapzenManager manager = MapzenManager.instance(getMockContext());
     manager.setApiKey("key");
     new MapzenMap(mapView, mapController, overlayManager, mapStateManager, labelPickHandler,
-        bitmapMarkerManager, sceneUpdateManager, locale, manager);
+        bitmapMarkerManager, sceneUpdateManager, locale, manager, yamlGenerator);
     manager.setApiKey("updated-key");
     List<SceneUpdate> updates = new ArrayList<>();
     updates.add(new SceneUpdate(STYLE_GLOBAL_VAR_API_KEY, "updated-key"));
     verify(mapController).updateSceneAsync(argThat(new SceneUpdatesMatcher(updates)));
+  }
+
+  @Test public void setStyle_themedStyle_shouldCallLoadYamlWithThemeDefaults() throws Exception {
+    when(mapzenManager.getApiKey()).thenReturn("apiKey");
+
+    RefillStyle refillStyle = new RefillStyle();
+    map.setStyle(refillStyle);
+
+    assertThat(mapStateManager.getThemeColor()).isEqualTo(refillStyle.getDefaultColor());
+    assertThat(mapStateManager.getLabelLevel()).isEqualTo(refillStyle.getDefaultLabelLevel());
+    assertThat(mapStateManager.getLod()).isEqualTo(refillStyle.getDefaultLod());
+
+    String yaml = yamlGenerator.getImportYaml(refillStyle, mapStateManager.getLabelLevel(),
+        mapStateManager.getLod(), mapStateManager.getThemeColor());
+    String resourceRoot = refillStyle.getStyleRootPath();
+    List<SceneUpdate> sceneUpdates = new ArrayList<>();
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_API_KEY, "apiKey"));
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_LANGUAGE, "en_us"));
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "false"));
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false"));
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "true"));
+    verify(mapController).loadSceneYaml(eq(yaml), eq(resourceRoot), argThat(
+        new SceneUpdatesMatcher(sceneUpdates)));
+  }
+
+  @Test public void setStyleAndLabelLevel_shouldCallLoadYamlWithCorrectValues() throws Exception {
+    when(mapzenManager.getApiKey()).thenReturn("apiKey");
+
+    RefillStyle refillStyle = new RefillStyle();
+    map.setStyleAndLabelLevel(refillStyle, 8);
+
+    assertThat(mapStateManager.getThemeColor()).isEqualTo(refillStyle.getDefaultColor());
+    assertThat(mapStateManager.getLabelLevel()).isEqualTo(8);
+    assertThat(mapStateManager.getLod()).isEqualTo(refillStyle.getDefaultLod());
+
+    String yaml = yamlGenerator.getImportYaml(refillStyle, 8,
+        mapStateManager.getLod(), mapStateManager.getThemeColor());
+    String resourceRoot = refillStyle.getStyleRootPath();
+    List<SceneUpdate> sceneUpdates = new ArrayList<>();
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_API_KEY, "apiKey"));
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_LANGUAGE, "en_us"));
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "false"));
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false"));
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "true"));
+    verify(mapController).loadSceneYaml(eq(yaml), eq(resourceRoot), argThat(
+        new SceneUpdatesMatcher(sceneUpdates)));
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void setStyleAndLabelLevel_shouldVerifyLowValue() throws Exception {
+    map.setStyleAndLabelLevel(new RefillStyle(), -1);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void setStyleAndLabelLevel_shouldVerifyHighValue() throws Exception {
+    map.setStyleAndLabelLevel(new RefillStyle(), 12);
+  }
+
+  @Test public void setStyleAndLod_shouldCallLoadYamlWithCorrectValues() throws Exception {
+    when(mapzenManager.getApiKey()).thenReturn("apiKey");
+
+    RefillStyle refillStyle = new RefillStyle();
+    map.setStyleAndLod(refillStyle, 8);
+
+    assertThat(mapStateManager.getThemeColor()).isEqualTo(refillStyle.getDefaultColor());
+    assertThat(mapStateManager.getLabelLevel()).isEqualTo(refillStyle.getDefaultLabelLevel());
+    assertThat(mapStateManager.getLod()).isEqualTo(8);
+
+    String yaml = yamlGenerator.getImportYaml(refillStyle, mapStateManager.getLabelLevel(),
+        8, mapStateManager.getThemeColor());
+    String resourceRoot = refillStyle.getStyleRootPath();
+    List<SceneUpdate> sceneUpdates = new ArrayList<>();
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_API_KEY, "apiKey"));
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_LANGUAGE, "en_us"));
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "false"));
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false"));
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "true"));
+    verify(mapController).loadSceneYaml(eq(yaml), eq(resourceRoot), argThat(
+        new SceneUpdatesMatcher(sceneUpdates)));
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void setStyleAndLod_shouldVerifyLowValue() throws Exception {
+    map.setStyleAndLod(new RefillStyle(), -1);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void setStyleAndLod_shouldVerifyHighValue() throws Exception {
+    map.setStyleAndLod(new RefillStyle(), 12);
+  }
+
+  @Test public void setStyleAndThemeColor_shouldCallLoadYamlWithCorrectValues() throws Exception {
+    when(mapzenManager.getApiKey()).thenReturn("apiKey");
+
+    RefillStyle refillStyle = new RefillStyle();
+    map.setStyleAndThemeColor(refillStyle, ThemeColor.PINK);
+
+    assertThat(mapStateManager.getThemeColor()).isEqualTo(ThemeColor.PINK);
+    assertThat(mapStateManager.getLabelLevel()).isEqualTo(refillStyle.getDefaultLabelLevel());
+    assertThat(mapStateManager.getLod()).isEqualTo(refillStyle.getDefaultLod());
+
+    String yaml = yamlGenerator.getImportYaml(refillStyle, mapStateManager.getLabelLevel(),
+        mapStateManager.getLod(), ThemeColor.PINK);
+    String resourceRoot = refillStyle.getStyleRootPath();
+    List<SceneUpdate> sceneUpdates = new ArrayList<>();
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_API_KEY, "apiKey"));
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_LANGUAGE, "en_us"));
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "false"));
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false"));
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "true"));
+    verify(mapController).loadSceneYaml(eq(yaml), eq(resourceRoot), argThat(
+        new SceneUpdatesMatcher(sceneUpdates)));
+  }
+
+  @Test public void setStyleLabelDetailLevelThemeColor_shouldCallLoadYamlWithCorrectValues()
+      throws Exception {
+    when(mapzenManager.getApiKey()).thenReturn("apiKey");
+
+    RefillStyle refillStyle = new RefillStyle();
+    map.setStyleLabelLevelLodThemeColor(refillStyle, 3, 4, ThemeColor.BLUE);
+
+    assertThat(mapStateManager.getThemeColor()).isEqualTo(ThemeColor.BLUE);
+    assertThat(mapStateManager.getLabelLevel()).isEqualTo(3);
+    assertThat(mapStateManager.getLod()).isEqualTo(4);
+
+    String yaml = yamlGenerator.getImportYaml(refillStyle, 3, 4, ThemeColor.BLUE);
+    String resourceRoot = refillStyle.getStyleRootPath();
+    List<SceneUpdate> sceneUpdates = new ArrayList<>();
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_API_KEY, "apiKey"));
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_LANGUAGE, "en_us"));
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "false"));
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false"));
+    sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "true"));
+    verify(mapController).loadSceneYaml(eq(yaml), eq(resourceRoot), argThat(
+        new SceneUpdatesMatcher(sceneUpdates)));
   }
 
   public class TestRotateResponder implements TouchInput.RotateResponder {

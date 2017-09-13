@@ -13,6 +13,8 @@ import com.mapzen.android.graphics.model.Marker;
 import com.mapzen.android.graphics.model.MarkerOptions;
 import com.mapzen.android.graphics.model.Polygon;
 import com.mapzen.android.graphics.model.Polyline;
+import com.mapzen.android.graphics.model.ThemeColor;
+import com.mapzen.android.graphics.model.ThemedMapStyle;
 import com.mapzen.tangram.LngLat;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.MapData;
@@ -36,8 +38,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import static com.mapzen.android.graphics.internal.EaseTypeConverter.
-    EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE;
+import static
+    com.mapzen.android.graphics.internal.EaseTypeConverter.EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE;
 
 /**
  * This is the main class of the Mapzen Android API and is the entry point for all methods related
@@ -56,6 +58,7 @@ public class MapzenMap {
   private final SceneUpdateManager sceneUpdateManager;
   private final MapzenManager mapzenManager;
   private Locale locale;
+  private ImportYamlGenerator yamlGenerator;
 
   boolean pickFeatureOnSingleTapConfirmed = false;
   boolean pickLabelOnSingleTapConfirmed = false;
@@ -164,7 +167,7 @@ public class MapzenMap {
   MapzenMap(MapView mapView, MapController mapController, OverlayManager overlayManager,
       MapStateManager mapStateManager, LabelPickHandler labelPickHandler,
       BitmapMarkerManager bitmapMarkerManager, SceneUpdateManager sceneUpdateManager, Locale locale,
-      MapzenManager mapzenManager) {
+      MapzenManager mapzenManager, ImportYamlGenerator yamlGenerator) {
     this.mapView = mapView;
     this.mapController = mapController;
     this.mapController.setSceneLoadListener(internalSceneLoadListener);
@@ -176,6 +179,7 @@ public class MapzenMap {
     this.locale = locale;
     this.mapzenManager = mapzenManager;
     this.mapzenManager.addApiKeyChangeListener(apiKeyChangeListener);
+    this.yamlGenerator = yamlGenerator;
     mapView.setMapzenMap(this);
     mapController.setPanResponder(internalPanResponder);
     mapController.setRotateResponder(internalRotateResponder);
@@ -202,11 +206,62 @@ public class MapzenMap {
    */
   public void setStyle(MapStyle mapStyle) {
     mapStateManager.setMapStyle(mapStyle);
-    String apiKey = mapzenManager.getApiKey();
-    List<SceneUpdate> globalSceneUpdates = sceneUpdateManager.getUpdatesFor(apiKey, locale,
-        mapStateManager.isTransitOverlayEnabled(), mapStateManager.isBikeOverlayEnabled(),
-        mapStateManager.isPathOverlayEnabled());
-    mapController.loadSceneFile(mapStyle.getSceneFile(), globalSceneUpdates);
+    if (currentMapStyleIsThemed()) {
+      mapStateManager.setLabelLevel(getThemedMapStyle().getDefaultLabelLevel());
+      mapStateManager.setLod(getThemedMapStyle().getDefaultLod());
+      mapStateManager.setThemeColor(getThemedMapStyle().getDefaultColor());
+      loadSceneYaml();
+    } else {
+      loadSceneFile();
+    }
+  }
+
+  /**
+   * Sets the map style with given label level and default detail and theme color values. If the
+   * label level is not supported by this theme then this method throws an
+   * {@link IllegalArgumentException}.
+   * @param themedMapStyle
+   * @param labelLevel
+   */
+  public void setStyleAndLabelLevel(ThemedMapStyle themedMapStyle, int labelLevel) {
+    setStyleLabelLevelLodThemeColor(themedMapStyle, labelLevel,
+        themedMapStyle.getDefaultLod(), themedMapStyle.getDefaultColor());
+  }
+
+  /**
+   * Sets the map style with given detail level and default label and theme color values. If the
+   * detail level is not supported by this theme then this method throws an
+   * {@link IllegalArgumentException}.
+   * @param themedMapStyle
+   * @param detailLevel
+   */
+  public void setStyleAndLod(ThemedMapStyle themedMapStyle, int detailLevel) {
+    setStyleLabelLevelLodThemeColor(themedMapStyle, themedMapStyle.getDefaultLabelLevel(),
+        detailLevel, themedMapStyle.getDefaultColor());
+  }
+
+  /**
+   * Sets the map style with given theme color and default label and detail levels.
+   * @param themedMapStyle
+   * @param color
+   */
+  public void setStyleAndThemeColor(ThemedMapStyle themedMapStyle, ThemeColor color) {
+    setStyleLabelLevelLodThemeColor(themedMapStyle, themedMapStyle.getDefaultLabelLevel(),
+        themedMapStyle.getDefaultLod(), color);
+  }
+
+  /**
+   * Sets the map style with given label level, detail level, and theme color. If either the label
+   * or detail level are not supported, this method will throw an {@link IllegalArgumentException}.
+   * @param themedMapStyle
+   * @param labelLevel
+   * @param detailLevel
+   * @param color
+   */
+  public void setStyleLabelLevelLodThemeColor(ThemedMapStyle themedMapStyle, int labelLevel,
+      int detailLevel, ThemeColor color) {
+    mapStateManager.setMapStyle(themedMapStyle);
+    setLabelLevelLodThemeColor(labelLevel, detailLevel, color);
   }
 
   /**
@@ -679,15 +734,6 @@ public class MapzenMap {
     mapController.setTapResponder(internalTapResponder);
   }
 
-  private void postFeaturePickRunnable(final Map<String, String> properties, final float positionX,
-      final float positionY, final FeaturePickListener listener) {
-    mapView.post(new Runnable() {
-      @Override public void run() {
-        listener.onFeaturePick(properties, positionX, positionY);
-      }
-    });
-  }
-
   /**
    * Set a listener for when view is fully loaded and no ease or label animations running.
    */
@@ -952,6 +998,45 @@ public class MapzenMap {
   }
 
   /**
+   * Adds a custom bitmap marker to the map.
+   *
+   * @param markerOptions options used to define marker appearance.
+   * @return a new bitmap marker instance.
+   */
+  public BitmapMarker addBitmapMarker(MarkerOptions markerOptions) {
+    return bitmapMarkerManager.addMarker(markerOptions);
+  }
+
+  /**
+   * Adds a custom bitmap marker to the map.
+   *
+   * @param markerOptions options used to define marker appearance.
+   * @return a new bitmap marker instance.
+   */
+  public BitmapMarker addBitmapMarker(BitmapMarkerOptions markerOptions) {
+    return bitmapMarkerManager.addMarker(markerOptions);
+  }
+
+  /**
+   * Invoked by {@link MapView} when the parent activity or fragment is destroyed.
+   */
+  void onDestroy() {
+    mapStateManager.setPosition(mapController.getPosition());
+    mapStateManager.setZoom(mapController.getZoom());
+    mapStateManager.setRotation(mapController.getRotation());
+    mapStateManager.setTilt(mapController.getTilt());
+  }
+
+  private void postFeaturePickRunnable(final Map<String, String> properties, final float positionX,
+      final float positionY, final FeaturePickListener listener) {
+    mapView.post(new Runnable() {
+      @Override public void run() {
+        listener.onFeaturePick(properties, positionX, positionY);
+      }
+    });
+  }
+
+  /**
    * Restores all aspects of the map EXCEPT the style, this is restored in the
    * {@link MapInitializer}.
    */
@@ -969,33 +1054,116 @@ public class MapzenMap {
   }
 
   /**
-   * Invoked by {@link MapView} when the parent activity or fragment is destroyed.
+   * Returns all {@link SceneUpdate}s that should be applied when a new map style is set.
+   * @return
    */
-  void onDestroy() {
-    mapStateManager.setPosition(mapController.getPosition());
-    mapStateManager.setZoom(mapController.getZoom());
-    mapStateManager.setRotation(mapController.getRotation());
-    mapStateManager.setTilt(mapController.getTilt());
+  private List<SceneUpdate> getGlobalSceneUpdates() {
+    String apiKey = mapzenManager.getApiKey();
+    return sceneUpdateManager.getUpdatesFor(apiKey, locale,
+        mapStateManager.isTransitOverlayEnabled(), mapStateManager.isBikeOverlayEnabled(),
+        mapStateManager.isPathOverlayEnabled());
   }
 
   /**
-   * Adds a custom bitmap marker to the map.
-   *
-   * @param markerOptions options used to define marker appearance.
-   * @return a new bitmap marker instance.
+   * Internal convenience method for loading scene file when the current style is a
+   * {@link MapStyle}.
+   * Applies all global scene updates.
    */
-  @Deprecated
-  public BitmapMarker addBitmapMarker(MarkerOptions markerOptions) {
-    return bitmapMarkerManager.addMarker(markerOptions);
+  private void loadSceneFile() {
+    mapController.loadSceneFile(mapStateManager.getMapStyle().getSceneFile(),
+        getGlobalSceneUpdates());
   }
 
   /**
-   * Adds a custom bitmap marker to the map.
-   *
-   * @param markerOptions options used to define marker appearance.
-   * @return a new bitmap marker instance.
+   * Internal convenience method for loading scene yaml when the current style is a
+   * {@link ThemedMapStyle}. Applies all global scene updates.
+   * applied.
    */
-  public BitmapMarker addBitmapMarker(BitmapMarkerOptions markerOptions) {
-    return bitmapMarkerManager.addMarker(markerOptions);
+  private void loadSceneYaml() {
+    String yaml = yamlGenerator.getImportYaml(getThemedMapStyle(), mapStateManager.getLabelLevel(),
+        mapStateManager.getLod(), mapStateManager.getThemeColor());
+    String resourceRoot = getThemedMapStyle().getStyleRootPath();
+    mapController.loadSceneYaml(yaml, resourceRoot, getGlobalSceneUpdates());
+  }
+
+  /**
+   * Queries the {@link MapStateManager} to determine if the current style supports themes. Use to
+   * determine if scene yaml or simply scene file should be loaded.
+   * @return
+   */
+  private boolean currentMapStyleIsThemed() {
+    return mapStateManager.getMapStyle() instanceof ThemedMapStyle;
+  }
+
+  /**
+   * Internal convenience method. Returns the current style downcasted to {@link ThemedMapStyle}.
+   * Users of this method should first check that the style is a {@link ThemedMapStyle}.
+   * @return
+   */
+  private ThemedMapStyle getThemedMapStyle() {
+    return (ThemedMapStyle) mapStateManager.getMapStyle();
+  }
+
+  /**
+   * Checks the given label level against the current map style to determine if the level is
+   * supported by the theme. Users of this method should first check that the style is a
+   * {@link ThemedMapStyle}.
+   * @param labelLevel
+   * @return
+   */
+  private boolean isValidLabelLevel(int labelLevel) {
+    return labelLevel >= 0 && labelLevel < getThemedMapStyle().getLabelCount();
+  }
+
+  /**
+   * Checks the given detail level against the current map style to determine if the level is
+   * supported by the theme. Users of this method should first check that the style is a
+   * {@link ThemedMapStyle}.
+   * @param lod
+   * @return
+   */
+  private boolean isValidLod(int lod) {
+    return lod >= 0 && lod < getThemedMapStyle().getLodCount();
+  }
+
+  /**
+   * Checks the given theme color against the current map style to determine if the color is
+   * supported by the theme. Users of this method should first check that the style is a
+   * {@link ThemedMapStyle}.
+   * @param color
+   * @return
+   */
+  private boolean isValidColor(ThemeColor color) {
+    return getThemedMapStyle().getColors().contains(color);
+  }
+
+
+  /**
+   * Sets the label level, detail level, and theme color when the current style is of type
+   * {@link ThemedMapStyle}. If the label level, detail level, or theme color are not supported by
+   * the current style, this method will throw an {@link IllegalArgumentException}. If the current
+   * map style is not {@link ThemedMapStyle} then this method does nothing.
+   * @param labelLevel
+   * @param detailLevel
+   * @param color
+   */
+  private void setLabelLevelLodThemeColor(int labelLevel, int detailLevel,
+      ThemeColor color) {
+    if (!isValidLabelLevel(labelLevel)) {
+      throw new IllegalArgumentException("Invalid label level for " +
+          getThemedMapStyle().getClass().getSimpleName());
+    }
+    if (!isValidLod(detailLevel)) {
+      throw new IllegalArgumentException("Invalid detail level for " +
+          getThemedMapStyle().getClass().getSimpleName());
+    }
+    if (!isValidColor(color)) {
+      throw new IllegalArgumentException("Invalid theme color for " +
+          getThemedMapStyle().getClass().getSimpleName());
+    }
+    mapStateManager.setLabelLevel(labelLevel);
+    mapStateManager.setLod(detailLevel);
+    mapStateManager.setThemeColor(color);
+    loadSceneYaml();
   }
 }

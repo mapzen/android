@@ -1,9 +1,6 @@
 [submodule "core/src/main/assets/styles/bubble-wrap"]
 	path = core/src/main/assets/styles/bubble-wrap
 	url = https://github.com/tangrams/bubble-wrap.git
-[submodule "core/src/main/assets/styles/refill-more-labels"]
-	path = core/src/main/assets/styles/refill-more-labels
-	url = https://github.com/tangrams/refill-style-more-labels.git
 [submodule "core/src/main/assets/styles/cinnabar-more-labels"]
 	path = core/src/main/assets/styles/cinnabar-more-labels
 	url = https://github.com/tangrams/cinnabar-style-more-labels.git
@@ -16,3 +13,6 @@
 [submodule "samples/mapzen-android-sdk-sample/src/main/assets/styles/tron-style"]
 	path = samples/mapzen-android-sdk-sample/src/main/assets/styles/tron-style
 	url = https://github.com/tangrams/tron-style.git
+[submodule "core/src/main/assets/styles/refill-style"]
+	path = core/src/main/assets/styles/refill-style
+	url = https://github.com/tangrams/refill-style
