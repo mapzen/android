@@ -45,8 +45,8 @@ The Mapzen Places API is a drop in replacement for the Google Places API.
 Everything you need to get going using the Mapzen Places API
 
 ### Set up
-- [Installation](https://github.com/mapzen/android/blob/master/docs/installation-places.md)
-- [Getting started](https://github.com/mapzen/android/blob/master/docs/getting-started-places.md)
+- [Installation](https://github.com/mapzen/android/blob/master/docs/places-installation.md)
+- [Getting started](https://github.com/mapzen/android/blob/master/docs/places-getting-started.md)
 
 ### UI Components
 - [Autocomplete UI](https://github.com/mapzen/android/blob/master/docs/autocomplete-ui.md)
