@@ -14,10 +14,7 @@ Everything you need to get going using the Mapzen SDK
 
 ### Interacting with the map
 - [Position, rotation, and zoom](https://github.com/mapzen/android/blob/master/docs/basic-functions.md)
-- [Current location](https://github.com/mapzen/android/blob/master/docs/current-location.md)
-- [Markers](https://github.com/mapzen/android/blob/master/docs/markers.md)
-- [Polylines](https://github.com/mapzen/android/blob/master/docs/polyline.md)
-- [Polygons](https://github.com/mapzen/android/blob/master/docs/polygon.md)
+- [Add features (markers, polylines, polygons)](https://github.com/mapzen/android/blob/master/docs/features.md)
 - [Switching styles](https://github.com/mapzen/android/blob/master/docs/styles.md)
 - [Gesture responders](https://github.com/mapzen/android/blob/master/docs/gesture-responders.md)
 
@@ -48,8 +45,8 @@ The Mapzen Places API is a drop in replacement for the Google Places API.
 Everything you need to get going using the Mapzen Places API
 
 ### Set up
-- [Installation](https://github.com/mapzen/android/blob/master/docs/installation-places.md)
-- [Getting started](https://github.com/mapzen/android/blob/master/docs/getting-started-places.md)
+- [Installation](https://github.com/mapzen/android/blob/master/docs/places-installation.md)
+- [Getting started](https://github.com/mapzen/android/blob/master/docs/places-getting-started.md)
 
 ### UI Components
 - [Autocomplete UI](https://github.com/mapzen/android/blob/master/docs/autocomplete-ui.md)
