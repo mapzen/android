@@ -149,6 +149,13 @@ public class MapzenMap {
       = new MapController.SceneLoadListener() {
     @Override public void onSceneReady(int sceneId, SceneError sceneError) {
       bitmapMarkerManager.restoreMarkers();
+      if (sceneId == currSceneId) {
+        if (styleLoadedListener != null) {
+          styleLoadedListener.onStyleLoaded();
+          styleLoadedListener = null;
+        }
+        currSceneId = Integer.MIN_VALUE;
+      }
     }
   };
 
@@ -160,6 +167,9 @@ public class MapzenMap {
           mapController.updateSceneAsync(updates);
         }
       });
+
+  OnStyleLoadedListener styleLoadedListener = null;
+  int currSceneId = Integer.MIN_VALUE;
 
   /**
    * Creates a new map based on the given {@link MapView} and {@link MapController}.
@@ -202,18 +212,31 @@ public class MapzenMap {
   }
 
   /**
+   * Sets the map's underlying stylesheet asynchronously.
+   */
+  public void setStyleAsync(MapStyle mapStyle, OnStyleLoadedListener listener) {
+    styleLoadedListener = listener;
+    currSceneId = internalSetStyle(mapStyle, true);
+  }
+
+  /**
    * Sets the map's underlying stylesheet.
    */
   public void setStyle(MapStyle mapStyle) {
-    mapStateManager.setMapStyle(mapStyle);
-    if (currentMapStyleIsThemed()) {
-      mapStateManager.setLabelLevel(getThemedMapStyle().getDefaultLabelLevel());
-      mapStateManager.setLod(getThemedMapStyle().getDefaultLod());
-      mapStateManager.setThemeColor(getThemedMapStyle().getDefaultColor());
-      loadSceneYaml();
-    } else {
-      loadSceneFile();
-    }
+    internalSetStyle(mapStyle, false);
+  }
+
+  /**
+   * Sets the map style with given label level and default detail and theme color values. If the
+   * label level is not supported by this theme then this method throws an
+   * {@link IllegalArgumentException}.
+   * @param themedMapStyle
+   * @param labelLevel
+   */
+  public void setStyleAndLabelLevelAsync(ThemedMapStyle themedMapStyle, int labelLevel,
+      OnStyleLoadedListener listener) {
+    setStyleLabelLevelLodThemeColorAsync(themedMapStyle, labelLevel,
+        themedMapStyle.getDefaultLod(), themedMapStyle.getDefaultColor(), listener);
   }
 
   /**
@@ -235,9 +258,33 @@ public class MapzenMap {
    * @param themedMapStyle
    * @param detailLevel
    */
+  public void setStyleAndLodAsync(ThemedMapStyle themedMapStyle, int detailLevel,
+      OnStyleLoadedListener listener) {
+    setStyleLabelLevelLodThemeColorAsync(themedMapStyle, themedMapStyle.getDefaultLabelLevel(),
+        detailLevel, themedMapStyle.getDefaultColor(), listener);
+  }
+
+  /**
+   * Sets the map style with given detail level and default label and theme color values. If the
+   * detail level is not supported by this theme then this method throws an
+   * {@link IllegalArgumentException}.
+   * @param themedMapStyle
+   * @param detailLevel
+   */
   public void setStyleAndLod(ThemedMapStyle themedMapStyle, int detailLevel) {
     setStyleLabelLevelLodThemeColor(themedMapStyle, themedMapStyle.getDefaultLabelLevel(),
         detailLevel, themedMapStyle.getDefaultColor());
+  }
+
+  /**
+   * Sets the map style with given theme color and default label and detail levels.
+   * @param themedMapStyle
+   * @param color
+   */
+  public void setStyleAndThemeColorAsync(ThemedMapStyle themedMapStyle, ThemeColor color,
+      OnStyleLoadedListener listener) {
+    setStyleLabelLevelLodThemeColorAsync(themedMapStyle, themedMapStyle.getDefaultLabelLevel(),
+        themedMapStyle.getDefaultLod(), color, listener);
   }
 
   /**
@@ -258,10 +305,25 @@ public class MapzenMap {
    * @param detailLevel
    * @param color
    */
+  public void setStyleLabelLevelLodThemeColorAsync(ThemedMapStyle themedMapStyle, int labelLevel,
+      int detailLevel, ThemeColor color, OnStyleLoadedListener listener) {
+    styleLoadedListener = listener;
+    mapStateManager.setMapStyle(themedMapStyle);
+    currSceneId = setLabelLevelLodThemeColor(labelLevel, detailLevel, color, true);
+  }
+
+  /**
+   * Sets the map style with given label level, detail level, and theme color. If either the label
+   * or detail level are not supported, this method will throw an {@link IllegalArgumentException}.
+   * @param themedMapStyle
+   * @param labelLevel
+   * @param detailLevel
+   * @param color
+   */
   public void setStyleLabelLevelLodThemeColor(ThemedMapStyle themedMapStyle, int labelLevel,
       int detailLevel, ThemeColor color) {
     mapStateManager.setMapStyle(themedMapStyle);
-    setLabelLevelLodThemeColor(labelLevel, detailLevel, color);
+    setLabelLevelLodThemeColor(labelLevel, detailLevel, color, false);
   }
 
   /**
@@ -1065,25 +1127,54 @@ public class MapzenMap {
   }
 
   /**
+   * Sets the {@link MapStyle} and relevant theme configuration for {@link ThemedMapStyle}s. Loads
+   * the scene file either synchronously or asynchronously and returns the sceneId.
+   * @param mapStyle
+   * @param async
+   * @return
+   */
+  private int internalSetStyle(MapStyle mapStyle, boolean async) {
+    mapStateManager.setMapStyle(mapStyle);
+    if (currentMapStyleIsThemed()) {
+      mapStateManager.setLabelLevel(getThemedMapStyle().getDefaultLabelLevel());
+      mapStateManager.setLod(getThemedMapStyle().getDefaultLod());
+      mapStateManager.setThemeColor(getThemedMapStyle().getDefaultColor());
+      return loadSceneYaml(async);
+    } else {
+      return loadSceneFile(async);
+    }
+  }
+
+  /**
    * Internal convenience method for loading scene file when the current style is a
    * {@link MapStyle}.
-   * Applies all global scene updates.
+   * Applies all global scene updates. Loads asynchronously or
+   * synchronously. Returns the sceneId for the {@link MapController} scene update.
    */
-  private void loadSceneFile() {
-    mapController.loadSceneFile(mapStateManager.getMapStyle().getSceneFile(),
-        getGlobalSceneUpdates());
+  private int loadSceneFile(boolean async) {
+    if (async) {
+      return mapController.loadSceneFileAsync(mapStateManager.getMapStyle().getSceneFile(),
+          getGlobalSceneUpdates());
+    } else {
+      return mapController.loadSceneFile(mapStateManager.getMapStyle().getSceneFile(),
+          getGlobalSceneUpdates());
+    }
   }
 
   /**
    * Internal convenience method for loading scene yaml when the current style is a
-   * {@link ThemedMapStyle}. Applies all global scene updates.
-   * applied.
+   * {@link ThemedMapStyle}. Applies all global scene updates. Loads asynchronously or
+   * synchronously. Returns the sceneId for the {@link MapController} scene update.
    */
-  private void loadSceneYaml() {
+  private int loadSceneYaml(boolean async) {
     String yaml = yamlGenerator.getImportYaml(getThemedMapStyle(), mapStateManager.getLabelLevel(),
         mapStateManager.getLod(), mapStateManager.getThemeColor());
     String resourceRoot = getThemedMapStyle().getStyleRootPath();
-    mapController.loadSceneYaml(yaml, resourceRoot, getGlobalSceneUpdates());
+    if (async) {
+      return mapController.loadSceneYamlAsync(yaml, resourceRoot, getGlobalSceneUpdates());
+    } else {
+      return mapController.loadSceneYaml(yaml, resourceRoot, getGlobalSceneUpdates());
+    }
   }
 
   /**
@@ -1147,8 +1238,8 @@ public class MapzenMap {
    * @param detailLevel
    * @param color
    */
-  private void setLabelLevelLodThemeColor(int labelLevel, int detailLevel,
-      ThemeColor color) {
+  private int setLabelLevelLodThemeColor(int labelLevel, int detailLevel,
+      ThemeColor color, boolean async) {
     if (!isValidLabelLevel(labelLevel)) {
       throw new IllegalArgumentException("Invalid label level for " +
           getThemedMapStyle().getClass().getSimpleName());
@@ -1164,6 +1255,6 @@ public class MapzenMap {
     mapStateManager.setLabelLevel(labelLevel);
     mapStateManager.setLod(detailLevel);
     mapStateManager.setThemeColor(color);
-    loadSceneYaml();
+    return loadSceneYaml(async);
   }
 }
