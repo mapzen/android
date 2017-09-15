@@ -24,12 +24,12 @@ ext.tangram_version = "0.8.0"
 def SDK_VERSION = hasProperty('version') ? '"' + version + '"' : "null";
 
 android {
-  compileSdkVersion 25
-  buildToolsVersion '25.0.2'
+  compileSdkVersion 26
+  buildToolsVersion '26.0.1'
 
   defaultConfig {
     minSdkVersion 15
-    targetSdkVersion 25
+    targetSdkVersion 26
     versionCode 1
     versionName "1.0"
     resValue "string", "tangram_version", "${tangram_version}"
@@ -77,7 +77,7 @@ assemble.doFirst {
 }
 
 dependencies {
-  compile 'com.android.support:appcompat-v7:25.1.0'
+  compile 'com.android.support:appcompat-v7:26.1.0'
 
   compile "com.mapzen.tangram:tangram:$tangram_version"
   compile 'com.mapzen.android:pelias-android-sdk:1.2.0'

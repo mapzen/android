@@ -5,6 +5,9 @@ buildscript {
     maven {
       url 'https://plugins.gradle.org/m2/'
     }
+    maven {
+      url "https://maven.google.com"
+    }
   }
   dependencies {
     classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
@@ -22,12 +25,12 @@ version = VERSION_NAME
 project.archivesBaseName = POM_ARTIFACT_ID
 
 android {
-  compileSdkVersion 25
-  buildToolsVersion '25.0.2'
+  compileSdkVersion 26
+  buildToolsVersion '26.0.1'
 
   defaultConfig {
     minSdkVersion 15
-    targetSdkVersion 25
+    targetSdkVersion 26
     versionCode 1
     versionName "1.0"
   }
