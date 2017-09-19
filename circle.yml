@@ -2,6 +2,7 @@ general:
   artifacts:
     - "samples/mapzen-android-sdk-sample/build/outputs/apk"
     - "samples/mapzen-places-api-sample/build/outputs/apk"
+    - "samples/mapzen-sample/build/outputs/apk"
 
 machine:
   java:
