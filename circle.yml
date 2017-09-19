@@ -41,6 +41,7 @@ deployment:
     commands:
       - scripts/build-android-sdk-sample-app.sh
       - scripts/build-places-api-sample-app.sh
+      - scripts/build-mapzen-sample-app.sh
       - scripts/deploy-snapshot.sh
       - ./gradlew aarSize countReleaseDexMethods permissions mapzen-android-sdk:dependencies --configuration compile
       - scripts/release.sh
