@@ -39,8 +39,7 @@ deployment:
   master:
     branch: master
     commands:
-      - scripts/build-android-sdk-sample-app.sh
-      - scripts/build-places-api-sample-app.sh
+      - scripts/build-samples.sh
       - scripts/deploy-snapshot.sh
       - ./gradlew aarSize countReleaseDexMethods permissions mapzen-android-sdk:dependencies --configuration compile
       - scripts/release.sh
