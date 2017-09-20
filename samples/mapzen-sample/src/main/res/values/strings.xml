@@ -1,3 +1,7 @@
 <resources>
   <string name="app_name">Mapzen</string>
+  <string name="title_map">Map</string>
+  <string name="title_route">Route</string>
+  <string name="title_search">Search</string>
+  <string name="title_more">More</string>
 </resources>
