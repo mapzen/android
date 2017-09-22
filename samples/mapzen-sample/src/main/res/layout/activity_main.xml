@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="mapzen.com.sdksampleapp.MainActivity">
+    tools:context="mapzen.com.sdksampleapp.activities.MainActivity">
 
   <HorizontalScrollView
       android:layout_width="match_parent"
