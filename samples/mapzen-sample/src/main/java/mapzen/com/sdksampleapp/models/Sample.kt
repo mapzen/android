@@ -24,5 +24,5 @@ abstract class Sample(val title: String) {
    * @param router
    * @param search
    */
-  abstract fun takedown(map: MapzenMap?, router: MapzenRouter?, search: MapzenSearch?)
+  abstract fun cleanup(map: MapzenMap?, router: MapzenRouter?, search: MapzenSearch?)
 }

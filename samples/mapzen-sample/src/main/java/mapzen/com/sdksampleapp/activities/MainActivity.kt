@@ -4,83 +4,78 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
 import android.widget.TextView
 import mapzen.com.sdksampleapp.R
+import mapzen.com.sdksampleapp.controllers.MainController
 import mapzen.com.sdksampleapp.models.Sample
-import mapzen.com.sdksampleapp.models.SampleMap
+import mapzen.com.sdksampleapp.presenters.MainPresenter
+import mapzen.com.sdksampleapp.presenters.MainPresenterImpl
 
 /**
  * Entry point for the sample app. Displays bottom navigation bar with top scroll view for
  * interaction with different SDK use cases.
  */
-class MainActivity : AppCompatActivity(), View.OnClickListener {
+class MainActivity : AppCompatActivity(), MainController {
 
-  internal var current: Sample? = null
+  internal val presenter: MainPresenter = MainPresenterImpl() //TODO inject
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
-    setupBottomNavigation()
-    navbarItemSelected(R.id.navigation_map)
+    presenter.controller = this
+    presenter.onCreate()
   }
 
-  private fun setupBottomNavigation() {
-    val nav = findViewById<BottomNavigationView>(R.id.navigation)
+  override fun onDestroy() {
+    presenter.onDestroy()
+    super.onDestroy()
+  }
+
+  override fun setupNavigationItemSelectedListener() {
+    val nav = findViewById<BottomNavigationView>(R.id.navigation) //TODO inject
     nav.setOnNavigationItemSelectedListener { item ->
-      navbarItemSelected(item.itemId)
+      presenter.onNavBarItemSelected(item.itemId)
       true
     }
   }
 
-  private fun configureScrollView(samples: Array<Sample>?) {
-    val layout = findViewById<LinearLayout>(R.id.scrollContent)
-    layout.removeAllViews()
+  override fun cleanupNavigationItemSelectedListener() {
+    val nav = findViewById<BottomNavigationView>(R.id.navigation) //TODO inject
+    nav.setOnNavigationItemSelectedListener(null)
+  }
 
-    if (samples == null) {
-      return
-    }
+  override fun clearScrollViewSamples() {
+    findViewById<LinearLayout>(R.id.scrollContent).removeAllViews() //TODO inject
+  }
+
+  override fun setScrollViewSamples(samples: Array<Sample>?) {
+    if (samples == null) { return }
+    val scrollContent = findViewById<LinearLayout>(R.id.scrollContent) //TODO inject
     for (sample in samples) {
       val inflater = LayoutInflater.from(this)
       val textView = inflater.inflate(R.layout.text_row, null) as TextView
-      textView.text = sample.title
-      textView.setOnClickListener(this)
-      textView.tag = sample
-      val layoutParams = LinearLayout.LayoutParams(WRAP_CONTENT,
-          WRAP_CONTENT)
+      textView.text = presenter?.getTitleText(sample)
+      textView.setOnClickListener { view ->
+        val sample = view.tag as Sample
+        presenter?.onSampleSelected(sample)
+      }
+      textView.tag = presenter?.getTag(sample)
+      val layoutParams = LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
       if (sample === samples[samples.size - 1]) {
         val rightMargin = resources.getDimensionPixelSize(R.dimen.padding_large)
         layoutParams.setMargins(0, 0, rightMargin, 0)
       }
-      layout.addView(textView, layoutParams)
+      scrollContent.addView(textView, layoutParams)
     }
   }
 
-  override fun onClick(view: View) {
-    val sample = view.tag as Sample
-    if (current == null) {
-      return
-    }
-    var curr = current as Sample
-    curr.takedown(null, null, null)
-    current = sample
-    curr.setup(null, null, null)
-  }
 
-  private fun navbarItemSelected(itemId: Int) {
-    val samples = SampleMap.NAV_ID_TO_SECTIONS.get(itemId)
-    configureScrollView(samples)
-    if (current != null) {
-      (current as Sample).takedown(null, null, null) //TODO
-      current = null
-    }
-    if (samples != null && !samples.isEmpty()) {
-      current = samples[0]
-    }
-    if (current != null) {
-      current!!.setup(null, null, null) //TODO
-    }
+  override fun cleanupScrollItemClickListeners() {
+    val scrollContent = findViewById<LinearLayout>(R.id.scrollContent) //TODO inject
+    (0..scrollContent.childCount)
+        .map { scrollContent.getChildAt(it) as TextView }
+        .forEach { it.setOnClickListener(null) }
   }
 }

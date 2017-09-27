@@ -10,7 +10,7 @@ import mapzen.com.sdksampleapp.models.MapSampleList.MAP_SAMPLES
  */
 object SampleMap {
 
-  val NAV_ID_TO_SECTIONS: SparseArray<Array<Sample>> = SparseArray(4)
+  val NAV_ID_TO_SECTIONS: SparseArray<Array<Sample>?> = SparseArray(4)
   init {
     NAV_ID_TO_SECTIONS.append(R.id.navigation_map, MAP_SAMPLES)
     NAV_ID_TO_SECTIONS.append(R.id.navigation_route, null)

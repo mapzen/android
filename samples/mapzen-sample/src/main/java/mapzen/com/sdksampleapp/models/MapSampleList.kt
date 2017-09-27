@@ -6,4 +6,7 @@ package mapzen.com.sdksampleapp.models
 object MapSampleList {
 
   val MAP_SAMPLES = arrayOf<Sample>()
+  val ROUTE_SAMPLES = null
+  val SEARCH_SAMPLES = null
+  val MORE_SAMPLES = null
 }
