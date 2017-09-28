@@ -16,7 +16,9 @@ public enum ThemeColor {
   PINK("pink"),
   PINKYELLOW("pink-yellow"),
   PURPLEGREEN("purple-green"),
-  SEPIA("sepia");
+  SEPIA("sepia"),
+  CINNABAR("cinnabar"),
+  ZINC("zinc");
 
   private final String color;
 

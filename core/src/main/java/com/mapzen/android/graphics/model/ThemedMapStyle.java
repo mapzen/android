@@ -7,6 +7,8 @@ import java.util.Set;
  */
 public abstract class ThemedMapStyle extends MapStyle {
 
+  public static final int NONE = -1;
+
   /**
    * Constructor.
    * @param baseSceneFile

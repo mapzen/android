@@ -660,7 +660,7 @@ public class MapzenMapTest {
 
   @Test public void setStyle_shouldSetStyleAndGlobalVariables() throws Exception {
     map.setStyle(new WalkaboutStyle());
-    verify(mapController).loadSceneFile(anyString(), any(List.class));
+    verify(mapController).loadSceneYaml(anyString(), anyString(), any(List.class));
   }
 
   @Test public void setStyle_shouldNotCallMapControllerAsyncMethod() throws Exception {
@@ -670,12 +670,12 @@ public class MapzenMapTest {
 
   @Test public void setStyleAsync_shouldSetStyleAndGlobalVariables() throws Exception {
     map.setStyleAsync(new WalkaboutStyle(), null);
-    verify(mapController).loadSceneFileAsync(anyString(), any(List.class));
+    verify(mapController).loadSceneYamlAsync(anyString(), anyString(), any(List.class));
   }
 
   @Test public void setStyleAsync_shouldCallListenerOnSceneLoaded() throws Exception {
     int sceneId = 1;
-    when(mapController.loadSceneFileAsync(anyString(), anyList())).thenReturn(sceneId);
+    when(mapController.loadSceneYamlAsync(anyString(), anyString(), anyList())).thenReturn(sceneId);
     TestOnStyleLoadedListener listener = new TestOnStyleLoadedListener();
     map.setStyleAsync(new WalkaboutStyle(), listener);
     map.internalSceneLoadListener.onSceneReady(sceneId, null);
@@ -696,7 +696,7 @@ public class MapzenMapTest {
     sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "false"));
     sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false"));
     sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "true"));
-    verify(mapController).loadSceneFile(anyString(), argThat(
+    verify(mapController).loadSceneYaml(anyString(), anyString(), argThat(
         new SceneUpdatesMatcher(sceneUpdates)));
   }
 

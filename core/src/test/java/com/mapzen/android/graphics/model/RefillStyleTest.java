@@ -18,6 +18,7 @@ import static com.mapzen.android.graphics.model.ThemeColor.PINK;
 import static com.mapzen.android.graphics.model.ThemeColor.PINKYELLOW;
 import static com.mapzen.android.graphics.model.ThemeColor.PURPLEGREEN;
 import static com.mapzen.android.graphics.model.ThemeColor.SEPIA;
+import static com.mapzen.android.graphics.model.ThemeColor.ZINC;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class RefillStyleTest {
@@ -75,6 +76,7 @@ public class RefillStyleTest {
       add(PINKYELLOW);
       add(PURPLEGREEN);
       add(SEPIA);
+      add(ZINC);
     } };
     assertThat(style.getColors()).isEqualTo(colors);
   }

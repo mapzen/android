@@ -6,6 +6,8 @@ import com.mapzen.android.graphics.model.MapStyle;
 import com.mapzen.android.graphics.model.ThemeColor;
 import com.mapzen.tangram.LngLat;
 
+import static com.mapzen.android.graphics.model.ThemedMapStyle.NONE;
+
 /**
  * Manages parameters around {@link MapzenMap}'s state so that it can be restore upon orientation
  * change.
@@ -15,8 +17,8 @@ class MapStateManager {
   private boolean persistMapState = true;
   private LngLat position = new LngLat(0, 0);
   private MapStyle mapStyle = new BubbleWrapStyle();
-  private int labelLevel = 0;
-  private int lod = 0;
+  private int labelLevel = NONE;
+  private int lod = NONE;
   private ThemeColor themeColor = null;
   private float zoom = 0;
   private float rotation = 0;

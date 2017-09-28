@@ -29,6 +29,7 @@ import static com.mapzen.android.graphics.SceneUpdateManager.STYLE_GLOBAL_VAR_PA
 import static com.mapzen.android.graphics.SceneUpdateManager.STYLE_GLOBAL_VAR_TRANSIT_OVERLAY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Matchers.eq;
@@ -60,6 +61,7 @@ public class MapInitializerTest {
     final TestCallback callback = new TestCallback();
     final TestMapView mapView = new TestMapView(callback);
     MapzenManager.instance(getMockContext()).setApiKey("fake-mapzen-api-key");
+    MapController controller = mock(MapController.class);
     mapInitializer.init(mapView, callback);
     assertThat(callback.map).isInstanceOf(MapzenMap.class);
   }
@@ -88,7 +90,7 @@ public class MapInitializerTest {
     expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false"));
     expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "true"));
     verify(tangramMapView).getMap(any(MapController.SceneLoadListener.class));
-    verify(mapController).loadSceneFileAsync(anyString(), argThat(
+    verify(mapController).loadSceneYamlAsync(anyString(), anyString(), argThat(
         new SceneUpdatesMatcher(expected)));
   }
 
@@ -116,7 +118,7 @@ public class MapInitializerTest {
     expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false"));
     expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "true"));
     verify(tangramMapView).getMap(any(MapController.SceneLoadListener.class));
-    verify(mapController).loadSceneFileAsync(anyString(), argThat(
+    verify(mapController).loadSceneYamlAsync(anyString(), anyString(), argThat(
         new SceneUpdatesMatcher(expected)));
   }
 
@@ -144,7 +146,7 @@ public class MapInitializerTest {
     expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false"));
     expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "true"));
     verify(tangramMapView).getMap(any(MapController.SceneLoadListener.class));
-    verify(mapController).loadSceneFileAsync(anyString(), argThat(
+    verify(mapController).loadSceneYamlAsync(anyString(), anyString(), argThat(
         new SceneUpdatesMatcher(expected)));
   }
 

@@ -64,7 +64,7 @@ task checkstyle(type: Checkstyle) {
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
 
 task submodules {
-  def folder = new File( 'core/src/main/assets/styles/walkabout-style-more-labels/walkabout-style-more-labels.yaml' )
+  def folder = new File( 'core/src/main/assets/styles/walkabout-style/walkabout-style.yaml' )
   if(!folder.exists()) {
     throw new GradleException("Submodules aren't present, please run:\n`git submodule init`, " +
         "\n`git submodule update`\nfrom your root directory")
