@@ -36,7 +36,7 @@ public class ZincStyle extends ThemedMapStyle {
   }
 
   @Override public int getDefaultLod() {
-    return 5;
+    return 10;
   }
 
   @Override public int getLodCount() {
