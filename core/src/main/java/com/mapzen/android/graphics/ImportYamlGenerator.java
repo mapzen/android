@@ -33,7 +33,7 @@ class ImportYamlGenerator {
       importBuilder.append(".yaml");
     }
 
-    if (labelLevel != NONE && (detailLevel != NONE || color != null)) {
+    if (labelLevel != NONE && (detailLevel != NONE || colorExists(color))) {
       importBuilder.append(", ");
     }
 
@@ -44,11 +44,11 @@ class ImportYamlGenerator {
       importBuilder.append(".yaml");
     }
 
-    if (detailLevel != NONE && color != null) {
+    if (detailLevel != NONE && colorExists(color)) {
       importBuilder.append(", ");
     }
 
-    if (color != null) {
+    if (colorExists(color)) {
       importBuilder.append(themedMapStyle.getThemesPath());
       importBuilder.append("color-");
       importBuilder.append(color.toString());
@@ -58,5 +58,9 @@ class ImportYamlGenerator {
     importBuilder.append(" ] }");
     Log.d("sarah", "IMPORT STR: " + importBuilder.toString());
     return importBuilder.toString();
+  }
+
+  private boolean colorExists(ThemeColor color) {
+    return color != null && color != ThemeColor.NONE;
   }
 }
