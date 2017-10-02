@@ -86,6 +86,7 @@ public class SwitchStyleActivity extends BaseDemoActivity {
   @Override protected void onDestroy() {
     styleSpinner.setOnItemSelectedListener(null);
     updateBtn.setOnClickListener(null);
+    mapzenMap.setMyLocationEnabled(false);
     super.onDestroy();
   }
 
@@ -120,7 +121,7 @@ public class SwitchStyleActivity extends BaseDemoActivity {
   }
 
   private void handleStyleSelected(int position) {
-    ThemedMapStyle style = null;
+    ThemedMapStyle style;
     switch (position) {
       case 0:
         style = new BubbleWrapStyle();
