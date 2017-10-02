@@ -631,6 +631,12 @@ public class MapzenMapTest {
     assertThat(mapStateManager.getTilt()).isEqualTo(1.57f);
   }
 
+  @Test public void onDestroy_shouldUnregisterApiKeyListener() throws Exception {
+    mapzenManager.addApiKeyChangeListener(map.apiKeyChangeListener);
+    map.onDestroy();
+    verify(mapzenManager).removeApiKeyChangeListener(map.apiKeyChangeListener);
+  }
+
   @Test public void restoreMapState_shouldPersistPosition() throws Exception {
     verify(mapController).setPosition(new LngLat(0, 0));
   }

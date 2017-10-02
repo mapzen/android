@@ -107,6 +107,14 @@ public class MapzenManager {
     Collections.synchronizedList(listeners).add(listenerReference);
   }
 
+  /**
+   * Removes listener from list of managed callbacks.
+   * @param listenerReference
+   */
+  public void removeApiKeyChangeListener(WeakReference<ApiKeyChangeListener> listenerReference) {
+    Collections.synchronizedList(listeners).remove(listenerReference);
+  }
+
   private void notifyListeners() {
     for (WeakReference<ApiKeyChangeListener> weakReference : Collections.synchronizedList(
         listeners)) {

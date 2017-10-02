@@ -1088,6 +1088,8 @@ public class MapzenMap {
     mapStateManager.setZoom(mapController.getZoom());
     mapStateManager.setRotation(mapController.getRotation());
     mapStateManager.setTilt(mapController.getTilt());
+
+    mapzenManager.removeApiKeyChangeListener(apiKeyChangeListener);
   }
 
   private void postFeaturePickRunnable(final Map<String, String> properties, final float positionX,
