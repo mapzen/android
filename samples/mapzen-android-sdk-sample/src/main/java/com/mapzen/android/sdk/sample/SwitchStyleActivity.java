@@ -155,6 +155,7 @@ public class SwitchStyleActivity extends BaseDemoActivity {
       }
     }
     lodSpinner.setAdapter(adapter);
+    lodSpinner.setSelection(currentStyle.getDefaultLod());
   }
 
   private void updateLabelLevelSpinner() {
@@ -167,17 +168,25 @@ public class SwitchStyleActivity extends BaseDemoActivity {
       }
     }
     labelLevelSpinner.setAdapter(adapter);
+    labelLevelSpinner.setSelection(currentStyle.getDefaultLabelLevel());
   }
 
   private void updateColorSpinner() {
     ArrayAdapter<ThemeColor> adapter =
         new ArrayAdapter(this, R.layout.gray_spinner_item);
     adapter.setDropDownViewResource(R.layout.gray_spinner_dropdown_item);
+    int pos = 0;
     if (currentStyle != null && currentStyle.getColors() != null) {
+      int i = 0;
       for (ThemeColor color : currentStyle.getColors()) {
         adapter.add(color);
+        if (color == currentStyle.getDefaultColor()) {
+          pos = i;
+        }
+        i++;
       }
     }
     colorSpinner.setAdapter(adapter);
+    colorSpinner.setSelection(pos);
   }
 }
