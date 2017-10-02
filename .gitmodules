@@ -9,7 +9,7 @@
 	url = https://github.com/tangrams/refill-style
 [submodule "core/src/main/assets/styles/cinnabar-style"]
 	path = core/src/main/assets/styles/cinnabar-style
-	url = git@github.com:tangrams/cinnabar-style.git
+	url = https://github.com/tangrams/cinnabar-style.git
 [submodule "core/src/main/assets/styles/walkabout-style"]
 	path = core/src/main/assets/styles/walkabout-style
-	url = git@github.com:tangrams/walkabout-style.git
+	url = https://github.com/tangrams/walkabout-style.git
