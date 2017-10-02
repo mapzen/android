@@ -44,10 +44,6 @@ deployment:
       - scripts/deploy-snapshot.sh
       - ./gradlew aarSize countReleaseDexMethods permissions mapzen-android-sdk:dependencies --configuration compile
       - scripts/release.sh
-  tmp:
-    branch: 461-update-stylesheets
-    commands:
-      - scripts/deploy-samples.sh
   release:
     tag: /v[0-9]+(\.[0-9]+)*(-rc[0-9])?/
     owner: mapzen
