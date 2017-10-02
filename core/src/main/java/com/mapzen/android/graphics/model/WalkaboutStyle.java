@@ -11,7 +11,7 @@ public class WalkaboutStyle extends ThemedMapStyle {
    * Creates a new instance.
    */
   public WalkaboutStyle() {
-    super("styles/walkabout-style-more-labels/walkabout-style-more-labels.yaml");
+    super("styles/walkabout-style/walkabout-style.yaml");
   }
 
   @Override public String getBaseStyleFilename() {

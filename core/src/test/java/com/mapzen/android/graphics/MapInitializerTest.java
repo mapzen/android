@@ -6,6 +6,7 @@ import com.mapzen.android.graphics.model.BitmapMarkerManager;
 import com.mapzen.android.graphics.model.BubbleWrapStyle;
 import com.mapzen.android.graphics.model.RefillStyle;
 import com.mapzen.android.graphics.model.ThemeColor;
+import com.mapzen.android.graphics.model.ThemedMapStyle;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.SceneUpdate;
 
@@ -176,5 +177,44 @@ public class MapInitializerTest {
         + "themes/detail-10.yaml, themes/color-black.yaml ] }";
     verify(mapController).loadSceneYamlAsync(eq(yaml), eq(refillStyle.getStyleRootPath()),
     argThat(new SceneUpdatesMatcher(expected)));
+  }
+
+  @Test public void init_shouldSetDefaultLodForThemedStyle() throws Exception {
+    TestMapView mapView = mock(TestMapView.class);
+    TestTangramMapView tangramMapView = mock(TestTangramMapView.class);
+    MapController mapController = mock(MapController.class);
+    when(tangramMapView.getMap(any(MapController.SceneLoadListener.class))).thenReturn(
+        mapController);
+    when(mapView.getTangramMapView()).thenReturn(tangramMapView);
+    ThemedMapStyle style = new RefillStyle();
+    mapStateManager.setLod(-1);
+    mapInitializer.init(mapView, style, new TestCallback());
+    assertThat(mapStateManager.getLod()).isEqualTo(style.getDefaultLod());
+  }
+
+  @Test public void init_shouldSetDefaultLabelLevelForThemedStyle() throws Exception {
+    TestMapView mapView = mock(TestMapView.class);
+    TestTangramMapView tangramMapView = mock(TestTangramMapView.class);
+    MapController mapController = mock(MapController.class);
+    when(tangramMapView.getMap(any(MapController.SceneLoadListener.class))).thenReturn(
+        mapController);
+    when(mapView.getTangramMapView()).thenReturn(tangramMapView);
+    ThemedMapStyle style = new RefillStyle();
+    mapStateManager.setLabelLevel(-1);
+    mapInitializer.init(mapView, style, new TestCallback());
+    assertThat(mapStateManager.getLabelLevel()).isEqualTo(style.getDefaultLabelLevel());
+  }
+
+  @Test public void init_shouldSetDefaultColorForThemedStyle() throws Exception {
+    TestMapView mapView = mock(TestMapView.class);
+    TestTangramMapView tangramMapView = mock(TestTangramMapView.class);
+    MapController mapController = mock(MapController.class);
+    when(tangramMapView.getMap(any(MapController.SceneLoadListener.class))).thenReturn(
+        mapController);
+    when(mapView.getTangramMapView()).thenReturn(tangramMapView);
+    ThemedMapStyle style = new RefillStyle();
+    mapStateManager.setThemeColor(ThemeColor.NONE);
+    mapInitializer.init(mapView, style, new TestCallback());
+    assertThat(mapStateManager.getThemeColor()).isEqualTo(style.getDefaultColor());
   }
 }

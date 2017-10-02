@@ -1,6 +1,7 @@
 package com.mapzen.android.graphics;
 
 import com.mapzen.android.graphics.model.RefillStyle;
+import com.mapzen.android.graphics.model.ThemeColor;
 
 import org.junit.Test;
 
@@ -29,10 +30,17 @@ public class ImportYamlGeneratorTest {
     String yaml = yamlGenerator.getImportYaml(refillStyle, 3, 8, null);
     assertThat(yaml).isEqualTo("{ import: [ refill-style.yaml, themes/label-3.yaml, "
         + "themes/detail-8.yaml ] }");
+
+    yamlGenerator.getImportYaml(refillStyle, 3, 8, ThemeColor.NONE);
+    assertThat(yaml).isEqualTo("{ import: [ refill-style.yaml, themes/label-3.yaml, "
+        + "themes/detail-8.yaml ] }");
   }
 
   @Test public void getImportYaml_shouldReturnCorrectStringForNoLodNoColor() throws Exception {
     String yaml = yamlGenerator.getImportYaml(refillStyle, 3, NONE, null);
+    assertThat(yaml).isEqualTo("{ import: [ refill-style.yaml, themes/label-3.yaml ] }");
+
+    yamlGenerator.getImportYaml(refillStyle, 3, NONE, ThemeColor.NONE);
     assertThat(yaml).isEqualTo("{ import: [ refill-style.yaml, themes/label-3.yaml ] }");
   }
 }

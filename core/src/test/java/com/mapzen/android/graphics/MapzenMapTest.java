@@ -41,6 +41,7 @@ import static com.mapzen.android.graphics.SceneUpdateManager.STYLE_GLOBAL_VAR_LA
 import static com.mapzen.android.graphics.SceneUpdateManager.STYLE_GLOBAL_VAR_PATH_OVERLAY;
 import static com.mapzen.android.graphics.SceneUpdateManager.STYLE_GLOBAL_VAR_TRANSIT_OVERLAY;
 import static com.mapzen.android.graphics.model.ThemeColor.BLUE;
+import static com.mapzen.android.graphics.model.ThemedMapStyle.NONE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyFloat;
@@ -859,6 +860,16 @@ public class MapzenMapTest {
   @Test(expected = IllegalArgumentException.class)
   public void setStyleAndLabelLevelAsync_shouldVerifyHighValue() throws Exception {
     map.setStyleAndLabelLevelAsync(new RefillStyle(), 12, null);
+  }
+
+  @Test public void setStyleLabelLevelLodThemeColorAsync_shouldVerifyNoValue() throws Exception {
+    map.setStyleLabelLevelLodThemeColorAsync(new RefillStyle(), NONE, NONE, ThemeColor.NONE, null);
+    verify(mapController).loadSceneYamlAsync(anyString(), anyString(), anyList());
+  }
+
+  @Test public void setStyleLabelLevelLodThemeColor_shouldVerifyNoValue() throws Exception {
+    map.setStyleLabelLevelLodThemeColor(new RefillStyle(), NONE, NONE, ThemeColor.NONE);
+    verify(mapController).loadSceneYaml(anyString(), anyString(), anyList());
   }
 
   @Test public void setStyleAndLod_shouldCallLoadYamlWithCorrectValues() throws Exception {
