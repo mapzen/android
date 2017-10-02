@@ -4,6 +4,8 @@ import com.mapzen.android.core.CoreDI;
 import com.mapzen.android.core.MapzenManager;
 import com.mapzen.android.graphics.model.BitmapMarkerManager;
 import com.mapzen.android.graphics.model.BubbleWrapStyle;
+import com.mapzen.android.graphics.model.RefillStyle;
+import com.mapzen.android.graphics.model.ThemeColor;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.SceneUpdate;
 
@@ -29,6 +31,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.argThat;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -53,14 +56,13 @@ public class MapInitializerTest {
     assertThat(mapInitializer).isNotNull();
   }
 
-  //@Test public void init_shouldReturnMapzenMap() throws Exception {
-  //  final TestCallback callback = new TestCallback();
-  //  final TestMapView mapView = new TestMapView(callback);
-  //  MapzenManager.instance(getMockContext()).setApiKey("fake-mapzen-api-key");
-  //  MapController controller = mock(MapController.class);
-  //  mapInitializer.init(mapView, callback);
-  //  assertThat(callback.map).isInstanceOf(MapzenMap.class);
-  //}
+  @Test public void init_shouldReturnMapzenMap() throws Exception {
+    final TestCallback callback = new TestCallback();
+    final TestMapView mapView = new TestMapView(callback);
+    MapzenManager.instance(getMockContext()).setApiKey("fake-mapzen-api-key");
+    mapInitializer.init(mapView, callback);
+    assertThat(callback.map).isInstanceOf(MapzenMap.class);
+  }
 
   @Test public void init_shouldSetDefaultMapLocale() throws Exception {
     // Arrange
@@ -146,36 +148,33 @@ public class MapInitializerTest {
         new SceneUpdatesMatcher(expected)));
   }
 
-  //@Test public void init_shouldCallLoadSceneYamlAsync() throws Exception {
-  //  // Arrange
-  //  TestCallback callback = mock(TestCallback.class);
-  //  TestMapView mapView = mock(TestMapView.class);
-  //  TestTangramMapView tangramMapView = mock(TestTangramMapView.class);
-  //  MapController mapController = mock(MapController.class);
-  //  when(tangramMapView.getMap(any(MapController.SceneLoadListener.class))).thenReturn(
-  //      mapController);
-  //  tangramMapView.mapView = mapView;
-  //  tangramMapView.callback = callback;
-  //  when(mapView.getTangramMapView()).thenReturn(tangramMapView);
-  //  MapzenManager.instance(getMockContext()).setApiKey("fake-mapzen-api-key");
-  //  mapStateManager.setThemeColor(ThemeColor.BLACK);
-  //  mapStateManager.setLabelLevel(10);
-  //  mapStateManager.setLod(10);
-  //
-  //  // Act
-  //  RefillStyle refillStyle = new RefillStyle();
-  //  mapInitializer.init(mapView, refillStyle, null);
-  //
-  //  // Assert
-  //  ArrayList<SceneUpdate> expected = new ArrayList<>();
-  //  expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_API_KEY, "fake-mapzen-api-key"));
-  //  expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_LANGUAGE, Locale.getDefault().getLanguage()));
-  //  expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "false"));
-  //  expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false"));
-  //  expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "true"));
-  //  String yaml = "{ import: [ refill-style.yaml, themes/label-10.yaml, "
-  //      + "themes/detail-10.yaml, themes/color-black.yaml ] }";
-  //  verify(mapController).loadSceneYamlAsync(eq(yaml), eq(refillStyle.getStyleRootPath()),
-  //  argThat(new SceneUpdatesMatcher(expected)));
-  //}
+  @Test public void init_shouldCallLoadSceneYamlAsync() throws Exception {
+    // Arrange
+    TestCallback callback = mock(TestCallback.class);
+    TestMapView mapView = mock(TestMapView.class);
+    TestTangramMapView tangramMapView = mock(TestTangramMapView.class);
+    MapController mapController = mock(MapController.class);
+    when(tangramMapView.getMap(any(MapController.SceneLoadListener.class))).thenReturn(
+        mapController);
+    tangramMapView.mapView = mapView;
+    tangramMapView.callback = callback;
+    when(mapView.getTangramMapView()).thenReturn(tangramMapView);
+    MapzenManager.instance(getMockContext()).setApiKey("fake-mapzen-api-key");
+
+    // Act
+    RefillStyle refillStyle = new RefillStyle();
+    mapInitializer.init(mapView, refillStyle, null);
+
+    // Assert
+    ArrayList<SceneUpdate> expected = new ArrayList<>();
+    expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_API_KEY, "fake-mapzen-api-key"));
+    expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_LANGUAGE, Locale.getDefault().getLanguage()));
+    expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "false"));
+    expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false"));
+    expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "true"));
+    String yaml = "{ import: [ refill-style.yaml, themes/label-5.yaml, "
+        + "themes/detail-10.yaml, themes/color-black.yaml ] }";
+    verify(mapController).loadSceneYamlAsync(eq(yaml), eq(refillStyle.getStyleRootPath()),
+    argThat(new SceneUpdatesMatcher(expected)));
+  }
 }

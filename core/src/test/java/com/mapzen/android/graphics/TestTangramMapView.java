@@ -39,6 +39,13 @@ public class TestTangramMapView extends TangramMapView {
         return null;
       }
     });
+    when(controller.loadSceneYamlAsync(anyString(), anyString(), any(List.class))).thenAnswer(
+        new Answer<Void>() {
+          @Override public Void answer(InvocationOnMock invocation) throws Throwable {
+            mapView.getMapAsync(callback);
+            return null;
+          }
+        });
     return controller;
   }
 }
