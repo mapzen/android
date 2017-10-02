@@ -2,10 +2,8 @@ package com.mapzen.android.graphics;
 
 import com.mapzen.android.core.CoreDI;
 import com.mapzen.android.core.MapzenManager;
-import com.mapzen.android.graphics.model.BubbleWrapStyle;
 import com.mapzen.android.graphics.model.BitmapMarkerManager;
-import com.mapzen.android.graphics.model.RefillStyle;
-import com.mapzen.android.graphics.model.ThemeColor;
+import com.mapzen.android.graphics.model.BubbleWrapStyle;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.SceneUpdate;
 
@@ -29,10 +27,8 @@ import static com.mapzen.android.graphics.SceneUpdateManager.STYLE_GLOBAL_VAR_PA
 import static com.mapzen.android.graphics.SceneUpdateManager.STYLE_GLOBAL_VAR_TRANSIT_OVERLAY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.argThat;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -179,7 +175,7 @@ public class MapInitializerTest {
   //  expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "true"));
   //  String yaml = "{ import: [ refill-style.yaml, themes/label-10.yaml, "
   //      + "themes/detail-10.yaml, themes/color-black.yaml ] }";
-  //  verify(mapController).loadSceneYamlAsync(eq(yaml), eq(refillStyle.getStyleRootPath()), argThat(
-  //      new SceneUpdatesMatcher(expected)));
+  //  verify(mapController).loadSceneYamlAsync(eq(yaml), eq(refillStyle.getStyleRootPath()),
+  //  argThat(new SceneUpdatesMatcher(expected)));
   //}
 }

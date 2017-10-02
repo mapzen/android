@@ -20,7 +20,6 @@
   <string name="style_refill">Refill</string>
   <string name="style_outdoor">Outdoor</string>
   <string-array name="style_array">
-    <item>(Select Style)</item>
     <item>Bubble Wrap</item>
     <item>Cinnabar</item>
     <item>Refill</item>

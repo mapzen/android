@@ -43,7 +43,7 @@ public class BubbleWrapStyle extends ThemedMapStyle {
   }
 
   @Override public ThemeColor getDefaultColor() {
-    return null;
+    return ThemeColor.NONE;
   }
 
   @Override public Set<ThemeColor> getColors() {

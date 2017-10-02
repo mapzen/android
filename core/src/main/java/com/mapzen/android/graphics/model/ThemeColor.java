@@ -4,6 +4,7 @@ package com.mapzen.android.graphics.model;
  * Available color themes for {@link RefillStyle}.
  */
 public enum ThemeColor {
+  NONE(null),
   BLACK("black"),
   BLUE("blue"),
   BLUEGRAY("blue-gray"),

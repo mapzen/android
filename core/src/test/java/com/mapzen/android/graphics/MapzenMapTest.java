@@ -843,12 +843,12 @@ public class MapzenMapTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void setStyleAndLabelLevel_shouldVerifyLowValue() throws Exception {
-    map.setStyleAndLabelLevel(new RefillStyle(), -1);
+    map.setStyleAndLabelLevel(new RefillStyle(), -10);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void setStyleAndLabelLevelAsync_shouldVerifyLowValue() throws Exception {
-    map.setStyleAndLabelLevelAsync(new RefillStyle(), -1, null);
+    map.setStyleAndLabelLevelAsync(new RefillStyle(), -10, null);
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -920,12 +920,12 @@ public class MapzenMapTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void setStyleAndLod_shouldVerifyLowValue() throws Exception {
-    map.setStyleAndLod(new RefillStyle(), -1);
+    map.setStyleAndLod(new RefillStyle(), -10);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void setStyleAndLodAsync_shouldVerifyLowValue() throws Exception {
-    map.setStyleAndLodAsync(new RefillStyle(), -1, null);
+    map.setStyleAndLodAsync(new RefillStyle(), -10, null);
   }
 
   @Test(expected = IllegalArgumentException.class)
