@@ -7,7 +7,10 @@ import static com.mapzen.android.graphics.model.ThemeColor.ZINC;
 
 /**
  * Zinc more labels map style.
+ *
+ * Deprecated in favor of {@link RefillStyle} with {@link ThemeColor#ZINC}.
  */
+@Deprecated
 public class ZincStyle extends ThemedMapStyle {
 
   private final Set<ThemeColor> supportedColors = new HashSet<ThemeColor>() {
