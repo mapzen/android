@@ -90,6 +90,12 @@ public class MapInitializer {
       mapStyle = restoredMapStyle;
     }
     mapStateManager.setMapStyle(mapStyle);
+    if (mapStyle instanceof ThemedMapStyle) {
+      ThemedMapStyle themedStyle = (ThemedMapStyle) mapStyle;
+      mapStateManager.setLabelLevel(themedStyle.getDefaultLabelLevel());
+      mapStateManager.setLod(themedStyle.getDefaultLod());
+      mapStateManager.setThemeColor(themedStyle.getDefaultColor());
+    }
     loadMap(mapView, mapStyle, callback);
   }
 

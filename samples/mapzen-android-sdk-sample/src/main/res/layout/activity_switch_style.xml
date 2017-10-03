@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+  <LinearLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+      <TextView
+          android:layout_width="@dimen/form_row_width"
+          android:layout_height="@dimen/form_row_height"
+          android:gravity="right"
+          android:text="Style:"
+          />
+
+      <Spinner
+          android:layout_width="@dimen/form_row_width"
+          android:layout_height="@dimen/form_row_height"
+          android:id="@+id/styleSpinner"
+          />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/form_row_height"
+        android:orientation="horizontal">
+
+      <TextView
+          android:layout_width="@dimen/form_row_width"
+          android:layout_height="@dimen/form_row_height"
+          android:gravity="right"
+          android:text="LOD:"
+          />
+
+      <Spinner
+          android:layout_width="@dimen/form_row_width"
+          android:layout_height="@dimen/form_row_height"
+          android:id="@+id/lodSpinner"
+          />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+      <TextView
+          android:layout_width="@dimen/form_row_width"
+          android:layout_height="@dimen/form_row_height"
+          android:gravity="right"
+          android:text="Label Level:"
+          />
+
+      <Spinner
+          android:layout_width="@dimen/form_row_width"
+          android:layout_height="@dimen/form_row_height"
+          android:id="@+id/labelLevelSpinner"
+          />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+      <TextView
+          android:layout_width="@dimen/form_row_width"
+          android:layout_height="@dimen/form_row_height"
+          android:gravity="right"
+          android:text="Color:"
+          />
+
+      <Spinner
+          android:layout_width="@dimen/form_row_width"
+          android:layout_height="@dimen/form_row_height"
+          android:id="@+id/colorSpinner"
+          />
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/updateMapBtn"
+        android:text="Update Map"
+        />
+  </LinearLayout>
+
+  <fragment
+      android:id="@+id/fragment"
+      android:name="com.mapzen.android.graphics.MapFragment"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      app:layout_behavior="@string/appbar_scrolling_view_behavior"
+      app:overlayMode="classic"
+      />
+
+</LinearLayout>

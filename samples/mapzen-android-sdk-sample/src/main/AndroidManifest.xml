@@ -24,9 +24,7 @@
     <activity android:name=".MarkerMapzenActivity"/>
     <activity android:name=".PolylineMapzenActivity"/>
     <activity android:name=".PolygonMapzenActivity"/>
-    <activity
-        android:name=".SwitchStyleActivity"
-        android:theme="@style/AppTheme.NoActionBar"/>
+    <activity android:name=".SwitchStyleActivity"/>
     <activity android:name=".TouchResponderActivity"/>
     <activity
         android:name=".CustomStylesheetActivity"

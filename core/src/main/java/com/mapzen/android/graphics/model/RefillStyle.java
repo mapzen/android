@@ -16,6 +16,7 @@ import static com.mapzen.android.graphics.model.ThemeColor.PINK;
 import static com.mapzen.android.graphics.model.ThemeColor.PINKYELLOW;
 import static com.mapzen.android.graphics.model.ThemeColor.PURPLEGREEN;
 import static com.mapzen.android.graphics.model.ThemeColor.SEPIA;
+import static com.mapzen.android.graphics.model.ThemeColor.ZINC;
 
 /**
  * Refill default map style.
@@ -36,6 +37,7 @@ public class RefillStyle extends ThemedMapStyle {
     add(PINKYELLOW);
     add(PURPLEGREEN);
     add(SEPIA);
+    add(ZINC);
   } };
 
   /**
@@ -58,7 +60,7 @@ public class RefillStyle extends ThemedMapStyle {
   }
 
   @Override public int getDefaultLod() {
-    return 5;
+    return 10;
   }
 
   @Override public int getLodCount() {

@@ -2,10 +2,11 @@ package com.mapzen.android.graphics;
 
 import com.mapzen.android.core.CoreDI;
 import com.mapzen.android.core.MapzenManager;
-import com.mapzen.android.graphics.model.BubbleWrapStyle;
 import com.mapzen.android.graphics.model.BitmapMarkerManager;
+import com.mapzen.android.graphics.model.BubbleWrapStyle;
 import com.mapzen.android.graphics.model.RefillStyle;
 import com.mapzen.android.graphics.model.ThemeColor;
+import com.mapzen.android.graphics.model.ThemedMapStyle;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.SceneUpdate;
 
@@ -88,7 +89,7 @@ public class MapInitializerTest {
     expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false"));
     expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "true"));
     verify(tangramMapView).getMap(any(MapController.SceneLoadListener.class));
-    verify(mapController).loadSceneFileAsync(anyString(), argThat(
+    verify(mapController).loadSceneYamlAsync(anyString(), anyString(), argThat(
         new SceneUpdatesMatcher(expected)));
   }
 
@@ -116,7 +117,7 @@ public class MapInitializerTest {
     expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false"));
     expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "true"));
     verify(tangramMapView).getMap(any(MapController.SceneLoadListener.class));
-    verify(mapController).loadSceneFileAsync(anyString(), argThat(
+    verify(mapController).loadSceneYamlAsync(anyString(), anyString(), argThat(
         new SceneUpdatesMatcher(expected)));
   }
 
@@ -144,7 +145,7 @@ public class MapInitializerTest {
     expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false"));
     expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "true"));
     verify(tangramMapView).getMap(any(MapController.SceneLoadListener.class));
-    verify(mapController).loadSceneFileAsync(anyString(), argThat(
+    verify(mapController).loadSceneYamlAsync(anyString(), anyString(), argThat(
         new SceneUpdatesMatcher(expected)));
   }
 
@@ -160,9 +161,6 @@ public class MapInitializerTest {
     tangramMapView.callback = callback;
     when(mapView.getTangramMapView()).thenReturn(tangramMapView);
     MapzenManager.instance(getMockContext()).setApiKey("fake-mapzen-api-key");
-    mapStateManager.setThemeColor(ThemeColor.BLACK);
-    mapStateManager.setLabelLevel(10);
-    mapStateManager.setLod(10);
 
     // Act
     RefillStyle refillStyle = new RefillStyle();
@@ -175,9 +173,48 @@ public class MapInitializerTest {
     expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "false"));
     expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false"));
     expected.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "true"));
-    String yaml = "{ import: [ refill-style.yaml, themes/label-10.yaml, "
+    String yaml = "{ import: [ refill-style.yaml, themes/label-5.yaml, "
         + "themes/detail-10.yaml, themes/color-black.yaml ] }";
-    verify(mapController).loadSceneYamlAsync(eq(yaml), eq(refillStyle.getStyleRootPath()), argThat(
-        new SceneUpdatesMatcher(expected)));
+    verify(mapController).loadSceneYamlAsync(eq(yaml), eq(refillStyle.getStyleRootPath()),
+    argThat(new SceneUpdatesMatcher(expected)));
+  }
+
+  @Test public void init_shouldSetDefaultLodForThemedStyle() throws Exception {
+    TestMapView mapView = mock(TestMapView.class);
+    TestTangramMapView tangramMapView = mock(TestTangramMapView.class);
+    MapController mapController = mock(MapController.class);
+    when(tangramMapView.getMap(any(MapController.SceneLoadListener.class))).thenReturn(
+        mapController);
+    when(mapView.getTangramMapView()).thenReturn(tangramMapView);
+    ThemedMapStyle style = new RefillStyle();
+    mapStateManager.setLod(-1);
+    mapInitializer.init(mapView, style, new TestCallback());
+    assertThat(mapStateManager.getLod()).isEqualTo(style.getDefaultLod());
+  }
+
+  @Test public void init_shouldSetDefaultLabelLevelForThemedStyle() throws Exception {
+    TestMapView mapView = mock(TestMapView.class);
+    TestTangramMapView tangramMapView = mock(TestTangramMapView.class);
+    MapController mapController = mock(MapController.class);
+    when(tangramMapView.getMap(any(MapController.SceneLoadListener.class))).thenReturn(
+        mapController);
+    when(mapView.getTangramMapView()).thenReturn(tangramMapView);
+    ThemedMapStyle style = new RefillStyle();
+    mapStateManager.setLabelLevel(-1);
+    mapInitializer.init(mapView, style, new TestCallback());
+    assertThat(mapStateManager.getLabelLevel()).isEqualTo(style.getDefaultLabelLevel());
+  }
+
+  @Test public void init_shouldSetDefaultColorForThemedStyle() throws Exception {
+    TestMapView mapView = mock(TestMapView.class);
+    TestTangramMapView tangramMapView = mock(TestTangramMapView.class);
+    MapController mapController = mock(MapController.class);
+    when(tangramMapView.getMap(any(MapController.SceneLoadListener.class))).thenReturn(
+        mapController);
+    when(mapView.getTangramMapView()).thenReturn(tangramMapView);
+    ThemedMapStyle style = new RefillStyle();
+    mapStateManager.setThemeColor(ThemeColor.NONE);
+    mapInitializer.init(mapView, style, new TestCallback());
+    assertThat(mapStateManager.getThemeColor()).isEqualTo(style.getDefaultColor());
   }
 }

@@ -8,6 +8,7 @@ import com.mapzen.tangram.LngLat;
 
 import org.junit.Test;
 
+import static com.mapzen.android.graphics.model.ThemedMapStyle.NONE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class MapStateManagerTest {
@@ -106,8 +107,8 @@ public class MapStateManagerTest {
     assertThat(stateManager.isPathOverlayEnabled()).isEqualTo(true);
   }
 
-  @Test public void getLabelLevel_shouldDefaultToZero() {
-    assertThat(stateManager.getLabelLevel()).isEqualTo(0);
+  @Test public void getLabelLevel_shouldDefaultToNone() {
+    assertThat(stateManager.getLabelLevel()).isEqualTo(NONE);
   }
 
   @Test public void setLabelLevel_shouldUpdateLabelLevel() {
@@ -115,8 +116,8 @@ public class MapStateManagerTest {
     assertThat(stateManager.getLabelLevel()).isEqualTo(4);
   }
 
-  @Test public void getLod_shouldDefaultToZero() {
-    assertThat(stateManager.getLod()).isEqualTo(0);
+  @Test public void getLod_shouldDefaultToNone() {
+    assertThat(stateManager.getLod()).isEqualTo(NONE);
   }
 
   @Test public void setDetailLevel_shouldUpdateDetailLevel() {

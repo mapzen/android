@@ -40,6 +40,7 @@ import java.util.Map;
 
 import static
     com.mapzen.android.graphics.internal.EaseTypeConverter.EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE;
+import static com.mapzen.android.graphics.model.ThemedMapStyle.NONE;
 
 /**
  * This is the main class of the Mapzen Android API and is the entry point for all methods related
@@ -1203,6 +1204,9 @@ public class MapzenMap {
    * @return
    */
   private boolean isValidLabelLevel(int labelLevel) {
+    if (labelLevel == NONE) {
+      return true;
+    }
     return labelLevel >= 0 && labelLevel < getThemedMapStyle().getLabelCount();
   }
 
@@ -1214,6 +1218,9 @@ public class MapzenMap {
    * @return
    */
   private boolean isValidLod(int lod) {
+    if (lod == NONE) {
+      return true;
+    }
     return lod >= 0 && lod < getThemedMapStyle().getLodCount();
   }
 
@@ -1225,6 +1232,9 @@ public class MapzenMap {
    * @return
    */
   private boolean isValidColor(ThemeColor color) {
+    if (color == ThemeColor.NONE) {
+      return true;
+    }
     return getThemedMapStyle().getColors().contains(color);
   }
 

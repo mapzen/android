@@ -41,6 +41,7 @@ import static com.mapzen.android.graphics.SceneUpdateManager.STYLE_GLOBAL_VAR_LA
 import static com.mapzen.android.graphics.SceneUpdateManager.STYLE_GLOBAL_VAR_PATH_OVERLAY;
 import static com.mapzen.android.graphics.SceneUpdateManager.STYLE_GLOBAL_VAR_TRANSIT_OVERLAY;
 import static com.mapzen.android.graphics.model.ThemeColor.BLUE;
+import static com.mapzen.android.graphics.model.ThemedMapStyle.NONE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyFloat;
@@ -660,7 +661,7 @@ public class MapzenMapTest {
 
   @Test public void setStyle_shouldSetStyleAndGlobalVariables() throws Exception {
     map.setStyle(new WalkaboutStyle());
-    verify(mapController).loadSceneFile(anyString(), any(List.class));
+    verify(mapController).loadSceneYaml(anyString(), anyString(), any(List.class));
   }
 
   @Test public void setStyle_shouldNotCallMapControllerAsyncMethod() throws Exception {
@@ -670,12 +671,12 @@ public class MapzenMapTest {
 
   @Test public void setStyleAsync_shouldSetStyleAndGlobalVariables() throws Exception {
     map.setStyleAsync(new WalkaboutStyle(), null);
-    verify(mapController).loadSceneFileAsync(anyString(), any(List.class));
+    verify(mapController).loadSceneYamlAsync(anyString(), anyString(), any(List.class));
   }
 
   @Test public void setStyleAsync_shouldCallListenerOnSceneLoaded() throws Exception {
     int sceneId = 1;
-    when(mapController.loadSceneFileAsync(anyString(), anyList())).thenReturn(sceneId);
+    when(mapController.loadSceneYamlAsync(anyString(), anyString(), anyList())).thenReturn(sceneId);
     TestOnStyleLoadedListener listener = new TestOnStyleLoadedListener();
     map.setStyleAsync(new WalkaboutStyle(), listener);
     map.internalSceneLoadListener.onSceneReady(sceneId, null);
@@ -696,7 +697,7 @@ public class MapzenMapTest {
     sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_TRANSIT_OVERLAY, "false"));
     sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_BIKE_OVERLAY, "false"));
     sceneUpdates.add(new SceneUpdate(STYLE_GLOBAL_VAR_PATH_OVERLAY, "true"));
-    verify(mapController).loadSceneFile(anyString(), argThat(
+    verify(mapController).loadSceneYaml(anyString(), anyString(), argThat(
         new SceneUpdatesMatcher(sceneUpdates)));
   }
 
@@ -843,12 +844,12 @@ public class MapzenMapTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void setStyleAndLabelLevel_shouldVerifyLowValue() throws Exception {
-    map.setStyleAndLabelLevel(new RefillStyle(), -1);
+    map.setStyleAndLabelLevel(new RefillStyle(), -10);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void setStyleAndLabelLevelAsync_shouldVerifyLowValue() throws Exception {
-    map.setStyleAndLabelLevelAsync(new RefillStyle(), -1, null);
+    map.setStyleAndLabelLevelAsync(new RefillStyle(), -10, null);
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -859,6 +860,16 @@ public class MapzenMapTest {
   @Test(expected = IllegalArgumentException.class)
   public void setStyleAndLabelLevelAsync_shouldVerifyHighValue() throws Exception {
     map.setStyleAndLabelLevelAsync(new RefillStyle(), 12, null);
+  }
+
+  @Test public void setStyleLabelLevelLodThemeColorAsync_shouldVerifyNoValue() throws Exception {
+    map.setStyleLabelLevelLodThemeColorAsync(new RefillStyle(), NONE, NONE, ThemeColor.NONE, null);
+    verify(mapController).loadSceneYamlAsync(anyString(), anyString(), anyList());
+  }
+
+  @Test public void setStyleLabelLevelLodThemeColor_shouldVerifyNoValue() throws Exception {
+    map.setStyleLabelLevelLodThemeColor(new RefillStyle(), NONE, NONE, ThemeColor.NONE);
+    verify(mapController).loadSceneYaml(anyString(), anyString(), anyList());
   }
 
   @Test public void setStyleAndLod_shouldCallLoadYamlWithCorrectValues() throws Exception {
@@ -920,12 +931,12 @@ public class MapzenMapTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void setStyleAndLod_shouldVerifyLowValue() throws Exception {
-    map.setStyleAndLod(new RefillStyle(), -1);
+    map.setStyleAndLod(new RefillStyle(), -10);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void setStyleAndLodAsync_shouldVerifyLowValue() throws Exception {
-    map.setStyleAndLodAsync(new RefillStyle(), -1, null);
+    map.setStyleAndLodAsync(new RefillStyle(), -10, null);
   }
 
   @Test(expected = IllegalArgumentException.class)
