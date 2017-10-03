@@ -7,7 +7,6 @@ import com.mapzen.pelias.PeliasRequestHandler;
 
 import android.content.Context;
 
-import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,12 +16,11 @@ import java.util.Map;
 public abstract class MapzenSearchHttpHandler implements GenericHttpHandler {
 
   private SearchRequestHandler searchHandler;
-  WeakReference<ApiKeyChangeListener> apiKeyChangeListener = new WeakReference(
-      new ApiKeyChangeListener() {
-        @Override public void onApiKeyChanged(String apiKey) {
-          searchHandler.setApiKey(apiKey);
-        }
-      });
+  ApiKeyChangeListener apiKeyChangeListener = new ApiKeyChangeListener() {
+    @Override public void onApiKeyChanged(String apiKey) {
+      searchHandler.setApiKey(apiKey);
+    }
+  };
 
   /**
    * Public constructor.

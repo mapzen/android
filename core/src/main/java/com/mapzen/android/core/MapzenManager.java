@@ -5,7 +5,6 @@ import com.mapzen.BuildConfig;
 import android.content.Context;
 import android.content.res.Resources;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -38,7 +37,7 @@ public class MapzenManager {
 
   static MapzenManager instance;
 
-  private List<WeakReference<ApiKeyChangeListener>> listeners = new ArrayList<>();
+  private List<ApiKeyChangeListener> listeners = new ArrayList<>();
 
   /**
    * Get singleton instance.
@@ -101,19 +100,23 @@ public class MapzenManager {
   /**
    * Adds listener to list of managed callbacks so that it can be notified when API key changes
    * occur.
-   * @param listenerReference
+   * @param listener
    */
-  public void addApiKeyChangeListener(WeakReference<ApiKeyChangeListener> listenerReference) {
-    Collections.synchronizedList(listeners).add(listenerReference);
+  public void addApiKeyChangeListener(ApiKeyChangeListener listener) {
+    Collections.synchronizedList(listeners).add(listener);
+  }
+
+  /**
+   * Removes listener from list of managed callbacks.
+   * @param listener
+   */
+  public void removeApiKeyChangeListener(ApiKeyChangeListener listener) {
+    Collections.synchronizedList(listeners).remove(listener);
   }
 
   private void notifyListeners() {
-    for (WeakReference<ApiKeyChangeListener> weakReference : Collections.synchronizedList(
-        listeners)) {
-      ApiKeyChangeListener listener = weakReference.get();
-      if (listener != null) {
-        listener.onApiKeyChanged(apiKey);
-      }
+    for (ApiKeyChangeListener listener: Collections.synchronizedList(listeners)) {
+      listener.onApiKeyChanged(apiKey);
     }
   }
 }
