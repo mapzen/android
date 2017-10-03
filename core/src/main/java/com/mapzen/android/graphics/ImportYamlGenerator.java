@@ -3,8 +3,6 @@ package com.mapzen.android.graphics;
 import com.mapzen.android.graphics.model.ThemeColor;
 import com.mapzen.android.graphics.model.ThemedMapStyle;
 
-import android.util.Log;
-
 import static com.mapzen.android.graphics.model.ThemedMapStyle.NONE;
 
 /**
@@ -56,7 +54,6 @@ class ImportYamlGenerator {
     }
 
     importBuilder.append(" ] }");
-    Log.d("sarah", "IMPORT STR: " + importBuilder.toString());
     return importBuilder.toString();
   }
 
