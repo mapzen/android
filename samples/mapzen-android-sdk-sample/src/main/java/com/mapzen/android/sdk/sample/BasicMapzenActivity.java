@@ -89,7 +89,9 @@ public class BasicMapzenActivity extends BaseDemoActivity
 
   @Override protected void onDestroy() {
     super.onDestroy();
-    map.setFindMeOnClickListener(null);
+    if (map != null) {
+      map.setFindMeOnClickListener(null);
+    }
   }
 
   @Override public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
