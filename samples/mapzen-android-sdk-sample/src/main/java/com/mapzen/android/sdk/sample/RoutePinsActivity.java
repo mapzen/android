@@ -61,7 +61,9 @@ public class RoutePinsActivity extends BaseDemoActivity {
   }
 
   @Override protected void onDestroy() {
-    map.clearRoutePins();
+    if (map != null) {
+        map.clearRoutePins();
+    }
     super.onDestroy();
   }
 }

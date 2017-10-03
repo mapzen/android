@@ -43,7 +43,9 @@ public class PolygonMapzenActivity extends BaseDemoActivity {
   }
 
   @Override protected void onDestroy() {
-    map.removePolygon();
+    if (map != null) {
+        map.removePolygon();
+    }
     super.onDestroy();
   }
 }
