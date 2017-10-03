@@ -118,7 +118,9 @@ public class RouterActivity extends BaseDemoActivity {
   }
 
   @Override protected void onDestroy() {
-    map.setMyLocationEnabled(false);
+    if (map != null) {
+        map.setMyLocationEnabled(false);
+    }
     super.onDestroy();
   }
 }

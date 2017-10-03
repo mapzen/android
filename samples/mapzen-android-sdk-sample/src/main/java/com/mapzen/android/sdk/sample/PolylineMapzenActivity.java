@@ -42,7 +42,9 @@ public class PolylineMapzenActivity extends BaseDemoActivity {
   }
 
   @Override protected void onDestroy() {
-    map.removePolyline();
+    if (map != null) {
+        map.removePolyline();
+    }
     super.onDestroy();
   }
 }

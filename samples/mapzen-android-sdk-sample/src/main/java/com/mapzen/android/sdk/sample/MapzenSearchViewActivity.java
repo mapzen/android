@@ -1,4 +1,4 @@
-package com.mapzen.android.sdk.sample;
+ package com.mapzen.android.sdk.sample;
 
 import com.mapzen.android.graphics.MapView;
 import com.mapzen.android.graphics.MapzenMap;
@@ -99,6 +99,8 @@ public class MapzenSearchViewActivity extends BaseDemoActivity {
 
   @Override protected void onDestroy() {
     super.onDestroy();
-    mapzenMap.setPersistMapData(false);
+    if (mapzenMap != null) {
+        mapzenMap.setPersistMapData(false);
+    }
   }
 }

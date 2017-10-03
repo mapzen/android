@@ -86,7 +86,9 @@ public class SwitchStyleActivity extends BaseDemoActivity {
   @Override protected void onDestroy() {
     styleSpinner.setOnItemSelectedListener(null);
     updateBtn.setOnClickListener(null);
-    mapzenMap.setMyLocationEnabled(false);
+    if (mapzenMap != null) {
+        mapzenMap.setMyLocationEnabled(false);
+    }
     super.onDestroy();
   }
 

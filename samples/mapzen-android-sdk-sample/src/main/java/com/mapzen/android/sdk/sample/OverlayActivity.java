@@ -57,7 +57,9 @@ public class OverlayActivity extends SwitchStyleActivity {
   }
 
   @Override protected void onDestroy() {
-    mapzenMap.setMyLocationEnabled(false);
+    if (mapzenMap != null) {
+        mapzenMap.setMyLocationEnabled(false);
+    }
     super.onDestroy();
   }
 

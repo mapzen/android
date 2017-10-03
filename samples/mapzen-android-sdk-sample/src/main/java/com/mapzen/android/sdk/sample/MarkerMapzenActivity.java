@@ -40,7 +40,9 @@ public class MarkerMapzenActivity extends BaseDemoActivity {
   }
 
   @Override protected void onDestroy() {
-    map.removeMarker();
+    if (map != null) {
+        map.removeMarker();
+    }
     super.onDestroy();
   }
 }
