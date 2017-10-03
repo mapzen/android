@@ -9,7 +9,7 @@ import android.widget.Spinner;
 /**
  * Example activity for toggling transit, bike, and path overlays.
  */
-public class OverlayActivity extends SwitchStyleActivity {
+public class OverlayActivity extends SimpleStyleSwitcherActivity {
 
   private AdapterView.OnItemSelectedListener itemSelectedListener =
       new AdapterView.OnItemSelectedListener() {
@@ -40,6 +40,10 @@ public class OverlayActivity extends SwitchStyleActivity {
     }
   };
 
+  @Override int getLayoutId() {
+    return R.layout.activity_overlay;
+  }
+
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
@@ -52,7 +56,7 @@ public class OverlayActivity extends SwitchStyleActivity {
   }
 
   @Override void configureMap() {
-    super.configureMap();
+    mapzenMap.setPersistMapState(true);
     mapzenMap.setMyLocationEnabled(true);
   }
 
@@ -61,10 +65,6 @@ public class OverlayActivity extends SwitchStyleActivity {
         mapzenMap.setMyLocationEnabled(false);
     }
     super.onDestroy();
-  }
-
-  int getLayoutId() {
-    return R.layout.activity_overlay;
   }
 
   /**
