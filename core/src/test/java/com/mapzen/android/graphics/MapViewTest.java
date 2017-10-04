@@ -105,8 +105,16 @@ public class MapViewTest {
   @Test public void onDestroy_shouldDestroyMapzenMap() throws Exception {
     MapzenMap map = mock(MapzenMap.class);
     mapView.setMapzenMap(map);
+    mapView.mapInitializer = mock(MapInitializer.class);
     mapView.onDestroy();
     verify(map).onDestroy();
+  }
+
+  @Test public void onDestroy_shouldTakedownInitializer() throws Exception {
+    MapInitializer initializer = mock(MapInitializer.class);
+    mapView.mapInitializer = initializer;
+    mapView.onDestroy();
+    verify(initializer).takeDown();
   }
 
   private void initMockAttributes(Context context, TypedArray typedArray,

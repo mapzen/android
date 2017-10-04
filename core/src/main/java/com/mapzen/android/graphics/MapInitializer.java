@@ -1,9 +1,9 @@
 package com.mapzen.android.graphics;
 
 import com.mapzen.android.core.MapzenManager;
+import com.mapzen.android.graphics.model.BitmapMarkerManager;
 import com.mapzen.android.graphics.model.BubbleWrapStyle;
 import com.mapzen.android.graphics.model.MapStyle;
-import com.mapzen.android.graphics.model.BitmapMarkerManager;
 import com.mapzen.android.graphics.model.ThemedMapStyle;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.SceneError;
@@ -38,6 +38,8 @@ public class MapInitializer {
   private BitmapMarkerManager bitmapMarkerManager;
 
   private ImportYamlGenerator yamlGenerator;
+
+  MapController controller;
 
   /**
    * Creates a new instance.
@@ -105,7 +107,7 @@ public class MapInitializer {
     final List<SceneUpdate> sceneUpdates = sceneUpdateManager.getUpdatesFor(apiKey, locale,
         mapStateManager.isTransitOverlayEnabled(), mapStateManager.isBikeOverlayEnabled(),
         mapStateManager.isPathOverlayEnabled());
-    MapController controller = mapView.getTangramMapView().getMap(
+    controller = mapView.getTangramMapView().getMap(
         new MapController.SceneLoadListener() {
       @Override public void onSceneReady(int sceneId, SceneError sceneError) {
         mapReadyInitializer.onMapReady(mapView, mapzenMapHttpHandler, callback, mapDataManager,
@@ -120,5 +122,13 @@ public class MapInitializer {
     } else {
       controller.loadSceneFileAsync(mapStyle.getSceneFile(), sceneUpdates);
     }
+  }
+
+  /**
+   * Called my {@link MapView} when the view has been destroyed. Use this method to prevent scene
+   * updates and other future interaction with {@link MapController}.
+   */
+  public void takeDown() {
+    controller.setSceneLoadListener(null);
   }
 }
