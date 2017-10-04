@@ -242,6 +242,8 @@ public class MapView extends RelativeLayout {
    * You must call this method from the parent Activity/Fragment's corresponding method.
    */
   public void onDestroy() {
+    mapInitializer.takeDown();
+
     if (mapzenMap != null) {
       mapzenMap.onDestroy();
     }

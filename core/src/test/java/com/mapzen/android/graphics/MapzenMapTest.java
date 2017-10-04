@@ -637,6 +637,61 @@ public class MapzenMapTest {
     verify(mapzenManager).removeApiKeyChangeListener(map.apiKeyChangeListener);
   }
 
+  @Test public void onDestroy_shouldUnregisterSceneLoadListener() throws Exception {
+    map.onDestroy();
+    verify(mapController).setSceneLoadListener(null);
+  }
+
+  @Test public void onDestroy_shouldUnregisterRotateResponder() throws Exception {
+    map.onDestroy();
+    verify(mapController).setRotateResponder(null);
+  }
+
+  @Test public void onDestroy_shouldUnregisterPanResponder() throws Exception {
+    map.onDestroy();
+    verify(mapController).setPanResponder(null);
+  }
+
+  @Test public void onDestroy_shouldUnregisterDoubleTapResponder() throws Exception {
+    map.onDestroy();
+    verify(mapController).setDoubleTapResponder(null);
+  }
+
+  @Test public void onDestroy_shouldUnregisterTapResponder() throws Exception {
+    map.onDestroy();
+    verify(mapController).setTapResponder(null);
+  }
+
+  @Test public void onDestroy_shouldUnregisterLongPressResponder() throws Exception {
+    map.onDestroy();
+    verify(mapController).setLongPressResponder(null);
+  }
+
+  @Test public void onDestroy_shouldUnregisterScaleResponder() throws Exception {
+    map.onDestroy();
+    verify(mapController).setScaleResponder(null);
+  }
+
+  @Test public void onDestroy_shouldUnregisterShoveResponder() throws Exception {
+    map.onDestroy();
+    verify(mapController).setShoveResponder(null);
+  }
+
+  @Test public void onDestroy_shouldUnregisterLabelPickListener() throws Exception {
+    map.onDestroy();
+    verify(mapController).setLabelPickListener(null);
+  }
+
+  @Test public void onDestroy_shouldUnregisterMarkerPickListener() throws Exception {
+    map.onDestroy();
+    verify(mapController).setMarkerPickListener(null);
+  }
+
+  @Test public void onDestroy_shouldUnregisterFeaturePickListener() throws Exception {
+    map.onDestroy();
+    verify(mapController).setFeaturePickListener(null);
+  }
+
   @Test public void restoreMapState_shouldPersistPosition() throws Exception {
     verify(mapController).setPosition(new LngLat(0, 0));
   }

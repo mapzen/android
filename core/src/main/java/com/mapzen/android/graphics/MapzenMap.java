@@ -1088,6 +1088,18 @@ public class MapzenMap {
     mapStateManager.setTilt(mapController.getTilt());
 
     mapzenManager.removeApiKeyChangeListener(apiKeyChangeListener);
+
+    mapController.setSceneLoadListener(null);
+    mapController.setRotateResponder(null);
+    mapController.setPanResponder(null);
+    mapController.setDoubleTapResponder(null);
+    mapController.setTapResponder(null);
+    mapController.setLongPressResponder(null);
+    mapController.setScaleResponder(null);
+    mapController.setShoveResponder(null);
+    mapController.setLabelPickListener(null);
+    mapController.setMarkerPickListener(null);
+    mapController.setFeaturePickListener(null);
   }
 
   private void postFeaturePickRunnable(final Map<String, String> properties, final float positionX,

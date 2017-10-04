@@ -217,4 +217,11 @@ public class MapInitializerTest {
     mapInitializer.init(mapView, style, new TestCallback());
     assertThat(mapStateManager.getThemeColor()).isEqualTo(style.getDefaultColor());
   }
+
+  @Test public void takedown_shouldResetListener() throws Exception {
+    MapController controller = mock(MapController.class);
+    mapInitializer.controller = controller;
+    mapInitializer.takeDown();
+    verify(controller).setSceneLoadListener(null);
+  }
 }
