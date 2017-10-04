@@ -32,7 +32,7 @@ public class LabelPickListenerActivity extends BaseDemoActivity {
 
       Map<String, String> properties = result.getProperties();
       String name = properties.get("name");
-      if (!name.isEmpty()) {
+      if (name != null && !name.isEmpty()) {
         Toast.makeText(LabelPickListenerActivity.this, name, Toast.LENGTH_SHORT).show();
       }
     }

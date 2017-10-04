@@ -11,11 +11,12 @@ import android.widget.Toast;
 /**
  * Custom marker demo.
  */
-public class CustomMarkerActivity extends SwitchStyleActivity implements MarkerPickListener {
+public class CustomMarkerActivity extends SimpleStyleSwitcherActivity implements
+    MarkerPickListener {
 
   private static BitmapMarker bitmapMarker;
 
-  int getLayoutId() {
+  @Override int getLayoutId() {
     return R.layout.activity_custom_marker;
   }
 
