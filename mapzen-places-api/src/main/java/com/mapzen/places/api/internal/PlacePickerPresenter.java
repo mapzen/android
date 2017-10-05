@@ -1,5 +1,7 @@
 package com.mapzen.places.api.internal;
 
+import com.mapzen.android.graphics.MapView;
+import com.mapzen.android.graphics.OnMapReadyCallback;
 import com.mapzen.places.api.Place;
 
 import java.util.Map;
@@ -8,6 +10,13 @@ import java.util.Map;
  * Interface for managing state associated with the {@link PlacePickerViewController}.
  */
 interface PlacePickerPresenter {
+
+  /**
+   * Get a reference to {@link com.mapzen.android.graphics.MapzenMap}.
+   * @param mapView
+   */
+  void getMapAsync(MapView mapView, OnMapReadyCallback callback);
+
   /**
    * Sets the presenter's controller. Must be called before any other methods in the interface
    * can be called.

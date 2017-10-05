@@ -1,5 +1,7 @@
 package com.mapzen.places.api.internal;
 
+import com.mapzen.android.graphics.MapView;
+import com.mapzen.android.graphics.OnMapReadyCallback;
 import com.mapzen.places.api.Place;
 
 import org.junit.Before;
@@ -8,6 +10,10 @@ import org.junit.Test;
 import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 public class PlacePickerPresenterTest {
 
@@ -18,6 +24,13 @@ public class PlacePickerPresenterTest {
     presenter = new PlacePickerPresenterImpl(new TestPlaceDetailFetcher());
     controller = new TestPlacePickerController();
     presenter.setController(controller);
+  }
+
+  @Test public void getMapAsync_shouldLoadPlacesBubbleWrapStyle() throws Exception {
+    MapView mapView = mock(MapView.class);
+    OnMapReadyCallback callback = mock(OnMapReadyCallback.class);
+    presenter.getMapAsync(mapView, callback);
+    verify(mapView).getMapAsync(any(PlacesBubbleWrapStyle.class), eq(callback));
   }
 
   @Test public void onLabelPicked_shouldShowDialog() {
