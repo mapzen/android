@@ -58,7 +58,7 @@ public class PlacePickerActivity extends Activity implements
     }
 
     mapView = (MapView) findViewById(R.id.mz_map_view);
-    mapView.getMapAsync(this);
+    presenter.getMapAsync(mapView, this);
 
     final PlaceDialogFragment fragment =
         (PlaceDialogFragment) getFragmentManager().findFragmentByTag(PlaceDialogFragment.TAG);

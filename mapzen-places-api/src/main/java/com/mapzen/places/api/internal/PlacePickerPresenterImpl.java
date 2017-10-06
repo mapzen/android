@@ -1,5 +1,7 @@
 package com.mapzen.places.api.internal;
 
+import com.mapzen.android.graphics.MapView;
+import com.mapzen.android.graphics.OnMapReadyCallback;
 import com.mapzen.places.api.Place;
 
 import android.util.Log;
@@ -23,6 +25,10 @@ class PlacePickerPresenterImpl implements PlacePickerPresenter {
    */
   PlacePickerPresenterImpl(PlaceDetailFetcher fetcher) {
     detailFetcher = fetcher;
+  }
+
+  @Override public void getMapAsync(MapView mapView, OnMapReadyCallback callback) {
+    mapView.getMapAsync(new PlacesBubbleWrapStyle(), callback);
   }
 
   @Override public void setController(PlacePickerViewController controller) {
