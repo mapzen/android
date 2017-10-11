@@ -1,5 +1,16 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 apply plugin: 'checkstyle'
+
+buildscript {
+  ext.kotlin_version = '1.1.2'
+  repositories {
+    jcenter()
+  }
+  dependencies {
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+  }
+}
 
 android {
   compileSdkVersion 26
@@ -29,6 +40,12 @@ task checkstyle(type: Checkstyle) {
 }
 
 dependencies {
+  compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
   compile 'com.android.support:appcompat-v7:26.1.0'
   compile 'com.android.support:design:26.1.0'
+  compile(project(':mapzen-android-sdk')) {
+    transitive = true;
+  }
+  testCompile 'junit:junit:4.12'
+  testCompile 'org.assertj:assertj-core:1.7.1'
 }
