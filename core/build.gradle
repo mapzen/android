@@ -81,7 +81,7 @@ dependencies {
 
   compile "com.mapzen.tangram:tangram:$tangram_version"
   compile 'com.mapzen.android:pelias-android-sdk:1.2.0'
-  compile 'com.mapzen.android:lost:3.0.0'
+  compile 'com.mapzen.android:lost:3.0.3'
 
   compile 'com.google.dagger:dagger:2.0'
   compile 'javax.annotation:javax.annotation-api:1.2'
