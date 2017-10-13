@@ -2,7 +2,6 @@ package mapzen.com.sdksampleapp.activities
 
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
-import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
@@ -14,24 +13,25 @@ import mapzen.com.sdksampleapp.R
 import mapzen.com.sdksampleapp.controllers.MainController
 import mapzen.com.sdksampleapp.models.Sample
 import mapzen.com.sdksampleapp.presenters.MainPresenter
-import mapzen.com.sdksampleapp.presenters.MainPresenterImpl
+import javax.inject.Inject
 
 /**
  * Entry point for the sample app. Displays bottom navigation bar with top scroll view for
  * interaction with different SDK use cases.
  */
-class MainActivity : AppCompatActivity(), MainController {
+class MainActivity : BaseActivity(), MainController {
 
   @BindView(R.id.navigation) var navigationView : BottomNavigationView? = null
   @BindView(R.id.scrollContent) var scrollContent : LinearLayout? = null
 
   var unbinder: Unbinder? = null
 
-  internal val presenter: MainPresenter = MainPresenterImpl() //TODO inject
+  @Inject lateinit var presenter: MainPresenter
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
+    mainApplication.appComponent.inject(this)
     unbinder = ButterKnife.bind(this)
     presenter.controller = this
     presenter.onCreate()
@@ -80,8 +80,8 @@ class MainActivity : AppCompatActivity(), MainController {
 
 
   override fun cleanupScrollItemClickListeners() {
-    scrollContent?.childCount.let {
-      (0..it as Int)
+    scrollContent?.let {
+      (0..it.childCount)
           .map { scrollContent?.getChildAt(it) as TextView }
           .forEach { it.setOnClickListener(null) }
     }
