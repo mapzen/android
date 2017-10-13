@@ -4,11 +4,12 @@ import mapzen.com.sdksampleapp.R
 import mapzen.com.sdksampleapp.controllers.MainController
 import mapzen.com.sdksampleapp.models.Sample
 import mapzen.com.sdksampleapp.models.SampleMap
+import mapzen.com.sdksampleapp.models.SampleVendor
 
 /**
  * Base class which implements [MainPresenter] interface
  */
-class MainPresenterImpl : MainPresenter {
+class MainPresenterImpl(val sampleVendor: SampleVendor) : MainPresenter {
 
   override var controller: MainController? = null
   override var sample: Sample? = null
@@ -20,7 +21,8 @@ class MainPresenterImpl : MainPresenter {
   }
 
   override fun onNavBarItemSelected(navItemId: Int) {
-    val samples = SampleMap.NAV_ID_TO_SECTIONS.get(navItemId)
+    val samples = sampleVendor.samplesForNavId(navItemId)
+    controller?.clearScrollViewSamples()
     controller?.setScrollViewSamples(samples)
     sample?.cleanup(null, null, null) //TODO
     sample = null

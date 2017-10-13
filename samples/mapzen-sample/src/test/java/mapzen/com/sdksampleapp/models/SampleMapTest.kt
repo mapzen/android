@@ -1,9 +1,10 @@
 package mapzen.com.sdksampleapp.models
 
 import mapzen.com.sdksampleapp.R
-import mapzen.com.sdksampleapp.models.MapSampleList.MAP_SAMPLES
-import mapzen.com.sdksampleapp.models.SampleMap.NAV_ID_TO_SECTIONS
+import mapzen.com.sdksampleapp.models.MapSampleList.Companion.MAP_SAMPLES
+import mapzen.com.sdksampleapp.models.SampleMap.Companion.NAV_ID_TO_SECTIONS
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.Before
 import org.junit.Test
 
 class SampleMapTest {

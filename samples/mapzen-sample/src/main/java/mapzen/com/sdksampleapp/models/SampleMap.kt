@@ -1,21 +1,27 @@
 package mapzen.com.sdksampleapp.models
 
-import android.util.SparseArray
+import android.support.v4.util.SparseArrayCompat
 
 import mapzen.com.sdksampleapp.R
-import mapzen.com.sdksampleapp.models.MapSampleList.MAP_SAMPLES
+import mapzen.com.sdksampleapp.models.MapSampleList.Companion.MAP_SAMPLES
 
 /**
  * Maps navigation ids to their list of [Sample]s.
  */
-object SampleMap {
+class SampleMap : SampleVendor {
 
-  val NAV_ID_TO_SECTIONS: SparseArray<Array<Sample>?> = SparseArray(4)
-  init {
-    NAV_ID_TO_SECTIONS.append(R.id.navigation_map, MAP_SAMPLES)
-    NAV_ID_TO_SECTIONS.append(R.id.navigation_route, null)
-    NAV_ID_TO_SECTIONS.append(R.id.navigation_search, null)
-    NAV_ID_TO_SECTIONS.append(R.id.navigation_more, null)
+  companion object {
+    @JvmStatic val NAV_ID_TO_SECTIONS: SparseArrayCompat<Array<Sample>?> by lazy {
+      val sparseArray = SparseArrayCompat<Array<Sample>?>(4)
+      sparseArray.append(R.id.navigation_map, MAP_SAMPLES)
+      sparseArray.append(R.id.navigation_route, null)
+      sparseArray.append(R.id.navigation_search, null)
+      sparseArray.append(R.id.navigation_more, null)
+      sparseArray
+    }
   }
 
+  override fun samplesForNavId(navId: Int): Array<Sample>? {
+    return NAV_ID_TO_SECTIONS.get(navId)
+  }
 }

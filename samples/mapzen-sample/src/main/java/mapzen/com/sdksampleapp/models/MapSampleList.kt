@@ -3,10 +3,12 @@ package mapzen.com.sdksampleapp.models
 /**
  * List of [Sample]s for the map section to display.
  */
-object MapSampleList {
+class MapSampleList {
 
-  val MAP_SAMPLES = arrayOf<Sample>()
-  val ROUTE_SAMPLES = null
-  val SEARCH_SAMPLES = null
-  val MORE_SAMPLES = null
+  companion object {
+    @JvmStatic val MAP_SAMPLES = arrayOf<Sample>()
+    @JvmStatic val ROUTE_SAMPLES = null
+    @JvmStatic val SEARCH_SAMPLES = null
+    @JvmStatic val MORE_SAMPLES = null
+  }
 }

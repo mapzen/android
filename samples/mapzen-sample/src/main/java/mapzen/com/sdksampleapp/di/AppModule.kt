@@ -2,6 +2,7 @@ package mapzen.com.sdksampleapp.di
 
 import dagger.Module
 import dagger.Provides
+import mapzen.com.sdksampleapp.models.SampleMap
 import mapzen.com.sdksampleapp.presenters.MainPresenter
 import mapzen.com.sdksampleapp.presenters.MainPresenterImpl
 import javax.inject.Singleton
@@ -13,6 +14,6 @@ import javax.inject.Singleton
 class AppModule {
 
   @Provides @Singleton fun provideMainPresenter() : MainPresenter {
-    return MainPresenterImpl()
+    return MainPresenterImpl(SampleMap())
   }
 }

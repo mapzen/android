@@ -8,16 +8,16 @@ import org.junit.Test
 
 class SampleTest {
 
-  val setup = false
-  val takedown = false
+  var setup = false
+  var cleanedup = false
 
   val sample = object: Sample("sample") {
     override fun setup(map: MapzenMap?, router: MapzenRouter?, search: MapzenSearch?) {
-
+      setup = true
     }
 
     override fun cleanup(map: MapzenMap?, router: MapzenRouter?, search: MapzenSearch?) {
-
+      cleanedup = true
     }
   }
 
@@ -32,6 +32,6 @@ class SampleTest {
 
   @Test fun takedownInvokesMethod() {
     sample.cleanup(null, null, null)
-    assertThat(takedown).isTrue()
+    assertThat(cleanedup).isTrue()
   }
 }

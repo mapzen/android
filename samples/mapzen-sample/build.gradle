@@ -4,7 +4,7 @@ apply plugin: 'checkstyle'
 apply plugin: 'kotlin-kapt'
 
 buildscript {
-  ext.kotlin_version = '1.1.2'
+  ext.kotlin_version = '1.1.50'
   repositories {
     jcenter()
   }
@@ -28,6 +28,9 @@ android {
     release {
       minifyEnabled false
     }
+  }
+  testOptions {
+    unitTests.returnDefaultValues = true
   }
 }
 
@@ -53,5 +56,6 @@ dependencies {
   kapt 'com.google.dagger:dagger-compiler:2.12'
 
   testCompile 'junit:junit:4.12'
-  testCompile 'org.assertj:assertj-core:1.7.1'
+  testCompile 'org.assertj:assertj-core:3.8.0'
+  testCompile 'org.mockito:mockito-core:2.10.0'
 }
