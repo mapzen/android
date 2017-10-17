@@ -1,6 +1,6 @@
 ## Installation
 
-The Mapzen Places API for Android can be included in any Android app via download, Maven, or Gradle. To get started, download the [latest AAR](http://search.maven.org/remotecontent?filepath=com/mapzen/mapzen-places-api/1.6.0/mapzen-places-api-1.6.0.aar).
+The Mapzen Places API for Android can be included in any Android app via download, Maven, or Gradle. To get started, download the [latest AAR](http://search.maven.org/remotecontent?filepath=com/mapzen/mapzen-places-api/1.6.1/mapzen-places-api-1.6.1.aar).
 
 ### Maven
 
@@ -10,7 +10,7 @@ Include dependency using Maven.
 <dependency>
   <groupId>com.mapzen</groupId>
   <artifactId>mapzen-places-api</artifactId>
-  <version>1.6.0</version>
+  <version>1.6.1</version>
   <type>aar</type>
 </dependency>
 ```
@@ -25,7 +25,7 @@ repositories {
 }
 
 dependencies {
-  compile 'com.mapzen:mapzen-places-api:1.6.0'
+  compile 'com.mapzen:mapzen-places-api:1.6.1'
   ...
 }
 ```
