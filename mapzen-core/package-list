@@ -1,5 +1,6 @@
 com.mapzen.android.core
 com.mapzen.android.graphics
+com.mapzen.android.graphics.internal
 com.mapzen.android.graphics.model
 com.mapzen.android.location
 com.mapzen.android.search
