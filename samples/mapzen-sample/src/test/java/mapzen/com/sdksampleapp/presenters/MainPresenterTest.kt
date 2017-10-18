@@ -3,18 +3,20 @@ package mapzen.com.sdksampleapp.presenters
 import mapzen.com.sdksampleapp.R
 import mapzen.com.sdksampleapp.TestMainController
 import mapzen.com.sdksampleapp.TestSample
-import mapzen.com.sdksampleapp.models.MapSampleList.MAP_SAMPLES
-import mapzen.com.sdksampleapp.models.MapSampleList.MORE_SAMPLES
-import mapzen.com.sdksampleapp.models.Sample
+import mapzen.com.sdksampleapp.models.MapSampleList.Companion.MAP_SAMPLES
+import mapzen.com.sdksampleapp.models.MapSampleList.Companion.MORE_SAMPLES
 import mapzen.com.sdksampleapp.models.SampleMap
+import mapzen.com.sdksampleapp.models.SampleVendor
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
-import org.powermock.api.mockito.PowerMockito.`when`
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
 
 class MainPresenterTest {
 
-  val presenter : MainPresenter = MainPresenterImpl()
+  val sampleVendor: SampleVendor = mock(SampleMap::class.java)
+  val presenter : MainPresenter = MainPresenterImpl(sampleVendor)
   val controller = TestMainController()
 
   @Before fun setup() {
@@ -27,6 +29,7 @@ class MainPresenterTest {
   }
 
   @Test fun onCreate_shouldSelectMapTab() {
+    `when`(sampleVendor.samplesForNavId(R.id.navigation_map)).thenReturn(MAP_SAMPLES)
     presenter.onCreate()
     assertThat(controller.scrolViewSamples).isEqualTo(MAP_SAMPLES)
   }
@@ -37,6 +40,7 @@ class MainPresenterTest {
   }
 
   @Test fun onNavBarItemSelected_shouldSetScrollSamples() {
+    `when`(sampleVendor.samplesForNavId(R.id.navigation_map)).thenReturn(MAP_SAMPLES)
     presenter.onNavBarItemSelected(R.id.navigation_map)
     assertThat(controller.scrolViewSamples).isEqualTo(MAP_SAMPLES)
     presenter.onNavBarItemSelected(R.id.navigation_more)
@@ -59,14 +63,14 @@ class MainPresenterTest {
 
   @Test fun onNavBarItemSelected_shouldSetSelectedSample() {
     val sample = TestSample("test")
-    `when`(MAP_SAMPLES).thenReturn(arrayOf(sample))
+    `when`(sampleVendor.samplesForNavId(R.id.navigation_map)).thenReturn(arrayOf(sample))
     presenter.onNavBarItemSelected(R.id.navigation_map)
     assertThat(presenter.sample).isEqualTo(sample)
   }
 
   @Test fun onNavBarItemSelected_shouldSetupSelectedSample() {
     val sample = TestSample("test")
-    `when`(MAP_SAMPLES).thenReturn(arrayOf(sample))
+    `when`(sampleVendor.samplesForNavId(R.id.navigation_map)).thenReturn(arrayOf(sample))
     presenter.onNavBarItemSelected(R.id.navigation_map)
     assertThat(sample.setup).isTrue()
   }
