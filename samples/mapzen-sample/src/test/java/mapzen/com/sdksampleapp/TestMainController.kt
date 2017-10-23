@@ -10,6 +10,7 @@ class TestMainController : MainController {
   var scrollViewSamplesCleared = false
   var scrolViewSamples: Array<Sample>? = null
   var scrollItemClickListenersCleanedUp = false
+  var openSettings = false
 
   override fun setupNavigationItemSelectedListener() {
     navigationItemSelectedListenerSetup = true
@@ -29,6 +30,10 @@ class TestMainController : MainController {
 
   override fun cleanupScrollItemClickListeners() {
     scrollItemClickListenersCleanedUp = true
+  }
+
+  override fun openSettings() {
+    openSettings = true
   }
 
 }

@@ -38,6 +38,12 @@ class MainPresenterImpl(val sampleVendor: SampleVendor) : MainPresenter {
     sample?.setup(null, null, null)
   }
 
+  override fun onOptionsItemSelected(itemId: Int?) {
+    when (itemId) {
+      R.id.action_settings -> controller?.openSettings()
+    }
+  }
+
   override fun onDestroy() {
     controller?.cleanupNavigationItemSelectedListener()
     controller?.cleanupScrollItemClickListeners()

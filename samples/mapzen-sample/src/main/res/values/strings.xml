@@ -4,4 +4,8 @@
   <string name="title_route">Route</string>
   <string name="title_search">Search</string>
   <string name="title_more">More</string>
+  <string name="settings">Settings</string>
+  <string name="pref_map_style">Map Style</string>
+  <string name="pref_map_style_default">bubble-wrap</string>
+  <string name="pref_lod">LOD</string>
 </resources>

@@ -1,8 +1,11 @@
 package mapzen.com.sdksampleapp.activities
 
+import android.content.Intent
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.design.widget.BottomNavigationView
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -12,6 +15,8 @@ import mapzen.com.sdksampleapp.controllers.MainController
 import mapzen.com.sdksampleapp.models.Sample
 import mapzen.com.sdksampleapp.presenters.MainPresenter
 import javax.inject.Inject
+import android.view.MenuItem
+
 
 /**
  * Entry point for the sample app. Displays bottom navigation bar with top scroll view for
@@ -30,11 +35,22 @@ class MainActivity : BaseActivity(), MainController {
     mainApplication.appComponent.inject(this)
     presenter.controller = this
     presenter.onCreate()
+    PreferenceManager.setDefaultValues(this, R.xml.preferences, false)
   }
 
   override fun onDestroy() {
     presenter.onDestroy()
     super.onDestroy()
+  }
+
+  override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    menuInflater.inflate(R.menu.activity_main, menu)
+    return true
+  }
+
+  override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    presenter.onOptionsItemSelected(item?.itemId)
+    return true
   }
 
   override fun setupNavigationItemSelectedListener() {
@@ -79,5 +95,10 @@ class MainActivity : BaseActivity(), MainController {
           .map { scrollContent?.getChildAt(it) as TextView }
           .forEach { it.setOnClickListener(null) }
     }
+  }
+
+  override fun openSettings() {
+    val intent = Intent(this, SettingsActivity::class.java)
+    startActivity(intent)
   }
 }
