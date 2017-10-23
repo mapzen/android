@@ -6,9 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
 import android.widget.TextView
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.Unbinder
+import kotterknife.bindView
 import mapzen.com.sdksampleapp.R
 import mapzen.com.sdksampleapp.controllers.MainController
 import mapzen.com.sdksampleapp.models.Sample
@@ -21,10 +19,8 @@ import javax.inject.Inject
  */
 class MainActivity : BaseActivity(), MainController {
 
-  @BindView(R.id.navigation) var navigationView : BottomNavigationView? = null
-  @BindView(R.id.scrollContent) var scrollContent : LinearLayout? = null
-
-  var unbinder: Unbinder? = null
+  val navigationView: BottomNavigationView by bindView(R.id.navigation)
+  val scrollContent: LinearLayout by bindView(R.id.scrollContent)
 
   @Inject lateinit var presenter: MainPresenter
 
@@ -32,14 +28,12 @@ class MainActivity : BaseActivity(), MainController {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
     mainApplication.appComponent.inject(this)
-    unbinder = ButterKnife.bind(this)
     presenter.controller = this
     presenter.onCreate()
   }
 
   override fun onDestroy() {
     presenter.onDestroy()
-    unbinder?.unbind()
     super.onDestroy()
   }
 

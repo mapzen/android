@@ -13,6 +13,8 @@ buildscript {
   }
 }
 
+def MAPZEN_API_KEY = hasProperty('mapzenApiKey') ? '"' + mapzenApiKey + '"' : "null";
+
 android {
   compileSdkVersion 26
   buildToolsVersion "26.0.2"
@@ -23,6 +25,7 @@ android {
     targetSdkVersion 26
     versionCode 1
     versionName "1.0"
+    buildConfigField "String", "MAPZEN_API_KEY", MAPZEN_API_KEY
   }
   buildTypes {
     release {
@@ -50,10 +53,10 @@ dependencies {
   compile(project(':mapzen-android-sdk')) {
     transitive = true;
   }
-  compile 'com.jakewharton:butterknife:8.8.1'
-  compile 'com.google.dagger:dagger-android:2.12'
+  compile 'com.jakewharton:kotterknife:0.1.0-SNAPSHOT'
+  compile 'com.google.dagger:dagger:2.0'
 
-  kapt 'com.google.dagger:dagger-compiler:2.12'
+  kapt 'com.google.dagger:dagger-compiler:2.0'
 
   testCompile 'junit:junit:4.12'
   testCompile 'org.assertj:assertj-core:3.8.0'
