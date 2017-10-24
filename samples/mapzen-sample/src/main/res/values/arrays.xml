@@ -1,5 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string-array name="pref_map_style_entries">test, test, test</string-array>
-  <string-array name="pref_map_style_entry_values">value, value, value</string-array>
+  <string-array name="pref_map_style_entries">
+    <item>Bubble Wrap</item>
+    <item>Cinnabar</item>
+    <item>Refill</item>
+    <item>Walkabout</item>
+  </string-array>
+  <string-array name="pref_lod_label_entries">
+    <item>0</item>
+    <item>1</item>
+    <item>2</item>
+    <item>3</item>
+    <item>4</item>
+    <item>5</item>
+    <item>6</item>
+    <item>7</item>
+    <item>8</item>
+    <item>9</item>
+    <item>10</item>
+    <item>11</item>
+  </string-array>
+  <string-array name="pref_refill_theme_color_entries">
+    <item>Black</item>
+    <item>Blue</item>
+    <item>Blue Gray</item>
+    <item>Brown Orange</item>
+    <item>Gray</item>
+    <item>Gray Gold</item>
+    <item>High Contrast</item>
+    <item>Introverted</item>
+    <item>Introverted Blue</item>
+    <item>Pink</item>
+    <item>Pink Yellow</item>
+    <item>Purple Green</item>
+    <item>Sephia</item>
+    <item>Zinc</item>
+  </string-array>
+  <string-array name="pref_refill_theme_color_values">
+    <item>black</item>
+    <item>blue</item>
+    <item>blue-gray</item>
+    <item>brown-orange</item>
+    <item>gray</item>
+    <item>gray-gold</item>
+    <item>high-contrast</item>
+    <item>introverted</item>
+    <item>introverted-blue</item>
+    <item>pink</item>
+    <item>pink-yellow</item>
+    <item>purple-green</item>
+    <item>sepia</item>
+    <item>zinc</item>
+  </string-array>
+  <string-array name="pref_cinnabar_theme_color_entries">
+    <item>Cinnabar</item>
+  </string-array>
+  <string-array name="pref_cinnabar_theme_color_values">
+    <item>cinnabar</item>
+  </string-array>
+  <string-array name="pref_empty"/>
 </resources>
