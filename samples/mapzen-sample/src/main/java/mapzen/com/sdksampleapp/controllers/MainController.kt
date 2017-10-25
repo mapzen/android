@@ -11,4 +11,5 @@ interface MainController {
   fun clearScrollViewSamples()
   fun setScrollViewSamples(samples: Array<Sample>?)
   fun cleanupScrollItemClickListeners()
+  fun openSettings()
 }

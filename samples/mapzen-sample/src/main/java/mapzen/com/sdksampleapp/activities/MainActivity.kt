@@ -1,19 +1,22 @@
 package mapzen.com.sdksampleapp.activities
 
+import android.content.Intent
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.design.widget.BottomNavigationView
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
 import android.widget.TextView
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.Unbinder
+import kotterknife.bindView
 import mapzen.com.sdksampleapp.R
 import mapzen.com.sdksampleapp.controllers.MainController
 import mapzen.com.sdksampleapp.models.Sample
 import mapzen.com.sdksampleapp.presenters.MainPresenter
 import javax.inject.Inject
+import android.view.MenuItem
+
 
 /**
  * Entry point for the sample app. Displays bottom navigation bar with top scroll view for
@@ -21,10 +24,8 @@ import javax.inject.Inject
  */
 class MainActivity : BaseActivity(), MainController {
 
-  @BindView(R.id.navigation) var navigationView : BottomNavigationView? = null
-  @BindView(R.id.scrollContent) var scrollContent : LinearLayout? = null
-
-  var unbinder: Unbinder? = null
+  val navigationView: BottomNavigationView by bindView(R.id.navigation)
+  val scrollContent: LinearLayout by bindView(R.id.scrollContent)
 
   @Inject lateinit var presenter: MainPresenter
 
@@ -32,15 +33,24 @@ class MainActivity : BaseActivity(), MainController {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
     mainApplication.appComponent.inject(this)
-    unbinder = ButterKnife.bind(this)
     presenter.controller = this
     presenter.onCreate()
+    PreferenceManager.setDefaultValues(this, R.xml.preferences, false)
   }
 
   override fun onDestroy() {
     presenter.onDestroy()
-    unbinder?.unbind()
     super.onDestroy()
+  }
+
+  override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    menuInflater.inflate(R.menu.activity_main, menu)
+    return true
+  }
+
+  override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    presenter.onOptionsItemSelected(item?.itemId)
+    return true
   }
 
   override fun setupNavigationItemSelectedListener() {
@@ -85,5 +95,10 @@ class MainActivity : BaseActivity(), MainController {
           .map { scrollContent?.getChildAt(it) as TextView }
           .forEach { it.setOnClickListener(null) }
     }
+  }
+
+  override fun openSettings() {
+    val intent = Intent(this, SettingsActivity::class.java)
+    startActivity(intent)
   }
 }

@@ -98,6 +98,11 @@ class MainPresenterTest {
     assertThat(selected.setup).isTrue()
   }
 
+  @Test fun onOptionsItemSelected_shouldOpenSettings() {
+    presenter.onOptionsItemSelected(R.id.action_settings)
+    assertThat(controller.openSettings).isTrue()
+  }
+
   @Test fun onDestroy_shouldCleanupNavigationItemSelectedListener() {
     presenter.onDestroy()
     assertThat(controller.navigationItemSelectedListenerCleanedUp).isTrue()
