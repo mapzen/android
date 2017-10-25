@@ -11,7 +11,7 @@ public class BubbleWrapStyle extends ThemedMapStyle {
    * Creates a new instance.
    */
   public BubbleWrapStyle() {
-    super("styles/bubble-wrap/bubble-wrap-style.yaml");
+    super("style/bubble-wrap/bubble-wrap-style.yaml");
   }
 
   @Override public String getBaseStyleFilename() {
@@ -19,7 +19,7 @@ public class BubbleWrapStyle extends ThemedMapStyle {
   }
 
   @Override public String getStyleRootPath() {
-    return "styles/bubble-wrap/";
+    return "style/bubble-wrap/";
   }
 
   @Override public String getThemesPath() {
