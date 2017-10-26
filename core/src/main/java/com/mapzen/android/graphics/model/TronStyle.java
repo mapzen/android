@@ -11,7 +11,7 @@ public class TronStyle extends ThemedMapStyle {
    * Creates a new instance.
    */
   public TronStyle() {
-    super("style/tron-style/tron-style.yaml");
+    super("tron-style/tron-style.yaml");
   }
 
   @Override public String getBaseStyleFilename() {
@@ -19,7 +19,7 @@ public class TronStyle extends ThemedMapStyle {
   }
 
   @Override public String getStyleRootPath() {
-    return "style/tron-style/";
+    return "tron-style/";
   }
 
   @Override public String getThemesPath() {

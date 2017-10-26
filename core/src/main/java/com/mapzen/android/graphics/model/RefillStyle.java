@@ -44,7 +44,7 @@ public class RefillStyle extends ThemedMapStyle {
    * Creates a new instance.
    */
   public RefillStyle() {
-    super("style/refill-style/refill-style.yaml");
+    super("refill-style/refill-style.yaml");
   }
 
   @Override public String getBaseStyleFilename() {
@@ -52,7 +52,7 @@ public class RefillStyle extends ThemedMapStyle {
   }
 
   @Override public String getStyleRootPath() {
-    return "style/refill-style/";
+    return "refill-style/";
   }
 
   @Override public String getThemesPath() {

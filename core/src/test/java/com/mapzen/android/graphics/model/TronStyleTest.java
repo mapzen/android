@@ -10,7 +10,7 @@ public class TronStyleTest {
   private TronStyle style = new TronStyle();
 
   @Test public void getSceneFile_shouldReturnCorrectValue() throws Exception {
-    assertThat(style.getSceneFile()).isEqualTo("style/tron-style/tron-style.yaml");
+    assertThat(style.getSceneFile()).isEqualTo("tron-style/tron-style.yaml");
   }
 
   @Test public void getBaseStyleFilename_shouldReturnCorrectValue() throws Exception {
@@ -18,7 +18,7 @@ public class TronStyleTest {
   }
 
   @Test public void getStyleRootPath_shouldReturnCorrectValue() throws Exception {
-    assertThat(style.getStyleRootPath()).isEqualTo("style/tron-style/");
+    assertThat(style.getStyleRootPath()).isEqualTo("tron-style/");
   }
 
   @Test public void getThemesPath_shouldReturnCorrectValue() throws Exception {

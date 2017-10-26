@@ -10,7 +10,7 @@ public class BubbleWrapStyleTest {
   private BubbleWrapStyle style = new BubbleWrapStyle();
 
   @Test public void getSceneFile_shouldReturnCorrectValue() throws Exception {
-    assertThat(style.getSceneFile()).isEqualTo("styles/bubble-wrap/bubble-wrap-style.yaml");
+    assertThat(style.getSceneFile()).isEqualTo("bubble-wrap/bubble-wrap-style.yaml");
   }
 
   @Test public void getBaseStyleFilename_shouldReturnCorrectValue() throws Exception {
@@ -18,7 +18,7 @@ public class BubbleWrapStyleTest {
   }
 
   @Test public void getStyleRootPath_shouldReturnCorrectValue() throws Exception {
-    assertThat(style.getStyleRootPath()).isEqualTo("styles/bubble-wrap/");
+    assertThat(style.getStyleRootPath()).isEqualTo("bubble-wrap/");
   }
 
   @Test public void getThemesPath_shouldReturnCorrectValue() throws Exception {

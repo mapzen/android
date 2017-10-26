@@ -18,7 +18,7 @@ public class CinnabarStyle extends ThemedMapStyle {
    * Creates a new instance.
    */
   public CinnabarStyle() {
-    super("style/cinnabar-style/cinnabar-style.yaml");
+    super("cinnabar-style/cinnabar-style.yaml");
   }
 
   @Override public String getBaseStyleFilename() {
@@ -26,7 +26,7 @@ public class CinnabarStyle extends ThemedMapStyle {
   }
 
   @Override public String getStyleRootPath() {
-    return "style/cinnabar-style/";
+    return "cinnabar-style/";
   }
 
   @Override public String getThemesPath() {

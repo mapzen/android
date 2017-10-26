@@ -13,7 +13,7 @@ public class ZincStyleTest {
   private ZincStyle style = new ZincStyle();
 
   @Test public void getSceneFile_shouldReturnCorrectValue() throws Exception {
-    assertThat(style.getSceneFile()).isEqualTo("styles/refill-style/refill-style.yaml");
+    assertThat(style.getSceneFile()).isEqualTo("refill-style/refill-style.yaml");
   }
 
   @Test public void getBaseStyleFilename_shouldReturnCorrectValue() throws Exception {
@@ -21,7 +21,7 @@ public class ZincStyleTest {
   }
 
   @Test public void getStyleRootPath_shouldReturnCorrectValue() throws Exception {
-    assertThat(style.getStyleRootPath()).isEqualTo("styles/refill-style/");
+    assertThat(style.getStyleRootPath()).isEqualTo("refill-style/");
   }
 
   @Test public void getThemesPath_shouldReturnCorrectValue() throws Exception {
