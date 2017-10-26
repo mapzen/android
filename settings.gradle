@@ -1,4 +1,4 @@
-include ':mapzen-android-sdk', ':bubble-wrap', ':refill', ':cinnabar', ':walkabout'
+include ':mapzen-android-sdk', ':bubble-wrap', ':refill', ':cinnabar', ':walkabout', ':tron'
 include ':core'
 include ':mapzen-places-api'
 include ':samples_mapzen-android-sdk-sample'

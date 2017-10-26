@@ -9,6 +9,6 @@ public class TronStyle extends MapStyle {
    * Creates a new instance.
    */
   public TronStyle() {
-    super("styles/tron-style/tron-style.yaml");
+    super("style/tron-style/tron-style.yaml");
   }
 }

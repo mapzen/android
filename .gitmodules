@@ -2,7 +2,7 @@
 	path = bubble-wrap/src/main/assets/style/bubble-wrap
 	url = https://github.com/tangrams/bubble-wrap.git
 [submodule "samples/mapzen-android-sdk-sample/src/main/assets/styles/tron-style"]
-	path = samples/mapzen-android-sdk-sample/src/main/assets/styles/tron-style
+	path = tron/src/main/assets/style/tron-style
 	url = https://github.com/tangrams/tron-style.git
 [submodule "core/src/main/assets/styles/refill-style"]
 	path = refill/src/main/assets/style/refill-style
