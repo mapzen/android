@@ -10,7 +10,7 @@ public class WalkaboutStyleTest {
   private WalkaboutStyle style = new WalkaboutStyle();
 
   @Test public void getSceneFile_shouldReturnCorrectValue() throws Exception {
-    assertThat(style.getSceneFile()).isEqualTo("styles/walkabout-style/walkabout-style.yaml");
+    assertThat(style.getSceneFile()).isEqualTo("walkabout-style/walkabout-style.yaml");
   }
 
   @Test public void getBaseStyleFilename_shouldReturnCorrectValue() throws Exception {
@@ -18,7 +18,7 @@ public class WalkaboutStyleTest {
   }
 
   @Test public void getStyleRootPath_shouldReturnCorrectValue() throws Exception {
-    assertThat(style.getStyleRootPath()).isEqualTo("styles/walkabout-style/");
+    assertThat(style.getStyleRootPath()).isEqualTo("walkabout-style/");
   }
 
   @Test public void getThemesPath_shouldReturnCorrectValue() throws Exception {

@@ -26,7 +26,7 @@ public class RefillStyleTest {
   private RefillStyle style = new RefillStyle();
 
   @Test public void getSceneFile_shouldReturnCorrectValue() throws Exception {
-    assertThat(style.getSceneFile()).isEqualTo("styles/refill-style/refill-style.yaml");
+    assertThat(style.getSceneFile()).isEqualTo("refill-style/refill-style.yaml");
   }
 
   @Test public void getBaseStyleFilename_shouldReturnCorrectValue() throws Exception {
@@ -34,7 +34,7 @@ public class RefillStyleTest {
   }
 
   @Test public void getStyleRootPath_shouldReturnCorrectValue() throws Exception {
-    assertThat(style.getStyleRootPath()).isEqualTo("styles/refill-style/");
+    assertThat(style.getStyleRootPath()).isEqualTo("refill-style/");
   }
 
   @Test public void getThemesPath_shouldReturnCorrectValue() throws Exception {

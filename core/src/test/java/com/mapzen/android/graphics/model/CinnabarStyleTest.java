@@ -14,7 +14,7 @@ public class CinnabarStyleTest {
   private CinnabarStyle style = new CinnabarStyle();
 
   @Test public void getSceneFile_shouldReturnCorrectValue() throws Exception {
-    assertThat(style.getSceneFile()).isEqualTo("styles/cinnabar-style/cinnabar-style.yaml");
+    assertThat(style.getSceneFile()).isEqualTo("cinnabar-style/cinnabar-style.yaml");
   }
 
   @Test public void getBaseStyleFilename_shouldReturnCorrectValue() throws Exception {
@@ -22,7 +22,7 @@ public class CinnabarStyleTest {
   }
 
   @Test public void getStyleRootPath_shouldReturnCorrectValue() throws Exception {
-    assertThat(style.getStyleRootPath()).isEqualTo("styles/cinnabar-style/");
+    assertThat(style.getStyleRootPath()).isEqualTo("cinnabar-style/");
   }
 
   @Test public void getThemesPath_shouldReturnCorrectValue() throws Exception {

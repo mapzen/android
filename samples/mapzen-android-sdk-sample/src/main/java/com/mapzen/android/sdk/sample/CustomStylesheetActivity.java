@@ -4,6 +4,7 @@ import com.mapzen.android.graphics.MapFragment;
 import com.mapzen.android.graphics.MapzenMap;
 import com.mapzen.android.graphics.OnMapReadyCallback;
 import com.mapzen.android.graphics.model.MapStyle;
+import com.mapzen.android.graphics.model.TronStyle;
 
 import android.os.Bundle;
 
@@ -12,8 +13,7 @@ import android.os.Bundle;
  */
 public class CustomStylesheetActivity extends BaseDemoActivity {
 
-  public static final MapStyle TRON_STYLE =
-      new MapStyle("styles/tron-style/tron-style-more-labels.yaml");
+  public static final MapStyle TRON_STYLE = new TronStyle();
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);

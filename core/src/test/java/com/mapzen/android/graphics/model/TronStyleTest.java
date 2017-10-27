@@ -5,20 +5,20 @@ import org.junit.Test;
 import static com.mapzen.android.graphics.model.ThemedMapStyle.NONE;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class BubbleWrapStyleTest {
+public class TronStyleTest {
 
-  private BubbleWrapStyle style = new BubbleWrapStyle();
+  private TronStyle style = new TronStyle();
 
   @Test public void getSceneFile_shouldReturnCorrectValue() throws Exception {
-    assertThat(style.getSceneFile()).isEqualTo("bubble-wrap/bubble-wrap-style.yaml");
+    assertThat(style.getSceneFile()).isEqualTo("tron-style/tron-style.yaml");
   }
 
   @Test public void getBaseStyleFilename_shouldReturnCorrectValue() throws Exception {
-    assertThat(style.getBaseStyleFilename()).isEqualTo("bubble-wrap-style.yaml");
+    assertThat(style.getBaseStyleFilename()).isEqualTo("tron-style.yaml");
   }
 
   @Test public void getStyleRootPath_shouldReturnCorrectValue() throws Exception {
-    assertThat(style.getStyleRootPath()).isEqualTo("bubble-wrap/");
+    assertThat(style.getStyleRootPath()).isEqualTo("tron-style/");
   }
 
   @Test public void getThemesPath_shouldReturnCorrectValue() throws Exception {

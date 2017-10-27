@@ -64,7 +64,7 @@ task checkstyle(type: Checkstyle) {
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
 
 task submodules {
-  def folder = new File( 'core/src/main/assets/styles/walkabout-style/walkabout-style.yaml' )
+  def folder = new File( 'styles/walkabout/src/main/assets/walkabout-style/walkabout-style.yaml' )
   if(!folder.exists()) {
     throw new GradleException("Submodules aren't present, please run:\n`git submodule init`, " +
         "\n`git submodule update`\nfrom your root directory")
@@ -79,6 +79,10 @@ assemble.doFirst {
 dependencies {
   compile 'com.android.support:appcompat-v7:26.1.0'
 
+  compile project(':bubble-wrap')
+  compile project(':cinnabar')
+  compile project(':refill')
+  compile project(':walkabout')
   compile "com.mapzen.tangram:tangram:$tangram_version"
   compile 'com.mapzen.android:pelias-android-sdk:1.2.0'
   compile 'com.mapzen.android:lost:3.0.3'

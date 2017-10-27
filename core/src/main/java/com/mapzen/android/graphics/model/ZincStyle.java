@@ -23,7 +23,7 @@ public class ZincStyle extends ThemedMapStyle {
    * Creates a new instance.
    */
   public ZincStyle() {
-    super("styles/refill-style/refill-style.yaml");
+    super("refill-style/refill-style.yaml");
   }
 
   @Override public String getBaseStyleFilename() {
@@ -31,7 +31,7 @@ public class ZincStyle extends ThemedMapStyle {
   }
 
   @Override public String getStyleRootPath() {
-    return "styles/refill-style/";
+    return "refill-style/";
   }
 
   @Override public String getThemesPath() {

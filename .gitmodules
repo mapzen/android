@@ -1,15 +1,15 @@
 [submodule "core/src/main/assets/styles/bubble-wrap"]
-	path = core/src/main/assets/styles/bubble-wrap
+	path = styles/bubble-wrap/src/main/assets/bubble-wrap
 	url = https://github.com/tangrams/bubble-wrap.git
 [submodule "samples/mapzen-android-sdk-sample/src/main/assets/styles/tron-style"]
-	path = samples/mapzen-android-sdk-sample/src/main/assets/styles/tron-style
+	path = styles/tron/src/main/assets/tron-style
 	url = https://github.com/tangrams/tron-style.git
 [submodule "core/src/main/assets/styles/refill-style"]
-	path = core/src/main/assets/styles/refill-style
+	path = styles/refill/src/main/assets/refill-style
 	url = https://github.com/tangrams/refill-style
 [submodule "core/src/main/assets/styles/cinnabar-style"]
-	path = core/src/main/assets/styles/cinnabar-style
+	path = styles/cinnabar/src/main/assets/cinnabar-style
 	url = https://github.com/tangrams/cinnabar-style.git
 [submodule "core/src/main/assets/styles/walkabout-style"]
-	path = core/src/main/assets/styles/walkabout-style
+	path = styles/walkabout/src/main/assets/walkabout-style
 	url = https://github.com/tangrams/walkabout-style.git

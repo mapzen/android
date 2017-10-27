@@ -1,0 +1,41 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
+
+group = GROUP
+version = VERSION_NAME
+project.archivesBaseName = POM_ARTIFACT_ID
+
+buildscript {
+  repositories {
+    mavenCentral()
+    mavenLocal()
+    maven {
+      url 'https://plugins.gradle.org/m2/'
+    }
+  }
+  dependencies {
+    classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+  }
+}
+
+android {
+  compileSdkVersion 26
+  buildToolsVersion "26.0.2"
+
+  defaultConfig {
+    minSdkVersion 15
+    targetSdkVersion 26
+    versionCode 1
+    versionName "1.0"
+  }
+  buildTypes {
+    release {
+      minifyEnabled false
+    }
+  }
+}
+
+dependencies {
+
+}

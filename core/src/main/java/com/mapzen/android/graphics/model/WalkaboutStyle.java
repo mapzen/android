@@ -11,7 +11,7 @@ public class WalkaboutStyle extends ThemedMapStyle {
    * Creates a new instance.
    */
   public WalkaboutStyle() {
-    super("styles/walkabout-style/walkabout-style.yaml");
+    super("walkabout-style/walkabout-style.yaml");
   }
 
   @Override public String getBaseStyleFilename() {
@@ -19,7 +19,7 @@ public class WalkaboutStyle extends ThemedMapStyle {
   }
 
   @Override public String getStyleRootPath() {
-    return "styles/walkabout-style/";
+    return "walkabout-style/";
   }
 
   @Override public String getThemesPath() {

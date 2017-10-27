@@ -1,10 +1,25 @@
-include ':mapzen-android-sdk'
 include ':core'
+include ':bubble-wrap'
+include ':cinnabar'
+include ':refill'
+include ':tron'
+include ':walkabout'
+include ':mapzen-android-sdk'
 include ':mapzen-places-api'
 include ':samples_mapzen-android-sdk-sample'
 include ':samples_mapzen-places-api-sample'
 include ':samples_mapzen-sample'
 
+project(':bubble-wrap').projectDir =
+    new File('styles/bubble-wrap')
+project(':cinnabar').projectDir =
+    new File('styles/cinnabar')
+project(':refill').projectDir =
+    new File('styles/refill')
+project(':tron').projectDir =
+    new File('styles/tron')
+project(':walkabout').projectDir =
+    new File('styles/walkabout')
 project(':samples_mapzen-android-sdk-sample').projectDir =
     new File('samples/mapzen-android-sdk-sample')
 project(':samples_mapzen-places-api-sample').projectDir =
