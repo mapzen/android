@@ -3,40 +3,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-  <ListPreference
-      android:key="pref_map_style"
-      android:title="@string/pref_map_style"
-      android:summary="%s"
-      android:dialogTitle="@string/pref_map_style"
-      android:entries="@array/pref_map_style_entries"
-      android:entryValues="@array/pref_map_style_entries"
-      android:defaultValue="@string/pref_map_style_default" />
+  <PreferenceCategory
+      android:title="@string/pref_category_map_style"
+      android:key="pref_category_map_style">
 
-  <ListPreference
-      android:key="pref_lod"
-      android:title="@string/pref_lod"
-      android:summary="%s"
-      android:dialogTitle="@string/pref_lod"
-      android:entries="@array/pref_empty"
-      android:entryValues="@array/pref_empty"
-      android:defaultValue="@string/pref_lod_default"/>
+    <ListPreference
+        android:key="pref_map_style"
+        android:title="@string/pref_map_style"
+        android:summary="%s"
+        android:dialogTitle="@string/pref_map_style"
+        android:entries="@array/pref_map_style_entries"
+        android:entryValues="@array/pref_map_style_entries"
+        android:defaultValue="@string/pref_map_style_default" />
 
-  <ListPreference
-      android:key="pref_label_level"
-      android:title="@string/pref_label_level"
-      android:summary="%s"
-      android:dialogTitle="@string/pref_label_level"
-      android:entries="@array/pref_lod_label_entries"
-      android:entryValues="@array/pref_lod_label_entries"
-      android:defaultValue="@string/pref_label_level_default" />
+    <ListPreference
+        android:key="pref_lod"
+        android:title="@string/pref_lod"
+        android:summary="%s"
+        android:dialogTitle="@string/pref_lod"
+        android:entries="@array/pref_empty"
+        android:entryValues="@array/pref_empty"
+        android:defaultValue="@string/pref_lod_default"/>
 
-  <ListPreference
-      android:key="pref_color"
-      android:title="@string/pref_color"
-      android:summary="%s"
-      android:dialogTitle="@string/pref_color"
-      android:entries="@array/pref_empty"
-      android:entryValues="@array/pref_empty"
-      android:defaultValue="@string/pref_color_default"/>
+    <ListPreference
+        android:key="pref_label_level"
+        android:title="@string/pref_label_level"
+        android:summary="%s"
+        android:dialogTitle="@string/pref_label_level"
+        android:entries="@array/pref_lod_label_entries"
+        android:entryValues="@array/pref_lod_label_entries"
+        android:defaultValue="@string/pref_label_level_default" />
+
+    <ListPreference
+        android:key="pref_color"
+        android:title="@string/pref_color"
+        android:summary="%s"
+        android:dialogTitle="@string/pref_color"
+        android:entries="@array/pref_empty"
+        android:entryValues="@array/pref_empty"
+        android:defaultValue="@string/pref_color_default"/>
+
+  </PreferenceCategory>
 
 </PreferenceScreen>

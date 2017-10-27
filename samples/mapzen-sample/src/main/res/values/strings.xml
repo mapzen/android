@@ -5,7 +5,7 @@
   <string name="title_search">Search</string>
   <string name="title_more">More</string>
   <string name="settings">Settings</string>
-  <string name="pref_map_style">Map Style</string>
+  <string name="pref_map_style">Style</string>
   <string name="pref_lod">LOD</string>
   <string name="pref_label_level">Label Level</string>
   <string name="pref_color">Color</string>
@@ -13,4 +13,5 @@
   <string name="pref_color_default">@null</string>
   <string name="pref_lod_default">-1</string>
   <string name="pref_label_level_default">5</string>
+  <string name="pref_category_map_style">Map Style</string>
 </resources>
