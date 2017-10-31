@@ -16,13 +16,13 @@ import java.util.ArrayList
 class RoutePinsFragment : BaseFragment() {
 
   var count = 0
-  var locations: ArrayList<DoubleArray> = ArrayList()
 
   override fun getLayoutId(): Int {
     return R.layout.fragment_map
   }
 
   override fun onMapSetup() {
+    map?.isMyLocationEnabled = true
     map?.tapResponder = object: TouchInput.TapResponder {
       override fun onSingleTapUp(x: Float, y: Float): Boolean {
         addPin(x, y)
@@ -48,6 +48,11 @@ class RoutePinsFragment : BaseFragment() {
       }
 
     })
+  }
+
+  override fun onPause() {
+    super.onPause()
+    map?.isMyLocationEnabled = false
   }
 
   private fun addPin(x: Float, y: Float) {

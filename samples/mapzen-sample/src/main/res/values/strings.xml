@@ -14,4 +14,5 @@
   <string name="pref_lod_default">-1</string>
   <string name="pref_label_level_default">5</string>
   <string name="pref_category_map_style">Map Style</string>
+  <string name="need_permissions">The sample app needs location permissions to work properly</string>
 </resources>

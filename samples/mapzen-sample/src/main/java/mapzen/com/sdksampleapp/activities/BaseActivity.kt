@@ -8,7 +8,7 @@ import mapzen.com.sdksampleapp.MainApplication
  */
 open class BaseActivity : AppCompatActivity() {
 
-  val mainApplication : MainApplication by lazy {
+  val mainApplication: MainApplication by lazy {
     application as MainApplication
   }
 }

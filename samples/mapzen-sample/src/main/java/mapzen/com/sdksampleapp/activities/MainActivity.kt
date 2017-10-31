@@ -6,6 +6,7 @@ import android.preference.PreferenceManager
 import android.support.design.widget.BottomNavigationView
 import android.view.LayoutInflater
 import android.view.Menu
+import android.view.MenuItem
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -15,7 +16,6 @@ import mapzen.com.sdksampleapp.controllers.MainController
 import mapzen.com.sdksampleapp.models.Sample
 import mapzen.com.sdksampleapp.presenters.MainPresenter
 import javax.inject.Inject
-import android.view.MenuItem
 
 
 /**
