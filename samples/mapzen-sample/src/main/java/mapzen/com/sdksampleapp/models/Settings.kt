@@ -7,6 +7,7 @@ import com.mapzen.android.graphics.model.CinnabarStyle
 import com.mapzen.android.graphics.model.RefillStyle
 import com.mapzen.android.graphics.model.ThemeColor
 import com.mapzen.android.graphics.model.ThemedMapStyle
+import com.mapzen.android.graphics.model.TronStyle
 import com.mapzen.android.graphics.model.WalkaboutStyle
 import mapzen.com.sdksampleapp.R
 
@@ -20,7 +21,8 @@ class Settings(private val context: Context, private val sharedPrefs: SharedPref
       Pair(getMapStyleValue(0), BubbleWrapStyle()),
       Pair(getMapStyleValue(1), CinnabarStyle()),
       Pair(getMapStyleValue(2), RefillStyle()),
-      Pair(getMapStyleValue(3), WalkaboutStyle())
+      Pair(getMapStyleValue(3), TronStyle()),
+      Pair(getMapStyleValue(4), WalkaboutStyle())
   )
 
   private val refillThemeStringToThemeColor: Map<String, ThemeColor> = hashMapOf(

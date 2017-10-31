@@ -26,7 +26,7 @@ class SettingsPresenterTest {
   @Before fun setup() {
     val resources = mock(Resources::class.java)
     `when`(context.resources).thenReturn(resources)
-    val mapStyles = arrayOf("Bubble Wrap", "Cinnabar", "Refill", "Walkabout")
+    val mapStyles = arrayOf("Bubble Wrap", "Cinnabar", "Refill", "Tron", "Walkabout")
     `when`(resources.getStringArray(R.array.pref_map_style_entries)).thenReturn(mapStyles)
     val themeColors = arrayOf("black", "blue", "blue-gray", "brown-orange", "gray", "gray-gold",
         "high-contrast", "introverted", "introverted-blue", "pink", "pink-yellow", "purple-green",
