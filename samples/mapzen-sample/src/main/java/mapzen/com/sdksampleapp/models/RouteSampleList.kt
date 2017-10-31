@@ -7,7 +7,7 @@ import mapzen.com.sdksampleapp.fragments.RoutePinsFragment
  */
 class RouteSampleList {
   companion object {
-    private val pinsSample = Sample("add pins", RoutePinsFragment::class)
+    private val pinsSample = Sample("tap map to add pins", RoutePinsFragment::class)
     @JvmStatic val ROUTE_SAMPLES = arrayOf(pinsSample)
   }
 }

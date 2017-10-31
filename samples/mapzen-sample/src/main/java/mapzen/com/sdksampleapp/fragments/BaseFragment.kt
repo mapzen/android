@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.mapzen.android.graphics.MapView
 import com.mapzen.android.graphics.MapzenMap
+import com.mapzen.android.routing.MapzenRouter
+import com.mapzen.android.search.MapzenSearch
 import kotterknife.bindView
 import mapzen.com.sdksampleapp.MainApplication
 import mapzen.com.sdksampleapp.R
@@ -23,6 +25,8 @@ open abstract class BaseFragment : Fragment() {
   abstract fun onMapSetup()
 
   @Inject lateinit var settings: Settings
+  @Inject lateinit var search: MapzenSearch
+  @Inject lateinit var router: MapzenRouter
 
   val mapView: MapView by bindView(R.id.map)
   var map: MapzenMap? = null
