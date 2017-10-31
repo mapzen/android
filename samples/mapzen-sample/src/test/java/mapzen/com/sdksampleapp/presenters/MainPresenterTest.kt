@@ -2,9 +2,10 @@ package mapzen.com.sdksampleapp.presenters
 
 import mapzen.com.sdksampleapp.R
 import mapzen.com.sdksampleapp.TestMainController
-import mapzen.com.sdksampleapp.TestSample
+import mapzen.com.sdksampleapp.fragments.BaseFragment
 import mapzen.com.sdksampleapp.models.MapSampleList.Companion.MAP_SAMPLES
 import mapzen.com.sdksampleapp.models.MoreSampleList.Companion.MORE_SAMPLES
+import mapzen.com.sdksampleapp.models.Sample
 import mapzen.com.sdksampleapp.models.SampleMap
 import mapzen.com.sdksampleapp.models.SampleVendor
 import org.assertj.core.api.Assertions.assertThat
@@ -48,59 +49,36 @@ class MainPresenterTest {
     assertThat(controller.scrolViewSamples).isEqualTo(MORE_SAMPLES)
   }
 
-  @Test fun onNavBarItemSelected_shouldTakedownCurrentSample() {
-    val sample = TestSample("test")
-    presenter.sample = sample
-    presenter.onNavBarItemSelected(R.id.navigation_map)
-    assertThat(sample.cleanedup).isTrue()
-  }
-
   @Test fun onNavBarItemSelected_shouldClearCurrentSample() {
-    val sample = TestSample("test")
+    val sample = Sample("test", BaseFragment::class)
     presenter.sample = sample
     presenter.onNavBarItemSelected(R.id.navigation_map)
     assertThat(presenter.sample).isNotEqualTo(sample)
   }
 
   @Test fun onNavBarItemSelected_shouldSetSelectedSample() {
-    val sample = TestSample("test")
+    val sample = Sample("test", BaseFragment::class)
     `when`(sampleVendor.samplesForNavId(R.id.navigation_map)).thenReturn(arrayOf(sample))
     presenter.onNavBarItemSelected(R.id.navigation_map)
     assertThat(presenter.sample).isEqualTo(sample)
   }
 
-  @Test fun onNavBarItemSelected_shouldSetupSelectedSample() {
-    val sample = TestSample("test")
-    `when`(sampleVendor.samplesForNavId(R.id.navigation_map)).thenReturn(arrayOf(sample))
+  @Test fun onNavBarItemSelected_shouldClearFragmentIfEmpty() {
+    `when`(sampleVendor.samplesForNavId(R.id.navigation_map)).thenReturn(arrayOf())
     presenter.onNavBarItemSelected(R.id.navigation_map)
-    assertThat(sample.setup).isTrue()
-  }
-
-  @Test fun onSampleSelected_shouldCleanupCurrentSample() {
-    val sample = TestSample("test")
-    presenter.sample = sample
-    presenter.onSampleSelected(TestSample("another"))
-    assertThat(sample.cleanedup).isTrue()
+    assertThat(controller.fragmentCleanedUp).isTrue()
   }
 
   @Test fun onSampleSelected_shouldSetCurrentSample() {
-    val sample = TestSample("test")
+    val sample = Sample("test", BaseFragment::class)
     presenter.sample = sample
-    val selected = TestSample("another")
+    val selected = Sample("another", BaseFragment::class)
     presenter.onSampleSelected(selected)
     assertThat(presenter.sample).isEqualTo(selected)
   }
 
-  @Test fun onSampleSelected_shouldSetupSelectedSample() {
-    val sample = TestSample("test")
-    presenter.sample = sample
-    val selected = TestSample("another")
-    presenter.onSampleSelected(selected)
-    assertThat(selected.setup).isTrue()
-  }
-
   @Test fun onSampleSelected_shouldSetupSampleFragment() {
-    val sample = TestSample("test")
+    val sample = Sample("test", BaseFragment::class)
     presenter.onSampleSelected(sample)
     assertThat(controller.fragmentSample).isEqualTo(sample)
   }
@@ -121,13 +99,13 @@ class MainPresenterTest {
   }
 
   @Test fun getTitleText_shouldReturnTitle() {
-    val sample = TestSample("sample")
+    val sample = Sample("sample", BaseFragment::class)
     val titleText = presenter.getTitleText(sample)
     assertThat(titleText).isEqualTo("sample")
   }
 
   @Test fun getTag_shouldReturnSample() {
-    val sample = TestSample("sample")
+    val sample = Sample("sample", BaseFragment::class)
     val tag = presenter.getTag(sample)
     assertThat(tag).isEqualTo(sample)
   }

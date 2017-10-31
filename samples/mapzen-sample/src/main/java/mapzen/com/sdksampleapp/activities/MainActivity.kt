@@ -68,6 +68,11 @@ class MainActivity : BaseActivity(), MainController {
     scrollContent?.removeAllViews()
   }
 
+  override fun cleanupSampleFragment() {
+    val fragment = supportFragmentManager.findFragmentById(R.id.fragment)
+    fragment?.let { supportFragmentManager.beginTransaction().remove(it).commit() }
+  }
+
   override fun setupSampleFragment(sample: Sample) {
     val fragment = sample.fragmentClass.java.newInstance()
     supportFragmentManager.beginTransaction().replace(R.id.fragment, fragment).commit()

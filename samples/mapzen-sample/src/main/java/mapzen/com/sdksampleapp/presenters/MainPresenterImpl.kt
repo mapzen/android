@@ -24,19 +24,19 @@ class MainPresenterImpl(val sampleVendor: SampleVendor) : MainPresenter {
     val samples = sampleVendor.samplesForNavId(navItemId)
     controller?.clearScrollViewSamples()
     controller?.setScrollViewSamples(samples)
-    sample?.cleanup(null, null, null) //TODO
     sample = null
-    if (samples?.isEmpty() != true) {
-      sample = samples?.get(0)
+    if (samples?.isNotEmpty() == true) {
+      val next = samples[0]
+      sample = next
+      next?.let { controller?.setupSampleFragment(it) }
+    } else {
+      controller?.cleanupSampleFragment()
     }
-    sample?.setup(null, null, null) //TODO
   }
 
   override fun onSampleSelected(selected: Sample) {
-    controller?.setupSampleFragment(selected)
-    sample?.cleanup(null, null, null)
     sample = selected
-    sample?.setup(null, null, null)
+    controller?.setupSampleFragment(selected)
   }
 
   override fun onOptionsItemSelected(itemId: Int?) {

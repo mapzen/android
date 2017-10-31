@@ -10,6 +10,7 @@ interface MainController {
   fun cleanupNavigationItemSelectedListener()
   fun clearScrollViewSamples()
   fun setScrollViewSamples(samples: Array<Sample>?)
+  fun cleanupSampleFragment()
   fun setupSampleFragment(sample: Sample)
   fun cleanupScrollItemClickListeners()
   fun openSettings()

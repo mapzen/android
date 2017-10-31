@@ -1,8 +1,5 @@
 package mapzen.com.sdksampleapp.models
 
-import com.mapzen.android.graphics.MapzenMap
-import com.mapzen.android.routing.MapzenRouter
-import com.mapzen.android.search.MapzenSearch
 import mapzen.com.sdksampleapp.fragments.RoutePinsFragment
 
 /**
@@ -10,15 +7,7 @@ import mapzen.com.sdksampleapp.fragments.RoutePinsFragment
  */
 class RouteSampleList {
   companion object {
-    val pinsSample = object: Sample("add pins", RoutePinsFragment::class) {
-      override fun cleanup(map: MapzenMap?, router: MapzenRouter?, search: MapzenSearch?) {
-      }
-
-      override fun setup(map: MapzenMap?, router: MapzenRouter?, search: MapzenSearch?) {
-      }
-
-    }
-
+    private val pinsSample = Sample("add pins", RoutePinsFragment::class)
     @JvmStatic val ROUTE_SAMPLES = arrayOf(pinsSample)
   }
 }

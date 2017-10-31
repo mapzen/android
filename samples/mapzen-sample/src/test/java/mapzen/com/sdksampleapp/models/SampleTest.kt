@@ -9,30 +9,13 @@ import org.junit.Test
 
 class SampleTest {
 
-  var setup = false
-  var cleanedup = false
-
-  val sample = object: Sample("sample", BaseFragment::class) {
-    override fun setup(map: MapzenMap?, router: MapzenRouter?, search: MapzenSearch?) {
-      setup = true
-    }
-
-    override fun cleanup(map: MapzenMap?, router: MapzenRouter?, search: MapzenSearch?) {
-      cleanedup = true
-    }
-  }
+  val sample = Sample("sample", BaseFragment::class)
 
   @Test fun titleIsCorrect() {
     assertThat(sample.title).isEqualTo("sample")
   }
 
-  @Test fun setupInvokesMethod() {
-    sample.setup(null, null, null)
-    assertThat(setup).isTrue()
-  }
-
-  @Test fun takedownInvokesMethod() {
-    sample.cleanup(null, null, null)
-    assertThat(cleanedup).isTrue()
+  @Test fun framentClassIsCorrect() {
+    assertThat(sample.fragmentClass).isEqualTo(BaseFragment::class)
   }
 }
