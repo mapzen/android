@@ -99,6 +99,12 @@ class MainPresenterTest {
     assertThat(selected.setup).isTrue()
   }
 
+  @Test fun onSampleSelected_shouldSetupSampleFragment() {
+    val sample = TestSample("test")
+    presenter.onSampleSelected(sample)
+    assertThat(controller.fragmentSample).isEqualTo(sample)
+  }
+
   @Test fun onOptionsItemSelected_shouldOpenSettings() {
     presenter.onOptionsItemSelected(R.id.action_settings)
     assertThat(controller.openSettings).isTrue()

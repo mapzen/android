@@ -3,6 +3,7 @@ package mapzen.com.sdksampleapp.models
 import com.mapzen.android.graphics.MapzenMap
 import com.mapzen.android.routing.MapzenRouter
 import com.mapzen.android.search.MapzenSearch
+import mapzen.com.sdksampleapp.fragments.BaseFragment
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
@@ -11,7 +12,7 @@ class SampleTest {
   var setup = false
   var cleanedup = false
 
-  val sample = object: Sample("sample") {
+  val sample = object: Sample("sample", BaseFragment::class) {
     override fun setup(map: MapzenMap?, router: MapzenRouter?, search: MapzenSearch?) {
       setup = true
     }

@@ -33,6 +33,7 @@ class MainPresenterImpl(val sampleVendor: SampleVendor) : MainPresenter {
   }
 
   override fun onSampleSelected(selected: Sample) {
+    controller?.setupSampleFragment(selected)
     sample?.cleanup(null, null, null)
     sample = selected
     sample?.setup(null, null, null)

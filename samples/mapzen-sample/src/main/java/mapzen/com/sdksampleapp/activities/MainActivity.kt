@@ -68,6 +68,11 @@ class MainActivity : BaseActivity(), MainController {
     scrollContent?.removeAllViews()
   }
 
+  override fun setupSampleFragment(sample: Sample) {
+    val fragment = sample.fragmentClass.java.newInstance()
+    supportFragmentManager.beginTransaction().replace(R.id.fragment, fragment).commit()
+  }
+
   override fun setScrollViewSamples(samples: Array<Sample>?) {
     if (samples == null) { return }
     for (sample in samples) {

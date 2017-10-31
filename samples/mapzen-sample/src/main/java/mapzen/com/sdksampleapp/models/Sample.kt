@@ -3,11 +3,13 @@ package mapzen.com.sdksampleapp.models
 import com.mapzen.android.graphics.MapzenMap
 import com.mapzen.android.routing.MapzenRouter
 import com.mapzen.android.search.MapzenSearch
+import mapzen.com.sdksampleapp.fragments.BaseFragment
+import kotlin.reflect.KClass
 
 /**
  * Represents a feature of the SDK to demonstrate from within a navigation tab.
  */
-abstract class Sample(val title: String) {
+abstract class Sample(val title: String, val fragmentClass: KClass<out BaseFragment>) {
 
   /**
    * Called when the [Sample] has been selected. Use this method to setup state.
