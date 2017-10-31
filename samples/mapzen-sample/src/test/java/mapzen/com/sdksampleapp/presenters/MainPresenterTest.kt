@@ -4,7 +4,7 @@ import mapzen.com.sdksampleapp.R
 import mapzen.com.sdksampleapp.TestMainController
 import mapzen.com.sdksampleapp.TestSample
 import mapzen.com.sdksampleapp.models.MapSampleList.Companion.MAP_SAMPLES
-import mapzen.com.sdksampleapp.models.MapSampleList.Companion.MORE_SAMPLES
+import mapzen.com.sdksampleapp.models.MoreSampleList.Companion.MORE_SAMPLES
 import mapzen.com.sdksampleapp.models.SampleMap
 import mapzen.com.sdksampleapp.models.SampleVendor
 import org.assertj.core.api.Assertions.assertThat
@@ -41,6 +41,7 @@ class MainPresenterTest {
 
   @Test fun onNavBarItemSelected_shouldSetScrollSamples() {
     `when`(sampleVendor.samplesForNavId(R.id.navigation_map)).thenReturn(MAP_SAMPLES)
+    `when`(sampleVendor.samplesForNavId(R.id.navigation_more)).thenReturn(MORE_SAMPLES)
     presenter.onNavBarItemSelected(R.id.navigation_map)
     assertThat(controller.scrolViewSamples).isEqualTo(MAP_SAMPLES)
     presenter.onNavBarItemSelected(R.id.navigation_more)
