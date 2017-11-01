@@ -5,6 +5,7 @@ import mapzen.com.sdksampleapp.TestMainController
 import mapzen.com.sdksampleapp.fragments.BaseFragment
 import mapzen.com.sdksampleapp.models.MapSampleList.Companion.MAP_SAMPLES
 import mapzen.com.sdksampleapp.models.MoreSampleList.Companion.MORE_SAMPLES
+import mapzen.com.sdksampleapp.models.RouteSampleList.Companion.ROUTE_SAMPLES
 import mapzen.com.sdksampleapp.models.Sample
 import mapzen.com.sdksampleapp.models.SampleMap
 import mapzen.com.sdksampleapp.models.SampleVendor
@@ -29,10 +30,27 @@ class MainPresenterTest {
     assertThat(controller.navigationItemSelectedListenerSetup).isTrue()
   }
 
-  @Test fun onCreate_shouldSelectMapTab() {
+  @Test fun onCreate_firstTime_shouldSelectMapTab() {
     `when`(sampleVendor.samplesForNavId(R.id.navigation_map)).thenReturn(MAP_SAMPLES)
     presenter.onCreate()
     assertThat(controller.scrolViewSamples).isEqualTo(MAP_SAMPLES)
+  }
+
+  @Test fun onCreate_restoring_shouldSelectCurrentTab() {
+    `when`(sampleVendor.samplesForNavId(R.id.navigation_route)).thenReturn(ROUTE_SAMPLES)
+    presenter.onCreate()
+    presenter.onNavBarItemSelected(R.id.navigation_route)
+    presenter.onSampleSelected(ROUTE_SAMPLES[1])
+    presenter.onCreate()
+    assertThat(controller.scrolViewSamples).isEqualTo(ROUTE_SAMPLES)
+    assertThat(controller.fragmentSample).isEqualTo(ROUTE_SAMPLES[1])
+  }
+
+  @Test fun onNavBarItemSelected_shouldUpdateNavId() {
+    presenter.onNavBarItemSelected(R.id.navigation_map)
+    assertThat(presenter.navItemId).isEqualTo(R.id.navigation_map)
+    presenter.onNavBarItemSelected(R.id.navigation_route)
+    assertThat(presenter.navItemId).isEqualTo(R.id.navigation_route)
   }
 
   @Test fun onNavBarItemSelected_shouldClearPreviousScrollSamples() {
