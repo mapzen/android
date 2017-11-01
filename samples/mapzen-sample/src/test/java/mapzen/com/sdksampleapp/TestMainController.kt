@@ -11,6 +11,8 @@ class TestMainController : MainController {
   var scrolViewSamples: Array<Sample>? = null
   var scrollItemClickListenersCleanedUp = false
   var openSettings = false
+  var fragmentSample: Sample? = null
+  var fragmentCleanedUp = false
 
   override fun setupNavigationItemSelectedListener() {
     navigationItemSelectedListenerSetup = true
@@ -22,6 +24,14 @@ class TestMainController : MainController {
 
   override fun clearScrollViewSamples() {
     scrollViewSamplesCleared = true
+  }
+
+  override fun cleanupSampleFragment() {
+    fragmentCleanedUp = true
+  }
+
+  override fun setupSampleFragment(sample: Sample) {
+    fragmentSample = sample
   }
 
   override fun setScrollViewSamples(samples: Array<Sample>?) {

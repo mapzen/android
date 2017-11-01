@@ -1,6 +1,7 @@
 package mapzen.com.sdksampleapp
 
 import android.app.Application
+import com.mapzen.android.core.MapzenManager
 import mapzen.com.sdksampleapp.di.AppComponent
 import mapzen.com.sdksampleapp.di.DaggerAppComponent
 import mapzen.com.sdksampleapp.di.AppModule
@@ -15,6 +16,11 @@ class MainApplication : Application() {
         .builder()
         .appModule(AppModule(this.applicationContext))
         .build()
+  }
+
+  override fun onCreate() {
+    super.onCreate()
+    MapzenManager.instance(this).apiKey = BuildConfig.MAPZEN_API_KEY
   }
 
 }

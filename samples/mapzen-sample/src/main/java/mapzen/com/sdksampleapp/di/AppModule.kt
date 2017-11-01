@@ -2,6 +2,8 @@ package mapzen.com.sdksampleapp.di
 
 import android.content.Context
 import android.preference.PreferenceManager
+import com.mapzen.android.routing.MapzenRouter
+import com.mapzen.android.search.MapzenSearch
 import dagger.Module
 import dagger.Provides
 import mapzen.com.sdksampleapp.models.SampleMap
@@ -29,5 +31,13 @@ class AppModule(private val context: Context) {
 
   @Provides @Singleton fun provideSettingsPresenter(settings: Settings) : SettingsPresenter {
     return SettingsPresenterImpl(settings)
+  }
+
+  @Provides @Singleton fun provideSearch() : MapzenSearch {
+    return MapzenSearch(context)
+  }
+
+  @Provides @Singleton fun provideRouter() : MapzenRouter {
+    return MapzenRouter(context)
   }
 }
