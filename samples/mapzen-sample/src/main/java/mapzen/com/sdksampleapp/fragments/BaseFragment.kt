@@ -83,7 +83,7 @@ open abstract class BaseFragment : Fragment(), SharedPreferences.OnSharedPrefere
     }
     prefsChanged = false
     map?.setStyleLabelLevelLodThemeColorAsync(settings.mapStyle, settings.labelLevel, settings.lod,
-        settings.color, { //refresh finished
+        settings.color, { //TODO refresh finished, ensure no map updates in subclasses
     })
   }
 

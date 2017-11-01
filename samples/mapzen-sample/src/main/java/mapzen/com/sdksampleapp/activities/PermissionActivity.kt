@@ -66,7 +66,8 @@ class PermissionActivity : AppCompatActivity() {
         } else {
           showToast()
         }
-      else -> showToast()
+      else ->
+        showToast()
     }
   }
 
