@@ -50,8 +50,8 @@ class RoutePinsFragment : BaseFragment() {
     })
   }
 
-  override fun onPause() {
-    super.onPause()
+  override fun onDestroy() {
+    super.onDestroy()
     map?.isMyLocationEnabled = false
   }
 

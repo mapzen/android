@@ -1,6 +1,8 @@
 package mapzen.com.sdksampleapp.fragments
 
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -19,7 +21,7 @@ import javax.inject.Inject
 /**
  * Base fragment from which all sample fragments should extend.
  */
-open abstract class BaseFragment : Fragment() {
+open abstract class BaseFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
   abstract fun getLayoutId(): Int
   abstract fun onMapSetup()
@@ -28,6 +30,7 @@ open abstract class BaseFragment : Fragment() {
   @Inject lateinit var search: MapzenSearch
   @Inject lateinit var router: MapzenRouter
 
+  var prefsChanged = false
   val mapView: MapView by bindView(R.id.map)
   var map: MapzenMap? = null
 
@@ -42,6 +45,13 @@ open abstract class BaseFragment : Fragment() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     mainApplication.appComponent.inject(this)
+    val prefs = PreferenceManager.getDefaultSharedPreferences(this.context.applicationContext)
+    prefs.registerOnSharedPreferenceChangeListener(this)
+  }
+
+  override fun onResume() {
+    super.onResume()
+    map?.let { refreshMap() }
   }
 
   override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
@@ -54,10 +64,30 @@ open abstract class BaseFragment : Fragment() {
     setupMap()
   }
 
+  override fun onDestroy() {
+    super.onDestroy()
+    val prefs = PreferenceManager.getDefaultSharedPreferences(this.context.applicationContext)
+    prefs.unregisterOnSharedPreferenceChangeListener(this)
+  }
+
   private fun setupMap() {
     mapView.getMapAsync(settings.mapStyle, { mapzenMap ->
       map = mapzenMap
       onMapSetup()
     })
+  }
+
+  private fun refreshMap() {
+    if (!prefsChanged) {
+      return
+    }
+    prefsChanged = false
+    map?.setStyleLabelLevelLodThemeColorAsync(settings.mapStyle, settings.labelLevel, settings.lod,
+        settings.color, { //refresh finished
+    })
+  }
+
+  override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
+    prefsChanged = true
   }
 }
