@@ -5,7 +5,6 @@ import com.mapzen.android.graphics.model.Marker
 import com.mapzen.android.graphics.model.Polyline
 import com.mapzen.android.routing.MapzenRouter
 import com.mapzen.tangram.LngLat
-import com.mapzen.tangram.MapData
 import com.mapzen.tangram.TouchInput
 import com.mapzen.valhalla.Route
 import com.mapzen.valhalla.RouteCallback
@@ -53,7 +52,6 @@ class RoutingPresenterImpl(val router: MapzenRouter) : RoutingPresenter, RouteCa
       override fun onSingleTapConfirmed(x: Float, y: Float): Boolean {
         return false
       }
-
     }
   }
 

@@ -1,6 +1,5 @@
 package mapzen.com.sdksampleapp.presenters
 
-import com.mapzen.tangram.MapData
 import com.mapzen.valhalla.Route
 import mapzen.com.sdksampleapp.controllers.RoutingController
 
