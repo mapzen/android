@@ -10,6 +10,8 @@ import mapzen.com.sdksampleapp.models.SampleMap
 import mapzen.com.sdksampleapp.models.Settings
 import mapzen.com.sdksampleapp.presenters.MainPresenter
 import mapzen.com.sdksampleapp.presenters.MainPresenterImpl
+import mapzen.com.sdksampleapp.presenters.RoutingPresenter
+import mapzen.com.sdksampleapp.presenters.RoutingPresenterImpl
 import mapzen.com.sdksampleapp.presenters.SettingsPresenter
 import mapzen.com.sdksampleapp.presenters.SettingsPresenterImpl
 import javax.inject.Singleton
@@ -39,5 +41,9 @@ class AppModule(private val context: Context) {
 
   @Provides @Singleton fun provideRouter() : MapzenRouter {
     return MapzenRouter(context)
+  }
+
+  @Provides @Singleton fun provideRoutingPresenter(router: MapzenRouter) : RoutingPresenter {
+    return RoutingPresenterImpl(router)
   }
 }

@@ -3,6 +3,7 @@ package mapzen.com.sdksampleapp.di
 import dagger.Component
 import mapzen.com.sdksampleapp.activities.MainActivity
 import mapzen.com.sdksampleapp.fragments.BaseFragment
+import mapzen.com.sdksampleapp.fragments.RoutingFragment
 import mapzen.com.sdksampleapp.fragments.SettingsFragment
 import javax.inject.Singleton
 
@@ -15,4 +16,5 @@ interface AppComponent {
   fun inject(activity: MainActivity)
   fun inject(fragment: SettingsFragment)
   fun inject(fragment: BaseFragment)
+  fun inject(fragment: RoutingFragment)
 }
