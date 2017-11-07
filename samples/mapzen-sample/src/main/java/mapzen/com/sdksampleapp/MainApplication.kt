@@ -22,5 +22,4 @@ class MainApplication : Application() {
     super.onCreate()
     MapzenManager.instance(this).apiKey = BuildConfig.MAPZEN_API_KEY
   }
-
 }

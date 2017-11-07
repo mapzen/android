@@ -1,4 +1,4 @@
-package mapzen.com.sdksampleapp.activities;
+package mapzen.com.sdksampleapp.activities
 
 import android.os.Bundle
 import mapzen.com.sdksampleapp.fragments.SettingsFragment

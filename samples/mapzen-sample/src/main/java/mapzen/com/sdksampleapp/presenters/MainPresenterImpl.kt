@@ -3,7 +3,6 @@ package mapzen.com.sdksampleapp.presenters
 import mapzen.com.sdksampleapp.R
 import mapzen.com.sdksampleapp.controllers.MainController
 import mapzen.com.sdksampleapp.models.Sample
-import mapzen.com.sdksampleapp.models.SampleMap
 import mapzen.com.sdksampleapp.models.SampleVendor
 
 /**
@@ -61,11 +60,11 @@ class MainPresenterImpl(val sampleVendor: SampleVendor) : MainPresenter {
   }
 
   // out
-  override fun getTitleText(sample: Sample) : String {
+  override fun getTitleText(sample: Sample): String {
     return sample.title
   }
 
-  override fun getTag(sample: Sample) : Sample {
+  override fun getTag(sample: Sample): Sample {
     return sample
   }
 }

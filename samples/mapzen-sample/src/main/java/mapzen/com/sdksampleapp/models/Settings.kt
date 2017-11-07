@@ -11,7 +11,6 @@ import com.mapzen.android.graphics.model.TronStyle
 import com.mapzen.android.graphics.model.WalkaboutStyle
 import mapzen.com.sdksampleapp.R
 
-
 /**
  * Represents settings displayed in [SettingsFragment].
  */

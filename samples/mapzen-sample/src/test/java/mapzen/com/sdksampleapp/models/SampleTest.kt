@@ -1,8 +1,5 @@
 package mapzen.com.sdksampleapp.models
 
-import com.mapzen.android.graphics.MapzenMap
-import com.mapzen.android.routing.MapzenRouter
-import com.mapzen.android.search.MapzenSearch
 import mapzen.com.sdksampleapp.fragments.BaseFragment
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test

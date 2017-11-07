@@ -25,11 +25,10 @@ interface MainPresenter {
   // Call when the activity is destroyed
   fun onDestroy()
 
-
   // OUT
 
   // Call to get the sample view's title
-  fun getTitleText(sample: Sample) : String
+  fun getTitleText(sample: Sample): String
   // Call to get sample view's tag
-  fun getTag(sample: Sample) : Sample
+  fun getTag(sample: Sample): Sample
 }

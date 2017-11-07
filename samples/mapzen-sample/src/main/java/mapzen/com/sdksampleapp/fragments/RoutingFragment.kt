@@ -41,7 +41,7 @@ class RoutingFragment : BaseFragment(), RoutingController {
   override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     presenter.selectedMode?.let { tabLayout.getTabAt(it)?.select() }
-    tabLayout.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
+    tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
       override fun onTabReselected(tab: TabLayout.Tab?) {
       }
 
@@ -51,7 +51,6 @@ class RoutingFragment : BaseFragment(), RoutingController {
       override fun onTabSelected(tab: TabLayout.Tab?) {
         tab?.position?.let { presenter.onTabPositionSelected(it) }
       }
-
     })
   }
 

@@ -17,7 +17,6 @@ import mapzen.com.sdksampleapp.models.Sample
 import mapzen.com.sdksampleapp.presenters.MainPresenter
 import javax.inject.Inject
 
-
 /**
  * Entry point for the sample app. Displays bottom navigation bar with top scroll view for
  * interaction with different SDK use cases.
@@ -97,7 +96,6 @@ class MainActivity : BaseActivity(), MainController {
       scrollContent?.addView(textView, layoutParams)
     }
   }
-
 
   override fun cleanupScrollItemClickListeners() {
     scrollContent?.let {

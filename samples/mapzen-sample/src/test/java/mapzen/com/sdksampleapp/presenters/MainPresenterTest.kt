@@ -18,7 +18,7 @@ import org.mockito.Mockito.mock
 class MainPresenterTest {
 
   val sampleVendor: SampleVendor = mock(SampleMap::class.java)
-  val presenter : MainPresenter = MainPresenterImpl(sampleVendor)
+  val presenter: MainPresenter = MainPresenterImpl(sampleVendor)
   val controller = TestMainController()
 
   @Before fun setup() {
@@ -127,5 +127,4 @@ class MainPresenterTest {
     val tag = presenter.getTag(sample)
     assertThat(tag).isEqualTo(sample)
   }
-
 }
