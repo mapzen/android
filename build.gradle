@@ -33,6 +33,9 @@ subprojects {
                           'checkstyle',
                           'lint'])
 
+  task ktverify(dependsOn: ['verify',
+                            'ktlintMainCheck'])
+
   tasks.withType(Test) {
     testLogging {
       exceptionFormat "full"
