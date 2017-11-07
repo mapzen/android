@@ -77,24 +77,24 @@ assemble.doFirst {
 }
 
 dependencies {
-  compile 'com.android.support:appcompat-v7:26.1.0'
+  implementation 'com.android.support:appcompat-v7:26.1.0'
 
-  compile project(':bubble-wrap')
-  compile project(':cinnabar')
-  compile project(':refill')
-  compile project(':walkabout')
-  compile "com.mapzen.tangram:tangram:$tangram_version"
-  compile 'com.mapzen.android:pelias-android-sdk:1.2.0'
-  compile 'com.mapzen.android:lost:3.0.3'
+  implementation project(':bubble-wrap')
+  implementation project(':cinnabar')
+  implementation project(':refill')
+  implementation project(':walkabout')
+  api "com.mapzen.tangram:tangram:$tangram_version"
+  api 'com.mapzen.android:pelias-android-sdk:1.2.0'
+  api 'com.mapzen.android:lost:3.0.3'
 
-  compile 'com.google.dagger:dagger:2.0'
-  compile 'javax.annotation:javax.annotation-api:1.2'
+  api 'com.google.dagger:dagger:2.0'
+  api 'javax.annotation:javax.annotation-api:1.2'
 
   annotationProcessor 'com.google.dagger:dagger-compiler:2.0'
 
-  testCompile 'junit:junit:4.12'
-  testCompile 'org.assertj:assertj-core:1.7.1'
-  testCompile 'org.powermock:powermock:1.6.4'
-  testCompile 'org.powermock:powermock-module-junit4:1.6.4'
-  testCompile 'org.powermock:powermock-api-mockito:1.6.4'
+  testImplementation 'junit:junit:4.12'
+  testImplementation 'org.assertj:assertj-core:1.7.1'
+  testImplementation 'org.powermock:powermock:1.6.4'
+  testImplementation 'org.powermock:powermock-module-junit4:1.6.4'
+  testImplementation 'org.powermock:powermock-api-mockito:1.6.4'
 }
