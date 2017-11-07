@@ -74,6 +74,12 @@ task installPlacesDemo {
       ':samples_mapzen-places-api-sample:installDebug'
 }
 
+task installSdkSampleApp {
+  description 'Builds and installs the redesigned Mapzen Android SDK sample app to a connected emulator or device'
+  dependsOn 'installSdkSampleApp',
+      ':samples_mapzen-sample:installDebug'
+}
+
 release {
   tagTemplate = 'v${version}'
   versionPropertyFile = 'gradle.properties'
