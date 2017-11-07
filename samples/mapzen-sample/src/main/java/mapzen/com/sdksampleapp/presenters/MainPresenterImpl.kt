@@ -12,15 +12,25 @@ import mapzen.com.sdksampleapp.models.SampleVendor
 class MainPresenterImpl(val sampleVendor: SampleVendor) : MainPresenter {
 
   override var controller: MainController? = null
+  override var navItemId: Int? = null
   override var sample: Sample? = null
 
   // in
   override fun onCreate() {
     controller?.setupNavigationItemSelectedListener()
-    onNavBarItemSelected(R.id.navigation_map)
+    if (navItemId == null) {
+      onNavBarItemSelected(R.id.navigation_map)
+    } else {
+      navItemId?.let {
+        val samples = sampleVendor.samplesForNavId(it)
+        controller?.setScrollViewSamples(samples)
+        sample?.let { controller?.setupSampleFragment(it) }
+      }
+    }
   }
 
   override fun onNavBarItemSelected(navItemId: Int) {
+    this.navItemId = navItemId
     val samples = sampleVendor.samplesForNavId(navItemId)
     controller?.clearScrollViewSamples()
     controller?.setScrollViewSamples(samples)

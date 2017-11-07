@@ -9,6 +9,7 @@ import mapzen.com.sdksampleapp.models.Sample
 interface MainPresenter {
 
   var controller: MainController?
+  var navItemId: Int?
   var sample: Sample?
 
   // IN

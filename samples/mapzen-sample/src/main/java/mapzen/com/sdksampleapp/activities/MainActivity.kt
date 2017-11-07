@@ -102,6 +102,7 @@ class MainActivity : BaseActivity(), MainController {
   override fun cleanupScrollItemClickListeners() {
     scrollContent?.let {
       (0..it.childCount)
+          .filter { it -> scrollContent?.getChildAt(it) is TextView }
           .map { scrollContent?.getChildAt(it) as TextView }
           .forEach { it.setOnClickListener(null) }
     }
