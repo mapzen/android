@@ -66,3 +66,7 @@ An [open source](https://github.com/mapzen/eraser-map) privacy-focused reference
 ![screenshot](assets/eraser-map.png)
 
 Beta builds of Eraser Map (plus the SDK demo apps and other science projects) are available on the [Mapzen Android download page](http://android.mapzen.com/).
+
+# Building From Source
+
+If you would like to build the Mapzen Android SDK directly from master, we recommend using Android Studio 3.0. We upgraded our gradle build scripts to take advantage of the [new dependency configurations](https://developer.android.com/studio/build/gradle-plugin-3-0-0-migration.html#new_configurations) in gradle which means that if you would like to use earlier versions of Android Studio, you will have to revert to the deprecated configuration.
