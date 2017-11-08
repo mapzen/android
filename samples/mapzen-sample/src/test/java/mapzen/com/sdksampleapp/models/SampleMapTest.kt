@@ -7,7 +7,6 @@ import mapzen.com.sdksampleapp.models.RouteSampleList.Companion.ROUTE_SAMPLES
 import mapzen.com.sdksampleapp.models.SampleMap.Companion.NAV_ID_TO_SECTIONS
 import mapzen.com.sdksampleapp.models.SearchSampleList.Companion.SEARCH_SAMPLES
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.Before
 import org.junit.Test
 
 class SampleMapTest {

@@ -160,5 +160,4 @@ class SettingsPresenterTest {
     assertThat(controller.entryValuesResIds[2]).isEqualTo(R.array.pref_empty)
     assertThat(controller.values.size).isEqualTo(2)
   }
-
 }

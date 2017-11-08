@@ -45,5 +45,4 @@ class TestMainController : MainController {
   override fun openSettings() {
     openSettings = true
   }
-
 }

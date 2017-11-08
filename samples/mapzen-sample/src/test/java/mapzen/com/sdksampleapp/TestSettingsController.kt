@@ -16,5 +16,4 @@ class TestSettingsController : SettingsController {
     entryValuesResIds.add(entryValuesResId)
     value?.let { values.add(it) }
   }
-
 }

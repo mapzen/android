@@ -132,7 +132,6 @@ class RoutingPresenterTest {
         MapData::class.java))
     presenter.displayRoute(mock(Route::class.java))
     verify(controller.getMapzenMap())?.removePolyline()
-
   }
 
   @Test fun displayRoute_shouldAddPolyline() {
@@ -144,5 +143,4 @@ class RoutingPresenterTest {
     presenter.onDestroy()
     verify(controller.getMapzenMap())?.isMyLocationEnabled = false
   }
-
 }

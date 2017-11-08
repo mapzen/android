@@ -22,28 +22,28 @@ import javax.inject.Singleton
 @Module
 class AppModule(private val context: Context) {
 
-  @Provides @Singleton fun provideMainPresenter() : MainPresenter {
+  @Provides @Singleton fun provideMainPresenter(): MainPresenter {
     return MainPresenterImpl(SampleMap())
   }
 
-  @Provides @Singleton fun provideSettings() : Settings {
+  @Provides @Singleton fun provideSettings(): Settings {
     val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context)
     return Settings(context, sharedPrefs)
   }
 
-  @Provides @Singleton fun provideSettingsPresenter(settings: Settings) : SettingsPresenter {
+  @Provides @Singleton fun provideSettingsPresenter(settings: Settings): SettingsPresenter {
     return SettingsPresenterImpl(settings)
   }
 
-  @Provides @Singleton fun provideSearch() : MapzenSearch {
+  @Provides @Singleton fun provideSearch(): MapzenSearch {
     return MapzenSearch(context)
   }
 
-  @Provides @Singleton fun provideRouter() : MapzenRouter {
+  @Provides @Singleton fun provideRouter(): MapzenRouter {
     return MapzenRouter(context)
   }
 
-  @Provides @Singleton fun provideRoutingPresenter(router: MapzenRouter) : RoutingPresenter {
+  @Provides @Singleton fun provideRoutingPresenter(router: MapzenRouter): RoutingPresenter {
     return RoutingPresenterImpl(router)
   }
 }

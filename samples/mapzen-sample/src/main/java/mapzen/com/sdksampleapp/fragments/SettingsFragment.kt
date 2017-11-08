@@ -12,7 +12,6 @@ import mapzen.com.sdksampleapp.controllers.SettingsController
 import mapzen.com.sdksampleapp.presenters.SettingsPresenter
 import javax.inject.Inject
 
-
 /**
  * Settings fragment for display within [SettingsActivity].
  */
@@ -54,5 +53,4 @@ class SettingsFragment : PreferenceFragment(), SharedPreferences.OnSharedPrefere
     lodPref.entryValues = resources.getStringArray(entryValuesResId)
     lodPref.value = value
   }
-
 }

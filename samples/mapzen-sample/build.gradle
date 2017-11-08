@@ -2,14 +2,17 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'checkstyle'
 apply plugin: 'kotlin-kapt'
+apply plugin: "org.jlleitschuh.gradle.ktlint"
 
 buildscript {
   ext.kotlin_version = '1.1.50'
   repositories {
     jcenter()
+    maven { url "https://plugins.gradle.org/m2/" }
   }
   dependencies {
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    classpath "gradle.plugin.org.jlleitschuh.gradle:ktlint-gradle:2.2.1"
   }
 }
 
@@ -35,6 +38,9 @@ android {
   testOptions {
     unitTests.returnDefaultValues = true
   }
+  lintOptions {
+    abortOnError false
+  }
 }
 
 task checkstyle(type: Checkstyle) {
@@ -44,6 +50,14 @@ task checkstyle(type: Checkstyle) {
   exclude '**/gen/**'
 
   classpath = files()
+}
+
+ktlint {
+  version = "0.11.1"
+  debug = true
+  verbose = true
+  reporter = "checkstyle"
+  ignoreFailures = false
 }
 
 dependencies {

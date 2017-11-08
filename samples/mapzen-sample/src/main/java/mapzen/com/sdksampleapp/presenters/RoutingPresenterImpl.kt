@@ -20,7 +20,6 @@ class RoutingPresenterImpl(val router: MapzenRouter) : RoutingPresenter, RouteCa
 
   private var count = 0
 
-
   companion object {
     @JvmStatic val TAB_POSITION_AUTO = 0
     @JvmStatic val TAB_POSITION_TRANSIT = 1
@@ -43,7 +42,7 @@ class RoutingPresenterImpl(val router: MapzenRouter) : RoutingPresenter, RouteCa
     val map = controller?.getMapzenMap()
     map?.setPersistMapData(true)
     map?.isMyLocationEnabled = true
-    map?.tapResponder = object: TouchInput.TapResponder {
+    map?.tapResponder = object : TouchInput.TapResponder {
       override fun onSingleTapUp(x: Float, y: Float): Boolean {
         addPin(x, y)
         return false

@@ -17,7 +17,7 @@ class RoutePinsFragment : BaseFragment() {
   override fun onMapSetup() {
     map?.setPersistMapData(true)
     map?.isMyLocationEnabled = true
-    map?.tapResponder = object: TouchInput.TapResponder {
+    map?.tapResponder = object : TouchInput.TapResponder {
       override fun onSingleTapUp(x: Float, y: Float): Boolean {
         addPin(x, y)
         return false
@@ -26,7 +26,6 @@ class RoutePinsFragment : BaseFragment() {
       override fun onSingleTapConfirmed(x: Float, y: Float): Boolean {
         return false
       }
-
     }
   }
 

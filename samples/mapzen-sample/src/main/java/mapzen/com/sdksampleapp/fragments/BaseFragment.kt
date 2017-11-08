@@ -34,11 +34,11 @@ open abstract class BaseFragment : Fragment(), SharedPreferences.OnSharedPrefere
   val mapView: MapView by bindView(R.id.map)
   var map: MapzenMap? = null
 
-  val baseActivity : BaseActivity by lazy {
+  val baseActivity: BaseActivity by lazy {
     activity as BaseActivity
   }
 
-  val mainApplication : MainApplication by lazy {
+  val mainApplication: MainApplication by lazy {
     baseActivity.mainApplication
   }
 
