@@ -167,8 +167,8 @@ public class MapzenRouter {
    * Units of distance.
    */
   public enum DistanceUnits {
-    MILES ("miles"),
-    KILOMETERS ("kilometers");
+    MILES("miles"),
+    KILOMETERS("kilometers");
 
     private final String name;
 

@@ -37,8 +37,8 @@ task checkstyle(type: Checkstyle) {
 }
 
 dependencies {
-  compile(project(':mapzen-android-sdk'))
-  compile(project(':tron'))
-  compile 'com.android.support:appcompat-v7:26.1.0'
-  compile 'com.android.support:design:26.1.0'
+  implementation(project(':mapzen-android-sdk'))
+  implementation(project(':tron'))
+  implementation 'com.android.support:appcompat-v7:26.1.0'
+  implementation 'com.android.support:design:26.1.0'
 }

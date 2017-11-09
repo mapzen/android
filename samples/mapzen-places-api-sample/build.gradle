@@ -33,9 +33,7 @@ task checkstyle(type: Checkstyle) {
 }
 
 dependencies {
-  compile(project(':mapzen-places-api')) {
-    transitive = true;
-  }
-  compile 'com.android.support:appcompat-v7:26.1.0'
-  compile 'com.android.support:design:26.1.0'
+  implementation(project(':mapzen-places-api'))
+  implementation 'com.android.support:appcompat-v7:26.1.0'
+  implementation 'com.android.support:design:26.1.0'
 }
