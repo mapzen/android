@@ -79,6 +79,7 @@ class PermissionActivity : AppCompatActivity() {
   fun startMainActivity() {
     val intent = Intent(this, MainActivity::class.java)
     startActivity(intent)
+    finish()
   }
 
   fun showToast() {
