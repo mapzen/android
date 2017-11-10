@@ -23,7 +23,7 @@ class MainPresenterImpl(val sampleVendor: SampleVendor) : MainPresenter {
       navItemId?.let {
         val samples = sampleVendor.samplesForNavId(it)
         controller?.setScrollViewSamples(samples)
-        sample?.let { controller?.setupSampleFragment(it) }
+        updateControllerViews()
       }
     }
   }
@@ -37,7 +37,7 @@ class MainPresenterImpl(val sampleVendor: SampleVendor) : MainPresenter {
     if (samples?.isNotEmpty() == true) {
       val next = samples[0]
       sample = next
-      next?.let { controller?.setupSampleFragment(it) }
+      updateControllerViews()
     } else {
       controller?.cleanupSampleFragment()
     }
@@ -45,7 +45,7 @@ class MainPresenterImpl(val sampleVendor: SampleVendor) : MainPresenter {
 
   override fun onSampleSelected(selected: Sample) {
     sample = selected
-    controller?.setupSampleFragment(selected)
+    updateControllerViews()
   }
 
   override fun onOptionsItemSelected(itemId: Int?) {
@@ -66,5 +66,12 @@ class MainPresenterImpl(val sampleVendor: SampleVendor) : MainPresenter {
 
   override fun getTag(sample: Sample): Sample {
     return sample
+  }
+
+  private fun updateControllerViews() {
+    sample?.let {
+      controller?.selectSampleView(it)
+      controller?.setupSampleFragment(it)
+    }
   }
 }

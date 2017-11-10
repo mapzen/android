@@ -52,6 +52,13 @@ class MainActivity : BaseActivity(), MainController {
     return true
   }
 
+  override fun selectSampleView(sample: Sample) {
+    (0..scrollContent.childCount)
+      .filter { it -> scrollContent.getChildAt(it) is TextView }
+      .map { scrollContent.getChildAt(it) }
+      .forEach { it.isSelected = (it.tag == sample) }
+  }
+
   override fun setupNavigationItemSelectedListener() {
     navigationView?.setOnNavigationItemSelectedListener { item ->
       presenter.onNavBarItemSelected(item.itemId)
@@ -89,8 +96,8 @@ class MainActivity : BaseActivity(), MainController {
       }
       textView.tag = presenter?.getTag(sample)
       val layoutParams = LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
-      if (sample === samples[samples.size - 1]) {
-        val rightMargin = resources.getDimensionPixelSize(R.dimen.padding_large)
+      if (sample != samples[samples.size - 1]) {
+        val rightMargin = resources.getDimensionPixelSize(R.dimen.padding)
         layoutParams.setMargins(0, 0, rightMargin, 0)
       }
       scrollContent?.addView(textView, layoutParams)
@@ -98,12 +105,10 @@ class MainActivity : BaseActivity(), MainController {
   }
 
   override fun cleanupScrollItemClickListeners() {
-    scrollContent?.let {
-      (0..it.childCount)
-          .filter { it -> scrollContent?.getChildAt(it) is TextView }
-          .map { scrollContent?.getChildAt(it) as TextView }
-          .forEach { it.setOnClickListener(null) }
-    }
+    (0..scrollContent.childCount)
+      .filter { it -> scrollContent.getChildAt(it) is TextView }
+      .map { scrollContent.getChildAt(it) as TextView }
+      .forEach { it.setOnClickListener(null) }
   }
 
   override fun openSettings() {
