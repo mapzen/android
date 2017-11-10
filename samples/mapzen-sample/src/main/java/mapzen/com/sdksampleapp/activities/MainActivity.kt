@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
 import android.widget.TextView
 import kotterknife.bindView
@@ -25,6 +26,7 @@ class MainActivity : BaseActivity(), MainController {
 
   val navigationView: BottomNavigationView by bindView(R.id.navigation)
   val scrollContent: LinearLayout by bindView(R.id.scrollContent)
+  val scrollView: HorizontalScrollView by bindView(R.id.scrollView)
 
   @Inject lateinit var presenter: MainPresenter
 
@@ -91,6 +93,7 @@ class MainActivity : BaseActivity(), MainController {
       val textView = inflater.inflate(R.layout.text_row, null) as TextView
       textView.text = presenter?.getTitleText(sample)
       textView.setOnClickListener { view ->
+        scrollView.smoothScrollTo(view.x.toInt(), 0)
         val sample = view.tag as Sample
         presenter?.onSampleSelected(sample)
       }
