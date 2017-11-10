@@ -62,18 +62,18 @@ class MainActivity : BaseActivity(), MainController {
   }
 
   override fun setupNavigationItemSelectedListener() {
-    navigationView?.setOnNavigationItemSelectedListener { item ->
+    navigationView.setOnNavigationItemSelectedListener { item ->
       presenter.onNavBarItemSelected(item.itemId)
       true
     }
   }
 
   override fun cleanupNavigationItemSelectedListener() {
-    navigationView?.setOnNavigationItemSelectedListener(null)
+    navigationView.setOnNavigationItemSelectedListener(null)
   }
 
   override fun clearScrollViewSamples() {
-    scrollContent?.removeAllViews()
+    scrollContent.removeAllViews()
   }
 
   override fun cleanupSampleFragment() {
@@ -91,19 +91,19 @@ class MainActivity : BaseActivity(), MainController {
     for (sample in samples) {
       val inflater = LayoutInflater.from(this)
       val textView = inflater.inflate(R.layout.text_row, null) as TextView
-      textView.text = presenter?.getTitleText(sample)
+      textView.text = presenter.getTitleText(sample)
       textView.setOnClickListener { view ->
         scrollView.smoothScrollTo(view.x.toInt(), 0)
         val sample = view.tag as Sample
-        presenter?.onSampleSelected(sample)
+        presenter.onSampleSelected(sample)
       }
-      textView.tag = presenter?.getTag(sample)
+      textView.tag = presenter.getTag(sample)
       val layoutParams = LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
       if (sample != samples[samples.size - 1]) {
         val rightMargin = resources.getDimensionPixelSize(R.dimen.padding)
         layoutParams.setMargins(0, 0, rightMargin, 0)
       }
-      scrollContent?.addView(textView, layoutParams)
+      scrollContent.addView(textView, layoutParams)
     }
   }
 
