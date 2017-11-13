@@ -81,7 +81,7 @@ task aarSize {
     def mapzenSize = mapzen.length() / (1024 * 1024)
 
     def depsSize = 0
-    configurations._releaseCompile.collect { it.length() / (1024 * 1024) }.each { depsSize += it }
+    configurations.compile.collect { it.length() / (1024 * 1024) }.each { depsSize += it }
 
     def totalSize = mapzenSize + depsSize
     println ""
@@ -97,7 +97,7 @@ task aarSize {
 
     println "DEPENDENCIES:"
     configurations
-        ._releaseCompile
+        .compile
         .sort { -it.length() }
         .each { println "${it.name} : ${Math.round(it.length() / (1024) * 100) / 100} kb" }
 
