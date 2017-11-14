@@ -22,6 +22,7 @@ import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.any
 import org.mockito.Mockito.mock
+import org.mockito.Mockito.never
 import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
 
@@ -142,5 +143,32 @@ class RoutingPresenterTest {
   @Test fun onDestroyView_shouldDisableLocation() {
     presenter.onDestroyView()
     verify(controller.getMapzenMap())?.isMyLocationEnabled = false
+  }
+
+  @Test fun cleanup_shouldRemoveMarker() {
+    presenter.cleanup()
+    verify(controller.getMapzenMap())?.removeMarker()
+  }
+
+  @Test fun cleanup_shouldRemovePolyline() {
+    presenter.cleanup()
+    verify(controller.getMapzenMap())?.removePolyline()
+  }
+
+  @Test fun cleanup_shouldClearRouter() {
+    presenter.cleanup()
+    verify(router).clearLocations()
+  }
+
+  @Test fun cleanup_shouldResetCount() {
+    presenter.addPin(0f, 0f)
+    presenter.cleanup()
+    presenter.addPin(0f, 0f)
+    verify(router, never()).fetch()
+  }
+
+  @Test fun cleanup_shouldResetSelectedMode() {
+    presenter.cleanup()
+    assertThat(presenter.selectedMode).isEqualTo(TAB_POSITION_AUTO)
   }
 }

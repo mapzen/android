@@ -27,6 +27,10 @@ class RoutingFragment : BaseFragment(), RoutingController {
     presenter.setupMap()
   }
 
+  override fun cleanup() {
+    presenter.cleanup()
+  }
+
   override fun getMapzenMap(): MapzenMap? {
     return map
   }

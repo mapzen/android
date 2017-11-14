@@ -95,4 +95,13 @@ class RoutingPresenterImpl(val router: MapzenRouter) : RoutingPresenter, RouteCa
   override fun onDestroyView() {
     controller?.getMapzenMap()?.isMyLocationEnabled = false
   }
+
+  override fun cleanup() {
+    val map = controller?.getMapzenMap()
+    map?.removeMarker()
+    map?.removePolyline()
+    router.clearLocations()
+    count = 0
+    selectedMode = TAB_POSITION_AUTO
+  }
 }

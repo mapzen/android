@@ -16,4 +16,5 @@ interface RoutingPresenter {
   fun addPin(x: Float, y: Float)
   fun displayRoute(route: Route)
   fun onDestroyView()
+  fun cleanup()
 }

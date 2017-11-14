@@ -55,6 +55,22 @@ class MainPresenterTest {
     assertThat(controller.viewSample).isEqualTo(ROUTE_SAMPLES[1])
   }
 
+  @Test fun onCreate_restoring_shouldNotCleanupPrevFragment() {
+    presenter.sample = Sample("test", BaseFragment::class)
+    presenter.navItemId = R.id.navigation_map
+    presenter.onCreate()
+    presenter.onCreate()
+    assertThat(controller.fragmentCleanedUp).isFalse()
+  }
+
+  @Test fun onCreate_restoring_shouldRemovePrevFragment() {
+    presenter.sample = Sample("test", BaseFragment::class)
+    presenter.navItemId = R.id.navigation_map
+    presenter.onCreate()
+    presenter.onCreate()
+    assertThat(controller.fragmentRemoved).isTrue()
+  }
+
   @Test fun onNavBarItemSelected_shouldUpdateNavId() {
     presenter.onNavBarItemSelected(R.id.navigation_map)
     assertThat(presenter.navItemId).isEqualTo(R.id.navigation_map)
@@ -102,6 +118,12 @@ class MainPresenterTest {
     assertThat(controller.fragmentCleanedUp).isTrue()
   }
 
+  @Test fun onNavBarItemSelected_shouldRemoveFragmentIfEmpty() {
+    `when`(sampleVendor.samplesForNavId(R.id.navigation_map)).thenReturn(arrayOf())
+    presenter.onNavBarItemSelected(R.id.navigation_map)
+    assertThat(controller.fragmentRemoved).isTrue()
+  }
+
   @Test fun onSampleSelected_shouldSetCurrentSample() {
     val sample = Sample("test", BaseFragment::class)
     presenter.sample = sample
@@ -120,6 +142,18 @@ class MainPresenterTest {
     val sample = Sample("test", BaseFragment::class)
     presenter.onSampleSelected(sample)
     assertThat(controller.fragmentSample).isEqualTo(sample)
+  }
+
+  @Test fun onSampleSelected_shouldCleanUpPrevSampleFragment() {
+    val sample = Sample("test", BaseFragment::class)
+    presenter.onSampleSelected(sample)
+    assertThat(controller.fragmentCleanedUp).isTrue()
+  }
+
+  @Test fun onSampleSelected_shouldRemovePrevSampleFragment() {
+    val sample = Sample("test", BaseFragment::class)
+    presenter.onSampleSelected(sample)
+    assertThat(controller.fragmentRemoved).isTrue()
   }
 
   @Test fun onOptionsItemSelected_shouldOpenSettings() {

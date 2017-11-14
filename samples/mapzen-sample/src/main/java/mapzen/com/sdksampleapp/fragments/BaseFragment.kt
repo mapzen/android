@@ -23,8 +23,18 @@ import javax.inject.Inject
  */
 open abstract class BaseFragment : Fragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
+  /**
+   * Returns fragment layout id.
+   */
   abstract fun getLayoutId(): Int
+  /**
+   * Call originates in onViewCreated when the map is ready to be interacted with.
+   */
   abstract fun onMapSetup()
+  /**
+   * Called when new sample has been selected and map state should be cleaned up.
+   */
+  abstract fun cleanup()
 
   @Inject lateinit var settings: Settings
   @Inject lateinit var search: MapzenSearch

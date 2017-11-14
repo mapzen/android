@@ -15,6 +15,10 @@ class BasicMapFragment : BaseFragment() {
     map?.isMyLocationEnabled = true
   }
 
+  override fun cleanup() {
+    // all cleanup happens in onDestroyView
+  }
+
   override fun onDestroyView() {
     super.onDestroyView()
     map?.isMyLocationEnabled = false

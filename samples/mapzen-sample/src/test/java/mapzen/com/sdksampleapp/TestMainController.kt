@@ -14,6 +14,7 @@ class TestMainController : MainController {
   var viewSample: Sample? = null
   var fragmentSample: Sample? = null
   var fragmentCleanedUp = false
+  var fragmentRemoved = false
 
   override fun setupNavigationItemSelectedListener() {
     navigationItemSelectedListenerSetup = true
@@ -29,6 +30,10 @@ class TestMainController : MainController {
 
   override fun cleanupSampleFragment() {
     fragmentCleanedUp = true
+  }
+
+  override fun removeSampleFragment() {
+    fragmentRemoved = true
   }
 
   override fun selectSampleView(sample: Sample) {
