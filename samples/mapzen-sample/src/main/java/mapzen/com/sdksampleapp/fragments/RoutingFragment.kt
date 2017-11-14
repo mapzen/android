@@ -54,8 +54,8 @@ class RoutingFragment : BaseFragment(), RoutingController {
     })
   }
 
-  override fun onDestroy() {
-    super.onDestroy()
-    presenter.onDestroy()
+  override fun onDestroyView() {
+    super.onDestroyView()
+    presenter.onDestroyView()
   }
 }

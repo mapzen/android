@@ -139,8 +139,8 @@ class RoutingPresenterTest {
     verify(controller.getMapzenMap())?.addPolyline(any(Polyline::class.java))
   }
 
-  @Test fun onDestroy_shouldDisableLocation() {
-    presenter.onDestroy()
+  @Test fun onDestroyView_shouldDisableLocation() {
+    presenter.onDestroyView()
     verify(controller.getMapzenMap())?.isMyLocationEnabled = false
   }
 }

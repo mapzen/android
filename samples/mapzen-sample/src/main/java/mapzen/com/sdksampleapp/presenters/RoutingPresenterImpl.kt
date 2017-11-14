@@ -92,7 +92,7 @@ class RoutingPresenterImpl(val router: MapzenRouter) : RoutingPresenter, RouteCa
     controller?.getMapzenMap()?.addPolyline(polyline)
   }
 
-  override fun onDestroy() {
+  override fun onDestroyView() {
     controller?.getMapzenMap()?.isMyLocationEnabled = false
   }
 }

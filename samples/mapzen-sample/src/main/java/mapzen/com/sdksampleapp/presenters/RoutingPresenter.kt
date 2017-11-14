@@ -15,5 +15,5 @@ interface RoutingPresenter {
   fun onTabPositionSelected(position: Int)
   fun addPin(x: Float, y: Float)
   fun displayRoute(route: Route)
-  fun onDestroy()
+  fun onDestroyView()
 }
