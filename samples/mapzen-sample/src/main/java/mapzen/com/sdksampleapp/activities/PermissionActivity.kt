@@ -24,7 +24,7 @@ class PermissionActivity : AppCompatActivity() {
     private val NUMBER_OF_PERMISSIONS = 2
   }
 
-  val progressBar: ProgressBar by bindView(R.id.progressBar)
+  private val progressBar: ProgressBar by bindView(R.id.progressBar)
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -71,26 +71,27 @@ class PermissionActivity : AppCompatActivity() {
     }
   }
 
-  fun permissionsGranted(grantResults: IntArray): Boolean {
+  private fun permissionsGranted(grantResults: IntArray): Boolean {
     return grantResults.size == NUMBER_OF_PERMISSIONS &&
         grantResults[0] == PackageManager.PERMISSION_GRANTED
   }
 
-  fun startMainActivity() {
+  private fun startMainActivity() {
     val intent = Intent(this, MainActivity::class.java)
     startActivity(intent)
+    finish()
   }
 
-  fun showToast() {
+  private fun showToast() {
     Toast.makeText(this, getString(R.string.need_permissions),
         Toast.LENGTH_SHORT).show()
   }
 
-  fun showSpinner() {
+  private fun showSpinner() {
     progressBar.visibility = View.VISIBLE
   }
 
-  fun hideSpinner() {
+  private fun hideSpinner() {
     progressBar.visibility = View.GONE
   }
 }

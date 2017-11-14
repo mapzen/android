@@ -19,7 +19,7 @@ interface MainPresenter {
   // Call when an item in the bottom navigation bar has been selected
   fun onNavBarItemSelected(navItemId: Int)
   // Call when a sample has been selected from the scroll view
-  fun onSampleSelected(sample: Sample)
+  fun onSampleSelected(selected: Sample)
   // Call when item from the action bar is selected
   fun onOptionsItemSelected(itemId: Int?)
   // Call when the activity is destroyed

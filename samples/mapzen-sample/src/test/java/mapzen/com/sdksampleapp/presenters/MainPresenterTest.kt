@@ -46,6 +46,15 @@ class MainPresenterTest {
     assertThat(controller.fragmentSample).isEqualTo(ROUTE_SAMPLES[1])
   }
 
+  @Test fun onCreate_restoring_shouldSelectSampleView() {
+    `when`(sampleVendor.samplesForNavId(R.id.navigation_route)).thenReturn(ROUTE_SAMPLES)
+    presenter.onCreate()
+    presenter.onNavBarItemSelected(R.id.navigation_route)
+    presenter.onSampleSelected(ROUTE_SAMPLES[1])
+    presenter.onCreate()
+    assertThat(controller.viewSample).isEqualTo(ROUTE_SAMPLES[1])
+  }
+
   @Test fun onNavBarItemSelected_shouldUpdateNavId() {
     presenter.onNavBarItemSelected(R.id.navigation_map)
     assertThat(presenter.navItemId).isEqualTo(R.id.navigation_map)
@@ -56,6 +65,12 @@ class MainPresenterTest {
   @Test fun onNavBarItemSelected_shouldClearPreviousScrollSamples() {
     presenter.onNavBarItemSelected(R.id.navigation_map)
     assertThat(controller.scrollViewSamplesCleared).isTrue()
+  }
+
+  @Test fun onNavBarItemSelected_shouldSelectSampleView() {
+    `when`(sampleVendor.samplesForNavId(R.id.navigation_route)).thenReturn(ROUTE_SAMPLES)
+    presenter.onNavBarItemSelected(R.id.navigation_route)
+    assertThat(controller.viewSample).isEqualTo(ROUTE_SAMPLES[0])
   }
 
   @Test fun onNavBarItemSelected_shouldSetScrollSamples() {
@@ -93,6 +108,12 @@ class MainPresenterTest {
     val selected = Sample("another", BaseFragment::class)
     presenter.onSampleSelected(selected)
     assertThat(presenter.sample).isEqualTo(selected)
+  }
+
+  @Test fun onSampleSelected_shouldSelectSampleView() {
+    val sample = Sample("test", BaseFragment::class)
+    presenter.onSampleSelected(sample)
+    assertThat(controller.viewSample).isEqualTo(sample)
   }
 
   @Test fun onSampleSelected_shouldSetupSampleFragment() {

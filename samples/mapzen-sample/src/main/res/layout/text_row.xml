@@ -4,5 +4,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:textSize="30sp"
-    android:background="@drawable/rounded_corner"/>
+    android:textSize="25sp"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:textColor="@color/text_row_text"
+    android:background="@drawable/text_row_bg"/>

@@ -66,12 +66,10 @@ class Settings(private val context: Context, private val sharedPrefs: SharedPref
     get() {
       val default = context.getString(R.string.pref_color_default)
       val themeString = sharedPrefs.getString(PREF_COLOR, default)
-      return if (mapStyle is RefillStyle) {
-        refillThemeStringToThemeColor[themeString] ?: ThemeColor.NONE
-      } else if (mapStyle is CinnabarStyle) {
-        cinnabarThemeStringToThemeColor[themeString] ?: ThemeColor.NONE
-      } else {
-        ThemeColor.NONE
+      return when (mapStyle) {
+        is RefillStyle -> refillThemeStringToThemeColor[themeString] ?: ThemeColor.NONE
+        is CinnabarStyle -> cinnabarThemeStringToThemeColor[themeString] ?: ThemeColor.NONE
+        else -> ThemeColor.NONE
       }
     }
 

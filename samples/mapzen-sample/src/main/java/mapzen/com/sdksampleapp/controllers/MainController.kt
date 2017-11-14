@@ -6,6 +6,7 @@ import mapzen.com.sdksampleapp.models.Sample
  * Interface for abstracting {@link MainActivity} behavior.
  */
 interface MainController {
+  fun selectSampleView(sample: Sample)
   fun setupNavigationItemSelectedListener()
   fun cleanupNavigationItemSelectedListener()
   fun clearScrollViewSamples()

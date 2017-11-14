@@ -25,29 +25,29 @@ class SettingsPresenterImpl(private val settings: Settings) : SettingsPresenter 
   }
 
   private fun configureLodPref(mapStyle: ThemedMapStyle) {
-    val lodResourceId = if (mapStyle?.defaultLod == ThemedMapStyle.NONE) {
+    val lodResourceId = if (mapStyle.defaultLod == ThemedMapStyle.NONE) {
       R.array.pref_empty
     } else {
       R.array.pref_lod_label_entries
     }
     controller.configureListPreference(Settings.PREF_LOD, lodResourceId, lodResourceId,
-        mapStyle?.defaultLod.toString())
+        mapStyle.defaultLod.toString())
   }
 
   private fun configureLabelLebelPref(mapStyle: ThemedMapStyle) {
-    val labelLevelResourceId = if (mapStyle?.defaultLabelLevel == ThemedMapStyle.NONE) {
+    val labelLevelResourceId = if (mapStyle.defaultLabelLevel == ThemedMapStyle.NONE) {
       R.array.pref_empty
     } else {
       R.array.pref_lod_label_entries
     }
     controller.configureListPreference(Settings.PREF_LABEL_LEVEL, labelLevelResourceId,
-        labelLevelResourceId, mapStyle?.defaultLabelLevel.toString())
+        labelLevelResourceId, mapStyle.defaultLabelLevel.toString())
   }
 
   private fun configureColorPref(mapStyle: ThemedMapStyle) {
     val colorResourceEntriesId: Int
     val colorResourceValuesId: Int
-    if (mapStyle?.defaultColor == ThemeColor.NONE) {
+    if (mapStyle.defaultColor == ThemeColor.NONE) {
       colorResourceEntriesId = R.array.pref_empty
       colorResourceValuesId = R.array.pref_empty
     } else {
@@ -60,6 +60,6 @@ class SettingsPresenterImpl(private val settings: Settings) : SettingsPresenter 
       }
     }
     controller.configureListPreference(Settings.PREF_COLOR, colorResourceEntriesId,
-        colorResourceValuesId, mapStyle?.defaultColor.toString())
+        colorResourceValuesId, mapStyle.defaultColor.toString())
   }
 }
