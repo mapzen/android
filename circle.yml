@@ -42,7 +42,7 @@ deployment:
     commands:
       - scripts/build-samples.sh
       - scripts/install-s3.sh
-      - scripts/deploy-mapzen-sample-app.sh
+      - scripts/deploy-mapzen-sample-app-snapshot.sh
       - scripts/deploy-snapshot.sh
       - ./gradlew aarSize countReleaseDexMethods permissions mapzen-android-sdk:dependencies --configuration compile
       - scripts/release.sh
