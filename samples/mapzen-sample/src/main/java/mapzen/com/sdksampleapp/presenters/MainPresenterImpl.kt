@@ -37,15 +37,16 @@ class MainPresenterImpl(val sampleVendor: SampleVendor) : MainPresenter {
     if (samples?.isNotEmpty() == true) {
       val next = samples[0]
       sample = next
-      updateControllerViews()
+      updateControllerViews(true)
     } else {
       controller?.cleanupSampleFragment()
+      controller?.removeSampleFragment()
     }
   }
 
   override fun onSampleSelected(selected: Sample) {
     sample = selected
-    updateControllerViews()
+    updateControllerViews(true)
   }
 
   override fun onOptionsItemSelected(itemId: Int?) {
@@ -69,8 +70,16 @@ class MainPresenterImpl(val sampleVendor: SampleVendor) : MainPresenter {
   }
 
   private fun updateControllerViews() {
+    updateControllerViews(false)
+  }
+
+  private fun updateControllerViews(uiSelected: Boolean) {
     sample?.let {
       controller?.selectSampleView(it)
+      if (uiSelected) {
+        controller?.cleanupSampleFragment()
+      }
+      controller?.removeSampleFragment()
       controller?.setupSampleFragment(it)
     }
   }

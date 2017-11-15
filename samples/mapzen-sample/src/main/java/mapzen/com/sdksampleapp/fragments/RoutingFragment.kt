@@ -27,6 +27,10 @@ class RoutingFragment : BaseFragment(), RoutingController {
     presenter.setupMap()
   }
 
+  override fun cleanup() {
+    presenter.cleanup()
+  }
+
   override fun getMapzenMap(): MapzenMap? {
     return map
   }
@@ -54,8 +58,8 @@ class RoutingFragment : BaseFragment(), RoutingController {
     })
   }
 
-  override fun onDestroy() {
-    super.onDestroy()
-    presenter.onDestroy()
+  override fun onDestroyView() {
+    super.onDestroyView()
+    presenter.onDestroyView()
   }
 }

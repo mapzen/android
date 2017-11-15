@@ -14,6 +14,7 @@ import android.widget.TextView
 import kotterknife.bindView
 import mapzen.com.sdksampleapp.R
 import mapzen.com.sdksampleapp.controllers.MainController
+import mapzen.com.sdksampleapp.fragments.BaseFragment
 import mapzen.com.sdksampleapp.models.Sample
 import mapzen.com.sdksampleapp.presenters.MainPresenter
 import javax.inject.Inject
@@ -77,7 +78,12 @@ class MainActivity : BaseActivity(), MainController {
   }
 
   override fun cleanupSampleFragment() {
-    val fragment = supportFragmentManager.findFragmentById(R.id.fragment)
+    val fragment = supportFragmentManager.findFragmentById(R.id.fragment) as? BaseFragment
+    fragment?.let { fragment.cleanup() }
+  }
+
+  override fun removeSampleFragment() {
+    val fragment = supportFragmentManager.findFragmentById(R.id.fragment) as? BaseFragment
     fragment?.let { supportFragmentManager.beginTransaction().remove(it).commit() }
   }
 

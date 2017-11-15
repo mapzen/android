@@ -29,8 +29,12 @@ class RoutePinsFragment : BaseFragment() {
     }
   }
 
-  override fun onDestroy() {
-    super.onDestroy()
+  override fun cleanup() {
+    map?.removeMarker()
+  }
+
+  override fun onDestroyView() {
+    super.onDestroyView()
     map?.isMyLocationEnabled = false
   }
 
