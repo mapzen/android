@@ -1,5 +1,8 @@
 package com.mapzen.android.graphics.model;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -47,15 +50,15 @@ public class RefillStyle extends ThemedMapStyle {
     super("refill-style/refill-style.yaml");
   }
 
-  @Override public String getBaseStyleFilename() {
+  @NonNull @Override public String getBaseStyleFilename() {
     return "refill-style.yaml";
   }
 
-  @Override public String getStyleRootPath() {
+  @NonNull @Override public String getStyleRootPath() {
     return "refill-style/";
   }
 
-  @Override public String getThemesPath() {
+  @NonNull @Override public String getThemesPath() {
     return "themes/";
   }
 
@@ -75,11 +78,11 @@ public class RefillStyle extends ThemedMapStyle {
     return 12;
   }
 
-  @Override public ThemeColor getDefaultColor() {
+  @NonNull @Override public ThemeColor getDefaultColor() {
     return BLACK;
   }
 
-  @Override public Set<ThemeColor> getColors() {
+  @Nullable @Override public Set<ThemeColor> getColors() {
     return supportedColors;
   }
 }

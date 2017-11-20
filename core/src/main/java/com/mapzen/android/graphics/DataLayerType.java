@@ -1,5 +1,7 @@
 package com.mapzen.android.graphics;
 
+import android.support.annotation.NonNull;
+
 /**
  * Default data layers for bundled Mapzen stylesheets including Bubble Wrap, Cinnabar, and Refill.
  * Used to add client data layers to the map and optionally persist them on configuration change.
@@ -32,7 +34,7 @@ public enum DataLayerType {
    * Returns the enum's name.
    * @return
    */
-  public String toString() {
+  @NonNull public String toString() {
     return name;
   }
 }

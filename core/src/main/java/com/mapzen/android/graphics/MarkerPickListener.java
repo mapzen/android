@@ -2,6 +2,8 @@ package com.mapzen.android.graphics;
 
 import com.mapzen.android.graphics.model.BitmapMarker;
 
+import android.support.annotation.NonNull;
+
 /**
  * Listener invoked when a marker on the map is selected. Note that all
  * {@link com.mapzen.android.graphics.model.Polygon}s,
@@ -14,5 +16,5 @@ public interface MarkerPickListener {
    * Receives information about markers found in a call to {@link
    * com.mapzen.tangram.MapController#pickMarker(float, float)} (float, float)}.
    */
-  void onMarkerPick(BitmapMarker marker);
+  void onMarkerPick(@NonNull BitmapMarker marker);
 }

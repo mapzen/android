@@ -4,6 +4,7 @@ import com.mapzen.BuildConfig;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -42,7 +43,7 @@ public class MapzenManager {
   /**
    * Get singleton instance.
    */
-  public static MapzenManager instance(Context context) {
+  public static @NonNull MapzenManager instance(@NonNull Context context) {
     if (instance == null) {
       instance = new MapzenManager(context.getApplicationContext());
     }
@@ -55,7 +56,7 @@ public class MapzenManager {
   /**
    * Creates a new instance of the manager.
    */
-  private MapzenManager(Context context) {
+  private MapzenManager(@NonNull Context context) {
     final Resources resources = context.getResources();
     if (resources != null) {
       int id = resources.getIdentifier(API_KEY_RES_NAME, API_KEY_RES_TYPE,
@@ -72,7 +73,7 @@ public class MapzenManager {
    * @throws IllegalStateException if a valid API key has not been set in code or as a string
    * resource.
    */
-  public String getApiKey() {
+  public @NonNull String getApiKey() {
     if (apiKey == null || API_KEY_DEFAULT_VALUE.equals(apiKey)) {
       throw new IllegalStateException("A valid Mapzen API key has not been provided. Please visit "
           + "https://mapzen.com/documentation/android/getting-started/ to learn how.");
@@ -84,7 +85,7 @@ public class MapzenManager {
   /**
    * Sets a new API key value. This will override any previous key including those declared in xml.
    */
-  public void setApiKey(String apiKey) {
+  public void setApiKey(@NonNull String apiKey) {
     this.apiKey = apiKey;
     notifyListeners();
   }
@@ -93,7 +94,7 @@ public class MapzenManager {
    * Returns the maven artifact version.
    * @return
    */
-  public static String getSdkVersion() {
+  public static @NonNull String getSdkVersion() {
     return BuildConfig.SDK_VERSION;
   }
 
@@ -102,7 +103,7 @@ public class MapzenManager {
    * occur.
    * @param listener
    */
-  public void addApiKeyChangeListener(ApiKeyChangeListener listener) {
+  public void addApiKeyChangeListener(@NonNull ApiKeyChangeListener listener) {
     Collections.synchronizedList(listeners).add(listener);
   }
 
@@ -110,7 +111,7 @@ public class MapzenManager {
    * Removes listener from list of managed callbacks.
    * @param listener
    */
-  public void removeApiKeyChangeListener(ApiKeyChangeListener listener) {
+  public void removeApiKeyChangeListener(@NonNull ApiKeyChangeListener listener) {
     Collections.synchronizedList(listeners).remove(listener);
   }
 

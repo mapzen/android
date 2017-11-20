@@ -106,7 +106,7 @@ public class MapView extends RelativeLayout {
   /**
    * Get the underlying Tangram map object.
    */
-  public TangramMapView getTangramMapView() {
+  @NonNull public TangramMapView getTangramMapView() {
     return tangramMapView;
   }
 
@@ -127,7 +127,7 @@ public class MapView extends RelativeLayout {
    * @param mapStyle mapStyle that should be set.
    * @param callback listener to be invoked when map is initialized and ready to use.
    */
-  public void getMapAsync(MapStyle mapStyle, @NonNull OnMapReadyCallback callback) {
+  public void getMapAsync(@NonNull MapStyle mapStyle, @NonNull OnMapReadyCallback callback) {
     mapInitializer.init(this, mapStyle, callback);
   }
 
@@ -139,21 +139,22 @@ public class MapView extends RelativeLayout {
    * @param locale used to determine language that should be used for map labels.
    * @param callback listener to be invoked when map is initialized and ready to use.
    */
-  public void getMapAsync(MapStyle mapStyle, Locale locale, @NonNull OnMapReadyCallback callback) {
+  public void getMapAsync(@NonNull MapStyle mapStyle, @NonNull Locale locale,
+      @NonNull OnMapReadyCallback callback) {
     mapInitializer.init(this, mapStyle, locale, callback);
   }
 
   /**
    * Get the compass button.
    */
-  public CompassView getCompass() {
+  @NonNull public CompassView getCompass() {
     return compass;
   }
 
   /**
    * Show compass button.
    */
-  public CompassView showCompass() {
+  @NonNull public CompassView showCompass() {
     compass.setVisibility(View.VISIBLE);
     return compass;
   }
@@ -168,14 +169,14 @@ public class MapView extends RelativeLayout {
   /**
    * Get the find me button.
    */
-  public ImageButton getFindMe() {
+  @NonNull public ImageButton getFindMe() {
     return findMe;
   }
 
   /**
    * Show button for finding user's location on map.
    */
-  public ImageButton showFindMe() {
+  @NonNull public ImageButton showFindMe() {
     findMe.setVisibility(View.VISIBLE);
     return findMe;
   }
@@ -190,14 +191,14 @@ public class MapView extends RelativeLayout {
   /**
    * Get the zoom in button.
    */
-  public ImageButton getZoomIn() {
+  @NonNull public ImageButton getZoomIn() {
     return zoomIn;
   }
 
   /**
    * Show button for zooming in.
    */
-  public ImageButton showZoomIn() {
+  @NonNull public ImageButton showZoomIn() {
     zoomIn.setVisibility(View.VISIBLE);
     return zoomIn;
   }
@@ -212,14 +213,14 @@ public class MapView extends RelativeLayout {
   /**
    * Get the zoom out button.
    */
-  public ImageButton getZoomOut() {
+  @NonNull public ImageButton getZoomOut() {
     return zoomOut;
   }
 
   /**
    * Show button for zooming out.
    */
-  public ImageButton showZoomOut() {
+  @NonNull public ImageButton showZoomOut() {
     zoomOut.setVisibility(View.VISIBLE);
     return zoomOut;
   }
@@ -234,7 +235,7 @@ public class MapView extends RelativeLayout {
   /**
    * Return the attribution text view.
    */
-  public TextView getAttribution() {
+  @NonNull public TextView getAttribution() {
     return attribution;
   }
 
@@ -250,7 +251,7 @@ public class MapView extends RelativeLayout {
     getTangramMapView().onDestroy();
   }
 
-  void setMapzenMap(MapzenMap mapzenMap) {
+  void setMapzenMap(@NonNull MapzenMap mapzenMap) {
     this.mapzenMap = mapzenMap;
   }
 }

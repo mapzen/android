@@ -9,6 +9,8 @@ import com.mapzen.pelias.PeliasLocationProvider;
 import com.mapzen.pelias.gson.Result;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import javax.inject.Inject;
 
@@ -26,7 +28,7 @@ public class MapzenSearch {
   /**
    * Creates a new {@link MapzenSearch} with api key set from mapzen.xml.
    */
-  public MapzenSearch(Context context) {
+  public MapzenSearch(@NonNull Context context) {
     initDI(context);
     internalSearch = new Pelias();
     searchInitializer.initSearch(this);
@@ -36,7 +38,7 @@ public class MapzenSearch {
    * Creates a new {@link MapzenSearch} with the {@link Pelias} object used for underlying
    * search/autocomplete queries.
    */
-  public MapzenSearch(Context context, Pelias pelias) {
+  public MapzenSearch(@NonNull Context context, @NonNull Pelias pelias) {
     initDI(context);
     internalSearch = pelias;
     searchInitializer.initSearch(this);
@@ -54,7 +56,7 @@ public class MapzenSearch {
    * @param query
    * @param callback
    */
-  public Request suggest(String query, Callback<Result> callback) {
+  public Request suggest(@NonNull String query, @Nullable Callback<Result> callback) {
     return new CallRequest(internalSearch.suggest(query, callback));
   }
 
@@ -64,7 +66,8 @@ public class MapzenSearch {
    * @param query
    * @param callback
    */
-  public Request suggest(String query, double lat, double lon, Callback<Result> callback) {
+  public Request suggest(@NonNull String query, double lat, double lon,
+      @Nullable Callback<Result> callback) {
     return new CallRequest(internalSearch.suggest(query, lat, lon, callback));
   }
 
@@ -75,8 +78,8 @@ public class MapzenSearch {
    * @param query
    * @param callback
    */
-  public Request search(String query, Callback<Result> callback) {
-    return new CallRequest(internalSearch.search(query, callback));
+  public Request search(@NonNull String query, @Nullable Callback<Result> callback) {
+      return new CallRequest(internalSearch.search(query, callback));
   }
 
   /**
@@ -86,7 +89,8 @@ public class MapzenSearch {
    * @param query
    * @param callback
    */
-  public Request search(String query, BoundingBox box, Callback<Result> callback) {
+  public Request search(@NonNull String query, @NonNull BoundingBox box,
+      @Nullable Callback<Result> callback) {
     return new CallRequest(internalSearch.search(query, box, callback));
   }
 
@@ -97,8 +101,9 @@ public class MapzenSearch {
    * @param query
    * @param callback
    */
-  public Request search(String query, double lat, double lon, Callback<Result> callback) {
-    return new CallRequest(internalSearch.search(query, lat, lon, callback));
+  public Request search(@NonNull String query, double lat, double lon,
+      @Nullable Callback<Result> callback) {
+      return new CallRequest(internalSearch.search(query, lat, lon, callback));
   }
 
   /**
@@ -108,7 +113,7 @@ public class MapzenSearch {
    * @param lon
    * @param callback
    */
-  public Request reverse(double lat, double lon, Callback<Result> callback) {
+  public Request reverse(double lat, double lon, @Nullable Callback<Result> callback) {
     return new CallRequest(internalSearch.reverse(lat, lon, callback));
   }
 
@@ -118,7 +123,7 @@ public class MapzenSearch {
    * @param gid
    * @param callback
    */
-  public Request place(String gid, Callback<Result> callback) {
+  public Request place(@NonNull String gid, @Nullable Callback<Result> callback) {
     return new CallRequest(internalSearch.place(gid, callback));
   }
 
@@ -127,7 +132,7 @@ public class MapzenSearch {
    * more relevant results for given positions and areas
    * @param locationProvider
    */
-  public void setLocationProvider(PeliasLocationProvider locationProvider) {
+  public void setLocationProvider(@NonNull PeliasLocationProvider locationProvider) {
     internalSearch.setLocationProvider(locationProvider);
   }
 
@@ -136,7 +141,7 @@ public class MapzenSearch {
    * requests.
    * @param handler
    */
-  public void setHttpHandler(MapzenSearchHttpHandler handler) {
+  public void setHttpHandler(@Nullable MapzenSearchHttpHandler handler) {
     internalSearch.setRequestHandler(handler.searchHandler());
   }
 
@@ -144,7 +149,7 @@ public class MapzenSearch {
    * Return the underlying {@link Pelias} object.
    * @return
    */
-  public Pelias getPelias() {
+  @NonNull public Pelias getPelias() {
     return internalSearch;
   }
 }

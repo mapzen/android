@@ -4,6 +4,8 @@ import com.mapzen.R;
 import com.mapzen.tangram.LngLat;
 
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 /**
  * Defines options for a {@link BitmapMarker}.
@@ -35,7 +37,7 @@ public class BitmapMarkerOptions {
    * @param position coordinate to display the marker.
    * @return this marker options instance.
    */
-  public BitmapMarkerOptions position(LngLat position) {
+  public @NonNull BitmapMarkerOptions position(@NonNull LngLat position) {
     this.position = position;
     return this;
   }
@@ -47,7 +49,7 @@ public class BitmapMarkerOptions {
    * @param resId drawable resource ID for the marker to display.
    * @return this marker options instance.
    */
-  public BitmapMarkerOptions icon(int resId) {
+  public @NonNull BitmapMarkerOptions icon(int resId) {
     this.resId = resId;
     this.res = null;
     return this;
@@ -60,7 +62,7 @@ public class BitmapMarkerOptions {
    * @param res drawable resource for the marker to display.
    * @return this marker options instance.
    */
-  public BitmapMarkerOptions icon(Drawable res) {
+  public @NonNull BitmapMarkerOptions icon(@NonNull Drawable res) {
     this.res = res;
     this.resId = RES_NONE;
     return this;
@@ -73,7 +75,7 @@ public class BitmapMarkerOptions {
    * @param height in pixels
    * @return this marker options instance.
    */
-  public BitmapMarkerOptions size(int width, int height) {
+  public @NonNull BitmapMarkerOptions size(int width, int height) {
     this.width = width;
     this.height = height;
     return this;
@@ -84,7 +86,7 @@ public class BitmapMarkerOptions {
    * @param isVisible
    * @return
    */
-  public BitmapMarkerOptions visible(boolean isVisible) {
+  public @NonNull BitmapMarkerOptions visible(boolean isVisible) {
     this.isVisible = isVisible;
     return this;
   }
@@ -92,7 +94,7 @@ public class BitmapMarkerOptions {
   /**
    * Sets marker z-axis draw order.
    */
-  public BitmapMarkerOptions drawOrder(int drawOrder) {
+  public @NonNull BitmapMarkerOptions drawOrder(int drawOrder) {
     this.drawOrder = drawOrder;
     return this;
   }
@@ -102,7 +104,7 @@ public class BitmapMarkerOptions {
    * @param userData
    * @return
    */
-  public BitmapMarkerOptions userData(Object userData) {
+  public @NonNull BitmapMarkerOptions userData(@NonNull Object userData) {
     this.userData = userData;
     return this;
   }
@@ -113,7 +115,7 @@ public class BitmapMarkerOptions {
    * @param colorInt
    * @return
    */
-  public BitmapMarkerOptions colorInt(int colorInt) {
+  public @NonNull BitmapMarkerOptions colorInt(int colorInt) {
     this.colorInt = colorInt;
     this.colorHex = null;
     return this;
@@ -125,7 +127,7 @@ public class BitmapMarkerOptions {
    * @param colorHex
    * @return
    */
-  public BitmapMarkerOptions colorHex(String colorHex) {
+  public @NonNull BitmapMarkerOptions colorHex(@NonNull String colorHex) {
     this.colorHex = colorHex;
     this.colorInt = Integer.MIN_VALUE;
     return this;
@@ -136,14 +138,14 @@ public class BitmapMarkerOptions {
    * @param isInteractive
    * @return
    */
-  public BitmapMarkerOptions interactive(boolean isInteractive) {
+  public @NonNull BitmapMarkerOptions interactive(boolean isInteractive) {
     this.isInteractive = isInteractive;
     return this;
   }
 
   // Getters
 
-  public LngLat getPosition() {
+  public @NonNull LngLat getPosition() {
     return position;
   }
 
@@ -151,7 +153,7 @@ public class BitmapMarkerOptions {
     return resId;
   }
 
-  public Drawable getIconDrawable() {
+  public @Nullable Drawable getIconDrawable() {
     return res;
   }
 
@@ -171,7 +173,7 @@ public class BitmapMarkerOptions {
     return drawOrder;
   }
 
-  public Object getUserData() {
+  public @Nullable Object getUserData() {
     return userData;
   }
 
@@ -179,7 +181,7 @@ public class BitmapMarkerOptions {
     return colorInt;
   }
 
-  public String getColorHex() {
+  public @NonNull String getColorHex() {
     return colorHex;
   }
 

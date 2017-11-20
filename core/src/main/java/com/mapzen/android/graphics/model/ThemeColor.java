@@ -1,5 +1,7 @@
 package com.mapzen.android.graphics.model;
 
+import android.support.annotation.NonNull;
+
 /**
  * Available color themes for {@link RefillStyle}.
  */
@@ -35,7 +37,7 @@ public enum ThemeColor {
    * Returns string value of theme color.
    * @return
    */
-  public String toString() {
+  @NonNull public String toString() {
     return color;
   }
 }

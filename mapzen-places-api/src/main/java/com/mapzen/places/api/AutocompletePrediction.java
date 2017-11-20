@@ -19,7 +19,7 @@ public class AutocompletePrediction {
    * @param id
    * @param text
    */
-  public AutocompletePrediction(String id, String text) {
+  public AutocompletePrediction(@Nullable String id, @Nullable String text) {
     placeId = id;
     primaryText = text;
   }

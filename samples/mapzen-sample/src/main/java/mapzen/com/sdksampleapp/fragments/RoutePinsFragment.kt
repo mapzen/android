@@ -41,6 +41,6 @@ class RoutePinsFragment : BaseFragment() {
   private fun addPin(x: Float, y: Float) {
     val lngLat = map?.screenPositionToLngLat(PointF(x, y))
     val marker = lngLat?.let { Marker(it.longitude, it.latitude) }
-    map?.addMarker(marker)
+    marker?.let { map?.addMarker(it) }
   }
 }

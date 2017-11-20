@@ -1,6 +1,7 @@
 package com.mapzen.android.core;
 
 import android.os.Build;
+import android.support.annotation.Nullable;
 
 import java.util.Map;
 
@@ -75,11 +76,11 @@ public interface GenericHttpHandler {
    * Return query parameters to be appended to every request.
    * @return
    */
-  Map<String, String> queryParamsForRequest();
+  @Nullable Map<String, String> queryParamsForRequest();
 
   /**
    * Return headers to be added to every request.
    * @return
    */
-  Map<String, String> headersForRequest();
+  @Nullable Map<String, String> headersForRequest();
 }

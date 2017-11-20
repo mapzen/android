@@ -2,6 +2,8 @@ package com.mapzen.android.graphics;
 
 import com.mapzen.tangram.LabelPickResult;
 
+import android.support.annotation.NonNull;
+
 /**
  * Listener invoked when a label on the map is selected.
  */
@@ -27,5 +29,5 @@ public interface LabelPickListener {
    * @param positionY The vertical screen coordinate of the center of the feature. Will be 0 if
    * {@link LabelPickResult} is null.
    */
-  void onLabelPicked(LabelPickResult result, float positionX, float positionY);
+  void onLabelPicked(@NonNull LabelPickResult result, float positionX, float positionY);
 }

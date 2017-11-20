@@ -6,6 +6,8 @@ import com.mapzen.tangram.LngLat;
 import com.mapzen.tangram.Marker;
 
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 /**
  * Dynamic marker overlay constructed using a local bitmap.
@@ -50,7 +52,7 @@ public class BitmapMarker {
    * Sets the marker's coordinate position.
    * @param position
    */
-  public void setPosition(LngLat position) {
+  public void setPosition(@NonNull LngLat position) {
     this.position = position;
     this.tangramMarker.setPoint(position);
   }
@@ -61,7 +63,7 @@ public class BitmapMarker {
    * @param duration
    * @param easeType
    */
-  public void setPosition(LngLat position, int duration, EaseType easeType) {
+  public void setPosition(@NonNull LngLat position, int duration, EaseType easeType) {
     this.position = position;
     this.tangramMarker.setPointEased(position, duration,
         EaseTypeConverter.EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.get(easeType));
@@ -71,7 +73,7 @@ public class BitmapMarker {
    * Returns the marker's coordinate position.
    * @return
    */
-  public LngLat getPosition() {
+  public @NonNull LngLat getPosition() {
     return this.position;
   }
 
@@ -99,7 +101,7 @@ public class BitmapMarker {
    * icon resource id values set via {@link BitmapMarker#setIcon(int)}.
    * @param drawable
    */
-  public void setIcon(Drawable drawable) {
+  public void setIcon(@Nullable Drawable drawable) {
     this.resourceId = Integer.MIN_VALUE;
     this.drawable = drawable;
     this.tangramMarker.setDrawable(drawable);
@@ -109,7 +111,7 @@ public class BitmapMarker {
    * Returns the marker's icon drawable.
    * @return
    */
-  public Drawable getIconDrawable() {
+  public @Nullable Drawable getIconDrawable() {
     return this.drawable;
   }
 
@@ -178,7 +180,7 @@ public class BitmapMarker {
    * Sets extra data to be associated with this marker.
    * @param userData
    */
-  public void setUserData(Object userData) {
+  public void setUserData(@Nullable Object userData) {
     this.tangramMarker.setUserData(userData);
   }
 
@@ -186,7 +188,7 @@ public class BitmapMarker {
    * Gets extra data associated with this marker.
    * @return
    */
-  public Object getUserData() {
+  public @Nullable Object getUserData() {
     return this.tangramMarker.getUserData();
   }
 
@@ -214,7 +216,7 @@ public class BitmapMarker {
    * color int values set via {@link BitmapMarker#setColor(int)}.
    * @param hex
    */
-  public void setColor(String hex) {
+  public void setColor(@NonNull String hex) {
     this.colorHex = hex;
     this.colorInt = Integer.MIN_VALUE;
     updateStyleString();
@@ -224,7 +226,7 @@ public class BitmapMarker {
    * Returns the marker's color hex.
    * @return
    */
-  public String getColorHex() {
+  public @NonNull String getColorHex() {
     return this.colorHex;
   }
 

@@ -3,6 +3,8 @@ package com.mapzen.places.api;
 import com.mapzen.android.lost.api.LostApiClient;
 import com.mapzen.android.lost.api.PendingResult;
 
+import android.support.annotation.NonNull;
+
 /**
  * Main entry point for the Mapzen Places Geo Data API.
  */
@@ -15,6 +17,7 @@ public interface GeoDataApi {
    * @param filter
    * @return
    */
-  PendingResult<AutocompletePredictionBuffer> getAutocompletePredictions(LostApiClient client,
-      String query, LatLngBounds bounds, AutocompleteFilter filter);
+  @NonNull PendingResult<AutocompletePredictionBuffer> getAutocompletePredictions(
+      @NonNull LostApiClient client, @NonNull String query, @NonNull LatLngBounds bounds,
+      @NonNull AutocompleteFilter filter);
 }

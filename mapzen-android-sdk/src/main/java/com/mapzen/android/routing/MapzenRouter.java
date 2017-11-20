@@ -8,6 +8,8 @@ import com.mapzen.valhalla.Router;
 import com.mapzen.valhalla.ValhallaRouter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
 import javax.inject.Inject;
@@ -26,7 +28,7 @@ public class MapzenRouter {
   /**
    * Creates a new {@link MapzenRouter} with api key set from mapzen.xml.
    */
-  public MapzenRouter(Context context) {
+  public MapzenRouter(@NonNull Context context) {
     initDI(context);
     routerInitializer.initRouter(this);
   }
@@ -48,7 +50,7 @@ public class MapzenRouter {
    * @param callback
    * @return
    */
-  public MapzenRouter setCallback(RouteCallback callback) {
+  @NonNull public MapzenRouter setCallback(@Nullable RouteCallback callback) {
     internalRouter.setCallback(callback);
     return this;
   }
@@ -58,7 +60,7 @@ public class MapzenRouter {
    * @param units
    * @return
    */
-  public MapzenRouter setDistanceUnits(DistanceUnits units) {
+  @NonNull public MapzenRouter setDistanceUnits(@NonNull DistanceUnits units) {
     internalRouter.setDistanceUnits(UNITS_TO_ROUTER_UNITS.get(units));
     return this;
   }
@@ -71,7 +73,7 @@ public class MapzenRouter {
    * <p />
    * https://github.com/valhalla/valhalla-docs/blob/master/api-reference.md#directions-options.
    */
-  public MapzenRouter setLanguage(Router.Language language) {
+  @NonNull public MapzenRouter setLanguage(Router.Language language) {
     internalRouter.setLanguage(language);
     return this;
   }
@@ -80,7 +82,7 @@ public class MapzenRouter {
    * The router can fetch different types of directions. Set the type to be biking.
    * @return
    */
-  public MapzenRouter setBiking() {
+  @NonNull public MapzenRouter setBiking() {
     internalRouter.setBiking();
     return this;
   }
@@ -89,7 +91,7 @@ public class MapzenRouter {
    * The router can fetch different types of directions. Set the type to be driving.
    * @return
    */
-  public MapzenRouter setDriving() {
+  @NonNull public MapzenRouter setDriving() {
     internalRouter.setDriving();
     return this;
   }
@@ -98,7 +100,7 @@ public class MapzenRouter {
    * The router can fetch different types of directions. Set the type to be walking.
    * @return
    */
-  public MapzenRouter setWalking() {
+  @NonNull public MapzenRouter setWalking() {
     internalRouter.setWalking();
     return this;
   }
@@ -107,7 +109,7 @@ public class MapzenRouter {
    * The router can fetch different types of directions. Set the type to be multimodal.
    * @return
    */
-  public MapzenRouter setMultimodal() {
+  @NonNull public MapzenRouter setMultimodal() {
     internalRouter.setMultimodal();
     return this;
   }
@@ -117,7 +119,7 @@ public class MapzenRouter {
    * @param point
    * @return
    */
-  public MapzenRouter setLocation(double[] point) {
+  @NonNull public MapzenRouter setLocation(double[] point) {
     internalRouter.setLocation(point);
     return this;
   }
@@ -127,7 +129,7 @@ public class MapzenRouter {
    * @param point
    * @return
    */
-  public MapzenRouter setLocation(double[] point, int heading) {
+  @NonNull public MapzenRouter setLocation(double[] point, int heading) {
     internalRouter.setLocation(point, heading);
     return this;
   }
@@ -137,8 +139,8 @@ public class MapzenRouter {
    * @param point
    * @return
    */
-  public MapzenRouter setLocation(double[] point, String name, String street, String city,
-      String state) {
+  @NonNull public MapzenRouter setLocation(double[] point, @Nullable String name,
+      @Nullable String street, @Nullable String city, @Nullable String state) {
     internalRouter.setLocation(point, name, street, city, state);
     return this;
   }
@@ -147,7 +149,7 @@ public class MapzenRouter {
    * Remove all locations from the route.
    * @return
    */
-  public MapzenRouter clearLocations() {
+  @NonNull public MapzenRouter clearLocations() {
     internalRouter.clearLocations();
     return this;
   }
@@ -157,11 +159,11 @@ public class MapzenRouter {
    * requests.
    * @param handler
    */
-  public void setHttpHandler(MapzenRouterHttpHandler handler) {
+  public void setHttpHandler(@Nullable MapzenRouterHttpHandler handler) {
     internalRouter.setHttpHandler(handler.turnByTurnHandler());
   }
 
-  public Router getRouter() {
+  @NonNull public Router getRouter() {
     return internalRouter;
   }
 
@@ -184,7 +186,7 @@ public class MapzenRouter {
     /**
      * Returns string value.
      */
-    public String toString() {
+    @NonNull public String toString() {
       return name;
     }
   }

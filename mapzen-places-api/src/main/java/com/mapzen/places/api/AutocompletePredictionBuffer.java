@@ -3,6 +3,9 @@ package com.mapzen.places.api;
 import com.mapzen.android.lost.api.Result;
 import com.mapzen.android.lost.api.Status;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import java.util.List;
 
 /**
@@ -18,12 +21,13 @@ public class AutocompletePredictionBuffer implements Result, DataBuffer<Autocomp
    * @param status
    * @param predictions
    */
-  public AutocompletePredictionBuffer(Status status, List<AutocompletePrediction> predictions) {
+  public AutocompletePredictionBuffer(@NonNull Status status,
+      @Nullable List<AutocompletePrediction> predictions) {
     this.status = status;
     this.predictions = predictions;
   }
 
-  @Override public Status getStatus() {
+  @NonNull @Override public Status getStatus() {
     return status;
   }
 
@@ -34,7 +38,7 @@ public class AutocompletePredictionBuffer implements Result, DataBuffer<Autocomp
     return predictions.size();
   }
 
-  @Override public AutocompletePrediction get(int index) {
+  @Nullable @Override public AutocompletePrediction get(int index) {
     if (predictions == null || index < 0 || index > predictions.size() - 1) {
       return null;
     }

@@ -1,5 +1,8 @@
 package com.mapzen.android.graphics.model;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import java.util.Set;
 
 /**
@@ -22,21 +25,21 @@ public abstract class ThemedMapStyle extends MapStyle {
    * ie. "styles/refill-style/"
    * @return
    */
-  public abstract String getStyleRootPath();
+  @NonNull public abstract String getStyleRootPath();
 
   /**
    * Returns the style's base file.
    * ie. "refill-style.yaml"
    * @return
    */
-  public abstract String getBaseStyleFilename();
+  @NonNull public abstract String getBaseStyleFilename();
 
   /**
    * Returns the themes directory path.
    * ie "themes/"
    * @return
    */
-  public abstract String getThemesPath();
+  @NonNull public abstract String getThemesPath();
 
   /**
    * Returns the default detail level for the style.
@@ -70,7 +73,7 @@ public abstract class ThemedMapStyle extends MapStyle {
    * Returns the default color for the style.
    * @return
    */
-  public abstract ThemeColor getDefaultColor();
+  @NonNull public abstract ThemeColor getDefaultColor();
 
   /**
    * Returns colors the theme supports. Color theme filenames should follow the format
@@ -78,5 +81,5 @@ public abstract class ThemedMapStyle extends MapStyle {
    * ie. "color-pink.yaml"
    * @return
    */
-  public abstract Set<ThemeColor> getColors();
+  @Nullable public abstract Set<ThemeColor> getColors();
 }

@@ -2,6 +2,8 @@ package com.mapzen.android.graphics.model;
 
 import com.mapzen.tangram.LngLat;
 
+import android.support.annotation.NonNull;
+
 /**
  * Represents a pin marker on a map backed by {@link com.mapzen.tangram.MapData} objects.
  */
@@ -19,7 +21,7 @@ public class Marker {
   /**
    * Return the marker's coordinate location.
    */
-  public LngLat getLocation() {
+  public @NonNull LngLat getLocation() {
     return latLng;
   }
 

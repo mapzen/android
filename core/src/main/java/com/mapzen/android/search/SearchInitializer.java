@@ -1,6 +1,7 @@
 package com.mapzen.android.search;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import java.util.Map;
 
@@ -14,7 +15,7 @@ public class SearchInitializer {
    * Constructor.
    * @param context
    */
-  public SearchInitializer(Context context) {
+  public SearchInitializer(@NonNull Context context) {
     requestHandler = new MapzenSearchHttpHandler(context) {
       @Override public Map<String, String> queryParamsForRequest() {
         return null;
@@ -30,7 +31,7 @@ public class SearchInitializer {
    * Set the {@link MapzenSearch}'s {@link MapzenSearchHttpHandler}.
    * @param search
    */
-  public void initSearch(MapzenSearch search) {
+  public void initSearch(@NonNull MapzenSearch search) {
     search.getPelias().setRequestHandler(requestHandler.searchHandler());
   }
 
@@ -39,7 +40,7 @@ public class SearchInitializer {
    * Returns the request handler.
    * @return
    */
-  public MapzenSearchHttpHandler getRequestHandler() {
+  @NonNull public MapzenSearchHttpHandler getRequestHandler() {
     return requestHandler;
   }
 }
