@@ -1,6 +1,8 @@
 package com.mapzen.android.routing;
 
 import com.mapzen.android.core.DI;
+import com.mapzen.android.core.http.CallRequest;
+import com.mapzen.android.core.http.Request;
 import com.mapzen.valhalla.RouteCallback;
 import com.mapzen.valhalla.Router;
 import com.mapzen.valhalla.ValhallaRouter;
@@ -37,8 +39,8 @@ public class MapzenRouter {
   /**
    * Fetch a route for the given configuration.
    */
-  public void fetch() {
-    internalRouter.fetch();
+  public Request fetch() {
+    return new CallRequest(internalRouter.fetch());
   }
 
   /**
