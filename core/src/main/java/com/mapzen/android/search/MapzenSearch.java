@@ -1,6 +1,8 @@
 package com.mapzen.android.search;
 
 import com.mapzen.android.core.CoreDI;
+import com.mapzen.android.core.http.CallRequest;
+import com.mapzen.android.core.http.Request;
 import com.mapzen.pelias.BoundingBox;
 import com.mapzen.pelias.Pelias;
 import com.mapzen.pelias.PeliasLocationProvider;
@@ -52,8 +54,8 @@ public class MapzenSearch {
    * @param query
    * @param callback
    */
-  public void suggest(String query, Callback<Result> callback) {
-    internalSearch.suggest(query, callback);
+  public Request suggest(String query, Callback<Result> callback) {
+    return new CallRequest(internalSearch.suggest(query, callback));
   }
 
   /**
@@ -62,8 +64,8 @@ public class MapzenSearch {
    * @param query
    * @param callback
    */
-  public void suggest(String query, double lat, double lon, Callback<Result> callback) {
-    internalSearch.suggest(query, lat, lon, callback);
+  public Request suggest(String query, double lat, double lon, Callback<Result> callback) {
+    return new CallRequest(internalSearch.suggest(query, lat, lon, callback));
   }
 
   /**
@@ -73,8 +75,8 @@ public class MapzenSearch {
    * @param query
    * @param callback
    */
-  public void search(String query, Callback<Result> callback) {
-    internalSearch.search(query, callback);
+  public Request search(String query, Callback<Result> callback) {
+    return new CallRequest(internalSearch.search(query, callback));
   }
 
   /**
@@ -84,8 +86,8 @@ public class MapzenSearch {
    * @param query
    * @param callback
    */
-  public void search(String query, BoundingBox box, Callback<Result> callback) {
-    internalSearch.search(query, box, callback);
+  public Request search(String query, BoundingBox box, Callback<Result> callback) {
+    return new CallRequest(internalSearch.search(query, box, callback));
   }
 
   /**
@@ -95,8 +97,8 @@ public class MapzenSearch {
    * @param query
    * @param callback
    */
-  public void search(String query, double lat, double lon, Callback<Result> callback) {
-    internalSearch.search(query, lat, lon, callback);
+  public Request search(String query, double lat, double lon, Callback<Result> callback) {
+    return new CallRequest(internalSearch.search(query, lat, lon, callback));
   }
 
   /**
@@ -106,8 +108,8 @@ public class MapzenSearch {
    * @param lon
    * @param callback
    */
-  public void reverse(double lat, double lon, Callback<Result> callback) {
-    internalSearch.reverse(lat, lon, callback);
+  public Request reverse(double lat, double lon, Callback<Result> callback) {
+    return new CallRequest(internalSearch.reverse(lat, lon, callback));
   }
 
   /**
@@ -116,8 +118,8 @@ public class MapzenSearch {
    * @param gid
    * @param callback
    */
-  public void place(String gid, Callback<Result> callback) {
-    internalSearch.place(gid, callback);
+  public Request place(String gid, Callback<Result> callback) {
+    return new CallRequest(internalSearch.place(gid, callback));
   }
 
   /**

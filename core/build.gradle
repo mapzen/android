@@ -84,7 +84,7 @@ dependencies {
   implementation project(':refill')
   implementation project(':walkabout')
   api "com.mapzen.tangram:tangram:$tangram_version"
-  api 'com.mapzen.android:pelias-android-sdk:1.2.0'
+  api 'com.mapzen.android:pelias-android-sdk:1.2.1'
   api 'com.mapzen.android:lost:3.0.3'
 
   api 'com.google.dagger:dagger:2.0'
