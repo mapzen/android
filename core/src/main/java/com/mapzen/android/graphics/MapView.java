@@ -124,6 +124,16 @@ public class MapView extends RelativeLayout {
    * Load map asynchronously using APK key declared in XML resources. For example:
    * {@code <string name="mapzen_api_key">[YOUR_API_KEY]</string>}
    *
+   * @param callback listener to be invoked when map is initialized and ready to use.
+   */
+  public void getMapAsync(@NonNull String mapId, @NonNull OnMapReadyCallback callback) {
+    mapInitializer.init(this, mapId, callback);
+  }
+
+  /**
+   * Load map asynchronously using APK key declared in XML resources. For example:
+   * {@code <string name="mapzen_api_key">[YOUR_API_KEY]</string>}
+   *
    * @param mapStyle mapStyle that should be set.
    * @param callback listener to be invoked when map is initialized and ready to use.
    */
@@ -136,11 +146,34 @@ public class MapView extends RelativeLayout {
    * {@code <string name="mapzen_api_key">[YOUR_API_KEY]</string>}
    *
    * @param mapStyle mapStyle that should be set.
+   * @param callback listener to be invoked when map is initialized and ready to use.
+   */
+  public void getMapAsync(String mapId, MapStyle mapStyle, @NonNull OnMapReadyCallback callback) {
+    mapInitializer.init(this, mapId, mapStyle, callback);
+  }
+
+  /**
+   * Load map asynchronously using APK key declared in XML resources. For example:
+   * {@code <string name="mapzen_api_key">[YOUR_API_KEY]</string>}
+   *
+   * @param mapStyle mapStyle that should be set.
    * @param locale used to determine language that should be used for map labels.
    * @param callback listener to be invoked when map is initialized and ready to use.
    */
   public void getMapAsync(MapStyle mapStyle, Locale locale, @NonNull OnMapReadyCallback callback) {
     mapInitializer.init(this, mapStyle, locale, callback);
+  }
+
+  /**
+   * Load map asynchronously using APK key declared in XML resources. For example:
+   * {@code <string name="mapzen_api_key">[YOUR_API_KEY]</string>}
+   *
+   * @param mapStyle mapStyle that should be set.
+   * @param locale used to determine language that should be used for map labels.
+   * @param callback listener to be invoked when map is initialized and ready to use.
+   */
+  public void getMapAsync(MapStyle mapStyle, String mapId, Locale locale, @NonNull OnMapReadyCallback callback) {
+    mapInitializer.init(this, mapId, mapStyle, locale, callback);
   }
 
   /**

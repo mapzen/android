@@ -19,16 +19,8 @@ import dagger.Provides;
    * {@link MapzenMap}.
    * @return
    */
-  @Provides @Singleton public MapDataManager providesMapDataManager() {
-    return new MapDataManager();
-  }
-
-  /**
-   * Returns the object used to persist map position/zoom/tilt on a {@link MapzenMap}.
-   * @return
-   */
-  @Provides @Singleton public MapStateManager providesMapStateManager() {
-    return new MapStateManager();
+  @Provides @Singleton public PersistDataManagers providesPersistDataManagers() {
+    return PersistDataManagers.instance();
   }
 
   /**
