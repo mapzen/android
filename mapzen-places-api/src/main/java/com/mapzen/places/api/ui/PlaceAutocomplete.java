@@ -9,6 +9,8 @@ import com.mapzen.places.api.internal.PlaceAutocompleteActivity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_BOUNDS;
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_FILTER;
@@ -31,7 +33,7 @@ public class PlaceAutocomplete {
    * @param intent
    * @return
    */
-  public static Place getPlace(Context context, Intent intent) {
+  @Nullable public static Place getPlace(@Nullable Context context, @Nullable Intent intent) {
     if (intent == null) {
       return null;
     }
@@ -44,7 +46,7 @@ public class PlaceAutocomplete {
    * @param intent
    * @return
    */
-  public static Status getStatus(Context context, Intent intent) {
+  @Nullable public static Status getStatus(@Nullable Context context, @Nullable Intent intent) {
     if (intent == null) {
       return null;
     }
@@ -74,7 +76,7 @@ public class PlaceAutocomplete {
      * @param activity
      * @return
      */
-    public Intent build(Activity activity) {
+    @NonNull public Intent build(@NonNull Activity activity) {
       Intent intent = new Intent(activity, PlaceAutocompleteActivity.class);
       intent.putExtra(EXTRA_BOUNDS, bounds);
       intent.putExtra(EXTRA_FILTER, filter);
@@ -90,7 +92,7 @@ public class PlaceAutocomplete {
      * @param latLngBounds
      * @return
      */
-    public IntentBuilder setBoundsBias(LatLngBounds latLngBounds) {
+    @NonNull public IntentBuilder setBoundsBias(@Nullable LatLngBounds latLngBounds) {
       this.bounds = latLngBounds;
       return this;
     }
@@ -100,7 +102,7 @@ public class PlaceAutocomplete {
      * @param filter
      * @return
      */
-    public IntentBuilder setFilter(AutocompleteFilter filter) {
+    @NonNull public IntentBuilder setFilter(@Nullable AutocompleteFilter filter) {
       this.filter = filter;
       return this;
     }

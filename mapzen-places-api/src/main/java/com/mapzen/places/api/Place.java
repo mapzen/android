@@ -2,6 +2,8 @@ package com.mapzen.places.api;
 
 import android.net.Uri;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.util.List;
 import java.util.Locale;
@@ -28,7 +30,7 @@ public interface Place extends Parcelable {
    * Returns human readable address for this place.
    * @return
    */
-  abstract CharSequence getAddress();
+  @NonNull CharSequence getAddress();
 
   /**
    * Returns the attributions to be shown to the user if data from the Place is used.
@@ -37,31 +39,31 @@ public interface Place extends Parcelable {
    * {@link UnsupportedOperationException} if accessed
    * @return
    */
-  abstract CharSequence getAttributions();
+  @Nullable CharSequence getAttributions();
 
   /**
    * Returns the unique id of this Place.
    * @return
    */
-  abstract String getId();
+  @NonNull String getId();
 
   /**
    * Returns the location of this Place.
    * @return
    */
-  abstract LatLng getLatLng();
+  @NonNull LatLng getLatLng();
 
   /**
    * Returns the locale in which the names and addresses were localized.
    * @return
    */
-  abstract Locale getLocale();
+  @Nullable Locale getLocale();
 
   /**
    * Returns the name of this Place.
    * @return
    */
-  abstract CharSequence getName();
+  @Nullable CharSequence getName();
 
   /**
    * Returns the place's phone number in international format.
@@ -70,13 +72,13 @@ public interface Place extends Parcelable {
    * {@link UnsupportedOperationException} if accessed
    * @return
    */
-  abstract CharSequence getPhoneNumber();
+  @Nullable CharSequence getPhoneNumber();
 
   /**
    * Returns a list of place types for this Place.
    * @return
    */
-  abstract List<Integer> getPlaceTypes();
+  @Nullable List<Integer> getPlaceTypes();
 
   /**
    * Returns the price level for this place on a scale from 0 (cheapest) to 4.
@@ -85,7 +87,7 @@ public interface Place extends Parcelable {
    * {@link UnsupportedOperationException} if accessed
    * @return
    */
-  abstract int getPriceLevel();
+  int getPriceLevel();
 
   /**
    * Returns the place's rating, from 1.0 to 5.0, based on aggregated user reviews.
@@ -94,13 +96,13 @@ public interface Place extends Parcelable {
    * {@link UnsupportedOperationException} if accessed
    * @return
    */
-  abstract float getRating();
+  float getRating();
 
   /**
    * Returns a viewport for displaying this Place.
    * @return
    */
-  abstract LatLngBounds getViewport();
+  @Nullable LatLngBounds getViewport();
 
   /**
    * Returns website uri for this place.
@@ -109,5 +111,5 @@ public interface Place extends Parcelable {
    * {@link UnsupportedOperationException} if accessed
    * @return
    */
-  abstract Uri getWebsiteUri();
+  @Nullable Uri getWebsiteUri();
 }

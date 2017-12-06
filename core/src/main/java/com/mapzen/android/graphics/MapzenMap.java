@@ -199,21 +199,21 @@ public class MapzenMap {
   /**
    * Provides access to the underlying Tangram {@link MapController}.
    */
-  public MapController getMapController() {
+  @NonNull public MapController getMapController() {
     return mapController;
   }
 
   /**
    * Provides access to the underlying {@link OverlayManager}.
    */
-  public OverlayManager getOverlayManager() {
+  @NonNull public OverlayManager getOverlayManager() {
     return overlayManager;
   }
 
   /**
    * Sets the map's underlying stylesheet asynchronously.
    */
-  public void setStyleAsync(MapStyle mapStyle, OnStyleLoadedListener listener) {
+  public void setStyleAsync(@NonNull MapStyle mapStyle, @NonNull OnStyleLoadedListener listener) {
     styleLoadedListener = listener;
     currSceneId = internalSetStyle(mapStyle, true);
   }
@@ -221,7 +221,7 @@ public class MapzenMap {
   /**
    * Sets the map's underlying stylesheet.
    */
-  public void setStyle(MapStyle mapStyle) {
+  public void setStyle(@NonNull MapStyle mapStyle) {
     internalSetStyle(mapStyle, false);
   }
 
@@ -232,8 +232,8 @@ public class MapzenMap {
    * @param themedMapStyle
    * @param labelLevel
    */
-  public void setStyleAndLabelLevelAsync(ThemedMapStyle themedMapStyle, int labelLevel,
-      OnStyleLoadedListener listener) {
+  public void setStyleAndLabelLevelAsync(@NonNull ThemedMapStyle themedMapStyle, int labelLevel,
+      @NonNull OnStyleLoadedListener listener) {
     setStyleLabelLevelLodThemeColorAsync(themedMapStyle, labelLevel,
         themedMapStyle.getDefaultLod(), themedMapStyle.getDefaultColor(), listener);
   }
@@ -245,7 +245,7 @@ public class MapzenMap {
    * @param themedMapStyle
    * @param labelLevel
    */
-  public void setStyleAndLabelLevel(ThemedMapStyle themedMapStyle, int labelLevel) {
+  public void setStyleAndLabelLevel(@NonNull ThemedMapStyle themedMapStyle, int labelLevel) {
     setStyleLabelLevelLodThemeColor(themedMapStyle, labelLevel,
         themedMapStyle.getDefaultLod(), themedMapStyle.getDefaultColor());
   }
@@ -257,8 +257,8 @@ public class MapzenMap {
    * @param themedMapStyle
    * @param detailLevel
    */
-  public void setStyleAndLodAsync(ThemedMapStyle themedMapStyle, int detailLevel,
-      OnStyleLoadedListener listener) {
+  public void setStyleAndLodAsync(@NonNull ThemedMapStyle themedMapStyle, int detailLevel,
+      @NonNull OnStyleLoadedListener listener) {
     setStyleLabelLevelLodThemeColorAsync(themedMapStyle, themedMapStyle.getDefaultLabelLevel(),
         detailLevel, themedMapStyle.getDefaultColor(), listener);
   }
@@ -270,7 +270,7 @@ public class MapzenMap {
    * @param themedMapStyle
    * @param detailLevel
    */
-  public void setStyleAndLod(ThemedMapStyle themedMapStyle, int detailLevel) {
+  public void setStyleAndLod(@NonNull ThemedMapStyle themedMapStyle, int detailLevel) {
     setStyleLabelLevelLodThemeColor(themedMapStyle, themedMapStyle.getDefaultLabelLevel(),
         detailLevel, themedMapStyle.getDefaultColor());
   }
@@ -280,8 +280,8 @@ public class MapzenMap {
    * @param themedMapStyle
    * @param color
    */
-  public void setStyleAndThemeColorAsync(ThemedMapStyle themedMapStyle, ThemeColor color,
-      OnStyleLoadedListener listener) {
+  public void setStyleAndThemeColorAsync(@NonNull ThemedMapStyle themedMapStyle,
+      @NonNull ThemeColor color, @NonNull OnStyleLoadedListener listener) {
     setStyleLabelLevelLodThemeColorAsync(themedMapStyle, themedMapStyle.getDefaultLabelLevel(),
         themedMapStyle.getDefaultLod(), color, listener);
   }
@@ -291,7 +291,8 @@ public class MapzenMap {
    * @param themedMapStyle
    * @param color
    */
-  public void setStyleAndThemeColor(ThemedMapStyle themedMapStyle, ThemeColor color) {
+  public void setStyleAndThemeColor(@NonNull ThemedMapStyle themedMapStyle,
+      @NonNull ThemeColor color) {
     setStyleLabelLevelLodThemeColor(themedMapStyle, themedMapStyle.getDefaultLabelLevel(),
         themedMapStyle.getDefaultLod(), color);
   }
@@ -304,8 +305,9 @@ public class MapzenMap {
    * @param detailLevel
    * @param color
    */
-  public void setStyleLabelLevelLodThemeColorAsync(ThemedMapStyle themedMapStyle, int labelLevel,
-      int detailLevel, ThemeColor color, OnStyleLoadedListener listener) {
+  public void setStyleLabelLevelLodThemeColorAsync(@NonNull ThemedMapStyle themedMapStyle,
+      int labelLevel, int detailLevel, @NonNull ThemeColor color,
+      @NonNull OnStyleLoadedListener listener) {
     styleLoadedListener = listener;
     mapStateManager.setMapStyle(themedMapStyle);
     currSceneId = setLabelLevelLodThemeColor(labelLevel, detailLevel, color, true);
@@ -319,8 +321,8 @@ public class MapzenMap {
    * @param detailLevel
    * @param color
    */
-  public void setStyleLabelLevelLodThemeColor(ThemedMapStyle themedMapStyle, int labelLevel,
-      int detailLevel, ThemeColor color) {
+  public void setStyleLabelLevelLodThemeColor(@NonNull ThemedMapStyle themedMapStyle,
+      int labelLevel, int detailLevel, @NonNull ThemeColor color) {
     mapStateManager.setMapStyle(themedMapStyle);
     setLabelLevelLodThemeColor(labelLevel, detailLevel, color, false);
   }
@@ -350,7 +352,7 @@ public class MapzenMap {
    * @param duration animation duration in millis
    * @param easeType map ease type
    */
-  public void setZoom(float zoom, int duration, EaseType easeType) {
+  public void setZoom(float zoom, int duration, @NonNull EaseType easeType) {
     mapStateManager.setZoom(zoom);
     mapController.setZoomEased(zoom, duration, EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.get(easeType));
   }
@@ -365,7 +367,7 @@ public class MapzenMap {
   /**
    * Set map position without animation.
    */
-  public void setPosition(LngLat lngLat) {
+  public void setPosition(@NonNull LngLat lngLat) {
     mapStateManager.setPosition(lngLat);
     mapController.setPosition(lngLat);
   }
@@ -376,7 +378,7 @@ public class MapzenMap {
    * @param lngLat position to center map on
    * @param duration animation duration in millis
    */
-  public void setPosition(LngLat lngLat, int duration) {
+  public void setPosition(@NonNull LngLat lngLat, int duration) {
     setPosition(lngLat, duration, EaseType.CUBIC);
   }
 
@@ -387,7 +389,7 @@ public class MapzenMap {
    * @param duration animation duration in millis
    * @param easeType map ease type
    */
-  public void setPosition(LngLat lngLat, int duration, EaseType easeType) {
+  public void setPosition(@NonNull LngLat lngLat, int duration, @NonNull EaseType easeType) {
     mapStateManager.setPosition(lngLat);
     mapController.setPositionEased(lngLat, duration,
         EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.get(easeType));
@@ -396,7 +398,7 @@ public class MapzenMap {
   /**
    * Returns map position.
    */
-  public LngLat getPosition() {
+  @NonNull public LngLat getPosition() {
     return mapController.getPosition();
   }
 
@@ -428,7 +430,7 @@ public class MapzenMap {
    * @param duration animation duration in millis
    * @param easeType map ease type
    */
-  public void setRotation(float radians, int duration, EaseType easeType) {
+  public void setRotation(float radians, int duration, @NonNull EaseType easeType) {
     mapStateManager.setRotation(radians);
     mapController.setRotationEased(radians, duration,
         EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.get(easeType));
@@ -476,7 +478,7 @@ public class MapzenMap {
    * @param duration duration in millis
    * @param easeType map ease type
    */
-  public void setTilt(float radians, int duration, EaseType easeType) {
+  public void setTilt(float radians, int duration, @NonNull EaseType easeType) {
     mapStateManager.setTilt(radians);
     mapController.setTiltEased(radians, duration,
         EASE_TYPE_TO_MAP_CONTROLLER_EASE_TYPE.get(easeType));
@@ -493,7 +495,7 @@ public class MapzenMap {
    * Set the camera type for the map view.
    * @param type A {@code CameraType}
    */
-  public void setCameraType(CameraType type) {
+  public void setCameraType(@NonNull CameraType type) {
     mapStateManager.setCameraType(type);
     mapController.setCameraType(CAMERA_TYPE_TO_MAP_CONTROLLER_CAMERA_TYPE.get(type));
   }
@@ -502,7 +504,7 @@ public class MapzenMap {
    * Get the camera type currently in use for the map view.
    * @return A {@code CameraType}
    */
-  public CameraType getCameraType() {
+  @NonNull public CameraType getCameraType() {
     return MAP_CONTROLLER_CAMERA_TYPE_TO_CAMERA_TYPE.get(mapController.getCameraType());
   }
 
@@ -529,35 +531,35 @@ public class MapzenMap {
   /**
    * Set an external click listener to be invoked after the internal listener.
    */
-  public void setCompassOnClickListener(View.OnClickListener listener) {
+  public void setCompassOnClickListener(@Nullable View.OnClickListener listener) {
     overlayManager.setCompassOnClickListener(listener);
   }
 
   /**
    * Set an external click listener to be invoked after the internal listener.
    */
-  public void setFindMeOnClickListener(View.OnClickListener listener) {
+  public void setFindMeOnClickListener(@Nullable View.OnClickListener listener) {
     overlayManager.setFindMeOnClickListener(listener);
   }
 
   /**
    * Set an external click listener to be invoked after the internal listener.
    */
-  public void setZoomInOnClickListener(View.OnClickListener listener) {
+  public void setZoomInOnClickListener(@Nullable View.OnClickListener listener) {
     overlayManager.setZoomInOnClickListener(listener);
   }
 
   /**
    * Set an external click listener to be invoked after the internal listener.
    */
-  public void setZoomOutOnClickListener(View.OnClickListener listener) {
+  public void setZoomOutOnClickListener(@Nullable View.OnClickListener listener) {
     overlayManager.setZoomOutOnClickListener(listener);
   }
 
   /**
    * Adds marker overlay to map. Returned {@link MapData} should be removed from map
    */
-  public MapData addMarker(Marker marker) {
+  @NonNull public MapData addMarker(@NonNull Marker marker) {
     return overlayManager.addMarker(marker);
   }
 
@@ -571,7 +573,7 @@ public class MapzenMap {
   /**
    * Adds polyline overlay to map.
    */
-  public MapData addPolyline(Polyline polyline) {
+  @NonNull public MapData addPolyline(@NonNull Polyline polyline) {
     return overlayManager.addPolyline(polyline);
   }
 
@@ -585,7 +587,7 @@ public class MapzenMap {
   /**
    * Adds polygon overlay to map.
    */
-  public MapData addPolygon(Polygon polygon) {
+  @NonNull public MapData addPolygon(@NonNull Polygon polygon) {
     return overlayManager.addPolygon(polygon);
   }
 
@@ -602,7 +604,7 @@ public class MapzenMap {
    * @param position Pixels from the top-left edge of the screen
    * @return LngLat corresponding to the given point
    */
-  public LngLat screenPositionToLngLat(PointF position) {
+  @NonNull public LngLat screenPositionToLngLat(@NonNull PointF position) {
     return mapController.screenPositionToLngLat(position);
   }
 
@@ -612,14 +614,14 @@ public class MapzenMap {
    * @return Position in pixels from the top-left corner of the map area (the point
    * may not lie within the viewable screen area)
    */
-  public PointF lngLatToScreenPosition(LngLat lngLat) {
+  @NonNull public PointF lngLatToScreenPosition(@NonNull LngLat lngLat) {
     return mapController.lngLatToScreenPosition(lngLat);
   }
 
   /**
    * Set tap responder for tap gestures on map.
    */
-  public void setTapResponder(final TouchInput.TapResponder tapResponder) {
+  public void setTapResponder(@Nullable TouchInput.TapResponder tapResponder) {
     this.tapResponder = tapResponder;
     mapController.setTapResponder(internalTapResponder);
   }
@@ -627,14 +629,14 @@ public class MapzenMap {
   /**
    * Get the map's tap responder.
    */
-  public TouchInput.TapResponder getTapResponder() {
+  @Nullable public TouchInput.TapResponder getTapResponder() {
     return tapResponder;
   }
 
   /**
    * Set double tap responder for tap gestures on map.
    */
-  public void setDoubleTapResponder(TouchInput.DoubleTapResponder doubleTapResponder) {
+  public void setDoubleTapResponder(@Nullable TouchInput.DoubleTapResponder doubleTapResponder) {
     this.doubleTapResponder = doubleTapResponder;
     mapController.setDoubleTapResponder(this.doubleTapResponder);
   }
@@ -642,14 +644,14 @@ public class MapzenMap {
   /**
    * Get the map's double tap responder.
    */
-  public TouchInput.DoubleTapResponder getDoubleTapResponder() {
+  @Nullable public TouchInput.DoubleTapResponder getDoubleTapResponder() {
     return doubleTapResponder;
   }
 
   /**
    * Set long press responder for tap gestures on map.
    */
-  public void setLongPressResponder(TouchInput.LongPressResponder longPressResponder) {
+  public void setLongPressResponder(@Nullable TouchInput.LongPressResponder longPressResponder) {
     this.longPressResponder = longPressResponder;
     mapController.setLongPressResponder(this.longPressResponder);
   }
@@ -657,42 +659,42 @@ public class MapzenMap {
   /**
    * Get the map's long press responder.
    */
-  public TouchInput.LongPressResponder getLongPressResponder() {
+  @Nullable public TouchInput.LongPressResponder getLongPressResponder() {
     return longPressResponder;
   }
 
   /**
    * Set pan responder for tap gestures on map.
    */
-  public void setPanResponder(TouchInput.PanResponder panResponder) {
+  public void setPanResponder(@Nullable TouchInput.PanResponder panResponder) {
     this.panResponder = panResponder;
   }
 
   /**
    * Get the map's pan responder.
    */
-  public TouchInput.PanResponder getPanResponder() {
+  @Nullable public TouchInput.PanResponder getPanResponder() {
     return panResponder;
   }
 
   /**
    * Set rotate responder for tap gestures on map.
    */
-  public void setRotateResponder(TouchInput.RotateResponder rotateResponder) {
+  public void setRotateResponder(@Nullable TouchInput.RotateResponder rotateResponder) {
     this.rotateResponder = rotateResponder;
   }
 
   /**
    * Get the map's rotate responder.
    */
-  public TouchInput.RotateResponder getRotateResponder() {
+  @Nullable public TouchInput.RotateResponder getRotateResponder() {
     return rotateResponder;
   }
 
   /**
    * Set scale responder for tap gestures on map.
    */
-  public void setScaleResponder(TouchInput.ScaleResponder scaleResponder) {
+  public void setScaleResponder(@Nullable TouchInput.ScaleResponder scaleResponder) {
     this.scaleResponder = scaleResponder;
     mapController.setScaleResponder(scaleResponder);
   }
@@ -700,14 +702,14 @@ public class MapzenMap {
   /**
    * Get the map's scale responder.
    */
-  public TouchInput.ScaleResponder getScaleResponder() {
+  @Nullable public TouchInput.ScaleResponder getScaleResponder() {
     return scaleResponder;
   }
 
   /**
    * Set shove responder for tap gestures on map.
    */
-  public void setShoveResponder(TouchInput.ShoveResponder shoveResponder) {
+  public void setShoveResponder(@Nullable TouchInput.ShoveResponder shoveResponder) {
     this.shoveResponder = shoveResponder;
     mapController.setShoveResponder(this.shoveResponder);
   }
@@ -715,7 +717,7 @@ public class MapzenMap {
   /**
    * Get the map's shove responder.
    */
-  public TouchInput.ShoveResponder getShoveResponder() {
+  @Nullable public TouchInput.ShoveResponder getShoveResponder() {
     return shoveResponder;
   }
 
@@ -726,8 +728,8 @@ public class MapzenMap {
    * @param second Subsequent gesture type
    * @param allowed True if {@code second} should be recognized, else false
    */
-  public void setSimultaneousGestureAllowed(TouchInput.Gestures first, TouchInput.Gestures second,
-      boolean allowed) {
+  public void setSimultaneousGestureAllowed(@NonNull TouchInput.Gestures first,
+      @NonNull TouchInput.Gestures second, boolean allowed) {
     mapController.setSimultaneousGestureAllowed(first, second, allowed);
   }
 
@@ -738,8 +740,8 @@ public class MapzenMap {
    * @param second Subsequent gesture type
    * @return True if {@code second} will be recognized, else false
    */
-  public boolean isSimultaneousGestureAllowed(TouchInput.Gestures first,
-      TouchInput.Gestures second) {
+  public boolean isSimultaneousGestureAllowed(@NonNull TouchInput.Gestures first,
+      @NonNull TouchInput.Gestures second) {
     return mapController.isSimultaneousGestureAllowed(first, second);
   }
 
@@ -748,7 +750,7 @@ public class MapzenMap {
    *
    * @param listener Listener to call when {@link Marker}s are selected.
    */
-  public void setFeaturePickListener(final FeaturePickListener listener) {
+  public void setFeaturePickListener(@Nullable final FeaturePickListener listener) {
     mapController.setFeaturePickListener(new MapController.FeaturePickListener() {
       @Override public void onFeaturePick(final Map<String, String> properties,
           final float positionX, final float positionY) {
@@ -764,7 +766,7 @@ public class MapzenMap {
    *
    * @param listener Listener to receive callback when labels are selected.
    */
-  public void setLabelPickListener(final LabelPickListener listener) {
+  public void setLabelPickListener(@Nullable final LabelPickListener listener) {
     labelPickHandler.setListener(listener);
     mapController.setLabelPickListener(labelPickHandler);
     pickLabelOnSingleTapConfirmed = (listener != null);
@@ -776,7 +778,7 @@ public class MapzenMap {
    *
    * @param listener Listener to receive callback when {@link BitmapMarker}s are selected.
    */
-  public void setMarkerPickListener(final MarkerPickListener listener) {
+  public void setMarkerPickListener(@Nullable final MarkerPickListener listener) {
     mapController.setMarkerPickListener(new MapController.MarkerPickListener() {
       @Override
       public void onMarkerPick(final MarkerPickResult markerPickResult, final float positionX,
@@ -798,7 +800,7 @@ public class MapzenMap {
   /**
    * Set a listener for when view is fully loaded and no ease or label animations running.
    */
-  public void setViewCompleteListener(final ViewCompleteListener listener) {
+  public void setViewCompleteListener(@Nullable final ViewCompleteListener listener) {
     mapController.setViewCompleteListener(new MapController.ViewCompleteListener() {
       @Override public void onViewComplete() {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
@@ -815,7 +817,7 @@ public class MapzenMap {
    *
    * @param r Runnable to run
    */
-  public void queueEvent(Runnable r) {
+  public void queueEvent(@NonNull Runnable r) {
     mapController.queueEvent(r);
   }
 
@@ -826,7 +828,7 @@ public class MapzenMap {
    * @param value A YAML valid string (example "{ property: true }" or "true")
    */
   @Deprecated
-  public void queueSceneUpdate(String componentPath, String value) {
+  public void queueSceneUpdate(@NonNull String componentPath, @NonNull String value) {
     queuedSceneUpdates.add(new SceneUpdate(componentPath, value));
   }
 
@@ -861,7 +863,7 @@ public class MapzenMap {
   /**
    * Draws two pins on the map. The start pin is active and the end pin is inactive.
    */
-  public void drawRoutePins(LngLat start, LngLat end) {
+  public void drawRoutePins(@NonNull LngLat start, @NonNull LngLat end) {
     overlayManager.drawRoutePins(start, end);
   }
 
@@ -875,7 +877,7 @@ public class MapzenMap {
   /**
    * Draws a dropped pin on the map at the point supplied.
    */
-  public void drawDroppedPin(LngLat point) {
+  public void drawDroppedPin(@NonNull LngLat point) {
     overlayManager.drawDroppedPin(point);
   }
 
@@ -889,21 +891,21 @@ public class MapzenMap {
   /**
    * Draws a search result on the map at the point supplied. The pin will be active.
    */
-  public void drawSearchResult(LngLat point) {
+  public void drawSearchResult(@NonNull LngLat point) {
     drawSearchResult(point, true);
   }
 
   /**
    * Draws a search result on the map at the point supplied.
    */
-  public void drawSearchResult(LngLat point, boolean active) {
+  public void drawSearchResult(@NonNull LngLat point, boolean active) {
     overlayManager.drawSearchResult(point, active);
   }
 
   /**
    * Draws search results on the map. All pins are displayed as active.
    */
-  public void drawSearchResults(List<LngLat> points) {
+  public void drawSearchResults(@NonNull List<LngLat> points) {
     int index = 0;
     for (LngLat point : points) {
       overlayManager.drawSearchResult(point, true, index);
@@ -915,7 +917,7 @@ public class MapzenMap {
    * Draws search results on the map. All pins will be inactive except for the one at the active
    * index supplied.
    */
-  public void drawSearchResults(List<LngLat> points, int... activeIndexes) {
+  public void drawSearchResults(@NonNull List<LngLat> points, int... activeIndexes) {
     int index = 0;
     for (LngLat point : points) {
       boolean status = false;
@@ -940,7 +942,7 @@ public class MapzenMap {
   /**
    * Draws route pin at the point supplied.
    */
-  public void drawRouteLocationMarker(LngLat point) {
+  public void drawRouteLocationMarker(@NonNull LngLat point) {
     overlayManager.drawRouteLocationMarker(point);
   }
 
@@ -954,7 +956,7 @@ public class MapzenMap {
   /**
    * Draws route line on the map for the points supplied.
    */
-  public void drawRouteLine(List<LngLat> points) {
+  public void drawRouteLine(@NonNull List<LngLat> points) {
     overlayManager.drawRouteLine(points);
   }
 
@@ -1054,7 +1056,7 @@ public class MapzenMap {
    * Sets the object used to add query parameters and headers to each request.
    * @param handler
    */
-  public void setHttpHandler(MapzenMapHttpHandler handler) {
+  public void setHttpHandler(@NonNull MapzenMapHttpHandler handler) {
     mapController.setHttpHandler(handler.httpHandler());
   }
 
@@ -1074,7 +1076,7 @@ public class MapzenMap {
    * @param markerOptions options used to define marker appearance.
    * @return a new bitmap marker instance.
    */
-  public BitmapMarker addBitmapMarker(BitmapMarkerOptions markerOptions) {
+  @NonNull public BitmapMarker addBitmapMarker(@NonNull BitmapMarkerOptions markerOptions) {
     return bitmapMarkerManager.addMarker(markerOptions);
   }
 

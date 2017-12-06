@@ -2,6 +2,7 @@ package com.mapzen.places.api;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 /**
  * Represents a rectangular area.
@@ -16,16 +17,16 @@ public class LatLngBounds implements Parcelable {
    * @param southwest
    * @param northeast
    */
-  public LatLngBounds(LatLng southwest, LatLng northeast) {
+  public LatLngBounds(@NonNull LatLng southwest, @NonNull LatLng northeast) {
     this.southwest = southwest;
     this.northeast = northeast;
   }
 
-  public LatLng getSouthwest() {
+  @NonNull public LatLng getSouthwest() {
     return southwest;
   }
 
-  public LatLng getNortheast() {
+  @NonNull public LatLng getNortheast() {
     return northeast;
   }
 
@@ -43,7 +44,7 @@ public class LatLngBounds implements Parcelable {
    * @param point
    * @return
    */
-  public LatLngBounds including(LatLng point) {
+  @NonNull public LatLngBounds including(@NonNull LatLng point) {
     double swLat = Math.min(this.southwest.getLatitude(), point.getLatitude());
     double neLat = Math.max(this.northeast.getLatitude(), point.getLatitude());
     double neLng = this.northeast.getLongitude();
@@ -64,7 +65,7 @@ public class LatLngBounds implements Parcelable {
    * Returns the center of the lat/lng bounds.
    * @return
    */
-  public LatLng getCenter() {
+  @NonNull public LatLng getCenter() {
     double midLat = (this.southwest.getLatitude() + this.northeast.getLatitude()) / 2.0D;
     double neLng = this.northeast.getLongitude();
     double swLng = this.southwest.getLongitude();
@@ -137,7 +138,7 @@ public class LatLngBounds implements Parcelable {
      * @param point
      * @return builder object
      */
-    public Builder include(LatLng point) {
+    @NonNull public Builder include(@NonNull LatLng point) {
       if (northeastLat == 0) {
         northeastLat = point.getLatitude();
         northeastLng = point.getLongitude();
@@ -161,7 +162,7 @@ public class LatLngBounds implements Parcelable {
      * Constructs a new {@link LatLngBounds} from current boundaries.
      * @return
      */
-    public LatLngBounds build() {
+    @NonNull public LatLngBounds build() {
       LatLng sw = new LatLng(southwestLat, southwestLng);
       LatLng ne = new LatLng(northeastLat, northeastLng);
       return new LatLngBounds(sw, ne);

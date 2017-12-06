@@ -2,6 +2,8 @@ package com.mapzen.places.api;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 /**
  * Filter for customizing autocomplete results from {@link GeoDataApi}.
@@ -39,7 +41,7 @@ public class AutocompleteFilter implements Parcelable {
   /**
    * Constructs a new object.
    */
-  AutocompleteFilter(String country, int typeFilter) {
+  AutocompleteFilter(@Nullable String country, int typeFilter) {
     this.country = country;
     this.typeFilter = typeFilter;
   }
@@ -49,7 +51,7 @@ public class AutocompleteFilter implements Parcelable {
    * code or null.
    * @return
    */
-  public String getCountry() {
+  @Nullable public String getCountry() {
     return country;
   }
 
@@ -85,7 +87,7 @@ public class AutocompleteFilter implements Parcelable {
      * @param country
      * @return
      */
-    public Builder setCountry(String country) {
+    @NonNull public Builder setCountry(@Nullable String country) {
       this.country = country;
       return this;
     }
@@ -106,7 +108,7 @@ public class AutocompleteFilter implements Parcelable {
      * @param typeFilter
      * @return
      */
-    public Builder setTypeFilter(int typeFilter) {
+    @NonNull public Builder setTypeFilter(int typeFilter) {
       this.typeFilter = typeFilter;
       return this;
     }
@@ -117,7 +119,7 @@ public class AutocompleteFilter implements Parcelable {
      * String, LatLngBounds, AutocompleteFilter}.
      * @return
      */
-    public AutocompleteFilter build() {
+    @NonNull public AutocompleteFilter build() {
       return new AutocompleteFilter(country, typeFilter);
     }
   }

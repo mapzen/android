@@ -2,6 +2,8 @@ package com.mapzen.android.graphics.model;
 
 import com.mapzen.tangram.LngLat;
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +17,7 @@ public class Polyline {
   /**
    * Constructs a new {@link Polyline} object.
    */
-  public Polyline(List<LngLat> coordinates) {
+  public Polyline(@NonNull List<LngLat> coordinates) {
     this.coordinates = coordinates;
   }
 
@@ -34,7 +36,7 @@ public class Polyline {
     /**
      * Add a coordinate pair to the {@link Polyline}.
      */
-    public Builder add(LngLat c) {
+    @NonNull public Builder add(@NonNull LngLat c) {
       coordinates.add(c);
       return this;
     }
@@ -44,7 +46,7 @@ public class Polyline {
      *
      * @return the newly created {@link Polyline}
      */
-    public Polyline build() {
+    @NonNull public Polyline build() {
       return new Polyline(coordinates);
     }
   }
@@ -52,7 +54,7 @@ public class Polyline {
   /**
    * The {@link Polyline}'s coordinates.
    */
-  public List<LngLat> getCoordinates() {
+  @NonNull public List<LngLat> getCoordinates() {
     return coordinates;
   }
 

@@ -7,6 +7,7 @@ import com.mapzen.android.core.MapzenManager;
 import com.mapzen.valhalla.HttpHandler;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -41,14 +42,15 @@ public abstract class MapzenRouterHttpHandler implements GenericHttpHandler {
   /**
    * Construct handler with default url and log levels.
    */
-  public MapzenRouterHttpHandler(Context context) {
+  public MapzenRouterHttpHandler(@NonNull Context context) {
     this(context, DEFAULT_URL, DEFAULT_LOG_LEVEL);
   }
 
   /**
    * Construct handler with custom url and log levels.
    */
-  public MapzenRouterHttpHandler(Context context, String url, LogLevel logLevel) {
+  public MapzenRouterHttpHandler(@NonNull Context context, @NonNull String url,
+      @NonNull LogLevel logLevel) {
     handler = new TurnByTurnHttpHandler(url, logLevel);
     MapzenManager mapzenManager = MapzenManager.instance(context);
     mapzenManager.addApiKeyChangeListener(apiKeyChangeListener);
@@ -59,11 +61,11 @@ public abstract class MapzenRouterHttpHandler implements GenericHttpHandler {
    * Returns the internal handler.
    * @return
    */
-  TurnByTurnHttpHandler turnByTurnHandler() {
+  @NonNull TurnByTurnHttpHandler turnByTurnHandler() {
     return handler;
   }
 
-  private static LogLevel getDefaultLogLevel() {
+  @NonNull private static LogLevel getDefaultLogLevel() {
     return BASIC;
   }
 

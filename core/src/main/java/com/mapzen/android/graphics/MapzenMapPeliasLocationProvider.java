@@ -6,6 +6,8 @@ import com.mapzen.tangram.LngLat;
 
 import android.content.Context;
 import android.graphics.PointF;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -24,7 +26,7 @@ public class MapzenMapPeliasLocationProvider implements PeliasLocationProvider {
    * Public constructor.
    * @param context
    */
-  public MapzenMapPeliasLocationProvider(Context context) {
+  public MapzenMapPeliasLocationProvider(@NonNull Context context) {
     this.context = context;
   }
 
@@ -32,7 +34,7 @@ public class MapzenMapPeliasLocationProvider implements PeliasLocationProvider {
    * Set the map to use for retrieving lat/lon/bounding box.
    * @param map
    */
-  public void setMapzenMap(MapzenMap map) {
+  public void setMapzenMap(@Nullable MapzenMap map) {
     this.mapzenMap = map;
   }
 
@@ -58,7 +60,7 @@ public class MapzenMapPeliasLocationProvider implements PeliasLocationProvider {
     return midLatLon.longitude;
   }
 
-  @Override public BoundingBox getBoundingBox() {
+  @Override @Nullable public BoundingBox getBoundingBox() {
     if (mapzenMap == null) {
       return null;
     }

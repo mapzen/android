@@ -1,5 +1,8 @@
 package com.mapzen.android.graphics.model;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import java.util.Set;
 
 /**
@@ -14,15 +17,15 @@ public class WalkaboutStyle extends ThemedMapStyle {
     super("walkabout-style/walkabout-style.yaml");
   }
 
-  @Override public String getBaseStyleFilename() {
+  @NonNull @Override public String getBaseStyleFilename() {
     return "walkabout-style.yaml";
   }
 
-  @Override public String getStyleRootPath() {
+  @NonNull @Override public String getStyleRootPath() {
     return "walkabout-style/";
   }
 
-  @Override public String getThemesPath() {
+  @NonNull @Override public String getThemesPath() {
     return "themes/";
   }
 
@@ -42,11 +45,11 @@ public class WalkaboutStyle extends ThemedMapStyle {
     return 12;
   }
 
-  @Override public ThemeColor getDefaultColor() {
+  @NonNull @Override public ThemeColor getDefaultColor() {
     return ThemeColor.NONE;
   }
 
-  @Override public Set<ThemeColor> getColors() {
+  @Nullable @Override public Set<ThemeColor> getColors() {
     return null;
   }
 }

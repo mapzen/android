@@ -1,5 +1,7 @@
 package com.mapzen.android.graphics;
 
+import android.support.annotation.NonNull;
+
 import java.util.Map;
 
 /**
@@ -22,5 +24,5 @@ public interface FeaturePickListener {
    * @param positionX The horizontal screen coordinate of the center of the feature
    * @param positionY The vertical screen coordinate of the center of the feature
    */
-  void onFeaturePick(Map<String, String> properties, float positionX, float positionY);
+  void onFeaturePick(@NonNull Map<String, String> properties, float positionX, float positionY);
 }

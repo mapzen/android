@@ -6,6 +6,7 @@ import com.mapzen.android.core.MapzenManager;
 import com.mapzen.pelias.PeliasRequestHandler;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +26,7 @@ public abstract class MapzenSearchHttpHandler implements GenericHttpHandler {
   /**
    * Public constructor.
    */
-  public MapzenSearchHttpHandler(Context context) {
+  public MapzenSearchHttpHandler(@NonNull Context context) {
     searchHandler = new SearchRequestHandler();
     MapzenManager mapzenManager = MapzenManager.instance(context);
     mapzenManager.addApiKeyChangeListener(apiKeyChangeListener);
@@ -36,7 +37,7 @@ public abstract class MapzenSearchHttpHandler implements GenericHttpHandler {
    * Returns the internal handler.
    * @return
    */
-  SearchRequestHandler searchHandler() {
+  @NonNull SearchRequestHandler searchHandler() {
     return searchHandler;
   }
 

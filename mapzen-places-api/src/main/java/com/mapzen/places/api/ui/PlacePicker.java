@@ -7,6 +7,8 @@ import com.mapzen.places.api.internal.PlacePickerActivity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_BOUNDS;
 import static com.mapzen.places.api.internal.PlaceIntentConsts.EXTRA_PLACE;
@@ -25,7 +27,7 @@ public class PlacePicker {
    * @param intent intent returned in {@link Activity#onActivityResult(int, int, Intent)}
    * @return
    */
-  public static String getAttributions(Intent intent) {
+  @Nullable public static String getAttributions(@Nullable Intent intent) {
     if (intent == null) {
       return null;
     }
@@ -41,7 +43,7 @@ public class PlacePicker {
    * @param intent intent returned in {@link Activity#onActivityResult(int, int, Intent)}
    * @return
    */
-  public static LatLngBounds getLatLngBounds(Intent intent) {
+  @Nullable public static LatLngBounds getLatLngBounds(@Nullable Intent intent) {
     if (intent == null) {
       return null;
     }
@@ -55,7 +57,7 @@ public class PlacePicker {
    * @param intent intent returned in {@link Activity#onActivityResult(int, int, Intent)}
    * @return
    */
-  public static Place getPlace(Context context, Intent intent) {
+  @Nullable public static Place getPlace(@Nullable Context context, @Nullable Intent intent) {
     if (intent == null) {
       return null;
     }
@@ -74,7 +76,7 @@ public class PlacePicker {
      * @param activity
      * @return
      */
-    public Intent build(Activity activity) {
+    @Nullable public Intent build(@NonNull Activity activity) {
       Intent intent = new Intent(activity, PlacePickerActivity.class);
       intent.putExtra(EXTRA_BOUNDS, bounds);
       return intent;
@@ -86,7 +88,7 @@ public class PlacePicker {
      * @param latLngBounds
      * @return
      */
-    public PlacePicker.IntentBuilder setLatLngBounds(LatLngBounds latLngBounds) {
+    @NonNull public PlacePicker.IntentBuilder setLatLngBounds(@Nullable LatLngBounds latLngBounds) {
       this.bounds = latLngBounds;
       return this;
     }

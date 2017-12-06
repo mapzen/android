@@ -69,7 +69,7 @@ class RoutingPresenterImpl(val router: MapzenRouter) : RoutingPresenter, RouteCa
     count++
     val lngLat = controller?.getMapzenMap()?.screenPositionToLngLat(PointF(x, y))
     val marker = lngLat?.let { Marker(it.longitude, it.latitude) }
-    controller?.getMapzenMap()?.addMarker(marker)
+    marker?.let { controller?.getMapzenMap()?.addMarker(it) }
     lngLat?.let { addToRouter(doubleArrayOf(it.latitude, it.longitude)) }
     getRoute()
   }
