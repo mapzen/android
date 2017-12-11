@@ -98,7 +98,8 @@ public class MapFragment extends Fragment {
    *
    * Also sets {@link Locale} used to determine default language when rendering map labels.
    */
-  public void getMapAsync(MapStyle mapStyle, String mapId, Locale locale, final OnMapReadyCallback callback) {
+  public void getMapAsync(MapStyle mapStyle, String mapId, Locale locale,
+      final OnMapReadyCallback callback) {
     mapView.getMapAsync(mapStyle, mapId, locale, callback);
   }
 

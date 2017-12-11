@@ -47,9 +47,10 @@ public class MapInitializerTest {
 
   @Before public void setUp() throws Exception {
     CoreDI.init(getMockContext());
-    mapStateManager = new MapStateManager();
+    PersistDataManagers persistDataManagers = new PersistDataManagers();
+    mapStateManager = persistDataManagers.getDefaultMapStateManager();
     mapInitializer = new MapInitializer(mock(Context.class), mock(MapzenMapHttpHandler.class),
-        new MapDataManager(), mapStateManager, new SceneUpdateManager(),
+        persistDataManagers, new SceneUpdateManager(),
         new BitmapMarkerManager(null, null), new ImportYamlGenerator());
   }
 

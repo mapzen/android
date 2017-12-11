@@ -172,7 +172,8 @@ public class MapView extends RelativeLayout {
    * @param locale used to determine language that should be used for map labels.
    * @param callback listener to be invoked when map is initialized and ready to use.
    */
-  public void getMapAsync(MapStyle mapStyle, String mapId, Locale locale, @NonNull OnMapReadyCallback callback) {
+  public void getMapAsync(MapStyle mapStyle, String mapId, Locale locale,
+      @NonNull OnMapReadyCallback callback) {
     mapInitializer.init(this, mapId, mapStyle, locale, callback);
   }
 

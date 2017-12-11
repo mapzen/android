@@ -26,6 +26,12 @@ public class PersistDataManagers {
     return instance;
   }
 
+  /**
+   * Returns the manager for a given map id. If the id passed is null, the global default manager
+   * is returned.
+   * @param mapId
+   * @return
+   */
   public MapStateManager getMapStateManager(String mapId) {
     if (mapId == null) {
       return defaultMapStateManager;
@@ -38,10 +44,21 @@ public class PersistDataManagers {
     return manager;
   }
 
+  /**
+   * Returns the global default manager.
+   * is returned.
+   * @return
+   */
   public MapStateManager getDefaultMapStateManager() {
     return defaultMapStateManager;
   }
 
+  /**
+   * Returns the manager for a given map id. If the id passed is null, the global default manager
+   * is returned.
+   * @param mapId
+   * @return
+   */
   public MapDataManager getMapDataManager(String mapId) {
     if (mapId == null) {
       return defaultMapDataManager;
@@ -54,6 +71,11 @@ public class PersistDataManagers {
     return manager;
   }
 
+  /**
+   * Returns the global default manager.
+   * is returned.
+   * @return
+   */
   public MapDataManager getDefaultMapDataManager() {
     return defaultMapDataManager;
   }

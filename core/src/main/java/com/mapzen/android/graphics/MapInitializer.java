@@ -6,7 +6,6 @@ import com.mapzen.android.graphics.model.BubbleWrapStyle;
 import com.mapzen.android.graphics.model.MapStyle;
 import com.mapzen.android.graphics.model.ThemedMapStyle;
 import com.mapzen.tangram.MapController;
-import com.mapzen.tangram.MapData;
 import com.mapzen.tangram.SceneError;
 import com.mapzen.tangram.SceneUpdate;
 
@@ -81,7 +80,8 @@ public class MapInitializer {
    * Initialize map for current {@link MapView} and {@link MapStyle} before notifying via
    * {@link OnMapReadyCallback}.
    */
-  public void init(final MapView mapView, String mapId, MapStyle mapStyle, final OnMapReadyCallback callback) {
+  public void init(final MapView mapView, String mapId, MapStyle mapStyle,
+      final OnMapReadyCallback callback) {
     loadMap(mapView, mapId, mapStyle, true, callback);
   }
 
