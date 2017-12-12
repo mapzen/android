@@ -126,17 +126,17 @@ public class MapInitializer {
     loadMap(mapView, mapId, mapStyle, callback);
   }
 
-  private void loadMap(final MapView mapView, String mapId, MapStyle mapStyle,
+  private void loadMap(final MapView mapView, final String mapId, MapStyle mapStyle,
       final OnMapReadyCallback callback) {
     final MapStateManager mapStateManager = persistDataManagers.getMapStateManager(mapId);
     final String apiKey = MapzenManager.instance(context).getApiKey();
     final List<SceneUpdate> sceneUpdates = sceneUpdateManager.getUpdatesFor(apiKey, locale,
         mapStateManager.isTransitOverlayEnabled(), mapStateManager.isBikeOverlayEnabled(),
         mapStateManager.isPathOverlayEnabled());
+    final MapDataManager mapDataManager = persistDataManagers.getMapDataManager(mapId);
     controller = mapView.getTangramMapView().getMap(
         new MapController.SceneLoadListener() {
       @Override public void onSceneReady(int sceneId, SceneError sceneError) {
-        MapDataManager mapDataManager = persistDataManagers.getMapDataManager(null);
         mapReadyInitializer.onMapReady(mapView, mapzenMapHttpHandler, callback, mapDataManager,
             mapStateManager, sceneUpdateManager, locale, bitmapMarkerManager, yamlGenerator);
       }

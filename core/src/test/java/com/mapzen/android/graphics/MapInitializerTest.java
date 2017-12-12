@@ -34,6 +34,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -44,10 +45,11 @@ public class MapInitializerTest {
 
   private MapInitializer mapInitializer;
   private MapStateManager mapStateManager;
+  private PersistDataManagers persistDataManagers;
 
   @Before public void setUp() throws Exception {
     CoreDI.init(getMockContext());
-    PersistDataManagers persistDataManagers = new PersistDataManagers();
+    persistDataManagers = new PersistDataManagers();
     mapStateManager = persistDataManagers.getDefaultMapStateManager();
     mapInitializer = new MapInitializer(mock(Context.class), mock(MapzenMapHttpHandler.class),
         persistDataManagers, new SceneUpdateManager(),
@@ -217,6 +219,42 @@ public class MapInitializerTest {
     mapStateManager.setThemeColor(ThemeColor.NONE);
     mapInitializer.init(mapView, style, new TestCallback());
     assertThat(mapStateManager.getThemeColor()).isEqualTo(style.getDefaultColor());
+  }
+
+  @Test public void init_shouldUseCorrectMapStateManager() throws Exception {
+    PersistDataManagers persistManagers = mock(PersistDataManagers.class);
+    MapInitializer initializer = new MapInitializer(mock(Context.class),
+        mock(MapzenMapHttpHandler.class), persistManagers, new SceneUpdateManager(),
+        new BitmapMarkerManager(null, null),
+        new ImportYamlGenerator());
+    String mapId = "mapId";
+    when(persistManagers.getMapStateManager(mapId)).thenReturn(mock(MapStateManager.class));
+    TestMapView mapView = mock(TestMapView.class);
+    TestTangramMapView tangramMapView = mock(TestTangramMapView.class);
+    MapController mapController = mock(MapController.class);
+    when(tangramMapView.getMap(any(MapController.SceneLoadListener.class))).thenReturn(
+        mapController);
+    when(mapView.getTangramMapView()).thenReturn(tangramMapView);
+    initializer.init(mapView, mapId, new TestCallback());
+    verify(persistManagers, times(2)).getMapStateManager(mapId);
+  }
+
+  @Test public void init_shouldUseCorrectMapDataManager() throws Exception {
+    PersistDataManagers persistManagers = mock(PersistDataManagers.class);
+    MapInitializer initializer = new MapInitializer(mock(Context.class),
+        mock(MapzenMapHttpHandler.class), persistManagers, new SceneUpdateManager(),
+        new BitmapMarkerManager(null, null),
+        new ImportYamlGenerator());
+    String mapId = "mapId";
+    when(persistManagers.getMapStateManager(mapId)).thenReturn(mock(MapStateManager.class));
+    TestMapView mapView = mock(TestMapView.class);
+    TestTangramMapView tangramMapView = mock(TestTangramMapView.class);
+    MapController mapController = mock(MapController.class);
+    when(tangramMapView.getMap(any(MapController.SceneLoadListener.class))).thenReturn(
+        mapController);
+    when(mapView.getTangramMapView()).thenReturn(tangramMapView);
+    initializer.init(mapView, mapId, new TestCallback());
+    verify(persistManagers).getMapDataManager(mapId);
   }
 
   @Test public void takedown_shouldResetListener() throws Exception {
