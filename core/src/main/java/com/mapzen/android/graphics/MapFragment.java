@@ -56,6 +56,14 @@ public class MapFragment extends Fragment {
 
   /**
    * Asynchronously creates the map and configures the vector tiles API key using the string
+   * resource declared in the client application. Uses default stylesheet (bubble wrap).
+   */
+  public void getMapAsync(String mapId, final OnMapReadyCallback callback) {
+    mapView.getMapAsync(mapId, callback);
+  }
+
+  /**
+   * Asynchronously creates the map and configures the vector tiles API key using the string
    * resource declared in the client application. Configures the stylesheet using the stylesheet
    * parameter.
    */
@@ -67,11 +75,32 @@ public class MapFragment extends Fragment {
    * Asynchronously creates the map and configures the vector tiles API key using the string
    * resource declared in the client application. Configures the stylesheet using the stylesheet
    * parameter.
+   */
+  public void getMapAsync(String mapId, MapStyle mapStyle, final OnMapReadyCallback callback) {
+    mapView.getMapAsync(mapId, mapStyle, callback);
+  }
+
+  /**
+   * Asynchronously creates the map and configures the vector tiles API key using the string
+   * resource declared in the client application. Configures the stylesheet using the stylesheet
+   * parameter.
    *
    * Also sets {@link Locale} used to determine default language when rendering map labels.
    */
   public void getMapAsync(MapStyle mapStyle, Locale locale, final OnMapReadyCallback callback) {
     mapView.getMapAsync(mapStyle, locale, callback);
+  }
+
+  /**
+   * Asynchronously creates the map and configures the vector tiles API key using the string
+   * resource declared in the client application. Configures the stylesheet using the stylesheet
+   * parameter.
+   *
+   * Also sets {@link Locale} used to determine default language when rendering map labels.
+   */
+  public void getMapAsync(MapStyle mapStyle, String mapId, Locale locale,
+      final OnMapReadyCallback callback) {
+    mapView.getMapAsync(mapStyle, mapId, locale, callback);
   }
 
   @Override public void onDestroy() {

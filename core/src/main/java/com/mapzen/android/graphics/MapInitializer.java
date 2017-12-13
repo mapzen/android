@@ -25,9 +25,7 @@ public class MapInitializer {
 
   private MapzenMapHttpHandler mapzenMapHttpHandler;
 
-  private MapDataManager mapDataManager;
-
-  private MapStateManager mapStateManager;
+  private PersistDataManagers persistDataManagers;
 
   private SceneUpdateManager sceneUpdateManager;
 
@@ -45,13 +43,11 @@ public class MapInitializer {
    * Creates a new instance.
    */
   @Inject MapInitializer(Context context, MapzenMapHttpHandler mapzenMapHttpHandler,
-      MapDataManager mapDataManager, MapStateManager mapStateManager,
-      SceneUpdateManager sceneUpdateManager, BitmapMarkerManager bitmapMarkerManager,
-      ImportYamlGenerator yamlGenerator) {
+      PersistDataManagers persistDataManagers, SceneUpdateManager sceneUpdateManager,
+      BitmapMarkerManager bitmapMarkerManager, ImportYamlGenerator yamlGenerator) {
     this.context = context;
     this.mapzenMapHttpHandler = mapzenMapHttpHandler;
-    this.mapDataManager = mapDataManager;
-    this.mapStateManager = mapStateManager;
+    this.persistDataManagers = persistDataManagers;
     this.sceneUpdateManager = sceneUpdateManager;
     mapReadyInitializer = new MapReadyInitializer();
     this.bitmapMarkerManager = bitmapMarkerManager;
@@ -62,7 +58,14 @@ public class MapInitializer {
    * Initialize map for the current {@link MapView} and notify via {@link OnMapReadyCallback}.
    */
   public void init(final MapView mapView, final OnMapReadyCallback callback) {
-    loadMap(mapView, new BubbleWrapStyle(), false, callback);
+    loadMap(mapView, null, new BubbleWrapStyle(), false, callback);
+  }
+
+  /**
+   * Initialize map for the current {@link MapView} and notify via {@link OnMapReadyCallback}.
+   */
+  public void init(final MapView mapView, String mapId, final OnMapReadyCallback callback) {
+    loadMap(mapView, mapId, new BubbleWrapStyle(), false, callback);
   }
 
   /**
@@ -70,7 +73,16 @@ public class MapInitializer {
    * {@link OnMapReadyCallback}.
    */
   public void init(final MapView mapView, MapStyle mapStyle, final OnMapReadyCallback callback) {
-    loadMap(mapView, mapStyle, true, callback);
+    loadMap(mapView, null, mapStyle, true, callback);
+  }
+
+  /**
+   * Initialize map for current {@link MapView} and {@link MapStyle} before notifying via
+   * {@link OnMapReadyCallback}.
+   */
+  public void init(final MapView mapView, String mapId, MapStyle mapStyle,
+      final OnMapReadyCallback callback) {
+    loadMap(mapView, mapId, mapStyle, true, callback);
   }
 
   /**
@@ -82,11 +94,24 @@ public class MapInitializer {
   public void init(final MapView mapView, MapStyle mapStyle, Locale locale,
       final OnMapReadyCallback callback) {
     this.locale = locale;
-    loadMap(mapView, mapStyle, true, callback);
+    loadMap(mapView, null, mapStyle, true, callback);
   }
 
-  private void loadMap(final MapView mapView, MapStyle mapStyle, boolean styleExplicitlySet,
+  /**
+   * Initialize map for current {@link MapView} and {@link MapStyle} before notifying via
+   * {@link OnMapReadyCallback}.
+   *
+   * Also sets {@link Locale} used to determine default language when rendering map labels.
+   */
+  public void init(final MapView mapView, String mapId, MapStyle mapStyle, Locale locale,
       final OnMapReadyCallback callback) {
+    this.locale = locale;
+    loadMap(mapView, mapId, mapStyle, true, callback);
+  }
+
+  private void loadMap(final MapView mapView, String mapId, MapStyle mapStyle,
+      boolean styleExplicitlySet, final OnMapReadyCallback callback) {
+    MapStateManager mapStateManager = persistDataManagers.getMapStateManager(mapId);
     if (mapStateManager.getPersistMapState() && !styleExplicitlySet) {
       MapStyle restoredMapStyle = mapStateManager.getMapStyle();
       mapStyle = restoredMapStyle;
@@ -98,15 +123,17 @@ public class MapInitializer {
       mapStateManager.setLod(themedStyle.getDefaultLod());
       mapStateManager.setThemeColor(themedStyle.getDefaultColor());
     }
-    loadMap(mapView, mapStyle, callback);
+    loadMap(mapView, mapId, mapStyle, callback);
   }
 
-  private void loadMap(final MapView mapView, MapStyle mapStyle,
+  private void loadMap(final MapView mapView, final String mapId, MapStyle mapStyle,
       final OnMapReadyCallback callback) {
+    final MapStateManager mapStateManager = persistDataManagers.getMapStateManager(mapId);
     final String apiKey = MapzenManager.instance(context).getApiKey();
     final List<SceneUpdate> sceneUpdates = sceneUpdateManager.getUpdatesFor(apiKey, locale,
         mapStateManager.isTransitOverlayEnabled(), mapStateManager.isBikeOverlayEnabled(),
         mapStateManager.isPathOverlayEnabled());
+    final MapDataManager mapDataManager = persistDataManagers.getMapDataManager(mapId);
     controller = mapView.getTangramMapView().getMap(
         new MapController.SceneLoadListener() {
       @Override public void onSceneReady(int sceneId, SceneError sceneError) {
